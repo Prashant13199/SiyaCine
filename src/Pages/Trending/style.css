@@ -17,6 +17,17 @@
     display: none;
 }
 
+.viewall {
+    text-decoration: none;
+    font-size: small;
+    color: gray;
+    margin-left: 5px;
+}
+
+.viewall:hover {
+    color: black;
+}
+
 @media only screen and (max-width: 600px) {
     .trending {
         margin: 100px 10px;

@@ -145,7 +145,7 @@ export default function SingleContentPage() {
     <div className='singlecontent'>
       <div className='singlecontent_responsive'>
         <div className='singlecontentposter_responsive'>
-          <img src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+          <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
         </div>
         <div className='details'>
           <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
@@ -181,7 +181,7 @@ export default function SingleContentPage() {
               Play Trailer
             </Button>
             {watchprovider.path && <Button
-              startIcon={<img src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'20px'} width={'20px'} style={{ borderRadius: '2px' }} />}
+              startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
               style={{ marginLeft: '10px', color: 'black' }}
               target="__blank"
               href={watchprovider.link}
@@ -201,7 +201,7 @@ export default function SingleContentPage() {
       <div className='cast'>
         {credit && credit.map((c) => (
           <div className='cast_single'>
-            <img src={c.profile_path ? `https://image.tmdb.org/t/p/w500/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
+            <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w500/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
             <div style={{ marginTop: '5px' }}>
               <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.original_name}</div>
               <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character}</div>

@@ -12,7 +12,7 @@ import { Button } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import Login from '../Login';
 import Register from '../Register';
-import { auth, database } from '../../firebase';
+import { database } from '../../firebase';
 
 export default function NavBarMain() {
 
@@ -32,39 +32,41 @@ export default function NavBarMain() {
       setCurrentUsername(snapshot.val()?.username)
       setCurrentPhoto(snapshot.val()?.photo)
     })
-  },[])
+  }, [uid])
 
   return (
     <>
-    <Modal show={show} onHide={handleClose} centered>
-      <Modal.Body>
-        <Login />
-      </Modal.Body>
-    </Modal>
-    <Modal show={show2} onHide={handleClose2} centered>
-      <Modal.Body>
-        <Register />
-      </Modal.Body>
-    </Modal>
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Body>
+          <Login />
+        </Modal.Body>
+      </Modal>
+      <Modal show={show2} onHide={handleClose2} centered>
+        <Modal.Body>
+          <Register />
+        </Modal.Body>
+      </Modal>
       <Navbar bg="light" variant="light" fixed='top'>
         <Container>
-          <Navbar.Brand href="/">
-            <div style={{ display: 'flex' }}>
-              <img src={logo} height={'35px'} width={'35px'} />
-              <div style={{ fontSize: '25px' }}>
-                <span style={{ fontSize: '18px' }}>SIYA</span><strong>CINE</strong>
+          <Navbar.Brand>
+            <NavLink to="/" style={{ color: 'black', textDecoration: 'none' }}>
+              <div style={{ display: 'flex' }}>
+                <img src={logo} height={'35px'} width={'35px'} alt="logo" />
+                <div style={{ fontSize: '25px' }}>
+                  <span style={{ fontSize: '18px' }}>SIYA</span><strong>CINE</strong>
+                </div>
               </div>
-            </div>
+            </NavLink>
           </Navbar.Brand>
           <Nav className="me-auto"></Nav>
-         { uid ? <Nav><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: '#3385ff' }}
-            exact={true}>{currentusername} <img src={currentPhoto} height={"30px"} width={"30px"} style={{objectFit: 'cover', borderRadius: '4px'}} /></NavLink></Nav>
+          {uid ? <Nav><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: '#3385ff' }}
+            exact={true}>{currentusername} <img alt="" src={currentPhoto} height={"30px"} width={"30px"} style={{ objectFit: 'cover', borderRadius: '4px' }} /></NavLink></Nav>
             :
             <>
-            <Nav><Button onClick={handleShow}>Login</Button></Nav>
-            <Nav><Button onClick={handleShow2}>Register</Button></Nav>
+              <Nav><Button onClick={handleShow}>Login</Button></Nav>
+              <Nav><Button onClick={handleShow2}>Register</Button></Nav>
             </>
-            }
+          }
         </Container>
       </Navbar>
       <Navbar bg="light" variant="light" fixed='bottom'>
@@ -78,8 +80,8 @@ export default function NavBarMain() {
           <Nav><NavLink to='/tv' activeClassName="is-active"
             exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><TvIcon /> TV</NavLink></Nav>
           {uid && <><Nav className="me-auto"></Nav>
-          <Nav><NavLink to='/people' activeClassName="is-active"
-            exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><PeopleIcon /> PEOPLE</NavLink></Nav></>}
+            <Nav><NavLink to='/people' activeClassName="is-active"
+              exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><PeopleIcon /> PEOPLE</NavLink></Nav></>}
         </Container>
       </Navbar>
     </>

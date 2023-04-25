@@ -18,6 +18,7 @@ import People from './Pages/People';
 import LoadingScreen from 'react-loading-screen';
 import { useEffect, useState } from 'react';
 import logo from '../src/assets/logo.png'
+import SingleCategory from './Pages/SingleCategory';
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/profile" component={Profile} />
           <Route path="/people" component={People} />
           <Route path="/user/:uid" component={UserProfile} />
+          <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
         </Switch>
       </div>
     </BrowserRouter>
