@@ -69,7 +69,7 @@ export default function NavBarMain() {
           }
         </Container>
       </Navbar>
-      <Navbar bg="light" variant="light" fixed='bottom'>
+      <Navbar bg="light" variant="light" fixed='bottom' style={{ height: '50px' }}>
         <Container>
           <Nav><NavLink to='/' activeClassName="is-active"
             exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><WhatshotIcon /> HOME</NavLink></Nav>

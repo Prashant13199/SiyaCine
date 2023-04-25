@@ -19,16 +19,27 @@ export default function SingleCategory() {
 
   const fetch = async () => {
     const { data } = await axios.get(
-     (category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated') ? `https://api.themoviedb.org/3/${type}/${category}/?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_genres=${genreforURL}`
-     : `https://api.themoviedb.org/3/${category}/${type}/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_genres=${genreforURL}`
+      `https://api.themoviedb.org/3/${type}/${category}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_genres=${genreforURL}`
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
   };
 
+  const fetch2 = async () => {
+    const { data } = await axios.get(
+      `https://api.themoviedb.org/3/${category}/${type}/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_genres=${genreforURL}`
+    );
+    setContent(data.results);
+    setNumOfPages(data.total_pages);
+  }
+
   useEffect(() => {
     window.scroll(0, 0);
-    fetch();
+    if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated')) {
+      fetch();
+    } else {
+      fetch2()
+    }
   }, [genreforURL, page]);
 
   return (
@@ -45,8 +56,8 @@ export default function SingleCategory() {
       <div>
         {content &&
           content.map((data) => {
-          return <SingleContent data={data} key={data.id} type={type} />
-        })}
+            return <SingleContent data={data} key={data.id} type={type} />
+          })}
       </div>
       {numOfPages > 1 && (
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
