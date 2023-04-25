@@ -115,7 +115,7 @@ export default function Profile() {
         <div className='trending_title'>Watching Now (TV)</div>
         <div className='trending_scroll'>
           {watchingTV && watchingTV.map((data) => {
-            return <SingleContent data={data.data} key={data.id} type='movie' />
+            return <SingleContent data={data.data} key={data.id} type='tv' />
           })}
         </div></>}
       {watchlistMovie.length !== 0 && <><br /><br />
