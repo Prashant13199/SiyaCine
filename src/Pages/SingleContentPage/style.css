@@ -1,0 +1,71 @@
+.singlecontent {
+    margin: 100px 50px;
+}
+
+.singlecontentposter {
+    height: 400px;
+    width: 260px;
+    border-radius: 10px;
+    margin: 10px 0px;
+    object-fit: cover;
+}
+
+.singlecontent_responsive {
+    display: flex;
+}
+
+.details {
+    padding: 30px;
+}
+
+.overview {
+    margin: 10px 0px;
+}
+
+.tagline {
+    color: gray;
+    margin: 10px 0px;
+}
+
+.cast {
+    display: flex;
+    overflow-y: auto;
+}
+
+.cast_single {
+    margin: 5px;
+}
+
+.cast_image {
+    height: 200px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.actions {
+    margin: 20px 0px;
+    display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+    .singlecontent {
+        margin: 100px 10px;
+    }
+    .singlecontent_responsive {
+        display: grid;
+    }
+    .actions {
+        display: grid;
+    }
+    .watchprovider {
+        margin-top: 10px;
+    }
+    .singlecontentposter_responsive {
+        display: grid;
+        place-items: center;
+    }
+    .details {
+        padding: 10px;
+    }
+}

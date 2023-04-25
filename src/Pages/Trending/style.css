@@ -1,0 +1,24 @@
+.trending_scroll {
+    display: flex;
+    overflow-y: auto;
+}
+
+.trending {
+    margin: 100px 30px;
+}
+
+.trending_title {
+    font-weight: 700;
+    margin: 0px 10px;
+    font-size: 20px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .trending {
+        margin: 100px 10px;
+    }
+}

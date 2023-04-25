@@ -1,0 +1,9 @@
+.People {
+    margin: 100px 80px;
+    display: flex;
+}
+@media only screen and (max-width: 600px) {
+    .People {
+        margin: 100px 10px;
+    }
+}
