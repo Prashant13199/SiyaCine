@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
-import TvIcon from '@mui/icons-material/Tv';
-import MovieIcon from '@mui/icons-material/Movie';
+import SearchIcon from '@mui/icons-material/Search';
 import { useHistory } from 'react-router-dom';
 import './style.css'
 
@@ -24,12 +23,14 @@ export default function Header() {
             placeholder="Search for a movie or series"
             inputProps={{ 'aria-label': 'search google maps' }}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if(e.keyCode == 13 && query.length>1){
+                history.push(`/search/${query}`)
+              }
+            }}
           />
-          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => query.length> 1 && history.push(`/search/${query}/movie`)}>
-            <MovieIcon />
-          </IconButton>
-          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => query.length> 1 && history.push(`/search/${query}/tv`)}>
-            <TvIcon />
+          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={() => query.length> 1 && history.push(`/search/${query}`)}>
+            <SearchIcon />
           </IconButton>
         </Paper>
       </div>

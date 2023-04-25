@@ -4,22 +4,46 @@ import axios from "axios";
 import { useParams } from 'react-router-dom';
 import SingleContent from '../../Components/SingleContent';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { Link } from 'react-router-dom';
 
 export default function Search() {
 
-    const [page, setPage] = useState(1);
-    const [content, setContent] = useState([]);
-    const [numOfPages, setNumOfPages] = useState();
-    const { query, type } = useParams()
+    const [pageM, setPageM] = useState(1);
+    const [contentM, setContentM] = useState([]);
+    const [numOfPagesM, setNumOfPagesM] = useState();
+    const [pageT, setPageT] = useState(1);
+    const [contentT, setContentT] = useState([]);
+    const [numOfPagesT, setNumOfPagesT] = useState();
+    const { query } = useParams()
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     const fetchSearchMovie = async () => {
         try {
             const { data } = await axios.get(
-                `https://api.themoviedb.org/3/search/${type==='tv' ? 'tv' : 'movie'}?api_key=${process.env.REACT_APP_API_KEY
-                }&language=en-US&query=${query}&page=${page}&include_adult=false`
+                `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_API_KEY
+                }&language=en-US&query=${query}&page=${pageM}&include_adult=false`
             );
-            setContent(data.results);
-            setNumOfPages(data.total_pages);
+            setContentM(data.results);
+            setNumOfPagesM(data.total_pages);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const fetchSearchTV = async () => {
+        try {
+            const { data } = await axios.get(
+                `https://api.themoviedb.org/3/search/tv?api_key=${process.env.REACT_APP_API_KEY
+                }&language=en-US&query=${query}&page=${pageT}&include_adult=false`
+            );
+            setContentT(data.results);
+            setNumOfPagesT(data.total_pages);
         } catch (error) {
             console.error(error);
         }
@@ -27,15 +51,27 @@ export default function Search() {
 
     useEffect(() => {
         fetchSearchMovie();
-    })
+        fetchSearchTV();
+    }, [])
 
     return (
         <div className="Search">
-            {content && content.map((data) => {
-                return <SingleContent data={data} key={data.id} type={type==='tv' ? 'tv' : 'movie'} />
+            <Tabs value={value} onChange={handleChange} centered>
+                <Tab label="Movie" />
+                <Tab label="TV" />
+            </Tabs>
+            <br />
+            {contentM && value === 0 && contentM.map((data) => {
+                return <SingleContent data={data} key={data.id} type='movie' />
             })}
-            {numOfPages > 1 && (
-                <CustomPagination setPage={setPage} numOfPages={numOfPages} />
+            {numOfPagesM > 1 && value === 0 && (
+                <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
+            )}
+            {contentT && value === 1 && contentT.map((data) => {
+                return <SingleContent data={data} key={data.id} type='movie' />
+            })}
+            {numOfPagesT > 1 && value === 1 && (
+                <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />
             )}
         </div>
     )

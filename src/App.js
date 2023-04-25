@@ -19,6 +19,7 @@ import LoadingScreen from 'react-loading-screen';
 import { useEffect, useState } from 'react';
 import logo from '../src/assets/logo.png'
 import SingleCategory from './Pages/SingleCategory';
+import SingleCastPage from './Pages/SingleCastPage';
 
 function App() {
 
@@ -46,11 +47,12 @@ function App() {
           <Route path="/movies" component={Movies} />
           <Route path="/tv" component={TV} />
           <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
-          <Route path="/search/:query/:type" component={Search} />
+          <Route path="/search/:query" component={Search} />
           <Route path="/profile" component={Profile} />
           <Route path="/people" component={People} />
           <Route path="/user/:uid" component={UserProfile} />
           <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
+          <Route path="/singlecast/:id" component={SingleCastPage} />
         </Switch>
       </div>
     </BrowserRouter>

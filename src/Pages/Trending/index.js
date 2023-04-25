@@ -4,6 +4,7 @@ import SingleContent from '../../Components/SingleContent';
 import './style.css'
 import Header from '../../Components/Header';
 import { Link } from 'react-router-dom';
+import { database } from '../../firebase';
 
 export default function Trending() {
 
@@ -15,6 +16,18 @@ export default function Trending() {
   const [popularmovie, setPopularmovie] = useState([])
   const [populartv, setPopulartv] = useState([])
   const [nowplaying, setNowplaying] = useState([])
+  const [watchlist, setWatchlist] = useState([])
+  const uid = localStorage.getItem('uid')
+
+  useEffect(() => {
+    let arr = []
+    database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+    })
+    setWatchlist(arr)
+  }, [])
   
   const fetchNowplaying = async () => {
     const { data } = await axios.get(
@@ -94,6 +107,13 @@ export default function Trending() {
   return (
     <div className='trending'>
       <Header />
+      {watchlist.length !== 0 && uid && <> <br /><br />
+        <div className='trending_title'>Watchlist<Link to={`/profile`} className="viewall">View all</Link></div>
+        <div className='trending_scroll'>
+          {watchlist && watchlist.map((data) => {
+            return <SingleContent data={data.data} key={data.id} type={data.type} />
+          })}
+        </div></>}
       <br /><br />
       <div className='trending_title'>Now Playing in Theatres<Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres`} className="viewall">View all</Link></div>
       <div className='trending_scroll'>

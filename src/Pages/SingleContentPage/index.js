@@ -11,6 +11,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import { Link } from 'react-router-dom';
 
 export default function SingleContentPage() {
 
@@ -27,19 +28,19 @@ export default function SingleContentPage() {
 
   useEffect(() => {
 
-    database.ref(`/Users/${uid}/favourites/${type}/${id}`).on('value',  snapshot => {
+    database.ref(`/Users/${uid}/favourites/${id}`).on('value',  snapshot => {
       if(snapshot.val()?.id === id){
         setFavourite(true)
       }
     })
 
-    database.ref(`/Users/${uid}/watchlist/${type}/${id}`).on('value',  snapshot => {
+    database.ref(`/Users/${uid}/watchlist/${id}`).on('value',  snapshot => {
       if(snapshot.val()?.id === id){
         setWatchlist(true)
       }
     })
 
-    database.ref(`/Users/${uid}/watching/${type}/${id}`).on('value',  snapshot => {
+    database.ref(`/Users/${uid}/watching/${id}`).on('value',  snapshot => {
       if(snapshot.val()?.id === id){
         setWatching(true)
       }
@@ -94,14 +95,14 @@ export default function SingleContentPage() {
 
   const handleFavourite = () => {
     if(!favourite) {
-      database.ref(`/Users/${uid}/favourites/${type}/${id}`).set({
-        id: id, data: data
+      database.ref(`/Users/${uid}/favourites/${id}`).set({
+        id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to favourite")
         setFavourite(true)
       })
     }else{ 
-      database.ref(`/Users/${uid}/favourites/${type}/${id}`).remove().then(() => {
+      database.ref(`/Users/${uid}/favourites/${id}`).remove().then(() => {
         console.log("Removed from favourite")
         setFavourite(false)
       })
@@ -110,14 +111,14 @@ export default function SingleContentPage() {
 
   const handleWatchlist = () => {
     if(!watchlist) {
-      database.ref(`/Users/${uid}/watchlist/${type}/${id}`).set({
-        id: id, data: data
+      database.ref(`/Users/${uid}/watchlist/${id}`).set({
+        id: id, data: data, type: type
       }).then(() => {
         console.log("Set to watchlist")
         setWatchlist(true)
       })
     }else{ 
-      database.ref(`/Users/${uid}/watchlist/${type}/${id}`).remove().then(() => {
+      database.ref(`/Users/${uid}/watchlist/${id}`).remove().then(() => {
         console.log("Removed from watchlist")
         setWatchlist(false)
       })
@@ -126,20 +127,19 @@ export default function SingleContentPage() {
 
   const handleWatching = () => {
     if(!watching) {
-      database.ref(`/Users/${uid}/watching/${type}/${id}`).set({
-        id: id, data: data
+      database.ref(`/Users/${uid}/watching/${id}`).set({
+        id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to watching")
         setWatching(true)
       })
     }else{ 
-      database.ref(`/Users/${uid}/watching/${type}/${id}`).remove().then(() => {
+      database.ref(`/Users/${uid}/watching/${id}`).remove().then(() => {
         console.log("Removed from watching")
         setWatching(false)
       })
     }
   }
-
 
   return (
     <div className='singlecontent'>
@@ -173,7 +173,7 @@ export default function SingleContentPage() {
             </div>}
             <div className='watchprovider'>
             <Button
-              startIcon={<YouTubeIcon />}
+              startIcon={<YouTubeIcon style={{ color: 'red' }} />}
               style={{ color: 'black' }}
               target="__blank"
               href={`https://www.youtube.com/watch?v=${video}`}
@@ -200,13 +200,15 @@ export default function SingleContentPage() {
       <div className='trending_title'>Cast</div>
       <div className='cast'>
         {credit && credit.map((c) => (
-          <div className='cast_single'>
-            <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w500/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
-            <div style={{ marginTop: '5px' }}>
-              <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.original_name}</div>
-              <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character}</div>
+          <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+            <div className='cast_single'>
+              <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w500/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
+              <div style={{ marginTop: '5px' }}>
+                <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.original_name}</div>
+                <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character}</div>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       {similar.length!==0 && <>

@@ -59,7 +59,7 @@ export default function NavBarMain() {
             </NavLink>
           </Navbar.Brand>
           <Nav className="me-auto"></Nav>
-          {uid ? <Nav><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: '#3385ff' }}
+          {uid ? <Nav><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}
             exact={true}>{currentusername} <img alt="" src={currentPhoto} height={"30px"} width={"30px"} style={{ objectFit: 'cover', borderRadius: '4px' }} /></NavLink></Nav>
             :
             <>
@@ -72,10 +72,10 @@ export default function NavBarMain() {
       <Navbar bg="light" variant="light" fixed='bottom' style={{ height: '50px' }}>
         <Container>
           <Nav><NavLink to='/' activeClassName="is-active"
-            exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><WhatshotIcon /> HOME</NavLink></Nav>
+            exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><WhatshotIcon /> HOT</NavLink></Nav>
           <Nav className="me-auto"></Nav>
           <Nav><NavLink to='/movies' activeClassName="is-active"
-            exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><MovieIcon /> MOVIES</NavLink></Nav>
+            exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><MovieIcon /> MOVIE</NavLink></Nav>
           <Nav className="me-auto"></Nav>
           <Nav><NavLink to='/tv' activeClassName="is-active"
             exact={true} style={{ textDecoration: 'none', color: '#3385ff' }} activeStyle={{ color: '#090979' }}><TvIcon /> TV</NavLink></Nav>

@@ -2,139 +2,110 @@ import React, { useEffect, useState } from 'react'
 import { database } from '../../firebase'
 import './style.css'
 import SingleContent from '../../Components/SingleContent'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
 export default function UserProfile() {
 
   const { uid } = useParams()
   const [currentusername, setCurrentUsername] = useState('')
   const [currentPhoto, setCurrentPhoto] = useState('')
-  const [watchlistMovie, setWatchlistMovie] = useState([])
-  const [watchlistTV, setWatchlistTV] = useState([])
-  const [favouriteMovie, setFavouriteMovie] = useState([])
-  const [favouriteTV, setFavouriteTV] = useState([])
-  const [watchingMovie, setWatchingMovie] = useState([])
-  const [watchingTV, setWatchingTV] = useState([])
+  const [watchlist, setWatchlist] = useState([])
+  const [favourite, setFavourite] = useState([])
+  const [watching, setWatching] = useState([])
+  const [cast, setCast] = useState([])
 
   useEffect(() => {
     database.ref(`/Users/${uid}`).on('value', snapshot => {
       setCurrentUsername(snapshot.val()?.username)
       setCurrentPhoto(snapshot.val()?.photo)
     })
-  },[uid])
-
-  useEffect(() => {
-    let arr = []
-    database.ref(`/Users/${uid}/watchlist/movie`).on('value', snapshot => {
-      snapshot?.forEach((snap) => {
-        arr.push({id: snap.val().id, data: snap.val().data})
-      })
-    })
-    setWatchlistMovie(arr)
-  },[uid])
-
-  useEffect(() => {
-    let arr = []
-    database.ref(`/Users/${uid}/watchlist/tv`).on('value', snapshot => {
-      snapshot?.forEach((snap) => {
-        arr.push({id: snap.val().id, data: snap.val().data})
-      })
-    })
-    setWatchlistTV(arr)
-  },[uid])
-
-  useEffect(() => {
-    let arr = []
-    database.ref(`/Users/${uid}/favourites/movie`).on('value', snapshot => {
-      snapshot?.forEach((snap) => {
-        arr.push({id: snap.val().id, data: snap.val().data})
-      })
-    })
-    setFavouriteMovie(arr)
-  },[uid])
-
-  useEffect(() => {
-    let arr = []
-    database.ref(`/Users/${uid}/favourites/tv`).on('value', snapshot => {
-      snapshot?.forEach((snap) => {
-        arr.push({id: snap.val().id, data: snap.val().data})
-      })
-    })
-    setFavouriteTV(arr)
-  },[uid])
-
-  useEffect(() => {
-    let arr = []
-    database.ref(`/Users/${uid}/watching/movie`).on('value', snapshot => {
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data })
-      })
-    })
-    setWatchingMovie(arr)
   }, [])
 
   useEffect(() => {
     let arr = []
-    database.ref(`/Users/${uid}/watching/tv`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+    })
+    setWatchlist(arr)
+  }, [])
+
+  useEffect(() => {
+    let arr = []
+    database.ref(`/Users/${uid}/favourites`).on('value', snapshot => {
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+    })
+    setFavourite(arr)
+  }, [])
+
+  useEffect(() => {
+    let arr = []
+    database.ref(`/Users/${uid}/watching`).on('value', snapshot => {
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+    })
+    setWatching(arr)
+  }, [])
+
+  useEffect(() => {
+    let arr = []
+    database.ref(`/Users/${uid}/cast`).on('value', snapshot => {
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data })
       })
     })
-    setWatchingTV(arr)
+    setCast(arr)
   }, [])
 
   return (
     <div className='Profile'>
       <div className='profile_header'>
-          <div>
-            <img src={currentPhoto} className='profile_image' />
-          </div>
-          <div className='profile_username'>
-            {currentusername}
-          </div>
+        <div>
+          <img src={currentPhoto} className='profile_image' />
+        </div>
+        <div className="profile_actions">
+          <div className='profile_username'>{currentusername}</div>
+        </div>
       </div>
-      {watchingMovie.length !== 0 && <><br /><br />
-        <div className='trending_title'>Watching Now (Movies)</div>
+        {watching.length !== 0 && <><br /><br />
+        <div className='trending_title'>Watching Now</div>
         <div className='trending_scroll'>
-          {watchingMovie && watchingMovie.map((data) => {
-            return <SingleContent data={data.data} key={data.id} type='movie' />
+          {watching && watching.map((data) => {
+            return <SingleContent data={data.data} key={data.id} type={data.type} />
           })}
         </div></>}
-        {watchingTV.length !== 0 && <><br /><br />
-        <div className='trending_title'>Watching Now (TV)</div>
+      {watchlist.length !== 0 && <> <br /><br />
+        <div className='trending_title'>Watchlist</div>
         <div className='trending_scroll'>
-          {watchingTV && watchingTV.map((data) => {
-            return <SingleContent data={data.data} key={data.id} type='movie' />
+          {watchlist && watchlist.map((data) => {
+            return <SingleContent data={data.data} key={data.id} type={data.type} />
           })}
         </div></>}
-      {watchlistMovie.length!==0 && <><br /><br />
-      <div className='trending_title'>Watchlist (Movies)</div>
-      <div className='trending_scroll'>
-        {watchlistMovie && watchlistMovie.map((data) => {
-          return <SingleContent data={data.data} key={data.id} type='movie' />
-        })}
-      </div></>}
-      {watchlistTV.length!==0 && <> <br /><br />
-      <div className='trending_title'>Watchlist (TV)</div>
-      <div className='trending_scroll'>
-        {watchlistTV && watchlistTV.map((data) => { 
-          return <SingleContent data={data.data} key={data.id} type="tv" />
-        })}
-      </div></>}
-      {favouriteMovie.length!==0 && <><br /><br />
-      <div className='trending_title'>Favourite (Movie)</div>
-      <div className='trending_scroll'>
-        {favouriteMovie && favouriteMovie.map((data) => {
-          return <SingleContent data={data.data} key={data.id} type='movie' />
-        })}
-      </div></>}
-      {favouriteTV.length!==0 && <><br /><br />
-      <div className='trending_title'>Favourite (TV)</div>
-      <div className='trending_scroll'>
-        {favouriteTV && favouriteTV.map((data) => {
-          return <SingleContent data={data.data} key={data.id} type="tv" />
-        })}
-      </div></>}
+      {favourite.length !== 0 && <><br /><br />
+        <div className='trending_title'>Favourites</div>
+        <div className='trending_scroll'>
+          {favourite && favourite.map((data) => {
+            return <SingleContent data={data.data} key={data.id} type={data.type} />
+          })}
+        </div></>}
+        {cast.length !== 0 && <><br /><br />
+        <div className='trending_title'>Favourite Cast</div>
+        <div className='trending_scroll'>
+          {cast && cast.map((c) => {
+            return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+            <div className='cast_single'>
+              <img alt="" src={c.data.profile_path ? `https://image.tmdb.org/t/p/w500/${c.data.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
+              <div style={{ marginTop: '5px' }}>
+                <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.data.name}</div>
+              </div>
+            </div>
+          </Link>
+          })}
+        </div></>}
     </div>
 
   )
