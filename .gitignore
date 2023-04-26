@@ -25,6 +25,6 @@ yarn-error.log*
 # Local Netlify folder
 .netlify
 
-# Custom
+# Secret file
 .env
 /src/firebase.js
