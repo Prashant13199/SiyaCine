@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import ReactPlayer from 'react-player'
 import CloseIcon from '@mui/icons-material/Close';
+import StarIcon from '@mui/icons-material/Star';
 
 export default function SingleContentPage() {
 
@@ -29,6 +30,7 @@ export default function SingleContentPage() {
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
   const [watching, setWatching] = useState(false)
+  const [recommendations, setRecommendations] = useState([])
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -67,6 +69,7 @@ export default function SingleContentPage() {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
+    console.log(data.results.IN)
     setWatchProvider({ path: data.results.IN ? data.results.IN.flatrate[0].logo_path : '', link: data.results.IN ? data.results.IN.link : '' });
   };
 
@@ -84,6 +87,13 @@ export default function SingleContentPage() {
     setSimilar(data.results);
   };
 
+  const fetchRecommendation = async () => {
+    const { data } = await axios.get(
+      `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
+    );
+    setRecommendations(data.results);
+  };
+
   const fetchVideo = async () => {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -99,6 +109,7 @@ export default function SingleContentPage() {
     fetchCredit();
     fetchSimilar();
     fetchVideo();
+    fetchRecommendation();
   }, [id])
 
   const handleFavourite = () => {
@@ -156,10 +167,16 @@ export default function SingleContentPage() {
       </div>
       <div className='details'>
         <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
-        <div><span>{data.release_date || data.first_air_date}&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.genres && data.genres.map((g, index) => { return <span key={g.id}>{index !== 0 && ', '}{g.name}</span> })}{data.runtime && <>&nbsp;&nbsp;&#183;&nbsp;&nbsp;{Math.ceil(data.runtime / 60)}h</>}</span></div>
+        <div><span>{(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}&nbsp;&nbsp;&#183;&nbsp;&nbsp;</>}{data.genres && data.genres.map((g, index) => { return <span key={g.id}>{index !== 0 && ', '}{g.name}</span> })}{data.runtime && data.runtime!==0 && <>&nbsp;&nbsp;&#183;&nbsp;&nbsp;{Math.ceil(data.runtime / 60)}h</>}</span></div>
+        {data.vote_average!==0 && <div className='overview'>
+          <StarIcon style={{ color:"#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
+        </div>}
         {data.tagline && (
           <div className="tagline"><i>{data.tagline}</i></div>
         )}
+         {data.number_of_seasons && <div className='overview'>
+          {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
+        </div>}
         <div className='actions'>
           {uid && <div style={{ marginRight: '20px' }}>
             <Tooltip title="Favourite">
@@ -180,7 +197,7 @@ export default function SingleContentPage() {
           </div>}
           <div className='watchprovider'>
             <Button
-              startIcon={<YouTubeIcon style={{ color: 'red' }} />}
+              startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
               className='button'
               target="__blank"
               style={{ color: 'white' }}
@@ -244,6 +261,14 @@ export default function SingleContentPage() {
           <div className='trending_title'>Similar</div>
           <div className='trending_scroll'>
             {similar && similar.map((data) => {
+              return <SingleContent data={data} key={data.id} type={type} />
+            })}
+          </div><br />
+        </>}
+        {recommendations.length !== 0 && <>
+          <div className='trending_title'>Recommendations</div>
+          <div className='trending_scroll'>
+            {recommendations && recommendations.map((data) => {
               return <SingleContent data={data} key={data.id} type={type} />
             })}
           </div>

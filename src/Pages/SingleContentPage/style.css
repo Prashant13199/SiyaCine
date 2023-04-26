@@ -12,7 +12,7 @@
 .backdrop_opacity {
     background-color: rgba(0, 0, 0, 0.6);
     margin-top: 60px;
-    height: 80vh;
+    height: 90vh;
 }
 
 .singlecontent_responsive {
@@ -70,6 +70,9 @@
     background-color: black;
     height: 80vh;
 }
+.watchprovider {
+    margin-left: 20px;
+}
 
 @media only screen and (max-width: 880px) {
     .singlecontent {
@@ -88,6 +91,7 @@
     .watchprovider {
         margin-top: 20px;
         color: black;
+        margin-left: 0;
     }
 
     .singlecontentposter_responsive {

@@ -105,7 +105,7 @@ export default function SingleCastPage() {
           <div className='overview'>
             <h4>Biography</h4>
             {data.biography?.length > 200 && !readMore ? data.biography.substring(0,200).concat('...') : data.biography}
-            <span className='readmore' onClick={() => setReadMore(!readMore)}>{!readMore ? 'read more.' : 'Less'}</span>
+            <span className='readmore' onClick={() => setReadMore(!readMore)}>{data.biography && (!readMore ? 'read more.' : 'Less')}</span>
           </div>
         </div>
       </div>

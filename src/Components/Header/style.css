@@ -1,7 +1,21 @@
 .welcome {
-    min-height: 200px;
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 100%);
-    padding: 20px;
     border-radius: 10px;
+}
+.welcome_backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 60vh;
+    border-radius: 10px;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
     color: white;
+}
+
+@media only screen and (max-width: 600px) {
+    .welcome {
+        height: 35vh;
+    }
+    .welcome_backdrop {
+        height: 35vh;
+    }
 }
