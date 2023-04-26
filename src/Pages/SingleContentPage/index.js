@@ -41,22 +41,28 @@ export default function SingleContentPage() {
     database.ref(`/Users/${uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
+      }else{
+        setFavourite(false)
       }
     })
 
     database.ref(`/Users/${uid}/watchlist/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatchlist(true)
+      }else{
+        setWatchlist(false)
       }
     })
 
     database.ref(`/Users/${uid}/watching/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatching(true)
+      }else{
+        setWatching(false)
       }
     })
 
-  }, [])
+  }, [id])
 
   const fetchDetails = async () => {
     const { data } = await axios.get(
