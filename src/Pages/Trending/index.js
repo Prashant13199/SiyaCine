@@ -31,7 +31,7 @@ export default function Trending() {
   
   const fetchNowplaying = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
     );
 
     setNowplaying(data.results);
@@ -39,7 +39,7 @@ export default function Trending() {
 
   const fetchPopularmovie = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
     );
 
     setPopularmovie(data.results);
@@ -47,7 +47,7 @@ export default function Trending() {
 
   const fetchPopulartv = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
     );
 
     setPopulartv(data.results);
@@ -55,7 +55,7 @@ export default function Trending() {
 
   const fetchTopratedmovie = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
     );
 
     setTopratedmovie(data.results);
@@ -63,7 +63,7 @@ export default function Trending() {
 
   const fetchTopratedtv = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
     );
 
     setTopratedtv(data.results);
@@ -71,7 +71,7 @@ export default function Trending() {
 
   const fetchUpcoming = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
     );
 
     setUpcoming(data.results);
@@ -79,7 +79,7 @@ export default function Trending() {
 
   const fetchTrendingMovie = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
     );
 
     setTrendingMovie(data.results);
@@ -87,7 +87,7 @@ export default function Trending() {
 
   const fetchTrendingTv = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.REACT_APP_API_KEY}`
+      `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
     );
 
     setTrendingTv(data.results);

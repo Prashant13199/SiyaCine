@@ -19,7 +19,6 @@ export default function SingleCastPage() {
   const [readMore, setReadMore] = useState(false)
 
   useEffect(() => {
-
     database.ref(`/Users/${uid}/cast/${id}`).on('value',  snapshot => {
       if(snapshot.val()?.id === id){
         setFavourite(true)
@@ -124,7 +123,7 @@ export default function SingleCastPage() {
           {tv && tv?.map((data) => {
             return <SingleContent data={data} key={data.id} type="tv" />
           })}
-        </div>
+        </div><br />
       </>}
 
     </div>

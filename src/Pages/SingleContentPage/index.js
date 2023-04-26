@@ -64,6 +64,8 @@ export default function SingleContentPage() {
 
   }, [id])
 
+  console.log(data)
+
   const fetchDetails = async () => {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -88,14 +90,14 @@ export default function SingleContentPage() {
 
   const fetchSimilar = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false`
     );
     setSimilar(data.results);
   };
 
   const fetchRecommendation = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false`
     );
     setRecommendations(data.results);
   };
@@ -173,7 +175,12 @@ export default function SingleContentPage() {
       </div>
       <div className='details'>
         <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
-        <div><span>{(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}&nbsp;&nbsp;&#183;&nbsp;&nbsp;</>}{data.genres && data.genres.map((g, index) => { return <span key={g.id}>{index !== 0 && ', '}{g.name}</span> })}{data.runtime && data.runtime!==0 && <>&nbsp;&nbsp;&#183;&nbsp;&nbsp;{Math.ceil(data.runtime / 60)}h</>}</span></div>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}{(data.release_date || data.first_air_date) && data.runtime && <>&nbsp;&#183;&nbsp;</>}</>}{data.runtime && data.runtime!==0 && <>{Math.ceil(data.runtime / 60)}h</>}
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', margin: '10px 0px' }}>
+          {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
+        </div>
         {data.vote_average!==0 && <div className='overview'>
           <StarIcon style={{ color:"#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
         </div>}
@@ -222,10 +229,10 @@ export default function SingleContentPage() {
             </Button>}
           </div>
         </div>
-        <div className='overview'>
+        {data.overview && <div className='overview'>
           <h4>Overview</h4>
           {data.overview}
-        </div>
+        </div>}
       </div>
     </div>
   )
@@ -277,7 +284,7 @@ export default function SingleContentPage() {
             {recommendations && recommendations.map((data) => {
               return <SingleContent data={data} key={data.id} type={type} />
             })}
-          </div>
+          </div><br />
         </>}
       </div>
     </>

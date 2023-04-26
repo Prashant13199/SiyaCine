@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import './style.css';
-import Genres from '../../Components/Genres'
 import axios from "axios";
 import { useParams } from 'react-router-dom';
 import SingleContent from '../../Components/SingleContent';
@@ -56,6 +55,7 @@ export default function Search() {
 
     return (
         <div className="Search">
+            <div className='searchresultfor'>Search results for</div>
             <div className='discover_movies_title'>{query}</div>
 
             <Tabs value={value} onChange={handleChange} centered>
