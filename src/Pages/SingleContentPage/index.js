@@ -7,11 +7,15 @@ import Button from '@mui/material/Button';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
+import AddIcon from '@mui/icons-material/Add';
+import DoneIcon from '@mui/icons-material/Done';
 import { database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { Link } from 'react-router-dom';
+import { Modal } from 'react-bootstrap';
+import ReactPlayer from 'react-player'
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function SingleContentPage() {
 
@@ -26,27 +30,31 @@ export default function SingleContentPage() {
   const [watchlist, setWatchlist] = useState(false)
   const [watching, setWatching] = useState(false)
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(() => {
 
-    database.ref(`/Users/${uid}/favourites/${id}`).on('value',  snapshot => {
-      if(snapshot.val()?.id === id){
+    database.ref(`/Users/${uid}/favourites/${id}`).on('value', snapshot => {
+      if (snapshot.val()?.id === id) {
         setFavourite(true)
       }
     })
 
-    database.ref(`/Users/${uid}/watchlist/${id}`).on('value',  snapshot => {
-      if(snapshot.val()?.id === id){
+    database.ref(`/Users/${uid}/watchlist/${id}`).on('value', snapshot => {
+      if (snapshot.val()?.id === id) {
         setWatchlist(true)
       }
     })
 
-    database.ref(`/Users/${uid}/watching/${id}`).on('value',  snapshot => {
-      if(snapshot.val()?.id === id){
+    database.ref(`/Users/${uid}/watching/${id}`).on('value', snapshot => {
+      if (snapshot.val()?.id === id) {
         setWatching(true)
       }
     })
 
-  },[])
+  }, [])
 
   const fetchDetails = async () => {
     const { data } = await axios.get(
@@ -59,7 +67,7 @@ export default function SingleContentPage() {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
-    setWatchProvider({ path: data.results.IN ? data.results.IN.flatrate[0].logo_path : '',link: data.results.IN ? data.results.IN.link : '' });
+    setWatchProvider({ path: data.results.IN ? data.results.IN.flatrate[0].logo_path : '', link: data.results.IN ? data.results.IN.link : '' });
   };
 
   const fetchCredit = async () => {
@@ -94,14 +102,14 @@ export default function SingleContentPage() {
   }, [id])
 
   const handleFavourite = () => {
-    if(!favourite) {
+    if (!favourite) {
       database.ref(`/Users/${uid}/favourites/${id}`).set({
         id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to favourite")
         setFavourite(true)
       })
-    }else{ 
+    } else {
       database.ref(`/Users/${uid}/favourites/${id}`).remove().then(() => {
         console.log("Removed from favourite")
         setFavourite(false)
@@ -110,14 +118,14 @@ export default function SingleContentPage() {
   }
 
   const handleWatchlist = () => {
-    if(!watchlist) {
+    if (!watchlist) {
       database.ref(`/Users/${uid}/watchlist/${id}`).set({
         id: id, data: data, type: type
       }).then(() => {
         console.log("Set to watchlist")
         setWatchlist(true)
       })
-    }else{ 
+    } else {
       database.ref(`/Users/${uid}/watchlist/${id}`).remove().then(() => {
         console.log("Removed from watchlist")
         setWatchlist(false)
@@ -126,14 +134,14 @@ export default function SingleContentPage() {
   }
 
   const handleWatching = () => {
-    if(!watching) {
+    if (!watching) {
       database.ref(`/Users/${uid}/watching/${id}`).set({
         id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to watching")
         setWatching(true)
       })
-    }else{ 
+    } else {
       database.ref(`/Users/${uid}/watching/${id}`).remove().then(() => {
         console.log("Removed from watching")
         setWatching(false)
@@ -141,86 +149,106 @@ export default function SingleContentPage() {
     }
   }
 
-  return (
-    <div className='singlecontent'>
-      <div className='singlecontent_responsive'>
-        <div className='singlecontentposter_responsive'>
-          <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
-        </div>
-        <div className='details'>
-          <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
-          <div><span>{data.release_date || data.first_air_date}&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.genres && data.genres.map((g, index) => { return <span key={g.id}>{index !== 0 && ', '}{g.name}</span>})}{data.runtime && <>&nbsp;&nbsp;&#183;&nbsp;&nbsp;{Math.ceil(data.runtime / 60)}h</>}</span></div>
-          {data.tagline && (
-            <div className="tagline"><i>{data.tagline}</i></div>
-          )}
-          <div className='actions'>
-            {uid && <div style={{ marginRight: '20px' }}>
+  const render = (
+    <div className='singlecontent_responsive' >
+      <div className='singlecontentposter_responsive'>
+        <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+      </div>
+      <div className='details'>
+        <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
+        <div><span>{data.release_date || data.first_air_date}&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.genres && data.genres.map((g, index) => { return <span key={g.id}>{index !== 0 && ', '}{g.name}</span> })}{data.runtime && <>&nbsp;&nbsp;&#183;&nbsp;&nbsp;{Math.ceil(data.runtime / 60)}h</>}</span></div>
+        {data.tagline && (
+          <div className="tagline"><i>{data.tagline}</i></div>
+        )}
+        <div className='actions'>
+          {uid && <div style={{ marginRight: '20px' }}>
             <Tooltip title="Favourite">
-            <IconButton style={{ backgroundColor: '#3385ff' }} onClick={() => handleFavourite()}>
-              {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
-            </IconButton>
+              <IconButton style={{ backgroundColor: '#3385ff' }} onClick={() => handleFavourite()}>
+                {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
+              </IconButton>
             </Tooltip>
             <Tooltip title="Watchlist">
-            <IconButton style={{ backgroundColor: '#3385ff', marginLeft: '10px' }} onClick={() => handleWatchlist()}>
-              {watchlist ? <BookmarkIcon style={{ color: 'orange' }} /> : <BookmarkIcon style={{ color: 'white' }} /> }
-            </IconButton>
+              <IconButton style={{ backgroundColor: '#3385ff', marginLeft: '10px' }} onClick={() => handleWatchlist()}>
+                {watchlist ? <DoneIcon style={{ color: 'white' }} /> : <AddIcon style={{ color: 'white' }} />}
+              </IconButton>
             </Tooltip>
             <Tooltip title="Watching">
-            <IconButton style={{ backgroundColor: '#3385ff', marginLeft: '10px' }} onClick={() => handleWatching()}>
-              {watching ? <PlayCircleOutlineIcon style={{ color: 'blue' }} /> : <PlayCircleOutlineIcon style={{ color: 'white' }} /> }
-            </IconButton>
+              <IconButton style={{ backgroundColor: '#3385ff', marginLeft: '10px' }} onClick={() => handleWatching()}>
+                {watching ? <PlayCircleOutlineIcon style={{ color: 'orange' }} /> : <PlayCircleOutlineIcon style={{ color: 'white' }} />}
+              </IconButton>
             </Tooltip>
-            </div>}
-            <div className='watchprovider'>
+          </div>}
+          <div className='watchprovider'>
             <Button
               startIcon={<YouTubeIcon style={{ color: 'red' }} />}
-              style={{ color: 'black' }}
+              className='button'
               target="__blank"
-              href={`https://www.youtube.com/watch?v=${video}`}
+              style={{ color: 'white' }}
+              onClick={() => handleShow()}
             >
               Play Trailer
             </Button>
             {watchprovider.path && <Button
               startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
-              style={{ marginLeft: '10px', color: 'black' }}
+              style={{ marginLeft: '10px', color: 'white' }}
+              className='button'
               target="__blank"
               href={watchprovider.link}
             >
               Available Now
             </Button>}
-            </div>
-          </div>
-          <div className='overview'>
-            <h4>Overview</h4>
-            {data.overview}
           </div>
         </div>
-      </div>
-      <br /><br />
-      <div className='trending_title'>Cast</div>
-      <div className='cast'>
-        {credit && credit.map((c) => (
-          <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-            <div className='cast_single'>
-              <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w500/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
-              <div style={{ marginTop: '5px' }}>
-                <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.original_name}</div>
-                <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character}</div>
-              </div>
-            </div>
-          </Link>
-        ))}
-      </div>
-      {similar.length!==0 && <>
-        <br /><br />
-        <div className='trending_title'>Similar</div>
-        <div className='trending_scroll'>
-          {similar && similar.map((data) => {
-            return <SingleContent data={data} key={data.id} type={type} />
-          })}
+        <div className='overview'>
+          <h4>Overview</h4>
+          {data.overview}
         </div>
-      </>}
-
+      </div>
     </div>
+  )
+
+  return (
+    <>
+      <Modal show={show} onHide={handleClose} centered size="xl">
+        <Modal.Body className='trailer'>
+          <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls  />
+          <IconButton onClick={() => handleClose()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+        </Modal.Body>
+      </Modal>
+      <div className='pc'>
+        <div style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${data.backdrop_path})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', width: '100vw', marginTop: '60px' }}>
+          <div className='backdrop_opacity'>
+            {render}
+          </div>
+        </div>
+      </div>
+      <div className='singlecontent'>
+        <div className='mobile'>
+          {render}
+        </div>
+        {credit.length !== 0 && <><div className='trending_title'>Cast</div>
+          <div className='cast'>
+            {credit && credit.map((c) => (
+              <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                <div className='cast_single'>
+                  <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
+                  <div style={{ marginTop: '5px' }}>
+                    <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.original_name}</div>
+                    <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div><br /></>}
+        {similar.length !== 0 && <>
+          <div className='trending_title'>Similar</div>
+          <div className='trending_scroll'>
+            {similar && similar.map((data) => {
+              return <SingleContent data={data} key={data.id} type={type} />
+            })}
+          </div>
+        </>}
+      </div>
+    </>
   )
 }

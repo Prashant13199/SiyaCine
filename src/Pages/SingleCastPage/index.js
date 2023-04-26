@@ -16,6 +16,7 @@ export default function SingleCastPage() {
   const [favourite, setFavourite] = useState(false)
   const [movie, setMovie] = useState([])
   const [tv, setTv] = useState([])
+  const [readMore, setReadMore] = useState(false)
 
   useEffect(() => {
 
@@ -47,6 +48,8 @@ export default function SingleCastPage() {
     setTv(data.cast);
   };
 
+  console.log(data)
+
   useEffect(() => {
     window.scroll(0, 0);
     fetchDetails();
@@ -72,7 +75,7 @@ export default function SingleCastPage() {
 
   return (
     <div className='singlecontent'>
-      <div className='singlecontent_responsive'>
+      <div className='singlecontent_responsive_cast'>
         <div className='singlecontentposter_responsive'>
           <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
         </div>
@@ -101,12 +104,12 @@ export default function SingleCastPage() {
           </div>
           <div className='overview'>
             <h4>Biography</h4>
-            {data.biography}
+            {data.biography?.length > 200 && !readMore ? data.biography.substring(0,200).concat('...') : data.biography}
+            <span className='readmore' onClick={() => setReadMore(!readMore)}>{!readMore ? 'read more.' : 'Less'}</span>
           </div>
         </div>
       </div>
       {movie.length!==0 && <>
-        <br /><br />
         <div className='trending_title'>Movies</div>
         <div className='trending_scroll'>
           {movie && movie?.map((data) => {
@@ -115,7 +118,7 @@ export default function SingleCastPage() {
         </div>
       </>}
       {tv.length!==0 && <>
-        <br /><br />
+        <br />
         <div className='trending_title'>TV</div>
         <div className='trending_scroll'>
           {tv && tv?.map((data) => {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import './style.css'
+import './style.css';
+import Genres from '../../Components/Genres'
 import axios from "axios";
 import { useParams } from 'react-router-dom';
 import SingleContent from '../../Components/SingleContent';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Link } from 'react-router-dom';
 
 export default function Search() {
 
@@ -52,10 +52,12 @@ export default function Search() {
     useEffect(() => {
         fetchSearchMovie();
         fetchSearchTV();
-    }, [])
+    }, [pageM, pageT])
 
     return (
         <div className="Search">
+            <div className='discover_movies_title'>{query}</div>
+
             <Tabs value={value} onChange={handleChange} centered>
                 <Tab label="Movie" />
                 <Tab label="TV" />
@@ -68,7 +70,7 @@ export default function Search() {
                 <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
             )}
             {contentT && value === 1 && contentT.map((data) => {
-                return <SingleContent data={data} key={data.id} type='movie' />
+                return <SingleContent data={data} key={data.id} type='tv' />
             })}
             {numOfPagesT > 1 && value === 1 && (
                 <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />

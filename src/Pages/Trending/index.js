@@ -20,13 +20,13 @@ export default function Trending() {
   const uid = localStorage.getItem('uid')
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
+      setWatchlist(arr)
     })
-    setWatchlist(arr)
   }, [])
   
   const fetchNowplaying = async () => {
