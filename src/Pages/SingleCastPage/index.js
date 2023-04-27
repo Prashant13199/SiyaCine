@@ -47,8 +47,6 @@ export default function SingleCastPage() {
     setTv(data.cast);
   };
 
-  console.log(data)
-
   useEffect(() => {
     window.scroll(0, 0);
     fetchDetails();
@@ -89,23 +87,23 @@ export default function SingleCastPage() {
             </Tooltip>
             </div>}
           </div>
-          <div className='overview'>
+          {data.birthday && <div className='overview'>
             <h4>Birthday</h4>
             {data.birthday}
-          </div>
-          <div className='overview'>
+          </div>}
+          {data.place_of_birth && <div className='overview'>
             <h4>Place of Birth</h4>
             {data.place_of_birth}
-          </div>
-          <div className='overview'>
+          </div>}
+          {data.known_for_department && <div className='overview'>
             <h4>Known for departmant</h4>
             {data.known_for_department}
-          </div>
-          <div className='overview'>
+          </div>}
+          {data.biography && <div className='overview'>
             <h4>Biography</h4>
             {data.biography?.length > 200 && !readMore ? data.biography.substring(0,200).concat('...') : data.biography}
             <span className='readmore' onClick={() => setReadMore(!readMore)}>{data.biography && (!readMore ? 'read more.' : 'Less')}</span>
-          </div>
+          </div>}
         </div>
       </div>
       {movie.length!==0 && <>
@@ -123,9 +121,9 @@ export default function SingleCastPage() {
           {tv && tv?.map((data) => {
             return <SingleContent data={data} key={data.id} type="tv" />
           })}
-        </div><br />
+        </div>
       </>}
-
+      <br />
     </div>
   )
 }

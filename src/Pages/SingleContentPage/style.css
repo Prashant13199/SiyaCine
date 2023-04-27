@@ -69,6 +69,7 @@
     padding: 30px;
     background-color: black;
     height: 80vh;
+    border-radius: 6px;
 }
 .watchprovider {
     margin-left: 20px;
@@ -89,7 +90,6 @@
 
     .singlecontent_responsive {
         display: grid;
-        color: black;
         padding: 0;
     }
 
@@ -98,7 +98,6 @@
     }
     .watchprovider {
         margin-top: 20px;
-        color: black;
         margin-left: 0;
     }
 
@@ -112,15 +111,8 @@
     .pc {
         display: none;
     }
-
     .mobile {
         display: block;
-    }
-    .button {
-        color: black !important;
-    }
-    .tagline {
-        color: black;
     }
     .trailer {
         height: 30vh;

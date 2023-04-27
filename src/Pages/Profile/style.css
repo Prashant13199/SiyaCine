@@ -3,22 +3,21 @@
 }
 
 .profile_header {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .profile_image {
-    height: 250px;
-    width: 250px;
+    height: 200px;
+    width: 200px;
     border-radius: 10px;
     object-fit: cover;
 }
 
 .profile_username {
-    font-size: 50px;
+    font-size: 40px;
     font-weight: bold;
-    margin-left: 20px;
 }
 .profile_actions {
     display: flex; 
@@ -27,22 +26,14 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .profile_header {
-        display: grid;
-        place-items: center;
-    }
     .profile_username {
-        font-size: 30px;
-        margin-left: 0px;
+        font-size: 25px;
     }
     .profile_image {
-        height: 200px;
-        width: 200px;
+        height: 100px;
+        width: 100px;
     }
     .Profile {
         margin: 100px 10px;
-    }
-    .profile_actions {
-        margin-top: 20px;
     }
 }

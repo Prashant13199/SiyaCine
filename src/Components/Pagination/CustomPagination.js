@@ -1,7 +1,14 @@
 import React from "react";
 import Pagination from '@mui/material/Pagination';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export default function CustomPagination({ setPage, numOfPages = 10 }) {
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
 
   const handlePageChange = (page) => {
     setPage(page);
@@ -9,6 +16,7 @@ export default function CustomPagination({ setPage, numOfPages = 10 }) {
   };
 
   return (
+    <ThemeProvider theme={darkTheme}>
     <div
       style={{
         display: "flex",
@@ -24,5 +32,6 @@ export default function CustomPagination({ setPage, numOfPages = 10 }) {
           hidePrevButton
         />
     </div>
+    </ThemeProvider>
   );
 }

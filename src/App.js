@@ -34,7 +34,7 @@ function App() {
   return (
     <LoadingScreen
     loading={loading}
-    bgColor='#f1f1f1'
+    bgColor='black'
     spinnerColor='#9ee5f8'
     textColor='#676767'
     logoSrc={logo}

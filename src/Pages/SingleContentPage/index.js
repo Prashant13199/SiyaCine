@@ -64,8 +64,6 @@ export default function SingleContentPage() {
 
   }, [id])
 
-  console.log(data)
-
   const fetchDetails = async () => {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -77,7 +75,6 @@ export default function SingleContentPage() {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
-    console.log(data.results.IN)
     setWatchProvider({ path: data.results.IN ? data.results.IN.flatrate[0].logo_path : '', link: data.results.IN ? data.results.IN.link : '' });
   };
 
@@ -90,14 +87,14 @@ export default function SingleContentPage() {
 
   const fetchSimilar = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false`
+      `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
     );
     setSimilar(data.results);
   };
 
   const fetchRecommendation = async () => {
     const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1&include_adult=false`
+      `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
     );
     setRecommendations(data.results);
   };
@@ -209,7 +206,7 @@ export default function SingleContentPage() {
             </Tooltip>
           </div>}
           <div className='watchprovider'>
-            <Button
+            {video && <Button
               startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
               className='button'
               target="__blank"
@@ -217,7 +214,7 @@ export default function SingleContentPage() {
               onClick={() => handleShow()}
             >
               Play Trailer
-            </Button>
+            </Button>}
             {watchprovider.path && <Button
               startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
               style={{ marginLeft: '10px', color: 'white' }}
@@ -263,29 +260,30 @@ export default function SingleContentPage() {
                 <div className='cast_single'>
                   <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                   <div style={{ marginTop: '5px' }}>
-                    <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.original_name}</div>
+                    <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.original_name}</div>
                     <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
                   </div>
                 </div>
               </Link>
             ))}
-          </div><br /></>}
-        {similar.length !== 0 && <>
+          </div></>}
+        {similar.length !== 0 && <><br />
           <div className='trending_title'>Similar</div>
           <div className='trending_scroll'>
             {similar && similar.map((data) => {
               return <SingleContent data={data} key={data.id} type={type} />
             })}
-          </div><br />
+          </div>
         </>}
-        {recommendations.length !== 0 && <>
+        {recommendations.length !== 0 && <><br />
           <div className='trending_title'>Recommendations</div>
           <div className='trending_scroll'>
             {recommendations && recommendations.map((data) => {
               return <SingleContent data={data} key={data.id} type={type} />
             })}
-          </div><br />
+          </div>
         </>}
+        <br />
       </div>
     </>
   )

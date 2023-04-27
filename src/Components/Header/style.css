@@ -10,12 +10,24 @@
     padding: 20px;
     color: white;
 }
+.welcomeText {
+    font-size: 40px;
+}
+.welcomeDesc {
+    font-size: 30px;
+}
 
 @media only screen and (max-width: 600px) {
     .welcome {
-        height: 35vh;
+        height: 33vh;
     }
     .welcome_backdrop {
-        height: 35vh;
+        height: 33vh;
+    }
+    .welcomeText {
+        font-size: 25px;
+    }
+    .welcomeDesc {
+        font-size: 15px;
     }
 }
