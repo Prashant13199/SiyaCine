@@ -5,8 +5,15 @@ import { auth } from "../../firebase";
 import TextField from "@mui/material/TextField";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export default function ForgotPassword() {
+
+    const darkTheme = createTheme({
+        palette: {
+          mode: 'dark',
+        },
+      });
 
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
@@ -56,6 +63,7 @@ export default function ForgotPassword() {
                         Forgot Password
                     </h4>
                 </div>
+                <ThemeProvider theme={darkTheme}>
                 <div className="d-grid gap-2">
                     <TextField
                         id="standard-helperText"
@@ -66,6 +74,7 @@ export default function ForgotPassword() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
+                </ThemeProvider>
                 <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                     <Button
                         variant="primary"

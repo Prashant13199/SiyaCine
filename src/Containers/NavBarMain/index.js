@@ -13,6 +13,7 @@ import { Modal } from 'react-bootstrap';
 import Login from '../Login';
 import Register from '../Register';
 import { database } from '../../firebase';
+import './style.css'
 
 export default function NavBarMain() {
 
@@ -37,12 +38,12 @@ export default function NavBarMain() {
   return (
     <>
       <Modal show={show} onHide={handleClose} centered>
-        <Modal.Body>
+        <Modal.Body className='modal_body'>
           <Login />
         </Modal.Body>
       </Modal>
       <Modal show={show2} onHide={handleClose2} centered>
-        <Modal.Body>
+        <Modal.Body className='modal_body'>
           <Register />
         </Modal.Body>
       </Modal>

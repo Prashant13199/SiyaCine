@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
 import { IconButton, InputAdornment } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { database, auth } from "../../firebase";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export default function Register() {
+    const darkTheme = createTheme({
+        palette: {
+          mode: 'dark',
+        },
+      });
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -69,6 +74,7 @@ export default function Register() {
                             Register
                         </h4>
                     </div>
+                    <ThemeProvider theme={darkTheme}>
                     <div className="d-grid gap-2">
                         <TextField
                             label="Email"
@@ -99,6 +105,7 @@ export default function Register() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
+                    </ThemeProvider>
                     <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                         <Button
                             variant="primary"

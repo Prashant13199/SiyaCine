@@ -1,7 +1,6 @@
 
   .login__container {
-    font-family: 'Sen';
-    background-color: #ffffff;
+    background-color: black;
     padding: 40px;
     min-width: 400px;
     text-align: center;
@@ -12,24 +11,6 @@
   .login__text {
     margin-bottom: 30px;
   }
-  .login__withGoogle{
-    cursor: pointer;
-    flex: 1;
-    align-items: center;
-    text-align: center;
-    margin: 0 auto;    
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid lightgray;
-    width: 210px;
-  }
-  .login__withGoogle > img {
-    height: 25px !important;
-    margin-right: 10px;
-  }
-  .login__withGoogle:hover{
-    background-color: skyblue;
-  }
   
   @media screen and (max-width: 990px) {
     .login__container > img {
@@ -38,7 +19,6 @@
     .login__container {
         padding: 20px;
         min-width: 320px;
-        /* height: 550px; */
     }
     .login__withGoogle > span {
         font-size: 15px;

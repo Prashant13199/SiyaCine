@@ -3,7 +3,6 @@ import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { auth } from "../../firebase";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
 import { IconButton, InputAdornment } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -11,8 +10,14 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { Modal } from 'react-bootstrap';
 import ForgotPassword from "../ForgotPassword";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 export default function Login() {
+    const darkTheme = createTheme({
+        palette: {
+          mode: 'dark',
+        },
+      });
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -44,7 +49,7 @@ export default function Login() {
     return (
         <>
             <Modal show={show2} onHide={handleClose2} centered>
-                <Modal.Body>
+                <Modal.Body className='modal_body'>
                     <ForgotPassword />
                 </Modal.Body>
             </Modal>
@@ -66,7 +71,7 @@ export default function Login() {
                             Login
                         </h4>
                     </div>
-
+                    <ThemeProvider theme={darkTheme}>
                     <div className="d-grid gap-2">
                         <TextField
                             label="Email"
@@ -98,6 +103,7 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
+                    </ThemeProvider>
                     <br />
                     <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                         <Button
