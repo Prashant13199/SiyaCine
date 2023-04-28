@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { database, auth } from '../../firebase';
 import './style.css';
-import SingleContent from '../../Components/SingleContent';
 import { IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useHistory, Link } from 'react-router-dom';
 import axios from "axios";
+import SingleContentScroll from '../../Components/SingleContentScroll';
 
 export default function Profile() {
 
@@ -101,7 +101,7 @@ export default function Profile() {
               </div>
               <div className="profile_actions">
                 <div className='profile_username'>{currentusername}</div>
-                &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: 'white' }}><LogoutIcon /></IconButton>
+                &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: 'gray' }}><LogoutIcon /></IconButton>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function Profile() {
         <div className='trending_title'>Watching Now</div>
         <div className='trending_scroll'>
           {watching && watching.map((data) => {
-            return <SingleContent data={data.data} key={data.id} type={data.type} />
+            return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div></>}
       {recommendation.length !== 0 && <><br />
@@ -120,21 +120,21 @@ export default function Profile() {
         <div className='searchresultfor'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
         <div className='trending_scroll'>
           {recommendation && recommendation.map((data) => {
-            return <SingleContent data={data} key={data.id} type={favourite[number]?.type} />
+            return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
           })}
         </div></>}
       {watchlist.length !== 0 && <> <br />
         <div className='trending_title'>Watchlist</div>
         <div className='trending_scroll'>
           {watchlist && watchlist.map((data) => {
-            return <SingleContent data={data.data} key={data.id} type={data.type} />
+            return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div></>}
       {favourite.length !== 0 && <><br />
         <div className='trending_title'>Favourites</div>
         <div className='trending_scroll'>
           {favourite && favourite.map((data) => {
-            return <SingleContent data={data.data} key={data.id} type={data.type} />
+            return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div></>}
       {cast.length !== 0 && <><br />
@@ -145,7 +145,7 @@ export default function Profile() {
               <div className='cast_single'>
                 <img alt="" src={c.data.profile_path ? `https://image.tmdb.org/t/p/w500/${c.data.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                 <div style={{ marginTop: '5px' }}>
-                  <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.data.name}</div>
+                  <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.data.name}</div>
                 </div>
               </div>
             </Link>
@@ -153,8 +153,6 @@ export default function Profile() {
         </div></>}
       {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <><br />
         <h2 style={{ textAlign: 'center' }}>Add to Watchlist or Favourite</h2></>}
-      <br />
     </div>
-
   )
 }

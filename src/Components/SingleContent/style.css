@@ -1,15 +1,7 @@
 .poster {
     border-radius: 10px;
-    height: 300px;
-    width: 200px;
+    height: auto;
+    width: 100%;
     margin: 5px;
     cursor: pointer;
-  }
-
-  @media only screen and (max-width: 600px) {
-    .poster{
-      height: 280px;
-      width: 180px;
-      margin: 2px;
-    }
   }

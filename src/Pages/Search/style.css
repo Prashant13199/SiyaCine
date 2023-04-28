@@ -1,14 +1,5 @@
-.Search {
-    margin: 100px 80px;
-}
 .searchresultfor{
     margin: 0px 10px;
     font-size: 14px;
     color: gray;
-}
-
-@media only screen and (max-width: 600px) {
-    .Search {
-        margin: 100px 10px;
-    }
 }

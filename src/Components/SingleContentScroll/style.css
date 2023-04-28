@@ -1,0 +1,13 @@
+.poster_scroll {
+    object-fit: cover;
+    height: 360px;
+    border-radius: 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .poster_scroll {
+        height: 230px;
+    }
+}

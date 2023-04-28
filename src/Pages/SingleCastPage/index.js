@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './style.css'
 import axios from "axios";
-import SingleContent from '../../Components/SingleContent';
 import { IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
+import SingleContentScroll from '../../Components/SingleContentScroll';
 
 export default function SingleCastPage() {
 
@@ -110,7 +110,7 @@ export default function SingleCastPage() {
         <div className='trending_title'>Movies</div>
         <div className='trending_scroll'>
           {movie && movie?.map((data) => {
-            return <SingleContent data={data} key={data.id} type="movie" />
+            return <SingleContentScroll data={data} key={data.id} type="movie" />
           })}
         </div>
       </>}
@@ -119,7 +119,7 @@ export default function SingleCastPage() {
         <div className='trending_title'>TV</div>
         <div className='trending_scroll'>
           {tv && tv?.map((data) => {
-            return <SingleContent data={data} key={data.id} type="tv" />
+            return <SingleContentScroll data={data} key={data.id} type="tv" />
           })}
         </div>
       </>}

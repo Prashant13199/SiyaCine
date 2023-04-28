@@ -1,7 +1,3 @@
-.movies {
-    margin: 100px 80px;
-}
-
 .discover_movies_title {
     font-weight: 700;
     margin: 0px 10px;
@@ -9,9 +5,6 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .movies {
-        margin: 100px 10px;
-    }
     .discover_movies_title {
         font-size: 30px;
     }

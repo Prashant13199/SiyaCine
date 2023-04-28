@@ -14,6 +14,7 @@ import Login from '../Login';
 import Register from '../Register';
 import { database } from '../../firebase';
 import './style.css'
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function NavBarMain() {
 
@@ -61,7 +62,9 @@ export default function NavBarMain() {
           </Navbar.Brand>
           <Nav className="me-auto"></Nav>
           {uid ? <Nav><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}
-            exact={true}>{currentusername} <img alt="" src={currentPhoto} height={"30px"} width={"30px"} style={{ objectFit: 'cover', borderRadius: '4px' }} /></NavLink></Nav>
+            exact={true}>{currentusername} <img alt="" src={currentPhoto} height={"25px"} width={"25px"} style={{ objectFit: 'cover', borderRadius: '4px' }} /></NavLink>
+            <NavLink to='/search' activeClassName="is-active"
+            exact={true} style={{ textDecoration: 'none', color: 'white', marginLeft: 20 }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink></Nav>
             :
             <>
               <Nav><Button onClick={handleShow}>Login</Button></Nav>

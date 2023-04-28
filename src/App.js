@@ -20,43 +20,51 @@ import { useEffect, useState } from 'react';
 import logo from '../src/assets/logo.png'
 import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 function App() {
 
   const [loading, setLoading] = useState(true)
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 1000);
-  },[])
+  }, [])
 
   return (
-    <LoadingScreen
-    loading={loading}
-    bgColor='black'
-    spinnerColor='#9ee5f8'
-    textColor='#676767'
-    logoSrc={logo}
-  >
-    <BrowserRouter>
-      <div className="App">
-        <NavBarMain />
-        <Switch>
-          <Route path="/" component={Trending} exact />
-          <Route path="/movies" component={Movies} />
-          <Route path="/tv" component={TV} />
-          <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
-          <Route path="/search/:query" component={Search} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/people" component={People} />
-          <Route path="/user/:uid" component={UserProfile} />
-          <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
-          <Route path="/singlecast/:id" component={SingleCastPage} />
-        </Switch>
-      </div>
-    </BrowserRouter>
-    </LoadingScreen>
+    <ThemeProvider theme={darkTheme}>
+      <LoadingScreen
+        loading={loading}
+        bgColor='black'
+        spinnerColor='#9ee5f8'
+        textColor='#676767'
+        logoSrc={logo}
+      >
+        <BrowserRouter>
+          <div className="App">
+            <NavBarMain />
+            <Switch>
+              <Route path="/" component={Trending} exact />
+              <Route path="/movies" component={Movies} />
+              <Route path="/tv" component={TV} />
+              <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
+              <Route path="/search" component={Search} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/people" component={People} />
+              <Route path="/user/:uid" component={UserProfile} />
+              <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
+              <Route path="/singlecast/:id" component={SingleCastPage} />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </LoadingScreen>
+    </ThemeProvider>
   );
 }
 

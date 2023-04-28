@@ -3,7 +3,7 @@
 }
 .welcome_backdrop {
     background-color: rgba(0, 0, 0, 0.4);
-    height: 60vh;
+    height: 50vh;
     border-radius: 10px;
     display: flex;
     align-items: flex-end;
@@ -19,10 +19,10 @@
 
 @media only screen and (max-width: 600px) {
     .welcome {
-        height: 33vh;
+        height: 30vh;
     }
     .welcome_backdrop {
-        height: 33vh;
+        height: 30vh;
     }
     .welcomeText {
         font-size: 25px;

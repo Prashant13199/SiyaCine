@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './style.css'
 import axios from "axios";
-import SingleContent from '../../Components/SingleContent';
+import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { IconButton } from '@mui/material';
@@ -271,7 +271,7 @@ export default function SingleContentPage() {
           <div className='trending_title'>Similar</div>
           <div className='trending_scroll'>
             {similar && similar.map((data) => {
-              return <SingleContent data={data} key={data.id} type={type} />
+              return <SingleContentScroll data={data} key={data.id} type={type} />
             })}
           </div>
         </>}
@@ -279,7 +279,7 @@ export default function SingleContentPage() {
           <div className='trending_title'>Recommendations</div>
           <div className='trending_scroll'>
             {recommendations && recommendations.map((data) => {
-              return <SingleContent data={data} key={data.id} type={type} />
+              return <SingleContentScroll data={data} key={data.id} type={type} />
             })}
           </div>
         </>}
