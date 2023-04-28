@@ -3,6 +3,7 @@ import { database } from '../../firebase'
 import './style.css'
 import { useParams, Link } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
+import empty from '../../assets/empty.png'
 
 export default function UserProfile() {
 
@@ -118,8 +119,9 @@ export default function UserProfile() {
             </Link>
           })}
         </div></>}
-      {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <><br />
-        <h2 style={{ textAlign: 'center' }}>Nothing to show</h2></>}
+      {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
+      <img src={empty} width={'100px'} height={'auto'} />
+        <h6 style={{ color: 'gray' }}>Nothing to show</h6></center>}
     </div>
   )
 }

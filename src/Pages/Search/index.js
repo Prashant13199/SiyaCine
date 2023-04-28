@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import { keyboard } from '@testing-library/user-event/dist/keyboard';
+import empty from '../../assets/empty.png'
 
 export default function Search() {
 
@@ -67,7 +67,7 @@ export default function Search() {
             <div className='discover_movies_title'>Search</div>
             <Paper component="form" sx={{ p: '4px 4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '20px' }}>
                 <InputBase
-                    sx={{ ml: 1, flex: 1 }}
+                    sx={{ ml: 1, flex: 1 , fontFamily: 'Sen'}}
                     placeholder="Search for a movie or tv show"
                     inputProps={{ 'aria-label': 'search google maps' }}
                     value={query}
@@ -77,15 +77,15 @@ export default function Search() {
                         if (e.keyCode === 13) {
                             e.preventDefault()
                         }
-                      }}
+                    }}
                 />
             </Paper>
             <br />
             {query && <><div className='searchresultfor'>Showing results for</div>
                 <div className='discover_movies_title'>{query}</div>
-                <Tabs value={value} onChange={handleChange} centered>
-                    <Tab label="Movie" />
-                    <Tab label="TV" />
+                <Tabs value={value} onChange={handleChange} centered >
+                    <Tab label="Movie" style={{ fontFamily: 'Sen' }} />
+                    <Tab label="TV" style={{ fontFamily: 'Sen' }} />
                 </Tabs>
                 <br />
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
@@ -107,8 +107,12 @@ export default function Search() {
                     <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />
                 )}
             </>}
-            {contentM.length === 0 && value === 0 && query && <h2 style={{ textAlign: 'center' }}><br /><br />Oops... no movies found</h2>}
-            {contentT.length === 0 && value === 1 && query && <h2 style={{ textAlign: 'center' }}><br /><br />Oops... no tv series found</h2>}
+            {contentM.length === 0 && value === 0 && query && <center><br />
+                <img src={empty} width={'100px'} height={'auto'} />
+                <h6 style={{ color: 'gray' }}>Oops... no movies found</h6></center>}
+            {contentT.length === 0 && value === 1 && query && <center><br />
+                <img src={empty} width={'100px'} height={'auto'} />
+                <h6 style={{ color: 'gray' }}>Oops... no tv shows found</h6></center>}
         </Box>
     )
 }

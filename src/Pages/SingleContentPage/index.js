@@ -17,6 +17,7 @@ import { Modal } from 'react-bootstrap';
 import ReactPlayer from 'react-player'
 import CloseIcon from '@mui/icons-material/Close';
 import StarIcon from '@mui/icons-material/Star';
+import Review from '../../Components/review';
 
 export default function SingleContentPage() {
 
@@ -31,7 +32,7 @@ export default function SingleContentPage() {
   const [watchlist, setWatchlist] = useState(false)
   const [watching, setWatching] = useState(false)
   const [recommendations, setRecommendations] = useState([])
-
+  const [reviews, setReviews] = useState([])
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -41,7 +42,7 @@ export default function SingleContentPage() {
     database.ref(`/Users/${uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
-      }else{
+      } else {
         setFavourite(false)
       }
     })
@@ -49,7 +50,7 @@ export default function SingleContentPage() {
     database.ref(`/Users/${uid}/watchlist/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatchlist(true)
-      }else{
+      } else {
         setWatchlist(false)
       }
     })
@@ -57,7 +58,7 @@ export default function SingleContentPage() {
     database.ref(`/Users/${uid}/watching/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatching(true)
-      }else{
+      } else {
         setWatching(false)
       }
     })
@@ -82,7 +83,7 @@ export default function SingleContentPage() {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
-    setCredit(data.cast);
+    setCredit(data);
   };
 
   const fetchSimilar = async () => {
@@ -107,6 +108,14 @@ export default function SingleContentPage() {
     setVideo(data.results[0]?.key);
   };
 
+  const fetchReviews = async () => {
+    const { data } = await axios.get(
+      `https://api.themoviedb.org/3/${type}/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+    );
+    setReviews(data.results)
+    console.log(data.results);
+  };
+
   useEffect(() => {
     window.scroll(0, 0);
     fetchProvider();
@@ -115,6 +124,7 @@ export default function SingleContentPage() {
     fetchSimilar();
     fetchVideo();
     fetchRecommendation();
+    fetchReviews();
   }, [id])
 
   const handleFavourite = () => {
@@ -173,20 +183,21 @@ export default function SingleContentPage() {
       <div className='details'>
         <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}{(data.release_date || data.first_air_date) && data.runtime && <>&nbsp;&#183;&nbsp;</>}</>}{data.runtime && data.runtime!==0 && <>{Math.ceil(data.runtime / 60)}h</>}
+          {(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}{(data.release_date || data.first_air_date) && data.runtime && <>&nbsp;&#183;&nbsp;</>}</>}{data.runtime && data.runtime !== 0 && <>{Math.ceil(data.runtime / 60)}h</>}
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', margin: '10px 0px' }}>
           {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
         </div>
-        {data.vote_average!==0 && <div className='overview'>
-          <StarIcon style={{ color:"#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
+        {data.vote_average !== 0 && <div className='overview'>
+          <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
         </div>}
         {data.tagline && (
           <div className="tagline"><i>{data.tagline}</i></div>
         )}
-         {data.number_of_seasons && <div className='overview'>
+        {data.number_of_seasons && <div className='overview'>
           {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
         </div>}
+
         <div className='actions'>
           {uid && <div style={{ marginRight: '20px' }}>
             <Tooltip title="Favourite">
@@ -226,6 +237,12 @@ export default function SingleContentPage() {
             </Button>}
           </div>
         </div>
+        {credit.crew && credit.crew.map((cr) => {
+          return cr.job === 'Director' && <div className='overview'>
+            <h4>Director</h4>
+            {cr.name}
+          </div>
+        })}
         {data.overview && <div className='overview'>
           <h4>Overview</h4>
           {data.overview}
@@ -238,7 +255,7 @@ export default function SingleContentPage() {
     <>
       <Modal show={show} onHide={handleClose} centered size="xl">
         <Modal.Body className='trailer'>
-          <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls  />
+          <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls />
           <IconButton onClick={() => handleClose()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
         </Modal.Body>
       </Modal>
@@ -255,7 +272,7 @@ export default function SingleContentPage() {
         </div>
         {credit.length !== 0 && <><div className='trending_title'>Cast</div>
           <div className='cast'>
-            {credit && credit.map((c) => (
+            {credit && credit.cast.map((c) => (
               <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
                 <div className='cast_single'>
                   <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
@@ -280,6 +297,17 @@ export default function SingleContentPage() {
           <div className='trending_scroll'>
             {recommendations && recommendations.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={type} />
+            })}
+          </div>
+        </>}
+        {reviews.length !== 0 && <><br />
+          <div className='trending_title'>Reviews</div>
+          <div className='reviews'>
+            {reviews && reviews.map((data) => {
+              return <div className='single_review'>
+                <div style={{ fontWeight: '600', color: 'white', fontSize: '18px' }}>{data.author_details.username}</div>
+                <Review review={data.content} />
+              </div>
             })}
           </div>
         </>}

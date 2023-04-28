@@ -45,7 +45,7 @@ export default function Genres({
     <div style={{ margin: '20px 0px' }}>
       {selectedGenres && selectedGenres.map((genre) => (
         <Chip
-          style={{ margin: 2, padding: 4 }}
+          style={{ margin: 2, padding: 4, fontFamily: 'Sen' }}
           label={genre.name}
           key={genre.id}
           clickable
@@ -56,7 +56,7 @@ export default function Genres({
       ))}
       {genres && genres.map((genre) => (
         <Chip
-          style={{ margin: 2, padding: 4 }}
+          style={{ margin: 2, padding: 4, fontFamily: 'Sen' }}
           label={genre.name}
           key={genre.id}
           clickable
