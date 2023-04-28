@@ -178,7 +178,7 @@ export default function SingleContentPage() {
   const render = (
     <div className='singlecontent_responsive' >
       <div className='singlecontentposter_responsive'>
-        <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+        <img alt="" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} className='singlecontentposter' />
       </div>
       <div className='details'>
         <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
@@ -228,7 +228,7 @@ export default function SingleContentPage() {
             </Button>}
             {watchprovider.path && <Button
               startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
-              style={{ marginLeft: '10px', color: 'white' }}
+              style={{ color: 'white' }}
               className='button'
               target="__blank"
               href={watchprovider.link}
@@ -250,6 +250,7 @@ export default function SingleContentPage() {
       </div>
     </div>
   )
+  console.log(credit)
 
   return (
     <>
@@ -270,7 +271,7 @@ export default function SingleContentPage() {
         <div className='mobile'>
           {render}
         </div>
-        {credit.length !== 0 && <><div className='trending_title'>Cast</div>
+        {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>
           <div className='cast'>
             {credit && credit.cast.map((c) => (
               <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>

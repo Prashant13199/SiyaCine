@@ -1,3 +1,21 @@
 .modal_body { 
     background-color: black;
 }
+.navbar__img {
+    height: 25px;
+    width: 25px;
+    object-fit: cover;
+    margin-left: 20px;
+    border-radius: 50%;
+}
+.navbar__img_active {
+    height: 25px;
+    width: 25px;
+    object-fit: cover;
+    margin-left: 20px;
+    border-radius: 50%;
+    border-color: #3385ff;
+    border-width: 2px;
+    padding: 2px;
+    border-style: solid;
+}

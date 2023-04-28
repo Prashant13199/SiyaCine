@@ -6,7 +6,7 @@ export default function SingleContentScroll({ data, type }) {
 
   const history = useHistory()
 
-  return ( 
+  return data?.poster_path && ( 
     <img
       src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
       alt={data?.title || data?.name}

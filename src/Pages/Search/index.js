@@ -20,7 +20,7 @@ export default function Search() {
     const [contentT, setContentT] = useState([]);
     const [numOfPagesT, setNumOfPagesT] = useState();
     const [query, setQuery] = useState("")
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -56,11 +56,6 @@ export default function Search() {
         fetchSearchMovie();
         fetchSearchTV();
     }, [pageM, pageT, query])
-
-    const searchQuery = () => {
-        fetchSearchMovie();
-        fetchSearchTV();
-    }
 
     return (
         <Box sx={{ flexGrow: 1, marginY: 10, marginX: 3 }}>

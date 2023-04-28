@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import logo from '../../assets/logo.png'
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import TvIcon from '@mui/icons-material/Tv';
 import MovieIcon from '@mui/icons-material/Movie';
 import PeopleIcon from '@mui/icons-material/People';
@@ -25,13 +25,12 @@ export default function NavBarMain() {
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+  const location = useLocation()
 
-  const [currentusername, setCurrentUsername] = useState("")
   const [currentPhoto, setCurrentPhoto] = useState("")
 
   useEffect(() => {
     database.ref(`/Users/${uid}`).on('value', snapshot => {
-      setCurrentUsername(snapshot.val()?.username)
       setCurrentPhoto(snapshot.val()?.photo)
     })
   }, [uid])
@@ -61,10 +60,10 @@ export default function NavBarMain() {
             </NavLink>
           </Navbar.Brand>
           <Nav className="me-auto"></Nav>
-          {uid ? <Nav><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}
-            exact={true}>{currentusername} <img alt="" src={currentPhoto} height={"25px"} width={"25px"} style={{ objectFit: 'cover', borderRadius: '4px' }} /></NavLink>
-            <NavLink to='/search' activeClassName="is-active"
-            exact={true} style={{ textDecoration: 'none', color: 'white', marginLeft: 20 }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink></Nav>
+          {uid ? <Nav><NavLink to='/search' activeClassName="is-active"
+            exact={true} style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}
+              exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
+          </Nav>
             :
             <>
               <Nav><Button onClick={handleShow}>Login</Button></Nav>

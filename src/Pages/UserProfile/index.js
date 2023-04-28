@@ -74,10 +74,10 @@ export default function UserProfile() {
           <div style={{ width: '100%' }}>
             <div className='profile_header'>
               <div>
-                <img alt="" src={photo} className='profile_image' />
+                <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky` } className='profile_image' />
               </div>
               <div className="profile_actions">
-                <div className='profile_username'>{username}</div>
+                <div className='profile_username'>{username ? username : 'Loading...'}</div>
               </div>
             </div>
           </div>
