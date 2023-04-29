@@ -178,7 +178,7 @@ export default function SingleContentPage() {
   const render = (
     <div className='singlecontent_responsive' >
       <div className='singlecontentposter_responsive'>
-        <img alt="" src={`https://image.tmdb.org/t/p/w500/${data.poster_path}`} className='singlecontentposter' />
+        <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
       </div>
       <div className='details'>
         <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>

@@ -11,6 +11,7 @@ import { Modal } from 'react-bootstrap';
 import UploadPicture from '../../Containers/UploadPicture';
 import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
+import Box from '@mui/material/Box';
 
 export default function Profile() {
 
@@ -116,7 +117,7 @@ export default function Profile() {
   }, [])
 
   return (
-    <>
+    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 3 }}>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body className='modal_body'>
           <UploadPicture handleClose={handleClose} />
@@ -193,6 +194,6 @@ export default function Profile() {
         <h6 style={{ color: 'gray' }}>Nothing to show</h6>
           <h3>Add to Watchlist or Favourite to appear here</h3></center>}
       </div>
-    </>
+    </Box>
   )
 }

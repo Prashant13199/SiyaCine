@@ -4,6 +4,7 @@ import './style.css'
 import { useParams, Link } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
+import Box from '@mui/material/Box';
 
 export default function UserProfile() {
 
@@ -68,6 +69,7 @@ export default function UserProfile() {
   }, [uid])
 
   return (
+    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 3 }}>
     <div className='Profile'>
       <div className='welcome' style={{ backgroundImage: favourite.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
         <div className='welcome_backdrop'>
@@ -123,5 +125,6 @@ export default function UserProfile() {
       <img src={empty} width={'100px'} height={'auto'} />
         <h6 style={{ color: 'gray' }}>Nothing to show</h6></center>}
     </div>
+    </Box>
   )
 }
