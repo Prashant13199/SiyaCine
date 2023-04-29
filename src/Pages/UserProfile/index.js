@@ -4,7 +4,6 @@ import './style.css'
 import { useParams, Link } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
-import Box from '@mui/material/Box';
 
 export default function UserProfile() {
 
@@ -69,7 +68,7 @@ export default function UserProfile() {
   }, [uid])
 
   return (
-    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+    <div className='userprofile'>
     <div className='Profile'>
       <div className='welcome' style={{ backgroundImage: favourite.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
         <div className='welcome_backdrop'>
@@ -85,29 +84,29 @@ export default function UserProfile() {
           </div>
         </div>
       </div>
-      <br />
-      {watching.length !== 0 && <><br />
+      
+      {watching.length !== 0 && <>
         <div className='trending_title'>Watching Now</div>
         <div className='trending_scroll'>
           {watching && watching.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div></>}
-      {watchlist.length !== 0 && <><br />
+      {watchlist.length !== 0 && <>
         <div className='trending_title'>Watchlist</div>
         <div className='trending_scroll'>
           {watchlist && watchlist.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div></>}
-      {favourite.length !== 0 && <><br />
+      {favourite.length !== 0 && <>
         <div className='trending_title'>Favourites</div>
         <div className='trending_scroll'>
           {favourite && favourite.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div></>}
-      {cast.length !== 0 && <><br />
+      {cast.length !== 0 && <>
         <div className='trending_title'>Favourite Cast</div>
         <div className='trending_scroll'>
           {cast && cast.map((c) => {
@@ -121,10 +120,10 @@ export default function UserProfile() {
             </Link>
           })}
         </div></>}
-      {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
-      <img src={empty} width={'100px'} height={'auto'} />
+      {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center>
+      <img src={empty} width={'100px'} height={'auto'} alt=""  />
         <h6 style={{ color: 'gray' }}>Nothing to show</h6></center>}
     </div>
-    </Box>
+    </div>
   )
 }

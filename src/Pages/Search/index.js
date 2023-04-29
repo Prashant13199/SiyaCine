@@ -5,7 +5,6 @@ import SingleContent from '../../Components/SingleContent';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
@@ -58,11 +57,11 @@ export default function Search() {
     }, [pageM, pageT, query])
 
     return (
-        <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+        <div className="search">
             <div className='discover_movies_title'>Search</div>
             <Paper component="form" sx={{ p: '4px 4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '20px' }}>
                 <InputBase
-                    sx={{ ml: 1, flex: 1 , fontFamily: 'Sen'}}
+                    sx={{ ml: 1, flex: 1, fontFamily: 'Sen' }}
                     placeholder="Search for a movie or tv show"
                     inputProps={{ 'aria-label': 'search google maps' }}
                     value={query}
@@ -75,15 +74,13 @@ export default function Search() {
                     }}
                 />
             </Paper>
-            <br />
             {query && <><div className='searchresultfor'>Showing results for</div>
                 <div className='discover_movies_title'>{query}</div>
                 <Tabs value={value} onChange={handleChange} centered >
                     <Tab label="Movie" style={{ fontFamily: 'Sen' }} />
                     <Tab label="TV" style={{ fontFamily: 'Sen' }} />
-                </Tabs>
-                <br />
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+                </Tabs><br />
+                <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 12, md: 16 }}>
                     {contentM && value === 0 && contentM.map((data) => {
                         return <SingleContent data={data} key={data.id} type='movie' />
                     })}
@@ -92,7 +89,7 @@ export default function Search() {
                     <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
                 )}
 
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+                <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 12, md: 16 }}>
 
                     {contentT && value === 1 && contentT.map((data) => {
                         return <SingleContent data={data} key={data.id} type='tv' />
@@ -102,12 +99,12 @@ export default function Search() {
                     <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />
                 )}
             </>}
-            {contentM.length === 0 && value === 0 && query && <center><br />
+            {contentM.length === 0 && value === 0 && query && <center>
                 <img src={empty} width={'100px'} height={'auto'} />
                 <h6 style={{ color: 'gray' }}>Oops... no movies found</h6></center>}
-            {contentT.length === 0 && value === 1 && query && <center><br />
+            {contentT.length === 0 && value === 1 && query && <center>
                 <img src={empty} width={'100px'} height={'auto'} />
                 <h6 style={{ color: 'gray' }}>Oops... no tv shows found</h6></center>}
-        </Box>
+        </div>
     )
 }

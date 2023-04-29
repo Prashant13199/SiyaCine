@@ -7,8 +7,6 @@
 
 .backdrop_opacity {
     background-color: rgba(0, 0, 0, 0.6);
-    margin-top: 60px;
-    height: 90vh;
 }
 
 .singlecontent_responsive {
@@ -18,7 +16,7 @@
 }
 
 .details {
-    padding: 30px;
+    padding: 20px;
 }
 
 .overview {
@@ -80,10 +78,13 @@
 }
 
 .single_review {
-    margin: 20px;
+    margin: 15px;
 }
 
 @media only screen and (max-width: 880px) {
+    .singlecontent {
+        margin-top: 60px;
+    }
     .singlecontent_responsive {
         display: grid;
         padding: 0;
@@ -102,7 +103,7 @@
         place-items: center;
     }
     .details {
-        padding: 20px 0px;
+        padding: 20px 10px;
     }
     .pc {
         display: none;

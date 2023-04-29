@@ -14,4 +14,7 @@
         display: grid;
         padding: 0;
     }
+    .singlecastpage {
+        margin-top: 60px;
+    }
 }

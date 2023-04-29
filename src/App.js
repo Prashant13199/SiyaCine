@@ -21,6 +21,7 @@ import logo from '../src/assets/logo.png'
 import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
 function App() {
 
@@ -49,18 +50,21 @@ function App() {
         <BrowserRouter>
           <div className="App">
             <NavBarMain />
-            <Switch>
-              <Route path="/" component={Trending} exact />
-              <Route path="/movies" component={Movies} />
-              <Route path="/tv" component={TV} />
-              <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
-              <Route path="/search" component={Search} />
-              <Route path="/profile" component={Profile} />
-              <Route path="/people" component={People} />
-              <Route path="/user/:uid" component={UserProfile} />
-              <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
-              <Route path="/singlecast/:id" component={SingleCastPage} />
-            </Switch>
+            <Box sx={{ flexGrow: 1, marginY: 6.2, marginX: 0 }}>
+              <Switch>
+                <Route path="/" component={Trending} exact />
+                <Route path="/movies" component={Movies} />
+                <Route path="/tv" component={TV} />
+                <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
+                <Route path="/search" component={Search} />
+                <Route path="/profile" component={Profile} />
+                <Route path="/people" component={People} />
+                <Route path="/user/:uid" component={UserProfile} />
+                <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
+                <Route path="/singlecast/:id" component={SingleCastPage} />
+              </Switch>
+              <br />
+            </Box>
           </div>
         </BrowserRouter>
       </LoadingScreen>

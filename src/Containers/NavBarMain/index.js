@@ -47,7 +47,7 @@ export default function NavBarMain() {
           <Register />
         </Modal.Body>
       </Modal>
-      <Navbar bg="dark" variant="dark" fixed='top'>
+      <Navbar bg="dark" variant="dark" fixed='top' style={{ height: '50px' }}>
         <Container>
           <Navbar.Brand>
             <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>

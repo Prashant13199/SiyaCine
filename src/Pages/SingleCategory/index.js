@@ -6,7 +6,6 @@ import './style.css';
 import Genres from '../../Components/Genres'
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import { useParams } from 'react-router-dom';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 export default function SingleCategory() {
@@ -45,7 +44,7 @@ export default function SingleCategory() {
   }, [genreforURL, page]);
 
   return (
-    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+    <div className='singlecategory'>
       <div className='discover_movies_title'>{name}</div>
       <Genres
         type={type}
@@ -55,7 +54,7 @@ export default function SingleCategory() {
         setGenres={setGenres}
         setPage={setPage}
       />
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+      <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 12, md: 16 }}>
         {content &&
           content.map((data) => {
             return <SingleContent data={data} key={data.id} type={type} />
@@ -64,6 +63,6 @@ export default function SingleCategory() {
       {numOfPages > 1 && (
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
       )}
-    </Box>
+    </div>
   )
 }

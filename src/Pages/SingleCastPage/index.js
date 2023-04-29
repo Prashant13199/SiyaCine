@@ -7,7 +7,6 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
-import Box from '@mui/material/Box';
 
 export default function SingleCastPage() {
 
@@ -72,7 +71,7 @@ export default function SingleCastPage() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+    <div className='singlecastpage'>
         <div className='singlecontent_responsive_cast'>
           <div className='singlecontentposter_responsive'>
             <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
@@ -125,6 +124,6 @@ export default function SingleCastPage() {
           </div>
         </>}
         <br />
-    </Box>
+    </div>
   )
 }

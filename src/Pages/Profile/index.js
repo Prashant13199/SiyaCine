@@ -11,7 +11,6 @@ import { Modal } from 'react-bootstrap';
 import UploadPicture from '../../Containers/UploadPicture';
 import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
-import Box from '@mui/material/Box';
 
 export default function Profile() {
 
@@ -117,7 +116,7 @@ export default function Profile() {
   }, [])
 
   return (
-    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+    <>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body className='modal_body'>
           <UploadPicture handleClose={handleClose} />
@@ -145,15 +144,14 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <br />
-        {watching.length !== 0 && <><br />
+        {watching.length !== 0 && <>
           <div className='trending_title'>Watching Now</div>
           <div className='trending_scroll'>
             {watching && watching.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
-        {recommendation.length !== 0 && <><br />
+        {recommendation.length !== 0 && <>
           <div className='trending_title'>Recommendation</div>
           <div className='searchresultfor'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
           <div className='trending_scroll'>
@@ -161,21 +159,21 @@ export default function Profile() {
               return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
             })}
           </div></>}
-        {watchlist.length !== 0 && <> <br />
+        {watchlist.length !== 0 && <>
           <div className='trending_title'>Watchlist</div>
           <div className='trending_scroll'>
             {watchlist && watchlist.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
-        {favourite.length !== 0 && <><br />
+        {favourite.length !== 0 && <>
           <div className='trending_title'>Favourites</div>
           <div className='trending_scroll'>
             {favourite && favourite.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
-        {cast.length !== 0 && <><br />
+        {cast.length !== 0 && <>
           <div className='trending_title'>Favourite Cast</div>
           <div className='trending_scroll'>
             {cast && cast.map((c) => {
@@ -189,11 +187,11 @@ export default function Profile() {
               </Link>
             })}
           </div></>}
-        {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
+        {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center>
         <img src={empty} width={'100px'} height={'auto'} />
         <h6 style={{ color: 'gray' }}>Nothing to show</h6>
           <h3>Add to Watchlist or Favourite to appear here</h3></center>}
       </div>
-    </Box>
+      </>
   )
 }

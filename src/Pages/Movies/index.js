@@ -5,7 +5,6 @@ import useGenre from '../../hooks/useGenre';
 import './style.css';
 import Genres from '../../Components/Genres'
 import CustomPagination from '../../Components/Pagination/CustomPagination';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 
 export default function Movies() {
@@ -31,7 +30,7 @@ export default function Movies() {
   }, [genreforURL, page]);
 
   return (
-    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+    <div className='movies'>
       <div className='discover_movies_title'>Discover Movies</div>
       <Genres
         type="movie"
@@ -41,7 +40,7 @@ export default function Movies() {
         setGenres={setGenres}
         setPage={setPage}
       />
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+      <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 12, md: 16 }}>
         {content &&
           content.map((data) => {
             return <SingleContent data={data} key={data.id} type={'movie'} />
@@ -50,6 +49,6 @@ export default function Movies() {
       {numOfPages > 1 && (
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
       )}
-    </Box>
+    </div>
   )
 }
