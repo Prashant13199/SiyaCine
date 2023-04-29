@@ -49,8 +49,8 @@ function App() {
       >
         <BrowserRouter>
           <div className="App">
+          <Box sx={{ flexGrow: 1, marginY: 8, marginX: 2 }}>
             <NavBarMain />
-            <Box sx={{ flexGrow: 1, marginY: 6.2, marginX: 0 }}>
               <Switch>
                 <Route path="/" component={Trending} exact />
                 <Route path="/movies" component={Movies} />
@@ -63,7 +63,6 @@ function App() {
                 <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
                 <Route path="/singlecast/:id" component={SingleCastPage} />
               </Switch>
-              <br />
             </Box>
           </div>
         </BrowserRouter>

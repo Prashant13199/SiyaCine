@@ -9,6 +9,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import empty from '../../assets/empty.png'
+import { Link } from 'react-router-dom';
 
 export default function Search() {
 
@@ -20,6 +21,7 @@ export default function Search() {
     const [numOfPagesT, setNumOfPagesT] = useState();
     const [query, setQuery] = useState("")
     const [value, setValue] = useState(0);
+    const [person, setPerson] = useState(0);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -51,9 +53,22 @@ export default function Search() {
         }
     };
 
+    const fetchPerson = async () => {
+        try {
+            const { data } = await axios.get(
+                `https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_API_KEY
+                }&language=en-US&query=${query}&page=${pageT}`
+            );
+            setPerson(data.results)
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         fetchSearchMovie();
         fetchSearchTV();
+        fetchPerson()
     }, [pageM, pageT, query])
 
     return (
@@ -62,7 +77,7 @@ export default function Search() {
             <Paper component="form" sx={{ p: '4px 4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '20px' }}>
                 <InputBase
                     sx={{ ml: 1, flex: 1, fontFamily: 'Sen' }}
-                    placeholder="Search for a movie or tv show"
+                    placeholder="Search for a movie, tv show or cast"
                     inputProps={{ 'aria-label': 'search google maps' }}
                     value={query}
                     autoFocus
@@ -79,8 +94,9 @@ export default function Search() {
                 <Tabs value={value} onChange={handleChange} centered >
                     <Tab label="Movie" style={{ fontFamily: 'Sen' }} />
                     <Tab label="TV" style={{ fontFamily: 'Sen' }} />
+                    <Tab label="Person" style={{ fontFamily: 'Sen' }} />
                 </Tabs><br />
-                <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
                     {contentM && value === 0 && contentM.map((data) => {
                         return <SingleContent data={data} key={data.id} type='movie' />
                     })}
@@ -89,8 +105,7 @@ export default function Search() {
                     <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
                 )}
 
-                <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 4, sm: 12, md: 16 }}>
-
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
                     {contentT && value === 1 && contentT.map((data) => {
                         return <SingleContent data={data} key={data.id} type='tv' />
                     })}
@@ -98,6 +113,18 @@ export default function Search() {
                 {numOfPagesT > 1 && value === 1 && (
                     <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />
                 )}
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+                    {person && value === 2 && person.map((c) => {
+                        return c.profile_path && <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                        <div className='cast_scroll'>
+                          <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_scroll_image' />
+                          <div style={{ marginTop: '5px' }}>
+                            <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.name}</div>
+                          </div>
+                        </div>
+                      </Link></Grid>
+                    })}
+                </Grid>
             </>}
             {contentM.length === 0 && value === 0 && query && <center>
                 <img src={empty} width={'100px'} height={'auto'} />

@@ -1,0 +1,14 @@
+.cast_single {
+    margin: 5px;
+    transition: transform .2s;
+}
+.cast_single:hover {
+    transform: scale(1.05);
+}
+
+.cast_image {
+    height: 200px;
+    width: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}

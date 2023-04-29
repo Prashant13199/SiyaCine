@@ -36,6 +36,7 @@ export default function SingleContentPage() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [readMore, setReadMore] = useState(false)
 
   useEffect(() => {
 
@@ -245,7 +246,8 @@ export default function SingleContentPage() {
         })}
         {data.overview && <div className='overview'>
           <h4>Overview</h4>
-          {data.overview}
+          {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
+          <span className='readmore' onClick={() => setReadMore(!readMore)}>{data.overview && (!readMore ? 'read more.' : 'Less')}</span>
         </div>}
       </div>
     </div>
@@ -260,7 +262,7 @@ export default function SingleContentPage() {
         </Modal.Body>
       </Modal>
       <div className='pc'>
-        <div style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${data.backdrop_path})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+        <div style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${data.backdrop_path})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
           <div className='backdrop_opacity'>
             {render}
           </div>
@@ -312,7 +314,6 @@ export default function SingleContentPage() {
           </div>
         </>}
       </div>
-
     </>
   )
 }

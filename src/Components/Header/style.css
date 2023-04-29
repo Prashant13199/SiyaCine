@@ -5,6 +5,7 @@
     align-items: flex-end;
     padding: 20px;
     color: white;
+    border-radius: 10px;
 }
 .welcomeText {
     font-size: 40px;

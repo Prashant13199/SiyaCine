@@ -24,7 +24,7 @@ export default function Header() {
   }, [upcoming])
 
   return (
-    <div className='welcome' style={{ backgroundImage: upcoming.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${upcoming[number].backdrop_path})` : 'transparent', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+    <div className='welcome' style={{ backgroundImage: upcoming.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${upcoming[number].backdrop_path})` : 'transparent', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
       <div className='welcome_backdrop'>
         <div style={{ width: '100%' }}>
           <div className='welcomeText'>Welcome.</div>

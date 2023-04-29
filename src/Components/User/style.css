@@ -2,6 +2,10 @@
     cursor: pointer;
     border-radius: 10px;
     position: relative;
+    transition: transform .2s;
+}
+.User:hover {
+    transform: scale(1.05);
 }
 .user_image {
     height: 320px;

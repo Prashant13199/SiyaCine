@@ -4,6 +4,7 @@ import './style.css'
 import { useParams, Link } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
+import Cast from '../../Components/Cast'
 
 export default function UserProfile() {
 
@@ -70,7 +71,7 @@ export default function UserProfile() {
   return (
     <div className='userprofile'>
     <div className='Profile'>
-      <div className='welcome' style={{ backgroundImage: favourite.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+      <div className='welcome' style={{ backgroundImage: favourite.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>
             <div className='profile_header'>
@@ -84,7 +85,7 @@ export default function UserProfile() {
           </div>
         </div>
       </div>
-      
+      <br />
       {watching.length !== 0 && <>
         <div className='trending_title'>Watching Now</div>
         <div className='trending_scroll'>
@@ -110,14 +111,7 @@ export default function UserProfile() {
         <div className='trending_title'>Favourite Cast</div>
         <div className='trending_scroll'>
           {cast && cast.map((c) => {
-            return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-              <div className='cast_single'>
-                <img alt="" src={c.data.profile_path ? `https://image.tmdb.org/t/p/w500/${c.data.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
-                <div style={{ marginTop: '5px' }}>
-                  <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.data.name}</div>
-                </div>
-              </div>
-            </Link>
+            return <Cast c={c} />
           })}
         </div></>}
       {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center>

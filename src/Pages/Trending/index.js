@@ -109,6 +109,7 @@ export default function Trending() {
 
     <div className='trending'>
       <Header />
+      <br />
       <div className='trending_title'>Now Playing in Theatres<Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres`} className="viewall">View all</Link></div>
       <div className='trending_scroll'>
         {nowplaying && nowplaying.map((data) => {

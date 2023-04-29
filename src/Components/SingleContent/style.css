@@ -1,6 +1,11 @@
 .poster {
-    border-radius: 10px;
-    height: auto;
-    width: 100%;
-    cursor: pointer;
-  }
+  border-radius: 10px;
+  height: auto;
+  width: 100%;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.poster:hover {
+  transform: scale(1.05);
+}

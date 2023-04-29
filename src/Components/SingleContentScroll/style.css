@@ -1,9 +1,14 @@
 .poster_scroll {
     object-fit: cover;
-    height: 360px;
+    height: 300px;
     border-radius: 10px;
-    margin: 5px;
     cursor: pointer;
+    transition: transform .2s;
+    margin: 10px;
+}
+
+.poster_scroll:hover {
+    transform: scale(1.05);
 }
 
 @media only screen and (max-width: 600px) {

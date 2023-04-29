@@ -42,7 +42,7 @@ export default function Genres({
   }, []);
 
   return (
-    <div style={{ margin: '10px 0px' }}>
+    <div style={{ margin: '20px 0px' }}>
       {selectedGenres && selectedGenres.map((genre) => (
         <Chip
           style={{ margin: 2, padding: 4, fontFamily: 'Sen' }}

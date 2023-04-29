@@ -3,3 +3,18 @@
     font-size: 14px;
     color: gray;
 }
+
+.cast_scroll {
+    transition: transform .2s;
+}
+
+.cast_scroll:hover {
+    transform: scale(1.05);
+}
+
+.cast_scroll_image {
+    border-radius: 10px;
+    width: 100%;
+    height: auto;
+}
+
