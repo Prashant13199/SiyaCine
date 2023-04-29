@@ -69,7 +69,7 @@ export default function UserProfile() {
   }, [uid])
 
   return (
-    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 3 }}>
+    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
     <div className='Profile'>
       <div className='welcome' style={{ backgroundImage: favourite.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
         <div className='welcome_backdrop'>

@@ -7,6 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
+import Box from '@mui/material/Box';
 
 export default function SingleCastPage() {
 
@@ -19,12 +20,12 @@ export default function SingleCastPage() {
   const [readMore, setReadMore] = useState(false)
 
   useEffect(() => {
-    database.ref(`/Users/${uid}/cast/${id}`).on('value',  snapshot => {
-      if(snapshot.val()?.id === id){
+    database.ref(`/Users/${uid}/cast/${id}`).on('value', snapshot => {
+      if (snapshot.val()?.id === id) {
         setFavourite(true)
       }
     })
-  },[])
+  }, [])
 
   const fetchDetails = async () => {
     const { data } = await axios.get(
@@ -55,14 +56,14 @@ export default function SingleCastPage() {
   }, [id])
 
   const handleFavourite = () => {
-    if(!favourite) {
+    if (!favourite) {
       database.ref(`/Users/${uid}/cast/${id}`).set({
         id: id, data: data,
       }).then(() => {
         console.log("Set to cast")
         setFavourite(true)
       })
-    }else{ 
+    } else {
       database.ref(`/Users/${uid}/cast/${id}`).remove().then(() => {
         console.log("Removed from cast")
         setFavourite(false)
@@ -71,59 +72,59 @@ export default function SingleCastPage() {
   }
 
   return (
-    <div className='singlecontent'>
-      <div className='singlecontent_responsive_cast'>
-        <div className='singlecontentposter_responsive'>
-          <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
-        </div>
-        <div className='details'>
-          <h2 style={{ fontWeight: 'bold' }}>{data.name}</h2>
-          <div className='actions'>
-            {uid && <div style={{ marginRight: '20px' }}>
-            <Tooltip title="Favourite">
-            <IconButton style={{ backgroundColor: '#3385ff' }} onClick={() => handleFavourite()}>
-              {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
-            </IconButton>
-            </Tooltip>
+    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+        <div className='singlecontent_responsive_cast'>
+          <div className='singlecontentposter_responsive'>
+            <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+          </div>
+          <div className='details'>
+            <h2 style={{ fontWeight: 'bold' }}>{data.name}</h2>
+            <div className='actions'>
+              {uid && <div>
+                <Tooltip title="Favourite">
+                  <IconButton style={{ backgroundColor: '#3385ff' }} onClick={() => handleFavourite()}>
+                    {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
+                  </IconButton>
+                </Tooltip>
+              </div>}
+            </div>
+            {data.birthday && <div className='overview'>
+              <h4>Birthday</h4>
+              {data.birthday}
+            </div>}
+            {data.place_of_birth && <div className='overview'>
+              <h4>Place of Birth</h4>
+              {data.place_of_birth}
+            </div>}
+            {data.known_for_department && <div className='overview'>
+              <h4>Known for departmant</h4>
+              {data.known_for_department}
+            </div>}
+            {data.biography && <div className='overview'>
+              <h4>Biography</h4>
+              {data.biography?.length > 200 && !readMore ? data.biography.substring(0, 200).concat('...') : data.biography}
+              <span className='readmore' onClick={() => setReadMore(!readMore)}>{data.biography && (!readMore ? 'read more.' : 'Less')}</span>
             </div>}
           </div>
-          {data.birthday && <div className='overview'>
-            <h4>Birthday</h4>
-            {data.birthday}
-          </div>}
-          {data.place_of_birth && <div className='overview'>
-            <h4>Place of Birth</h4>
-            {data.place_of_birth}
-          </div>}
-          {data.known_for_department && <div className='overview'>
-            <h4>Known for departmant</h4>
-            {data.known_for_department}
-          </div>}
-          {data.biography && <div className='overview'>
-            <h4>Biography</h4>
-            {data.biography?.length > 200 && !readMore ? data.biography.substring(0,200).concat('...') : data.biography}
-            <span className='readmore' onClick={() => setReadMore(!readMore)}>{data.biography && (!readMore ? 'read more.' : 'Less')}</span>
-          </div>}
         </div>
-      </div>
-      {movie.length!==0 && <>
-        <div className='trending_title'>Movies</div>
-        <div className='trending_scroll'>
-          {movie && movie?.map((data) => {
-            return <SingleContentScroll data={data} key={data.id} type="movie" />
-          })}
-        </div>
-      </>}
-      {tv.length!==0 && <>
+        {movie.length !== 0 && <>
+          <div className='trending_title'>Movies</div>
+          <div className='trending_scroll'>
+            {movie && movie?.map((data) => {
+              return <SingleContentScroll data={data} key={data.id} type="movie" />
+            })}
+          </div>
+        </>}
+        {tv.length !== 0 && <>
+          <br />
+          <div className='trending_title'>TV</div>
+          <div className='trending_scroll'>
+            {tv && tv?.map((data) => {
+              return <SingleContentScroll data={data} key={data.id} type="tv" />
+            })}
+          </div>
+        </>}
         <br />
-        <div className='trending_title'>TV</div>
-        <div className='trending_scroll'>
-          {tv && tv?.map((data) => {
-            return <SingleContentScroll data={data} key={data.id} type="tv" />
-          })}
-        </div>
-      </>}
-      <br />
-    </div>
+    </Box>
   )
 }

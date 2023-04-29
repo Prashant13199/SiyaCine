@@ -31,7 +31,7 @@ export default function TV() {
   }, [genreforURL, page]);
 
   return (
-    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 3 }}>
+    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
       <div className='discover_movies_title'>Discover TV</div>
       <Genres
         type="tv"

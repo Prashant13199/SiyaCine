@@ -1,7 +1,3 @@
-.singlecontent {
-    margin: 50px;
-}
-
 .singlecontentposter {
     height: auto;
     width: 330px;
@@ -88,10 +84,6 @@
 }
 
 @media only screen and (max-width: 880px) {
-    .singlecontent {
-        margin: 100px 10px;
-    }
-
     .singlecontent_responsive {
         display: grid;
         padding: 0;
@@ -110,7 +102,7 @@
         place-items: center;
     }
     .details {
-        padding: 20px 10px;
+        padding: 20px 0px;
     }
     .pc {
         display: none;

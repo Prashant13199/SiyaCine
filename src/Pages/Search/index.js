@@ -58,7 +58,7 @@ export default function Search() {
     }, [pageM, pageT, query])
 
     return (
-        <Box sx={{ flexGrow: 1, marginY: 10, marginX: 3 }}>
+        <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
             <div className='discover_movies_title'>Search</div>
             <Paper component="form" sx={{ p: '4px 4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '20px' }}>
                 <InputBase

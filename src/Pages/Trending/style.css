@@ -2,11 +2,6 @@
     display: flex;
     overflow-y: auto;
 }
-
-.trending {
-    margin: 100px 30px;
-}
-
 .trending_title {
     font-weight: 700;
     margin: 0px 10px;
@@ -26,10 +21,4 @@
 
 .viewall:hover {
     color: white;
-}
-
-@media only screen and (max-width: 600px) {
-    .trending {
-        margin: 100px 10px;
-    }
 }

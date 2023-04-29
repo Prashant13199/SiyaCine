@@ -18,6 +18,7 @@ import ReactPlayer from 'react-player'
 import CloseIcon from '@mui/icons-material/Close';
 import StarIcon from '@mui/icons-material/Star';
 import Review from '../../Components/review';
+import Box from '@mui/material/Box';
 
 export default function SingleContentPage() {
 
@@ -250,7 +251,6 @@ export default function SingleContentPage() {
       </div>
     </div>
   )
-  console.log(credit)
 
   return (
     <>
@@ -269,51 +269,56 @@ export default function SingleContentPage() {
       </div>
       <div className='singlecontent'>
         <div className='mobile'>
-          {render}
+          <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+            {render}
+          </Box>
         </div>
-        {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>
-          <div className='cast'>
-            {credit && credit.cast.map((c) => (
-              <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                <div className='cast_single'>
-                  <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
-                  <div style={{ marginTop: '5px' }}>
-                    <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.original_name}</div>
-                    <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
+        <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
+          {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>
+            <div className='cast'>
+              {credit && credit.cast.map((c) => (
+                <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                  <div className='cast_single'>
+                    <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
+                    <div style={{ marginTop: '5px' }}>
+                      <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.original_name}</div>
+                      <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
+                    </div>
                   </div>
+                </Link>
+              ))}
+            </div></>}
+          {similar.length !== 0 && <><br />
+            <div className='trending_title'>Similar</div>
+            <div className='trending_scroll'>
+              {similar && similar.map((data) => {
+                return <SingleContentScroll data={data} key={data.id} type={type} />
+              })}
+            </div>
+          </>}
+          {recommendations.length !== 0 && <><br />
+            <div className='trending_title'>Recommendations</div>
+            <div className='trending_scroll'>
+              {recommendations && recommendations.map((data) => {
+                return <SingleContentScroll data={data} key={data.id} type={type} />
+              })}
+            </div>
+          </>}
+          {reviews.length !== 0 && <><br />
+            <div className='trending_title'>Reviews</div>
+            <div className='reviews'>
+              {reviews && reviews.map((data) => {
+                return <div className='single_review'>
+                  <div style={{ fontWeight: '600', color: 'white', fontSize: '18px' }}>{data.author_details.username}</div>
+                  <Review review={data.content} />
                 </div>
-              </Link>
-            ))}
-          </div></>}
-        {similar.length !== 0 && <><br />
-          <div className='trending_title'>Similar</div>
-          <div className='trending_scroll'>
-            {similar && similar.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type={type} />
-            })}
-          </div>
-        </>}
-        {recommendations.length !== 0 && <><br />
-          <div className='trending_title'>Recommendations</div>
-          <div className='trending_scroll'>
-            {recommendations && recommendations.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type={type} />
-            })}
-          </div>
-        </>}
-        {reviews.length !== 0 && <><br />
-          <div className='trending_title'>Reviews</div>
-          <div className='reviews'>
-            {reviews && reviews.map((data) => {
-              return <div className='single_review'>
-                <div style={{ fontWeight: '600', color: 'white', fontSize: '18px' }}>{data.author_details.username}</div>
-                <Review review={data.content} />
-              </div>
-            })}
-          </div>
-        </>}
-        <br />
+              })}
+            </div>
+          </>}
+          <br />
+        </Box>
       </div>
+
     </>
   )
 }

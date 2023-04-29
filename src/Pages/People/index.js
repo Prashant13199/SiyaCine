@@ -22,7 +22,7 @@ export default function People() {
     }, [])
 
     return (
-        <Box sx={{ flexGrow: 1, marginY: 10, marginX: 3 }}>
+        <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
                 {users && users.map((user) => {
                     return <User user={user.data} key={user.data.uid} />

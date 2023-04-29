@@ -117,7 +117,7 @@ export default function Profile() {
   }, [])
 
   return (
-    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 3 }}>
+    <Box sx={{ flexGrow: 1, marginY: 10, marginX: 2 }}>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Body className='modal_body'>
           <UploadPicture handleClose={handleClose} />
