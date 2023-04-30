@@ -91,7 +91,7 @@ export default function UploadPicture({ handleClose }) {
               handleClose();
               document.getElementById("image-preview").style.display = "none";
               document.getElementById("fileInput").value = "";
-              console.log("updated")
+              console.log("Picture Updated")
             });
         }
       );

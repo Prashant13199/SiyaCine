@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import './style.css'
 
 export default function Cast({ c }) {
-    console.log(c.data)
     return (
         <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
             <div className='cast_single'>

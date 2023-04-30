@@ -50,7 +50,7 @@ export default function NavBarMain() {
         <Navbar.Brand>
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <div style={{ display: 'flex' }}>
-              <img src={logo} height={'35px'} width={'35px'} alt="logo" />
+              <img src={logo} height={'35px'} width={'35px'} alt="logo" className="navlink" />
               <div style={{ fontSize: '25px' }}>
                 <span style={{ fontSize: '18px' }}>SIYA</span><strong>CINE</strong>
               </div>
@@ -58,8 +58,8 @@ export default function NavBarMain() {
           </NavLink>
         </Navbar.Brand>
         <Nav className="me-auto"></Nav>
-        {uid ? <Nav><NavLink to='/search' activeClassName="is-active"
-          exact={true} style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}
+        {uid ? <Nav><NavLink to='/search' activeClassName="is-active" className="navlink"
+          exact={true} style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink><NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} className="navlink" activeStyle={{ color: '#3385ff' }}
             exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
         </Nav>
           :
@@ -70,16 +70,16 @@ export default function NavBarMain() {
         }
       </Navbar>
       <Navbar bg="dark" variant="dark" fixed='bottom' style={{ height: '50px', padding: '0px 20px' }}>
-        <Nav><NavLink to='/' activeClassName="is-active"
+        <Nav><NavLink to='/' activeClassName="is-active" className="navlink"
           exact={true} style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}><WhatshotIcon /> HOT</NavLink></Nav>
         <Nav className="me-auto"></Nav>
-        <Nav><NavLink to='/movies' activeClassName="is-active"
+        <Nav><NavLink to='/movies' activeClassName="is-active" className="navlink"
           exact={true} style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}><MovieIcon /> MOVIE</NavLink></Nav>
         <Nav className="me-auto"></Nav>
-        <Nav><NavLink to='/tv' activeClassName="is-active"
+        <Nav><NavLink to='/tv' activeClassName="is-active" className="navlink"
           exact={true} style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}><TvIcon /> TV</NavLink></Nav>
         {uid && <><Nav className="me-auto"></Nav>
-          <Nav><NavLink to='/people' activeClassName="is-active"
+          <Nav><NavLink to='/people' activeClassName="is-active" className="navlink"
             exact={true} style={{ textDecoration: 'none', color: 'white' }} activeStyle={{ color: '#3385ff' }}><PeopleIcon /> PEOPLE</NavLink></Nav></>}
       </Navbar>
     </>

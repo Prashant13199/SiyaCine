@@ -1,5 +1,5 @@
 .cast_single {
-    margin: 5px;
+    margin: 10px;
     transition: transform .2s;
 }
 .cast_single:hover {

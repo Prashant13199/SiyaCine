@@ -3,7 +3,7 @@ import { database, auth, storage } from '../../firebase';
 import './style.css';
 import { IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import CreateIcon from '@mui/icons-material/Create';
@@ -179,14 +179,14 @@ export default function Profile() {
           <div className='trending_title'>Favourite Cast</div>
           <div className='trending_scroll'>
             {cast && cast.map((c) => {
-              return <Cast c={c} />
+              return <Cast c={c} key={c.id} />
             })}
           </div></>}
         {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center>
-        <img src={empty} width={'100px'} height={'auto'} />
-        <h6 style={{ color: 'gray' }}>Nothing to show</h6>
+          <img src={empty} width={'100px'} height={'auto'} />
+          <h6 style={{ color: 'gray' }}>Nothing to show</h6>
           <h3>Add to Watchlist or Favourite to appear here</h3></center>}
       </div>
-      </>
+    </>
   )
 }

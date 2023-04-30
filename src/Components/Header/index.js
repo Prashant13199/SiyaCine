@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './style.css';
 import axios from "axios";
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Header() {
 
@@ -24,13 +25,15 @@ export default function Header() {
   }, [upcoming])
 
   return (
-    <div className='welcome' style={{ backgroundImage: upcoming.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${upcoming[number].backdrop_path})` : 'transparent', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
-      <div className='welcome_backdrop'>
-        <div style={{ width: '100%' }}>
-          <div className='welcomeText'>Welcome.</div>
-          <div className='welcomeDesc'>Millions of Movies and TV shows to discover. Explore now.</div>
+    <Link to={`/singlecontent/${upcoming[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
+      <div className='welcome' style={{ backgroundImage: upcoming.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${upcoming[number].backdrop_path})` : 'transparent', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
+        <div className='welcome_backdrop'>
+          <div style={{ width: '100%' }}>
+            <div className='welcomeText'>{upcoming[number]?.title}</div>
+            <div className='welcomeDesc'>{upcoming[number]?.overview.substring(0, 80).concat('...')}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

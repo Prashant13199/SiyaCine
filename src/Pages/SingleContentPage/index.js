@@ -77,7 +77,7 @@ export default function SingleContentPage() {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
-    setWatchProvider({ path: data.results.IN ? data.results.IN.flatrate[0].logo_path : '', link: data.results.IN ? data.results.IN.link : '' });
+    setWatchProvider(data.results ? { path: data.results?.IN ? data.results?.IN?.flatrate[0].logo_path : '', link: data.results?.IN ? data.results?.IN?.link : '' } : '');
   };
 
   const fetchCredit = async () => {
@@ -114,7 +114,6 @@ export default function SingleContentPage() {
       `https://api.themoviedb.org/3/${type}/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
     setReviews(data.results)
-    console.log(data.results);
   };
 
   useEffect(() => {
@@ -177,7 +176,7 @@ export default function SingleContentPage() {
   }
 
   const render = (
-    <div className='singlecontent_responsive' >
+    <div className='singlecontent_responsive'>
       <div className='singlecontentposter_responsive'>
         <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
       </div>
@@ -239,15 +238,15 @@ export default function SingleContentPage() {
           </div>
         </div>
         {credit.crew && credit.crew.map((cr) => {
-          return cr.job === 'Director' && <div className='overview'>
+          return cr.job === 'Director' && <div className='overview' key={cr.id}>
             <h4>Director</h4>
             {cr.name}
           </div>
         })}
         {data.overview && <div className='overview'>
           <h4>Overview</h4>
-          {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
-          <span className='readmore' onClick={() => setReadMore(!readMore)}>{data.overview && (!readMore ? 'read more.' : 'Less')}</span>
+          {data.overview?.length > 200 && !readMore ? data.overview.substring(0, 200).concat('...') : data.overview}
+          <span className='readmore' onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 200 && (!readMore ? 'read more.' : 'Less')}</span>
         </div>}
       </div>
     </div>
@@ -272,11 +271,12 @@ export default function SingleContentPage() {
         <div className='mobile'>
           {render}
         </div>
+        <div className='pc'><br /></div>
         {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>
           <div className='cast'>
-            {credit && credit.cast.map((c) => (
-              <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                <div className='cast_single'>
+            {credit && credit.cast.map((c) => {
+              return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }} key={c.id}>
+                <div className='cast_single' key={c.id}>
                   <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                   <div style={{ marginTop: '5px' }}>
                     <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.original_name}</div>
@@ -284,7 +284,7 @@ export default function SingleContentPage() {
                   </div>
                 </div>
               </Link>
-            ))}
+            })}
           </div></>}
         {similar.length !== 0 && <>
           <div className='trending_title'>Similar</div>
@@ -306,7 +306,7 @@ export default function SingleContentPage() {
           <div className='trending_title'>Reviews</div>
           <div className='reviews'>
             {reviews && reviews.map((data) => {
-              return <div className='single_review'>
+              return <div className='single_review' key={data.id}>
                 <div style={{ fontWeight: '600', color: 'white', fontSize: '18px' }}>{data.author_details.username}</div>
                 <Review review={data.content} />
               </div>

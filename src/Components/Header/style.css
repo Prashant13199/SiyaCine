@@ -7,23 +7,28 @@
     color: white;
     border-radius: 10px;
 }
+
 .welcomeText {
     font-size: 40px;
 }
+
 .welcomeDesc {
-    font-size: 30px;
+    font-size: 20px;
 }
 
 @media only screen and (max-width: 600px) {
     .welcome {
         height: 30vh;
     }
+
     .welcome_backdrop {
         height: 30vh;
     }
+
     .welcomeText {
         font-size: 25px;
     }
+
     .welcomeDesc {
         font-size: 15px;
     }

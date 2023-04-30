@@ -19,3 +19,11 @@
     padding: 1.2px;
     border-style: solid;
 }
+
+.navlink {
+    transition: transform .2s;
+}
+
+.navlink:hover {
+    transform: scale(1.2);
+}
