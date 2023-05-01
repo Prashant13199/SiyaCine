@@ -11,7 +11,7 @@ export default function User({ user }) {
           <img className='user_image' src={user ? user.photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} />
           <div className='user_back'>
             <div className='user_username'>
-              {user.username}
+              {user.username.length>15 ? user.username.substring(0,15).concat('...') : user.username}
             </div>
           </div>
         </div>

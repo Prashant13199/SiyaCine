@@ -9,6 +9,7 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { database, auth } from "../../firebase";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import GoogleSignin from "../../Components/GoogleSignin";
 
 export default function Register() {
     const darkTheme = createTheme({
@@ -120,6 +121,7 @@ export default function Register() {
                             {loading ? "Please Wait.." : "Register"}
                         </Button>
                     </div>
+                    <GoogleSignin />
                 </div>
             </div>
         </>

@@ -9,7 +9,7 @@
 }
 
 .cast_scroll:hover {
-    transform: scale(1.05);
+    transform: scale(0.95);
 }
 
 .cast_scroll_image {

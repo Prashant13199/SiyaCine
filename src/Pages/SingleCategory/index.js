@@ -54,7 +54,7 @@ export default function SingleCategory() {
         setGenres={setGenres}
         setPage={setPage}
       />
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
         {content &&
           content.map((data) => {
             return <SingleContent data={data} key={data.id} type={type} />

@@ -96,7 +96,7 @@ export default function Search() {
                     <Tab label="TV" style={{ fontFamily: 'Sen' }} />
                     <Tab label="Person" style={{ fontFamily: 'Sen' }} />
                 </Tabs><br />
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
                     {contentM && value === 0 && contentM.map((data) => {
                         return <SingleContent data={data} key={data.id} type='movie' />
                     })}
@@ -105,7 +105,7 @@ export default function Search() {
                     <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
                 )}
 
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
                     {contentT && value === 1 && contentT.map((data) => {
                         return <SingleContent data={data} key={data.id} type='tv' />
                     })}
@@ -113,13 +113,13 @@ export default function Search() {
                 {numOfPagesT > 1 && value === 1 && (
                     <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />
                 )}
-                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 12, md: 16 }}>
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
                     {person && value === 2 && person.map((c) => {
                         return c.profile_path && <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
                         <div className='cast_scroll'>
                           <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_scroll_image' />
                           <div style={{ marginTop: '5px' }}>
-                            <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.name}</div>
+                            <div style={{ fontWeight: '500', color: 'white' }}>{c.name}</div>
                           </div>
                         </div>
                       </Link></Grid>

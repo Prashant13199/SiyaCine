@@ -1,0 +1,30 @@
+
+  .login__withGoogle{
+    cursor: pointer;
+    flex: 1;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;    
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid lightgray;
+    width: 210px;
+    margin-top: 40px;
+  }
+  .login__withGoogle > img {
+    height: 25px !important;
+    margin-right: 10px;
+  }
+  .login__withGoogle:hover{
+    background-color: rgb(6, 35, 46);
+  }
+  
+  @media screen and (max-width: 990px) {
+    .login__withGoogle > span {
+        font-size: 15px;
+    }
+    .login__withGoogle > img {
+        height: 20px !important;
+        margin-right: 10px;
+    }
+  }

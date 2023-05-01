@@ -11,6 +11,7 @@ import Button from 'react-bootstrap/Button';
 import { Modal } from 'react-bootstrap';
 import ForgotPassword from "../ForgotPassword";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import GoogleSignin from "../../Components/GoogleSignin";
 
 export default function Login() {
     const darkTheme = createTheme({
@@ -119,9 +120,10 @@ export default function Login() {
                             {loading ? "Please Wait.." : "Login"}
                         </Button>
                     </div>
-                    <div className="d-grid gap-2" style={{ marginTop: "10px" }}>
+                    <div className="d-grid gap-2" style={{ marginTop: "10px", cursor: 'pointer' }}>
                         <div onClick={() => handleShow2()}>Forgot Password?</div>
                     </div>
+                    <GoogleSignin />
                 </div>
             </div>
         </>
