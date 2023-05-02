@@ -52,7 +52,7 @@ export default function NavBarMain() {
             <div style={{ display: 'flex' }}>
               <img src={logo} height={'35px'} width={'35px'} alt="logo" className="navlink" />
               <div style={{ fontSize: '25px' }}>
-                <span style={{ fontSize: '18px' }}>SIYA</span><strong>CINE</strong>
+                <span style={{ fontSize: '18px', marginLeft: '5px' }}>SIYA</span><strong>CINE</strong>
               </div>
             </div>
           </NavLink>

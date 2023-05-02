@@ -40,7 +40,7 @@ export default function Movies() {
         setGenres={setGenres}
         setPage={setPage}
       />
-      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
+      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
         {content &&
           content.map((data) => {
             return <SingleContent data={data} key={data.id} type={'movie'} />

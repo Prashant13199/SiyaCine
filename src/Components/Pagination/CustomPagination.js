@@ -14,7 +14,7 @@ export default function CustomPagination({ setPage, numOfPages = 10 }) {
       style={{
         display: "flex",
         justifyContent: "center",
-        margin: '10px 0px'
+        margin: '20px 0px'
       }}
     >
       <Pagination

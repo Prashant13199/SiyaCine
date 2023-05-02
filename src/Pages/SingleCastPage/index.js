@@ -106,8 +106,7 @@ export default function SingleCastPage() {
           </div>}
         </div>
       </div>
-      <br />
-      {movie.length !== 0 && <>
+      {movie.length !== 0 && <><br />
         <div className='trending_title'>Movies</div>
         <div className='trending_scroll'>
           {movie && movie?.map((data) => {
@@ -115,7 +114,7 @@ export default function SingleCastPage() {
           })}
         </div>
       </>}
-      {tv.length !== 0 && <>
+      {tv.length !== 0 && <><br />
         <div className='trending_title'>TV</div>
         <div className='trending_scroll'>
           {tv && tv?.map((data) => {

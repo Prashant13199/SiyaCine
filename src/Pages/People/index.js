@@ -22,7 +22,7 @@ export default function People() {
 
     return (
         <div className='people'>
-            <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
+            <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 24 }}>
                 {users && users.map((user) => {
                     return <User user={user.data} key={user.data.uid} />
                 })}

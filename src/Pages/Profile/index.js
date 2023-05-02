@@ -145,15 +145,14 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        <br />
-        {watching.length !== 0 && <>
+        {watching.length !== 0 && <><br />
           <div className='trending_title'>Watching Now</div>
           <div className='trending_scroll'>
             {watching && watching.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
-        {recommendation.length !== 0 && <>
+        {recommendation.length !== 0 && <><br />
           <div className='trending_title'>Recommendation</div>
           <div className='searchresultfor'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
           <div className='trending_scroll'>
@@ -161,28 +160,28 @@ export default function Profile() {
               return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
             })}
           </div></>}
-        {watchlist.length !== 0 && <>
+        {watchlist.length !== 0 && <><br />
           <div className='trending_title'>Watchlist</div>
           <div className='trending_scroll'>
             {watchlist && watchlist.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
-        {favourite.length !== 0 && <>
+        {favourite.length !== 0 && <><br />
           <div className='trending_title'>Favourites</div>
           <div className='trending_scroll'>
             {favourite && favourite.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
-        {cast.length !== 0 && <>
+        {cast.length !== 0 && <><br />
           <div className='trending_title'>Favourite Cast</div>
           <div className='trending_scroll'>
             {cast && cast.map((c) => {
               return <Cast c={c} key={c.id} />
             })}
           </div></>}
-        {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center>
+        {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
           <img src={empty} width={'100px'} height={'auto'} />
           <h6 style={{ color: 'gray' }}>Nothing to show</h6>
           <h3>Add to Watchlist or Favourite to appear here</h3></center>}

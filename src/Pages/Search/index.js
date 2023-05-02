@@ -76,7 +76,7 @@ export default function Search() {
             <div className='discover_movies_title'>Search</div>
             <Paper component="form" sx={{ p: '4px 4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '20px' }}>
                 <InputBase
-                    sx={{ ml: 1, flex: 1, fontFamily: 'Sen' }}
+                    sx={{ ml: 1, flex: 1, fontFamily: 'Montserrat' }}
                     placeholder="Search for a movie, tv show or cast"
                     inputProps={{ 'aria-label': 'search google maps' }}
                     value={query}
@@ -92,11 +92,11 @@ export default function Search() {
             {query && <><div className='searchresultfor'>Showing results for</div>
                 <div className='discover_movies_title'>{query}</div>
                 <Tabs value={value} onChange={handleChange} centered >
-                    <Tab label="Movie" style={{ fontFamily: 'Sen' }} />
-                    <Tab label="TV" style={{ fontFamily: 'Sen' }} />
-                    <Tab label="Person" style={{ fontFamily: 'Sen' }} />
+                    <Tab label="Movie" style={{ fontFamily: 'Montserrat' }} />
+                    <Tab label="TV" style={{ fontFamily: 'Montserrat' }} />
+                    <Tab label="Person" style={{ fontFamily: 'Montserrat' }} />
                 </Tabs><br />
-                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {contentM && value === 0 && contentM.map((data) => {
                         return <SingleContent data={data} key={data.id} type='movie' />
                     })}
@@ -105,7 +105,7 @@ export default function Search() {
                     <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
                 )}
 
-                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {contentT && value === 1 && contentT.map((data) => {
                         return <SingleContent data={data} key={data.id} type='tv' />
                     })}
@@ -113,7 +113,7 @@ export default function Search() {
                 {numOfPagesT > 1 && value === 1 && (
                     <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />
                 )}
-                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 20 }}>
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {person && value === 2 && person.map((c) => {
                         return c.profile_path && <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
                         <div className='cast_scroll'>

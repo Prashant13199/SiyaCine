@@ -286,7 +286,7 @@ export default function SingleContentPage() {
               </Link>
             })}
           </div></>}
-        {similar.length !== 0 && <>
+        {similar.length !== 0 && <><br />
           <div className='trending_title'>Similar</div>
           <div className='trending_scroll'>
             {similar && similar.map((data) => {
@@ -294,7 +294,7 @@ export default function SingleContentPage() {
             })}
           </div>
         </>}
-        {recommendations.length !== 0 && <>
+        {recommendations.length !== 0 && <><br />
           <div className='trending_title'>Recommendations</div>
           <div className='trending_scroll'>
             {recommendations && recommendations.map((data) => {
@@ -302,7 +302,7 @@ export default function SingleContentPage() {
             })}
           </div>
         </>}
-        {reviews.length !== 0 && <>
+        {reviews.length !== 0 && <><br />
           <div className='trending_title'>Reviews</div>
           <div className='reviews'>
             {reviews && reviews.map((data) => {

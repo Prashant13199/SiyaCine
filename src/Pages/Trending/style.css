@@ -16,9 +16,15 @@
     text-decoration: none;
     font-size: small;
     color: gray;
-    margin-left: 5px;
+    margin-left: 10px;
 }
 
 .viewall:hover {
     color: white;
+}
+
+@media only screen and (max-width: 880px) {
+    .trending_title {
+        font-size: 18px;
+    }
 }

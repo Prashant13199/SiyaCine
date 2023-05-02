@@ -24,7 +24,7 @@ export default function ForgotPassword() {
     const forgot = async () => {
         setLoading(true);
         await auth
-            .sendPasswordResetEmail(email)
+            .MontserratdPasswordResetEmail(email)
             .then((user) => {
                 setLoading(false);
                 setShow2(true)
@@ -51,7 +51,7 @@ export default function ForgotPassword() {
             setShow2(false)
         }
         } dismissible>
-            <Alert.Heading>Password reset link sent!</Alert.Heading>
+            <Alert.Heading>Password reset link Montserratt!</Alert.Heading>
             <div style={{ fontSize: 'small' }}>
                 Please check spam also
             </div>
@@ -86,7 +86,7 @@ export default function ForgotPassword() {
                             cursor: "pointer",
                         }}
                     >
-                        {loading ? "Please Wait.." : "Send Reset Link"}
+                        {loading ? "Please Wait.." : "Montserratd Reset Link"}
                     </Button>
                 </div>
             </div>
