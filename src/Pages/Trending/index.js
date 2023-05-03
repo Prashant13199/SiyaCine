@@ -17,6 +17,9 @@ export default function Trending() {
   const [populartv, setPopulartv] = useState([])
   const [nowplaying, setNowplaying] = useState([])
   const [checked, setChecked] = useState(false);
+  const [switchTrending, setSwitchTrending] = useState(0)
+  const [switchTopRated, setSwitchTopRated] = useState(0)
+  const [switchPopular, setSwitchPopular] = useState(0)
 
   const fetchNowplaying = async () => {
     const { data } = await axios.get(
@@ -114,47 +117,43 @@ export default function Trending() {
             })}
           </div>
           <br />
-          <div className='trending_title'>Trending Movies<Link to={`/singlecategory/trending/movie/Trending Movie`} className="viewall">View all</Link></div>
+          <div className='trending_title'>Trending&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchTrending(switchTrending === 0 ? 1 : 0)}>
+            <div className={switchTrending === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
+            <div className={switchTrending === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
+          </div><Link to={`/singlecategory/trending/${switchTrending === 0 ? 'movie' : 'tv'}/Trending ${switchTrending === 0 ? 'Movie' : 'TV'}`} className="viewall">View all</Link></div>
           <div className='trending_scroll'>
-            {trendingMovie && trendingMovie.map((data) => {
+            {trendingMovie && switchTrending === 0 && trendingMovie.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="movie" />
             })}
-          </div>
-          <br />
-          <div className='trending_title'>Trending TV<Link to={`/singlecategory/trending/tv/Trending TV`} className="viewall">View all</Link></div>
-          <div className='trending_scroll'>
-            {trendingTv && trendingTv.map((data) => {
+            {trendingTv && switchTrending === 1 && trendingTv.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="tv" />
             })}
           </div>
           <br />
-          <div className='trending_title'>Top Rated Movie<Link to={`/singlecategory/top_rated/movie/Top Rated Movie`} className="viewall">View all</Link></div>
+          <div className='trending_title'>Top Rated&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchTopRated(switchTopRated === 0 ? 1 : 0)}>
+            <div className={switchTopRated === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
+            <div className={switchTopRated === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
+          </div><Link to={`/singlecategory/top_rated/${switchTopRated === 0 ? 'movie' : 'tv'}/Top Rated ${switchTopRated === 0 ? 'Movie' : 'TV'}`} className="viewall">View all</Link></div>
           <div className='trending_scroll'>
-            {topratedmovie && topratedmovie.map((data) => {
+            {topratedmovie && switchTopRated === 0 && topratedmovie.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="movie" />
             })}
-          </div>
-          <br />
-          <div className='trending_title'>Top Rated TV<Link to={`/singlecategory/top_rated/tv/Top Rated TV`} className="viewall">View all</Link></div>
-          <div className='trending_scroll'>
-            {topratedtv && topratedtv.map((data) => {
+            {topratedtv && switchTopRated === 1 && topratedtv.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="tv" />
             })}
           </div>
           <br />
-          <div className='trending_title'>Popular Movie<Link to={`/singlecategory/popular/movie/Popular Movie`} className="viewall">View all</Link></div>
+          <div className='trending_title'>Popular&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchPopular(switchPopular === 0 ? 1 : 0)}>
+            <div className={switchPopular === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
+            <div className={switchPopular === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
+          </div><Link to={`/singlecategory/popular/${switchPopular === 0 ? 'movie' : 'tv'}/Popular ${switchPopular === 0 ? 'Movie' : 'TV'}`} className="viewall">View all</Link></div>
           <div className='trending_scroll'>
-            {popularmovie && popularmovie.map((data) => {
+            {popularmovie && switchPopular === 0 && popularmovie.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="movie" />
             })}
-          </div>
-          <br />
-          <div className='trending_title'>Popular TV<Link to={`/singlecategory/popular/tv/Polpular TV`} className="viewall">View all</Link></div>
-          <div className='trending_scroll'>
-            {populartv && populartv.map((data) => {
+            {populartv && switchPopular === 1 && populartv.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="tv" />
             })}
-
           </div>
         </>
       </div>

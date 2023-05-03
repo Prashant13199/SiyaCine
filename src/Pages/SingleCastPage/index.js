@@ -18,7 +18,8 @@ export default function SingleCastPage() {
   const [movie, setMovie] = useState([])
   const [tv, setTv] = useState([])
   const [readMore, setReadMore] = useState(false)
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = useState(false);
+  const [switchC, setSwitchC] = useState(0)
 
   useEffect(() => {
     database.ref(`/Users/${uid}/cast/${id}`).on('value', snapshot => {
@@ -110,22 +111,21 @@ export default function SingleCastPage() {
             </div>}
           </div>
         </div>
-        {movie.length !== 0 && <><br />
-          <div className='trending_title'>Movies</div>
-          <div className='trending_scroll'>
-            {movie && movie?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" />
-            })}
-          </div>
-        </>}
-        {tv.length !== 0 && <><br />
-          <div className='trending_title'>TV</div>
-          <div className='trending_scroll'>
-            {tv && tv?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="tv" />
-            })}
-          </div>
-        </>}
+        <br />
+        <div className='trending_title'><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
+          <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
+          <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
+        </div>
+        </div>
+        <div style={{ marginTop: '10px' }}></div>
+        <div className='trending_scroll'>
+          {movie && switchC === 0 && movie.map((data) => {
+            return <SingleContentScroll data={data} key={data.id} type="movie" />
+          })}
+          {tv && switchC === 1 && tv.map((data) => {
+            return <SingleContentScroll data={data} key={data.id} type="tv" />
+          })}
+        </div>
       </div>
     </Grow>
   )
