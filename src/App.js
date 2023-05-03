@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
-    }, 1000);
+    }, 500);
   }, [])
 
   return (
@@ -49,8 +49,8 @@ function App() {
       >
         <BrowserRouter>
           <div className="App">
-          <Box sx={{ flexGrow: 1, marginY: 8, marginX: 2 }}>
-            <NavBarMain />
+            <Box sx={{ flexGrow: 1, marginY: 8, marginX: 2 }}>
+              <NavBarMain />
               <Switch>
                 <Route path="/" component={Trending} exact />
                 <Route path="/movies" component={Movies} />

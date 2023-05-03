@@ -12,6 +12,7 @@ import UploadPicture from '../../Containers/UploadPicture';
 import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
+import Grow from '@mui/material/Grow';
 
 export default function Profile() {
 
@@ -28,10 +29,17 @@ export default function Profile() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     fetchRecommendation();
   }, [number])
+
+  useEffect(() => {
+    setTimeout(() => {
+      setChecked(true)
+    }, 100);
+  }, [])
 
   useEffect(() => {
     setNumber(Math.floor(Math.random() * favourite.length))
@@ -123,69 +131,71 @@ export default function Profile() {
           <UploadPicture handleClose={handleClose} />
         </Modal.Body>
       </Modal>
-      <div className='Profile'>
-        <div className='welcome' style={{ backgroundImage: favourite.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
-          <div className='welcome_backdrop'>
-            <div style={{ width: '100%' }}>
-              <div className='profile_header'>
-                <div style={{ position: 'relative', width: 'fit-content' }}>
-                  <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
-                  <div style={{ position: 'absolute', left: 5, bottom: 5 }}>
-                    <IconButton style={{ backgroundColor: 'gray' }}><CreateIcon fontSize='small' onClick={() => handleShow()} /></IconButton>
+      <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
+        <div className='Profile'>
+          <div className='welcome' style={{ backgroundImage: favourite.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
+            <div className='welcome_backdrop'>
+              <div style={{ width: '100%' }}>
+                <div className='profile_header'>
+                  <div style={{ position: 'relative', width: 'fit-content' }}>
+                    <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
+                    <div style={{ position: 'absolute', left: 5, bottom: 5 }}>
+                      <IconButton style={{ backgroundColor: 'gray' }}><CreateIcon fontSize='small' onClick={() => handleShow()} /></IconButton>
+                    </div>
+                    <div style={{ position: 'absolute', right: 5, bottom: 5 }}>
+                      {currentPhoto && currentPhoto.includes('firebase') && <IconButton style={{ backgroundColor: 'red', marginRight: '10px' }}><DeleteIcon fontSize='small' onClick={() => removePicture()} /></IconButton>}
+                    </div>
                   </div>
-                  <div style={{ position: 'absolute', right: 5, bottom: 5 }}>
-                    {currentPhoto && currentPhoto.includes('firebase') && <IconButton style={{ backgroundColor: 'red', marginRight: '10px' }}><DeleteIcon fontSize='small' onClick={() => removePicture()} /></IconButton>}
+                  <div className="profile_actions">
+                    <div className='profile_username'>{currentusername ? currentusername.length > 15 ? currentusername.substring(0, 15).concat('...') : currentusername : 'Loading...'}</div>
+                    &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: 'gray' }}><LogoutIcon /></IconButton>
                   </div>
-                </div>
-                <div className="profile_actions">
-                  <div className='profile_username'>{currentusername ? currentusername : 'Loading...'}</div>
-                  &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: 'gray' }}><LogoutIcon /></IconButton>
                 </div>
               </div>
             </div>
           </div>
+          {watching.length !== 0 && <><br />
+            <div className='trending_title'>Watching Now</div>
+            <div className='trending_scroll'>
+              {watching && watching.map((data) => {
+                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              })}
+            </div></>}
+          {recommendation.length !== 0 && <><br />
+            <div className='trending_title'>Recommendation</div>
+            <div className='searchresultfor'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
+            <div className='trending_scroll'>
+              {recommendation && recommendation.map((data) => {
+                return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
+              })}
+            </div></>}
+          {watchlist.length !== 0 && <><br />
+            <div className='trending_title'>Watchlist</div>
+            <div className='trending_scroll'>
+              {watchlist && watchlist.map((data) => {
+                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              })}
+            </div></>}
+          {favourite.length !== 0 && <><br />
+            <div className='trending_title'>Favourites</div>
+            <div className='trending_scroll'>
+              {favourite && favourite.map((data) => {
+                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              })}
+            </div></>}
+          {cast.length !== 0 && <><br />
+            <div className='trending_title'>Favourite Cast</div>
+            <div className='trending_scroll'>
+              {cast && cast.map((c) => {
+                return <Cast c={c} key={c.id} />
+              })}
+            </div></>}
+          {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
+            <img src={empty} width={'100px'} height={'auto'} />
+            <h6 style={{ color: 'gray' }}>Nothing to show</h6>
+            <h3>Add to Watchlist or Favourite to appear here</h3></center>}
         </div>
-        {watching.length !== 0 && <><br />
-          <div className='trending_title'>Watching Now</div>
-          <div className='trending_scroll'>
-            {watching && watching.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-            })}
-          </div></>}
-        {recommendation.length !== 0 && <><br />
-          <div className='trending_title'>Recommendation</div>
-          <div className='searchresultfor'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
-          <div className='trending_scroll'>
-            {recommendation && recommendation.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
-            })}
-          </div></>}
-        {watchlist.length !== 0 && <><br />
-          <div className='trending_title'>Watchlist</div>
-          <div className='trending_scroll'>
-            {watchlist && watchlist.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-            })}
-          </div></>}
-        {favourite.length !== 0 && <><br />
-          <div className='trending_title'>Favourites</div>
-          <div className='trending_scroll'>
-            {favourite && favourite.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-            })}
-          </div></>}
-        {cast.length !== 0 && <><br />
-          <div className='trending_title'>Favourite Cast</div>
-          <div className='trending_scroll'>
-            {cast && cast.map((c) => {
-              return <Cast c={c} key={c.id} />
-            })}
-          </div></>}
-        {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
-          <img src={empty} width={'100px'} height={'auto'} />
-          <h6 style={{ color: 'gray' }}>Nothing to show</h6>
-          <h3>Add to Watchlist or Favourite to appear here</h3></center>}
-      </div>
+      </Grow>
     </>
   )
 }

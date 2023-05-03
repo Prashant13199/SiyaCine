@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import empty from '../../assets/empty.png'
 import { Link } from 'react-router-dom';
+import Grow from '@mui/material/Grow';
 
 export default function Search() {
 
@@ -22,6 +23,7 @@ export default function Search() {
     const [query, setQuery] = useState("")
     const [value, setValue] = useState(0);
     const [person, setPerson] = useState(0);
+    const [checked, setChecked] = useState(false);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -35,6 +37,7 @@ export default function Search() {
             );
             setContentM(data.results);
             setNumOfPagesM(data.total_pages);
+            setChecked(true)
         } catch (error) {
             console.error(error);
         }
@@ -48,6 +51,7 @@ export default function Search() {
             );
             setContentT(data.results);
             setNumOfPagesT(data.total_pages);
+            setChecked(true)
         } catch (error) {
             console.error(error);
         }
@@ -60,12 +64,14 @@ export default function Search() {
                 }&language=en-US&query=${query}&page=${pageT}`
             );
             setPerson(data.results)
+            setChecked(true)
         } catch (error) {
             console.error(error);
         }
     };
 
     useEffect(() => {
+        setChecked(false)
         fetchSearchMovie();
         fetchSearchTV();
         fetchPerson()
@@ -96,35 +102,40 @@ export default function Search() {
                     <Tab label="TV" style={{ fontFamily: 'Montserrat' }} />
                     <Tab label="Person" style={{ fontFamily: 'Montserrat' }} />
                 </Tabs><br />
-                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                    {contentM && value === 0 && contentM.map((data) => {
-                        return <SingleContent data={data} key={data.id} type='movie' />
-                    })}
-                </Grid>
+                <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
+                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                        {contentM && value === 0 && contentM.map((data) => {
+                            return <SingleContent data={data} key={data.id} type='movie' />
+                        })}
+                    </Grid>
+                </Grow>
                 {numOfPagesM > 1 && value === 0 && (
                     <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
                 )}
-
-                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                    {contentT && value === 1 && contentT.map((data) => {
-                        return <SingleContent data={data} key={data.id} type='tv' />
-                    })}
-                </Grid>
+                <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
+                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                        {contentT && value === 1 && contentT.map((data) => {
+                            return <SingleContent data={data} key={data.id} type='tv' />
+                        })}
+                    </Grid>
+                </Grow>
                 {numOfPagesT > 1 && value === 1 && (
                     <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />
                 )}
-                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                    {person && value === 2 && person.map((c) => {
-                        return c.profile_path && <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                        <div className='cast_scroll'>
-                          <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_scroll_image' />
-                          <div style={{ marginTop: '5px' }}>
-                            <div style={{ fontWeight: '500', color: 'white' }}>{c.name}</div>
-                          </div>
-                        </div>
-                      </Link></Grid>
-                    })}
-                </Grid>
+                <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
+                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                        {person && value === 2 && person.map((c) => {
+                            return c.profile_path && <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                <div className='cast_scroll'>
+                                    <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_scroll_image' />
+                                    <div style={{ marginTop: '5px' }}>
+                                        <div style={{ fontWeight: '500', color: 'white' }}>{c.name}</div>
+                                    </div>
+                                </div>
+                            </Link></Grid>
+                        })}
+                    </Grid>
+                </Grow>
             </>}
             {contentM.length === 0 && value === 0 && query && <center>
                 <img src={empty} width={'100px'} height={'auto'} />

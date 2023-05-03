@@ -7,6 +7,7 @@ import Genres from '../../Components/Genres'
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
+import Grow from '@mui/material/Grow';
 
 export default function SingleCategory() {
 
@@ -17,6 +18,7 @@ export default function SingleCategory() {
   const [numOfPages, setNumOfPages] = useState();
   const genreforURL = useGenre(selectedGenres);
   const { category, type, name } = useParams()
+  const [checked, setChecked] = React.useState(false);
 
   const fetch = async () => {
     const { data } = await axios.get(
@@ -24,6 +26,7 @@ export default function SingleCategory() {
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
+    setChecked(true)
   };
 
   const fetch2 = async () => {
@@ -32,10 +35,12 @@ export default function SingleCategory() {
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
+    setChecked(true)
   }
 
   useEffect(() => {
     window.scroll(0, 0);
+    setChecked(false)
     if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated')) {
       fetch();
     } else {
@@ -54,12 +59,14 @@ export default function SingleCategory() {
         setGenres={setGenres}
         setPage={setPage}
       />
-      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-        {content &&
-          content.map((data) => {
-            return <SingleContent data={data} key={data.id} type={type} />
-          })}
-      </Grid>
+      <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
+        <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+          {content &&
+            content.map((data) => {
+              return <SingleContent data={data} key={data.id} type={type} />
+            })}
+        </Grid>
+      </Grow>
       {numOfPages > 1 && (
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
       )}

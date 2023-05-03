@@ -2,6 +2,7 @@
     display: flex;
     overflow-y: auto;
 }
+
 .trending_title {
     font-weight: 700;
     margin: 0px 10px;
