@@ -37,7 +37,6 @@ export default function Search() {
             );
             setContentM(data.results);
             setNumOfPagesM(data.total_pages);
-            setChecked(true)
         } catch (error) {
             console.error(error);
         }
@@ -51,7 +50,6 @@ export default function Search() {
             );
             setContentT(data.results);
             setNumOfPagesT(data.total_pages);
-            setChecked(true)
         } catch (error) {
             console.error(error);
         }
@@ -64,7 +62,6 @@ export default function Search() {
                 }&language=en-US&query=${query}&page=${pageT}`
             );
             setPerson(data.results)
-            setChecked(true)
         } catch (error) {
             console.error(error);
         }
@@ -102,40 +99,42 @@ export default function Search() {
                     <Tab label="TV" style={{ fontFamily: 'Montserrat' }} />
                     <Tab label="Person" style={{ fontFamily: 'Montserrat' }} />
                 </Tabs><br />
-                <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
-                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                        {contentM && value === 0 && contentM.map((data) => {
-                            return <SingleContent data={data} key={data.id} type='movie' />
-                        })}
-                    </Grid>
-                </Grow>
+
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                    {contentM && value === 0 && contentM.map((data) => {
+                        return <SingleContent data={data} key={data.id} type='movie' />
+                    })}
+                </Grid>
+
                 {numOfPagesM > 1 && value === 0 && (
                     <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
                 )}
-                <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
-                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                        {contentT && value === 1 && contentT.map((data) => {
-                            return <SingleContent data={data} key={data.id} type='tv' />
-                        })}
-                    </Grid>
-                </Grow>
+
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                    {contentT && value === 1 && contentT.map((data) => {
+                        return <SingleContent data={data} key={data.id} type='tv' />
+                    })}
+                </Grid>
+
                 {numOfPagesT > 1 && value === 1 && (
                     <CustomPagination setPage={setPageT} numOfPages={numOfPagesT} />
                 )}
-                <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
-                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                        {person && value === 2 && person.map((c) => {
-                            return c.profile_path && <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
-                                <div className='cast_scroll'>
-                                    <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_scroll_image' />
-                                    <div style={{ marginTop: '5px' }}>
-                                        <div style={{ fontWeight: '500', color: 'white' }}>{c.name}</div>
+
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                    {person && value === 2 && person.map((c) => {
+                        return c.profile_path &&
+                            <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
+                                <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                    <div className='cast_scroll'>
+                                        <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_scroll_image' />
+                                        <div style={{ marginTop: '5px' }}>
+                                            <div style={{ fontWeight: '500', color: 'white' }}>{c.name}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link></Grid>
-                        })}
-                    </Grid>
-                </Grow>
+                                </Link></Grid>
+                            </Grow>
+                    })}
+                </Grid>
             </>}
             {contentM.length === 0 && value === 0 && query && <center>
                 <img src={empty} width={'100px'} height={'auto'} />

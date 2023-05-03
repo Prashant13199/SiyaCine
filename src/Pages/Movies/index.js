@@ -6,7 +6,6 @@ import './style.css';
 import Genres from '../../Components/Genres'
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import Grid from '@mui/material/Unstable_Grid2';
-import Grow from '@mui/material/Grow';
 
 export default function Movies() {
 
@@ -16,7 +15,6 @@ export default function Movies() {
   const [content, setContent] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
   const genreforURL = useGenre(selectedGenres);
-  const [checked, setChecked] = useState(false);
 
   const fetchMovies = async () => {
     const { data } = await axios.get(
@@ -24,12 +22,10 @@ export default function Movies() {
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
-    setChecked(true)
   };
 
   useEffect(() => {
     window.scroll(0, 0);
-    setChecked(false)
     fetchMovies();
   }, [genreforURL, page]);
 
@@ -44,14 +40,12 @@ export default function Movies() {
         setGenres={setGenres}
         setPage={setPage}
       />
-      <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }} >
-        <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-          {content &&
-            content.map((data) => {
-              return <SingleContent data={data} key={data.id} type={'movie'} />
-            })}
-        </Grid>
-      </Grow>
+      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+        {content &&
+          content.map((data) => {
+            return <SingleContent data={data} key={data.id} type={'movie'} />
+          })}
+      </Grid>
       {numOfPages > 1 && (
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
       )}

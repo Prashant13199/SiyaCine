@@ -16,7 +16,7 @@ export default function UserProfile() {
   const [favourite, setFavourite] = useState([])
   const [watching, setWatching] = useState([])
   const [cast, setCast] = useState([])
-  const [number, setNumber] = useState('')
+  const [number, setNumber] = useState(null)
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
@@ -27,9 +27,7 @@ export default function UserProfile() {
   }, [uid])
 
   useEffect(() => {
-    setTimeout(() => {
-      setChecked(true)
-    }, 100);
+    setChecked(true)
   }, [])
 
   useEffect(() => {
@@ -79,7 +77,7 @@ export default function UserProfile() {
   return (
     <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
       <div className='Profile'>
-        <div className='welcome' style={{ backgroundImage: favourite.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
+        <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
           <div className='welcome_backdrop'>
             <div style={{ width: '100%' }}>
               <div className='profile_header'>
