@@ -140,9 +140,9 @@ export default function Profile() {
                     <div style={{ position: 'absolute', left: 5, bottom: 5 }}>
                       <IconButton style={{ backgroundColor: 'gray' }}><CreateIcon fontSize='small' onClick={() => handleShow()} /></IconButton>
                     </div>
-                    <div style={{ position: 'absolute', right: 5, bottom: 5 }}>
-                      {currentPhoto && currentPhoto.includes('firebase') && <IconButton style={{ backgroundColor: 'red', marginRight: '10px' }}><DeleteIcon fontSize='small' onClick={() => removePicture()} /></IconButton>}
-                    </div>
+                    {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 5, bottom: 5 }}>
+                      <IconButton style={{ backgroundColor: 'red', marginRight: '10px' }}><DeleteIcon fontSize='small' onClick={() => removePicture()} /></IconButton>
+                    </div>}
                   </div>
                   <div className="profile_actions">
                     <div className='profile_username'>{currentusername ? currentusername.length > 15 ? currentusername.substring(0, 15).concat('...') : currentusername : 'Loading...'}</div>

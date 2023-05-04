@@ -282,11 +282,11 @@ export default function SingleContentPage() {
         {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>
           <div className='cast'>
             {credit && credit.cast.map((c) => {
-              return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }} key={c.id}>
+              return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
                 <div className='cast_single' key={c.id}>
                   <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                   <div style={{ marginTop: '5px' }}>
-                    <div style={{ fontWeight: '500', maxWidth: '150px', color: 'white' }}>{c.original_name}</div>
+                    <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.original_name}</div>
                     <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
                   </div>
                 </div>
@@ -314,7 +314,7 @@ export default function SingleContentPage() {
           <div className='reviews'>
             {reviews && reviews.map((data) => {
               return <div className='single_review' key={data.id}>
-                <div style={{ fontWeight: '600', color: 'white', fontSize: '18px' }}>{data.author_details.username}</div>
+                <div style={{ fontWeight: '600', fontSize: '18px' }}>{data.author_details.username}</div>
                 <Review review={data.content} />
               </div>
             })}

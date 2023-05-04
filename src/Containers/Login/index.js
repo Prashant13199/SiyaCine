@@ -10,15 +10,11 @@ import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import { Modal } from 'react-bootstrap';
 import ForgotPassword from "../ForgotPassword";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import GoogleSignin from "../../Components/GoogleSignin";
+import { useTheme } from '@mui/material/styles';
 
 export default function Login() {
-    const darkTheme = createTheme({
-        palette: {
-          mode: 'dark',
-        },
-      });
+
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -31,6 +27,7 @@ export default function Login() {
     const [show2, setShow2] = useState(false);
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
+    const theme = useTheme()
 
     const login = async () => {
         setLoading(true);
@@ -50,7 +47,7 @@ export default function Login() {
     return (
         <>
             <Modal show={show2} onHide={handleClose2} centered>
-                <Modal.Body className='modal_body'>
+                <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
                     <ForgotPassword />
                 </Modal.Body>
             </Modal>
@@ -72,7 +69,6 @@ export default function Login() {
                             Login
                         </h4>
                     </div>
-                    <ThemeProvider theme={darkTheme}>
                     <div className="d-grid gap-2">
                         <TextField
                             label="Email"
@@ -104,7 +100,6 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    </ThemeProvider>
                     <br />
                     <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                         <Button

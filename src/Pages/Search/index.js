@@ -68,6 +68,7 @@ export default function Search() {
     };
 
     useEffect(() => {
+        window.scroll(0, 0)
         setChecked(false)
         fetchSearchMovie();
         fetchSearchTV();
@@ -124,11 +125,11 @@ export default function Search() {
                     {person && value === 2 && person.map((c) => {
                         return c.profile_path &&
                             <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
-                                <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                                <Grid xs={2} sm={4} md={4} key={c.id}><Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }}>
                                     <div className='cast_scroll'>
                                         <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_scroll_image' />
                                         <div style={{ marginTop: '5px' }}>
-                                            <div style={{ fontWeight: '500', color: 'white' }}>{c.name}</div>
+                                            <div style={{ fontWeight: '500' }}>{c.name}</div>
                                         </div>
                                     </div>
                                 </Link></Grid>

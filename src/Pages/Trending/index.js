@@ -5,6 +5,7 @@ import Header from '../../Components/Header';
 import { Link } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Grow from '@mui/material/Grow';
+import { Box, ThemeProvider } from '@mui/material';
 
 export default function Trending() {
 
@@ -20,6 +21,7 @@ export default function Trending() {
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
+  console.log(ThemeProvider)
 
   const fetchNowplaying = async () => {
     const { data } = await axios.get(
@@ -87,6 +89,7 @@ export default function Trending() {
   };
 
   useEffect(() => {
+    window.scroll(0, 0)
     fetchNowplaying();
     fetchPopularmovie();
     fetchPopulartv();
@@ -103,14 +106,23 @@ export default function Trending() {
         <Header />
         <>
           <br />
-          <div className='trending_title'>Now Playing in Theatres<Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres`} className="viewall">View all</Link></div>
+          <div className='trending_title'>
+            Now Playing in Theatres
+            <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres`} className="viewall">
+              View all
+            </Link>
+          </div>
           <div className='trending_scroll'>
             {nowplaying && nowplaying.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="movie" />
             })}
           </div>
           <br />
-          <div className='trending_title'>Upcoming<Link to={`/singlecategory/upcoming/movie/Upcoming`} className="viewall">View all</Link></div>
+          <div className='trending_title'>Upcoming
+            <Link to={`/singlecategory/upcoming/movie/Upcoming`} className="viewall">
+              View all
+            </Link>
+          </div>
           <div className='trending_scroll'>
             {upcoming && upcoming.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="movie" />

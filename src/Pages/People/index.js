@@ -10,6 +10,7 @@ export default function People() {
     const uid = localStorage.getItem('uid')
 
     useEffect(() => {
+        window.scroll(0, 0)
         database.ref(`/Users`).orderByChild('createdAccountOn').on('value', snapshot => {
             let user = []
             snapshot.forEach((snap) => {

@@ -1,30 +1,33 @@
+.login__container {
+  padding: 40px;
+  min-width: 400px;
+  text-align: center;
+}
+
+.login__text>h4 {
+  font-size: 40px;
+}
+
+.login__text {
+  margin-bottom: 30px;
+}
+
+@media screen and (max-width: 990px) {
+  .login__container>img {
+    height: 110px;
+  }
 
   .login__container {
-    background-color: black;
-    padding: 40px;
-    min-width: 400px;
-    text-align: center;
+    padding: 20px;
+    min-width: 320px;
   }
-  .login__text > h4 {
-    font-size: 40px;
+
+  .login__withGoogle>span {
+    font-size: 15px;
+  }
+
+  .login__withGoogle>img {
+    height: 20px !important;
+    margin-right: 10px;
+  }
 }
-  .login__text {
-    margin-bottom: 30px;
-  }
-  
-  @media screen and (max-width: 990px) {
-    .login__container > img {
-        height: 110px;
-    }
-    .login__container {
-        padding: 20px;
-        min-width: 320px;
-    }
-    .login__withGoogle > span {
-        font-size: 15px;
-    }
-    .login__withGoogle > img {
-        height: 20px !important;
-        margin-right: 10px;
-    }
-  }
