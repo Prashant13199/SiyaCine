@@ -48,10 +48,10 @@ export default function NavBarMain() {
         </Modal.Body>
       </Modal>
       <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='top' style={{ height: '50px', padding: '0px 20px' }}>
-        <Navbar.Brand>
+        <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <div style={{ display: 'flex' }}>
-              <img src={logo} height={'35px'} width={'35px'} alt="logo" className="navlink" />
+              <img src={logo} height={'35px'} width={'35px'} alt="logo" />
               <div style={{ fontSize: '25px' }}>
                 <span style={{ fontSize: '18px', marginLeft: '5px', color: theme.palette.text.primary }}>SIYA<strong>CINE</strong></span>
               </div>

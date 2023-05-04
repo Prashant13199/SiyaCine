@@ -116,7 +116,7 @@ export default function Login() {
                         </Button>
                     </div>
                     <div className="d-grid gap-2" style={{ marginTop: "10px", cursor: 'pointer' }}>
-                        <div onClick={() => handleShow2()}>Forgot Password?</div>
+                        <a href="#" onClick={() => handleShow2()} style={{ textDecoration: 'none' }}>Forgot Password?</a>
                     </div>
                     <GoogleSignin />
                 </div>
