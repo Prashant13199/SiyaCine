@@ -5,7 +5,6 @@ import Header from '../../Components/Header';
 import { Link } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Grow from '@mui/material/Grow';
-import { Box, ThemeProvider } from '@mui/material';
 
 export default function Trending() {
 
@@ -21,7 +20,6 @@ export default function Trending() {
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
-  console.log(ThemeProvider)
 
   const fetchNowplaying = async () => {
     const { data } = await axios.get(

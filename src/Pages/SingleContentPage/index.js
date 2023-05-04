@@ -226,14 +226,12 @@ export default function SingleContentPage() {
                 startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
                 className='button'
                 target="__blank"
-                style={{ color: 'white' }}
                 onClick={() => handleShow()}
               >
                 Play Trailer
               </Button>}
               {watchprovider.path && <Button
                 startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
-                style={{ color: 'white' }}
                 className='button'
                 target="__blank"
                 href={watchprovider.link}

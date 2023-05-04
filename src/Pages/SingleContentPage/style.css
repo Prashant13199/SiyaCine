@@ -47,10 +47,6 @@
     display: block;
 }
 
-.button {
-    color: white;
-}
-
 .trailer {
     padding: 30px;
     background-color: black;
@@ -113,5 +109,17 @@
 
     .trailer {
         height: 30vh;
+    }
+
+    .singlecontent_responsive {
+        color: unset;
+    }
+
+    .button {
+        color: unset;
+    }
+
+    .tagline {
+        color: unset;
     }
 }
