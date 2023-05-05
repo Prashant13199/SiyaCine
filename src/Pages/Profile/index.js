@@ -14,6 +14,16 @@ import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
 import Grow from '@mui/material/Grow';
 
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    } else {
+      entry.target.classList.remove('show')
+    }
+  })
+})
+
 export default function Profile() {
 
   const currentuid = localStorage.getItem('uid')
@@ -30,6 +40,9 @@ export default function Profile() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [checked, setChecked] = useState(false);
+
+  const hiddenElements = document.querySelectorAll('.hidden')
+  hiddenElements.forEach((el) => observer.observe(el))
 
   useEffect(() => {
     fetchRecommendation();
@@ -153,37 +166,37 @@ export default function Profile() {
             </div>
           </div>
           {watching.length !== 0 && <><br />
-            <div className='trending_title'>Watching Now</div>
-            <div className='trending_scroll'>
+            <div className='trending_title hidden'>Watching Now</div>
+            <div className='trending_scroll hidden'>
               {watching && watching.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {recommendation.length !== 0 && <><br />
-            <div className='trending_title'>Recommendation</div>
-            <div className='searchresultfor'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
-            <div className='trending_scroll'>
+            <div className='trending_title hidden'>Recommendation</div>
+            <div className='searchresultfor hidden'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
+            <div className='trending_scroll hidden'>
               {recommendation && recommendation.map((data) => {
                 return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
               })}
             </div></>}
           {watchlist.length !== 0 && <><br />
-            <div className='trending_title'>Watchlist</div>
-            <div className='trending_scroll'>
+            <div className='trending_title hidden'>Watchlist</div>
+            <div className='trending_scroll hidden'>
               {watchlist && watchlist.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {favourite.length !== 0 && <><br />
-            <div className='trending_title'>Favourites</div>
-            <div className='trending_scroll'>
+            <div className='trending_title hidden'>Favourites</div>
+            <div className='trending_scroll hidden'>
               {favourite && favourite.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {cast.length !== 0 && <><br />
-            <div className='trending_title'>Favourite Cast</div>
-            <div className='trending_scroll'>
+            <div className='trending_title hidden'>Favourite Cast</div>
+            <div className='trending_scroll hidden'>
               {cast && cast.map((c) => {
                 return <Cast c={c} key={c.id} />
               })}

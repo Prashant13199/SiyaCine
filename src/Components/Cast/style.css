@@ -2,12 +2,13 @@
     margin: 5px;
     transition: transform .2s;
 }
+
 .cast_single:hover {
     transform: scale(0.95);
 }
 
 .cast_image {
-    height: 200px;
+    height: 150px;
     width: auto;
     object-fit: cover;
     border-radius: 10px;

@@ -4,15 +4,18 @@
     position: relative;
     transition: transform .2s;
 }
+
 .User:hover {
     transform: scale(0.95);
 }
+
 .user_image {
     height: 200px;
     width: 100%;
     border-radius: 10px;
     object-fit: cover;
 }
+
 .user_username {
     font-size: 20px;
     font-weight: 500;
@@ -29,6 +32,7 @@
     .user_username {
         font-size: 16px;
     }
+
     .user_image {
         height: 180px;
     }
