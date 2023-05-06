@@ -28,7 +28,7 @@ const observer = new IntersectionObserver((entries) => {
 export default function Profile() {
 
   const currentuid = localStorage.getItem('uid')
-  const [currentusername, setCurrentUsername] = useState('')
+  const currentusername = localStorage.getItem('username')
   const [currentPhoto, setCurrentPhoto] = useState('')
   const [watchlist, setWatchlist] = useState([])
   const [favourite, setFavourite] = useState([])
@@ -94,7 +94,6 @@ export default function Profile() {
 
   useEffect(() => {
     database.ref(`/Users/${currentuid}`).on('value', snapshot => {
-      setCurrentUsername(snapshot.val()?.username)
       setCurrentPhoto(snapshot.val()?.photo)
     })
   }, [])
@@ -166,15 +165,15 @@ export default function Profile() {
                   <div style={{ position: 'relative', width: 'fit-content' }}>
                     <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
                     <div style={{ position: 'absolute', left: 5, bottom: 5 }}>
-                      <IconButton style={{ backgroundColor: 'gray' }}><CreateIcon fontSize='small' onClick={() => handleShow()} /></IconButton>
+                      <IconButton style={{ backgroundColor: theme.palette.background.default }}><CreateIcon fontSize='small' onClick={() => handleShow()} /></IconButton>
                     </div>
                     {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 5, bottom: 5 }}>
-                      <IconButton style={{ backgroundColor: 'red', marginRight: '10px' }}><DeleteIcon fontSize='small' onClick={() => removePicture()} /></IconButton>
+                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginRight: '10px' }}><DeleteIcon fontSize='small' onClick={() => removePicture()} /></IconButton>
                     </div>}
                   </div>
                   <div className="profile_actions">
                     <div className='profile_username'>{currentusername ? currentusername.length > 15 ? currentusername.substring(0, 15).concat('...') : currentusername : 'Loading...'}</div>
-                    &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: 'gray' }}><LogoutIcon /></IconButton>
+                    &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon /></IconButton>
                   </div>
                 </div>
               </div>

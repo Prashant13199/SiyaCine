@@ -34,7 +34,7 @@ export default function SingleContentScroll({ data, type, by, id }) {
         />
         {by && <div className='user'>
           <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => removeSuggestion()} />
-          {by.length > 15 ? by.substring(0, 15).concat('...') : by}
+          {by}
         </div>}
       </div>
     </Grow>
