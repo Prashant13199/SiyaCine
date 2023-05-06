@@ -309,9 +309,11 @@ export default function SingleContentPage() {
   return (
     <>
       <Modal show={show} onHide={handleClose} centered size="xl">
-        <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default, borderRadius: '10px' }}>
-          <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls />
+        <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default }}>
           <IconButton onClick={() => handleClose()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          <div style={{ height: '100%', width: '100%' }}>
+            <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls />
+          </div>
         </Modal.Body>
       </Modal>
       <Modal show={show2} onHide={handleClose2} centered>

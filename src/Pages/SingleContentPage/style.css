@@ -12,7 +12,7 @@
 
 .singlecontent_responsive {
     display: flex;
-    padding: 40px;
+    padding: 25px;
     color: white;
 }
 
@@ -48,9 +48,9 @@
 }
 
 .trailer {
-    padding: 30px;
     height: 80vh;
-    border-radius: 6px;
+    padding: 0px;
+    position: relative;
 }
 
 .watchprovider {
@@ -93,10 +93,6 @@
 }
 
 @media only screen and (max-width: 880px) {
-    .singlecontent {
-        margin-top: 60px;
-    }
-
     .singlecontent_responsive {
         display: grid;
         padding: 0;

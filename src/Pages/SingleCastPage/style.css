@@ -2,6 +2,7 @@
     display: flex;
     padding: 10px 80px;
 }
+
 .readmore {
     color: gray;
     font-size: 12px;
@@ -13,8 +14,5 @@
     .singlecontent_responsive_cast {
         display: grid;
         padding: 0;
-    }
-    .singlecastpage {
-        margin-top: 60px;
     }
 }
