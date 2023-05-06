@@ -19,6 +19,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import StarIcon from '@mui/icons-material/Star';
 import Review from '../../Components/review';
 import Grow from '@mui/material/Grow';
+import SendIcon from '@mui/icons-material/Send';
+import { useTheme } from '@mui/material';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -39,6 +43,7 @@ export default function SingleContentPage() {
   const [similar, setSimilar] = useState([])
   const [video, setVideo] = useState();
   const uid = localStorage.getItem('uid')
+  const currentusername = localStorage.getItem('username')
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
   const [watching, setWatching] = useState(false)
@@ -47,8 +52,14 @@ export default function SingleContentPage() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [show2, setShow2] = useState(false);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
   const [readMore, setReadMore] = useState(false)
   const [checked, setChecked] = React.useState(false);
+  const [users, setUsers] = useState([])
+  const theme = useTheme()
+  const [snackBar, setSnackBar] = useState(false)
 
   useEffect(() => {
     document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
@@ -77,6 +88,16 @@ export default function SingleContentPage() {
       } else {
         setWatching(false)
       }
+    })
+
+    database.ref(`/Users`).on('value', snapshot => {
+      let user = []
+      snapshot.forEach((snap) => {
+        if (snap.key !== uid) {
+          user.push(snap.val())
+        }
+      })
+      setUsers(user)
     })
 
   }, [id])
@@ -192,6 +213,15 @@ export default function SingleContentPage() {
     }
   }
 
+  const handleSend = (user) => {
+    database.ref(`/Users/${user}/suggestions/${id}`).update({
+      type: type, data: data, id: id, by: currentusername
+    }).then(() => {
+      handleClose2()
+      setSnackBar(true)
+    }).catch((e) => { console.log(e) })
+  }
+
   const render = (
     <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
       <div className='singlecontent_responsive'>
@@ -233,6 +263,11 @@ export default function SingleContentPage() {
                   {watching ? <PlayCircleOutlineIcon style={{ color: 'orange' }} /> : <PlayCircleOutlineIcon style={{ color: 'white' }} />}
                 </IconButton>
               </Tooltip>
+              <Tooltip title="Share">
+                <IconButton style={{ backgroundColor: '#3385ff', marginLeft: '10px' }} onClick={() => handleShow2()}>
+                  <SendIcon style={{ color: 'white' }} />
+                </IconButton>
+              </Tooltip>
             </div>}
             <div className='watchprovider'>
               {video && <Button
@@ -240,6 +275,7 @@ export default function SingleContentPage() {
                 className='button'
                 target="__blank"
                 onClick={() => handleShow()}
+                variant='filled'
               >
                 Play Trailer
               </Button>}
@@ -248,6 +284,7 @@ export default function SingleContentPage() {
                 className='button'
                 target="__blank"
                 href={watchprovider.link}
+                variant='filled'
               >
                 Available Now
               </Button>}
@@ -272,11 +309,44 @@ export default function SingleContentPage() {
   return (
     <>
       <Modal show={show} onHide={handleClose} centered size="xl">
-        <Modal.Body className='trailer'>
+        <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default, borderRadius: '10px' }}>
           <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls />
           <IconButton onClick={() => handleClose()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
         </Modal.Body>
       </Modal>
+      <Modal show={show2} onHide={handleClose2} centered>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default, maxHeight: '60vh', overflowY: 'auto', borderRadius: '10px' }}>
+          <IconButton onClick={() => handleClose2()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          <h2>Share To</h2>
+          {users && users.map((user) => {
+            return <div className='share_user' onClick={() => handleSend(user.uid)}>
+              <div>
+                <img src={user.photo} className="share_user_image" />
+              </div>
+              <div className='share_user_username'>
+                {user.username.length > 25 ? user.username.substring(0, 25).concat('...') : user.username}
+              </div>
+            </div>
+          })}
+        </Modal.Body>
+      </Modal>
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={snackBar}
+        onClose={() => setSnackBar(false)}
+        autoHideDuration={2000}
+        action={<IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={() => setSnackBar(false)}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>}
+      ><Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Suggestion sent!
+        </Alert></Snackbar>
 
       <div className='pc'>
         <div style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${data.backdrop_path})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>

@@ -49,7 +49,6 @@
 
 .trailer {
     padding: 30px;
-    background-color: black;
     height: 80vh;
     border-radius: 6px;
 }
@@ -69,6 +68,28 @@
 
 .single_review {
     margin: 10px;
+}
+
+.share_user {
+    display: flex;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.share_user_image {
+    height: 30px;
+    width: 30px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.share_user_username {
+    opacity: 0.8;
+    margin-left: 10px;
+}
+
+.share_user_username:hover {
+    opacity: 1;
 }
 
 @media only screen and (max-width: 880px) {
@@ -112,10 +133,6 @@
     }
 
     .singlecontent_responsive {
-        color: unset;
-    }
-
-    .button {
         color: unset;
     }
 

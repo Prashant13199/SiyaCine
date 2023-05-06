@@ -15,6 +15,7 @@ export default function GoogleSignin() {
       database.ref(`/Users/${userBySignIn.uid}`).on("value", (snapshot) => {
         if (snapshot.val()) {
           localStorage.setItem("uid", userBySignIn.uid);
+          localStorage.setItem('username', userBySignIn.email.replace("@gmail.com", ""))
           setLoading(false);
           window.location.reload()
         } else {
@@ -30,6 +31,7 @@ export default function GoogleSignin() {
             })
             .then(() => {
               localStorage.setItem("uid", userBySignIn.uid);
+              localStorage.setItem('username', userBySignIn.email.replace("@gmail.com", ""))
               setLoading(false);
               window.location.reload()
             })

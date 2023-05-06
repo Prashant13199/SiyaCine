@@ -11,6 +11,10 @@
     transform: scale(0.95);
 }
 
+.user {
+    text-align: center;
+}
+
 @media only screen and (max-width: 600px) {
     .poster_scroll {
         height: 200px;

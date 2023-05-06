@@ -49,43 +49,44 @@ export default function UserProfile() {
   }, [favourite.length])
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
+      setWatchlist(arr)
     })
-    setWatchlist(arr)
   }, [uid])
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${uid}/favourites`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
+      setFavourite(arr)
     })
-    setFavourite(arr)
   }, [uid])
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${uid}/watching`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
+      setWatching(arr)
     })
-    setWatching(arr)
   }, [uid])
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${uid}/cast`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data })
       })
+      setCast(arr)
     })
-    setCast(arr)
+
   }, [uid])
 
   return (

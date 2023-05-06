@@ -42,6 +42,7 @@ export default function Profile() {
   const handleShow = () => setShow(true);
   const [checked, setChecked] = useState(false);
   const theme = useTheme()
+  const [suggestions, setSuggestions] = useState([])
 
   useEffect(() => {
     document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
@@ -99,43 +100,54 @@ export default function Profile() {
   }, [])
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${currentuid}/watchlist`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
+      setWatchlist(arr)
     })
-    setWatchlist(arr)
   }, [])
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${currentuid}/favourites`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
+      setFavourite(arr)
     })
-    setFavourite(arr)
+
   }, [])
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${currentuid}/watching`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
+      setWatching(arr)
     })
-    setWatching(arr)
   }, [])
 
   useEffect(() => {
-    let arr = []
     database.ref(`/Users/${currentuid}/cast`).on('value', snapshot => {
+      let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data })
       })
+      setCast(arr)
     })
-    setCast(arr)
+  }, [])
+
+  useEffect(() => {
+    database.ref(`/Users/${currentuid}/suggestions`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, by: snap.val().by })
+      })
+      setSuggestions(arr)
+    })
   }, [])
 
   return (
@@ -175,6 +187,13 @@ export default function Profile() {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
+          {watchlist.length !== 0 && <><br />
+            <div className='trending_title hidden'>Watchlist</div>
+            <div className='trending_scroll hidden'>
+              {watchlist && watchlist.map((data) => {
+                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              })}
+            </div></>}
           {recommendation.length !== 0 && <><br />
             <div className='trending_title hidden'>Recommendation</div>
             <div className='searchresultfor hidden'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
@@ -183,11 +202,13 @@ export default function Profile() {
                 return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
               })}
             </div></>}
-          {watchlist.length !== 0 && <><br />
-            <div className='trending_title hidden'>Watchlist</div>
+          {suggestions.length !== 0 && <><br />
+            <div className='trending_title hidden'>Suggestions</div>
             <div className='trending_scroll hidden'>
-              {watchlist && watchlist.map((data) => {
-                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              {suggestions && suggestions.map((data) => {
+                return <div>
+                  <SingleContentScroll data={data.data} key={data.id} type={data.type} by={data.by} id={data.id} />
+                </div>
               })}
             </div></>}
           {favourite.length !== 0 && <><br />
