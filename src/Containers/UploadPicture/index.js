@@ -117,14 +117,14 @@ export default function UploadPicture({ handleClose }) {
         <div className="createPost__loggedInBottom">
           {!image && (
             <center>
-                <br />
+              <br />
               <div
                 className="createPost__imageUpload"
                 style={{ textAlign: "center" }}
               >
 
                 <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
-                  <AddAPhotoIcon style={{ fontSize: "60px", color: 'white' }} />
+                  <AddAPhotoIcon style={{ fontSize: "60px" }} />
                 </label>
 
                 <input

@@ -29,8 +29,9 @@ export default function UserProfile() {
   const [number, setNumber] = useState(null)
   const [checked, setChecked] = useState(false);
 
-  const hiddenElements = document.querySelectorAll('.hidden')
-  hiddenElements.forEach((el) => observer.observe(el))
+  useEffect(() => {
+    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
+  })
 
   useEffect(() => {
     database.ref(`/Users/${uid}`).on('value', snapshot => {

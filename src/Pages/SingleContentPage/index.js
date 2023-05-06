@@ -20,6 +20,16 @@ import StarIcon from '@mui/icons-material/Star';
 import Review from '../../Components/review';
 import Grow from '@mui/material/Grow';
 
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    } else {
+      entry.target.classList.remove('show')
+    }
+  })
+})
+
 export default function SingleContentPage() {
 
   const { id, type } = useParams()
@@ -41,7 +51,10 @@ export default function SingleContentPage() {
   const [checked, setChecked] = React.useState(false);
 
   useEffect(() => {
+    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
+  })
 
+  useEffect(() => {
     database.ref(`/Users/${uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
@@ -277,8 +290,8 @@ export default function SingleContentPage() {
           {render}
         </div>
         <div className='pc'><br /></div>
-        {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>
-          <div className='cast'>
+        {credit.cast && credit.cast.length !== 0 && <><div className='trending_title hidden'>Cast</div>
+          <div className='cast hidden'>
             {credit && credit.cast.map((c) => {
               return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
                 <div className='cast_single' key={c.id}>
@@ -292,26 +305,26 @@ export default function SingleContentPage() {
             })}
           </div></>}
         {similar.length !== 0 && <><br />
-          <div className='trending_title'>Similar</div>
-          <div className='trending_scroll'>
+          <div className='trending_title hidden'>Similar</div>
+          <div className='trending_scroll hidden'>
             {similar && similar.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={type} />
             })}
           </div>
         </>}
         {recommendations.length !== 0 && <><br />
-          <div className='trending_title'>Recommendations</div>
-          <div className='trending_scroll'>
+          <div className='trending_title hidden'>Recommendations</div>
+          <div className='trending_scroll hidden'>
             {recommendations && recommendations.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={type} />
             })}
           </div>
         </>}
         {reviews.length !== 0 && <><br />
-          <div className='trending_title'>Reviews</div>
-          <div className='reviews'>
+          <div className='trending_title hidden'>Reviews</div>
+          <div className='reviews hidden'>
             {reviews && reviews.map((data) => {
-              return <div className='single_review' key={data.id}>
+              return <div className='single_review hidden' key={data.id}>
                 <div style={{ fontWeight: '600', fontSize: '18px' }}>{data.author_details.username}</div>
                 <Review review={data.content} />
               </div>

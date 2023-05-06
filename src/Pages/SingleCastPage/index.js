@@ -9,6 +9,16 @@ import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Grow from '@mui/material/Grow';
 
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+    } else {
+      entry.target.classList.remove('show')
+    }
+  })
+})
+
 export default function SingleCastPage() {
 
   const { id } = useParams()
@@ -20,6 +30,10 @@ export default function SingleCastPage() {
   const [readMore, setReadMore] = useState(false)
   const [checked, setChecked] = useState(false);
   const [switchC, setSwitchC] = useState(0)
+
+  useEffect(() => {
+    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
+  })
 
   useEffect(() => {
     database.ref(`/Users/${uid}/cast/${id}`).on('value', snapshot => {
@@ -112,13 +126,13 @@ export default function SingleCastPage() {
           </div>
         </div>
         <br />
-        <div className='trending_title'><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
+        <div className='trending_title hidden'><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
           <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
           <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
         </div>
         </div>
         <div style={{ marginTop: '10px' }}></div>
-        <div className='trending_scroll'>
+        <div className='trending_scroll hidden'>
           {movie && switchC === 0 && movie.map((data) => {
             return <SingleContentScroll data={data} key={data.id} type="movie" />
           })}

@@ -13,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
 import Grow from '@mui/material/Grow';
+import { useTheme } from '@mui/material';
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -40,9 +41,11 @@ export default function Profile() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [checked, setChecked] = useState(false);
+  const theme = useTheme()
 
-  const hiddenElements = document.querySelectorAll('.hidden')
-  hiddenElements.forEach((el) => observer.observe(el))
+  useEffect(() => {
+    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
+  })
 
   useEffect(() => {
     fetchRecommendation();
@@ -137,8 +140,8 @@ export default function Profile() {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered>
-        <Modal.Body className='modal_body'>
+      <Modal show={show} onHide={handleClose} centered >
+        <Modal.Body className='modal_body' style={{ backgroundColor: theme.palette.background.default }}>
           <UploadPicture handleClose={handleClose} />
         </Modal.Body>
       </Modal>

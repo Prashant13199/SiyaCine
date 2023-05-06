@@ -31,8 +31,9 @@ export default function Trending() {
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
 
-  const hiddenElements = document.querySelectorAll('.hidden')
-  hiddenElements.forEach((el) => observer.observe(el))
+  useEffect(() => {
+    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
+  })
 
   const fetchNowplaying = async () => {
     const { data } = await axios.get(
