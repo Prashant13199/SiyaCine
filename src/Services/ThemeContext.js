@@ -1,19 +1,13 @@
 import * as React from 'react';
-import { createTheme } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+export const ColorModeContext = React.createContext();
 
 export default function ThemeContext(props) {
-    const ColorModeContext = React.createContext({ toggleColorMode: () => { } });
-
-    const [mode, setMode] = React.useState < 'light' | 'dark' > ('light');
-    const colorMode = React.useMemo(
-        () => ({
-            toggleColorMode: () => {
-                setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-            },
-        }),
-        [],
-    );
-
+    const [mode, setMode] = React.useState('light');
+    const toggleColorMode = () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+    }
     const theme = React.useMemo(
         () =>
             createTheme({
@@ -23,10 +17,11 @@ export default function ThemeContext(props) {
             }),
         [mode],
     );
-
     return (
-        <ColorModeContext.Provider value={colorMode}>
-            {props.children}
+        <ColorModeContext.Provider value={toggleColorMode}>
+            <ThemeProvider theme={theme}>
+                {props.children}
+            </ThemeProvider>
         </ColorModeContext.Provider>
     );
 }

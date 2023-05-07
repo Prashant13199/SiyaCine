@@ -17,25 +17,12 @@ import { useEffect, useState } from 'react';
 import logo from '../src/assets/logo.png'
 import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import CssBaseline from '@mui/material/CssBaseline';
 
 function App() {
 
   const [loading, setLoading] = useState(true)
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? 'dark' : 'light',
-        },
-      }),
-    [prefersDarkMode],
-  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -44,38 +31,36 @@ function App() {
   }, [])
 
   return (
-    <ThemeProvider theme={theme}>
-      <LoadingScreen
-        loading={loading}
-        bgColor='background.default'
-        spinnerColor='#9ee5f8'
-        textColor='#676767'
-        logoSrc={logo}
-      >
-        <BrowserRouter>
-          <div className="App">
-            <Box sx={{ bgcolor: 'background.default', color: 'text.primary', minHeight: '100vh' }}>
-              <Box sx={{ flexGrow: 1, marginY: 6, marginX: 2, paddingY: 2 }}>
-                <NavBarMain />
-                <CssBaseline />
-                <Switch>
-                  <Route path="/" component={Trending} exact />
-                  <Route path="/movies" component={Movies} />
-                  <Route path="/tv" component={TV} />
-                  <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
-                  <Route path="/search" component={Search} />
-                  <Route path="/profile" component={Profile} />
-                  <Route path="/people" component={People} />
-                  <Route path="/user/:uid" component={UserProfile} />
-                  <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
-                  <Route path="/singlecast/:id" component={SingleCastPage} />
-                </Switch>
-              </Box>
+    <LoadingScreen
+      loading={loading}
+      bgColor='background.default'
+      spinnerColor='#9ee5f8'
+      textColor='#676767'
+      logoSrc={logo}
+    >
+      <BrowserRouter>
+        <div className="App">
+          <Box sx={{ bgcolor: 'background.default', color: 'text.primary', minHeight: '100vh' }}>
+            <Box sx={{ flexGrow: 1, marginY: 6, marginX: 2, paddingY: 2 }}>
+              <NavBarMain />
+              <CssBaseline />
+              <Switch>
+                <Route path="/" component={Trending} exact />
+                <Route path="/movies" component={Movies} />
+                <Route path="/tv" component={TV} />
+                <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
+                <Route path="/search" component={Search} />
+                <Route path="/profile" component={Profile} />
+                <Route path="/people" component={People} />
+                <Route path="/user/:uid" component={UserProfile} />
+                <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
+                <Route path="/singlecast/:id" component={SingleCastPage} />
+              </Switch>
             </Box>
-          </div>
-        </BrowserRouter>
-      </LoadingScreen>
-    </ThemeProvider>
+          </Box>
+        </div>
+      </BrowserRouter>
+    </LoadingScreen>
   );
 }
 
