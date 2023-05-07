@@ -1,6 +1,6 @@
 .hidden {
     opacity: 0;
-    transform: translateX(20%);
+    transform: translateX(50%);
     filter: blur(2px);
     transition: all 1s;
 }
@@ -9,4 +9,8 @@
     opacity: 1;
     filter: blur(0);
     transform: translateX(0);
+}
+
+.App {
+    overflow-x: hidden;
 }
