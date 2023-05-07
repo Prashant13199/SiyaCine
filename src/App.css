@@ -1,4 +1,4 @@
-.hidden {
+/* .hidden {
     opacity: 0;
     transform: translateX(50%);
     filter: blur(2px);
@@ -13,4 +13,4 @@
 
 .App {
     overflow-x: hidden;
-}
+} */

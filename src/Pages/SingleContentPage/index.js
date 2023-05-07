@@ -23,16 +23,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { useTheme } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    } else {
-      entry.target.classList.remove('show')
-    }
-  })
-})
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function SingleContentPage() {
 
@@ -60,9 +52,10 @@ export default function SingleContentPage() {
   const [users, setUsers] = useState([])
   const theme = useTheme()
   const [snackBar, setSnackBar] = useState(false)
+  const [name, setName] = useState('')
 
   useEffect(() => {
-    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
+    AOS.init({ duration: 800, })
   })
 
   useEffect(() => {
@@ -321,7 +314,11 @@ export default function SingleContentPage() {
           <IconButton onClick={() => handleClose2()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <h2>Share To</h2>
           {users && users.map((user) => {
-            return <div className='share_user' onClick={() => handleSend(user.uid)}>
+            return <div className='share_user' onClick={() => {
+              handleSend(user.uid)
+              setName(user.username)
+            }
+            }>
               <div>
                 <img src={user.photo} className="share_user_image" />
               </div>
@@ -334,7 +331,7 @@ export default function SingleContentPage() {
       </Modal>
 
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={snackBar}
         onClose={() => setSnackBar(false)}
         autoHideDuration={2000}
@@ -346,8 +343,12 @@ export default function SingleContentPage() {
         >
           <CloseIcon fontSize="small" />
         </IconButton>}
-      ><Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Suggestion sent!
+      ><Alert onClose={() => {
+        handleClose()
+        setName('')
+      }
+      } severity="success" sx={{ width: '100%' }}>
+          Suggested to {name && name.length > 12 ? name.substring(0, 12).concat('...') : name}!
         </Alert></Snackbar>
 
       <div className='pc'>
@@ -362,8 +363,8 @@ export default function SingleContentPage() {
           {render}
         </div>
         <div className='pc'><br /></div>
-        {credit.cast && credit.cast.length !== 0 && <><div className='trending_title hidden'>Cast</div>
-          <div className='cast hidden'>
+        {credit.cast && credit.cast.length !== 0 && <><div className='trending_title' data-aos="fade-right">Cast</div>
+          <div className='cast' data-aos="fade-left">
             {credit && credit.cast.map((c) => {
               return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
                 <div className='cast_single' key={c.id}>
@@ -377,26 +378,26 @@ export default function SingleContentPage() {
             })}
           </div></>}
         {similar.length !== 0 && <><br />
-          <div className='trending_title hidden'>Similar</div>
-          <div className='trending_scroll hidden'>
+          <div className='trending_title' data-aos="fade-right">Similar</div>
+          <div className='trending_scroll' data-aos="fade-left">
             {similar && similar.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={type} />
             })}
           </div>
         </>}
         {recommendations.length !== 0 && <><br />
-          <div className='trending_title hidden'>Recommendations</div>
-          <div className='trending_scroll hidden'>
+          <div className='trending_title' data-aos="fade-right">Recommendations</div>
+          <div className='trending_scroll' data-aos="fade-left">
             {recommendations && recommendations.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={type} />
             })}
           </div>
         </>}
         {reviews.length !== 0 && <><br />
-          <div className='trending_title hidden'>Reviews</div>
-          <div className='reviews hidden'>
+          <div className='trending_title' data-aos="fade-right">Reviews</div>
+          <div className='reviews'>
             {reviews && reviews.map((data) => {
-              return <div className='single_review hidden' key={data.id}>
+              return <div className='single_review' data-aos="fade-left" key={data.id}>
                 <div style={{ fontWeight: '600', fontSize: '18px' }}>{data.author_details.username}</div>
                 <Review review={data.content} />
               </div>

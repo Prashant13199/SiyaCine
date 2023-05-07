@@ -8,16 +8,8 @@ import { database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Grow from '@mui/material/Grow';
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    } else {
-      entry.target.classList.remove('show')
-    }
-  })
-})
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function SingleCastPage() {
 
@@ -32,7 +24,7 @@ export default function SingleCastPage() {
   const [switchC, setSwitchC] = useState(0)
 
   useEffect(() => {
-    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
+    AOS.init({ duration: 800, })
   })
 
   useEffect(() => {
@@ -126,13 +118,13 @@ export default function SingleCastPage() {
           </div>
         </div>
         <br />
-        <div className='trending_title hidden'><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
+        <div className='trending_title' data-aos="fade-right"><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
           <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
           <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
         </div>
         </div>
         <div style={{ marginTop: '10px' }}></div>
-        <div className='trending_scroll hidden'>
+        <div className='trending_scroll' data-aos="fade-left">
           {movie && switchC === 0 && movie.map((data) => {
             return <SingleContentScroll data={data} key={data.id} type="movie" />
           })}

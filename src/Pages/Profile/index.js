@@ -12,18 +12,10 @@ import UploadPicture from '../../Containers/UploadPicture';
 import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
-import Grow from '@mui/material/Grow';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 import { useTheme } from '@mui/material';
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('show');
-    } else {
-      entry.target.classList.remove('show')
-    }
-  })
-})
+import Grow from '@mui/material/Grow';
 
 export default function Profile() {
 
@@ -45,7 +37,7 @@ export default function Profile() {
   const [suggestions, setSuggestions] = useState([])
 
   useEffect(() => {
-    document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
+    AOS.init({ duration: 800, })
   })
 
   useEffect(() => {
@@ -180,30 +172,30 @@ export default function Profile() {
             </div>
           </div>
           {watching.length !== 0 && <><br />
-            <div className='trending_title hidden'>Watching Now</div>
-            <div className='trending_scroll hidden'>
+            <div className='trending_title' data-aos="fade-right">Watching Now</div>
+            <div className='trending_scroll' data-aos="fade-left">
               {watching && watching.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {watchlist.length !== 0 && <><br />
-            <div className='trending_title hidden'>Watchlist</div>
-            <div className='trending_scroll hidden'>
+            <div className='trending_title' data-aos="fade-right">Watchlist</div>
+            <div className='trending_scroll' data-aos="fade-left">
               {watchlist && watchlist.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {recommendation.length !== 0 && <><br />
-            <div className='trending_title hidden'>Recommendation</div>
-            <div className='searchresultfor hidden'>Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
-            <div className='trending_scroll hidden'>
+            <div className='trending_title' data-aos="fade-right">Recommendation</div>
+            <div className='searchresultfor' data-aos="fade-right">Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
+            <div className='trending_scroll' data-aos="fade-left">
               {recommendation && recommendation.map((data) => {
                 return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
               })}
             </div></>}
           {suggestions.length !== 0 && <><br />
-            <div className='trending_title hidden'>Suggestions</div>
-            <div className='trending_scroll hidden'>
+            <div className='trending_title' data-aos="fade-right">Suggestions</div>
+            <div className='trending_scroll' data-aos="fade-left">
               {suggestions && suggestions.map((data) => {
                 return <div>
                   <SingleContentScroll data={data.data} key={data.id} type={data.type} by={data.by} id={data.id} />
@@ -211,15 +203,15 @@ export default function Profile() {
               })}
             </div></>}
           {favourite.length !== 0 && <><br />
-            <div className='trending_title hidden'>Favourites</div>
-            <div className='trending_scroll hidden'>
+            <div className='trending_title' data-aos="fade-right">Favourites</div>
+            <div className='trending_scroll' data-aos="fade-left">
               {favourite && favourite.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {cast.length !== 0 && <><br />
-            <div className='trending_title hidden'>Favourite Cast</div>
-            <div className='trending_scroll hidden'>
+            <div className='trending_title' data-aos="fade-right">Favourite Cast</div>
+            <div className='trending_scroll' data-aos="fade-left">
               {cast && cast.map((c) => {
                 return <Cast c={c} key={c.id} />
               })}
