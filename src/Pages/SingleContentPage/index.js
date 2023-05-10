@@ -5,7 +5,7 @@ import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { IconButton } from '@mui/material';
+import { IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -25,6 +25,8 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function SingleContentPage() {
 
@@ -41,18 +43,31 @@ export default function SingleContentPage() {
   const [watching, setWatching] = useState(false)
   const [recommendations, setRecommendations] = useState([])
   const [reviews, setReviews] = useState([])
+  const [reviews2, setReviews2] = useState([])
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+  const [show3, setShow3] = useState(false);
+  const handleClose3 = () => setShow3(false);
+  const handleShow3 = () => setShow3(true);
   const [readMore, setReadMore] = useState(false)
   const [checked, setChecked] = React.useState(false);
   const [users, setUsers] = useState([])
   const theme = useTheme()
   const [snackBar, setSnackBar] = useState(false)
   const [name, setName] = useState('')
+  const [review, setReview] = useState('')
+
+  const getUsername = (id) => {
+    let name = ""
+    database.ref(`/Users/${id}`).on('value', snapshot => {
+      name = snapshot.val()?.username
+    })
+    return name;
+  }
 
   useEffect(() => {
     AOS.init({ duration: 800, })
@@ -91,6 +106,14 @@ export default function SingleContentPage() {
         }
       })
       setUsers(user)
+    })
+
+    database.ref(`/Reviews/${id}`).on('value', snapshot => {
+      let data = []
+      snapshot.forEach((snap) => {
+        data.push(snap.val())
+      })
+      setReviews2(data)
     })
 
   }, [id])
@@ -215,6 +238,23 @@ export default function SingleContentPage() {
     }).catch((e) => { console.log(e) })
   }
 
+  const handleAddReview = () => {
+    database.ref(`/Reviews/${id}/${uid}`).update({
+      review: review, timestamp: Date.now(), uid: uid
+    }).then(() => {
+      console.log("Review added")
+      setReview('')
+      handleClose3()
+    }
+    ).catch((e) => console.log(e))
+  }
+
+  const removeReview = () => {
+    database.ref(`/Reviews/${id}/${uid}`).remove()
+      .then(() => console.log('Review Removed'))
+      .catch((e) => console.log(e))
+  }
+
   const render = (
     <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
       <div className='singlecontent_responsive'>
@@ -329,6 +369,24 @@ export default function SingleContentPage() {
           })}
         </Modal.Body>
       </Modal>
+      <Modal show={show3} onHide={handleClose3} centered>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default, borderRadius: '10px' }}>
+          <IconButton onClick={() => handleClose3()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          <div style={{ margin: '10px 0px' }}>
+            <TextField
+              fullWidth
+              id="standard-multiline-static"
+              label="Add you review"
+              multiline
+              rows={10}
+              variant="standard"
+              value={review}
+              onChange={(e) => setReview(e.target.value)}
+            />
+          </div>
+          <Button fullWidth variant="contained" onClick={() => handleAddReview()}>Review</Button>
+        </Modal.Body>
+      </Modal>
 
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -393,19 +451,33 @@ export default function SingleContentPage() {
             })}
           </div>
         </>}
-        {reviews.length !== 0 && <><br />
-          <div className='trending_title' data-aos="fade-right">Reviews</div>
-          <div className='reviews'>
-            {reviews && reviews.map((data) => {
-              return <div className='single_review' data-aos="fade-left" key={data.id}>
-                <div style={{ fontWeight: '600', fontSize: '18px' }}>{data.author_details.username}</div>
-                <Review review={data.content} />
-              </div>
-            })}
+        <br />
+        <div className='trending_title' data-aos="fade-right" style={{ display: 'flex', justifyContent: 'space-between' }}>
+          Reviews
+          <div onClick={() => handleShow3()} className='addreview'>
+            <AddCircleOutlineIcon fontSize='small' />&nbsp;Add Review
           </div>
-        </>}
-
+        </div>
+        <div className='reviews'>
+          {reviews2 && reviews2.map((data) => {
+            return <div className='single_review' data-aos="fade-left" key={data.uid}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Link to={data.uid === uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
+                {data.uid === uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
+              </div>
+              <Review review={data.review} />
+            </div>
+          })}
+          {reviews && reviews.map((data) => {
+            return <div className='single_review' data-aos="fade-left" key={data.id}>
+              <div style={{ fontWeight: '600', fontSize: '18px' }}>{data.author_details.username}</div>
+              <Review review={data.content} />
+            </div>
+          })}
+          {reviews.length === 0 && reviews2.length === 0 && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>No Reviews</div>}
+        </div>
       </div>
+      <br /><br /><br /><br />
     </>
   )
 }

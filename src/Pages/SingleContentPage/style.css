@@ -93,6 +93,19 @@
     opacity: 1;
 }
 
+.addreview {
+    font-size: 14px;
+    cursor: pointer;
+    margin-left: 10px;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+}
+
+.addreview:hover {
+    opacity: 1;
+}
+
 @media only screen and (max-width: 880px) {
     .singlecontent_responsive {
         display: grid;
