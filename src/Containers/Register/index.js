@@ -35,8 +35,6 @@ export default function Register() {
             })
                 .then(() => {
                     setLoading(false);
-                    localStorage.setItem('uid', user.user.uid)
-                    localStorage.setItem('username', email.replace("@gmail.com", ""))
                     window.location.reload()
                 })
                 .catch((e) => {

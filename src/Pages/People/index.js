@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import './style.css'
-import { database } from '../../firebase'
+import { database, auth } from '../../firebase'
 import User from '../../Components/User'
 import Grid from '@mui/material/Unstable_Grid2';
 
 export default function People() {
 
     const [users, setUsers] = useState([])
-    const uid = localStorage.getItem('uid')
 
     useEffect(() => {
         window.scroll(0, 0)
         database.ref(`/Users`).orderByChild('createdAccountOn').on('value', snapshot => {
             let user = []
             snapshot.forEach((snap) => {
-                if (snap.val().uid !== uid)
+                if (snap.val().uid !== auth?.currentUser?.uid)
                     user.push({ data: snap.val() })
             })
             setUsers(user)

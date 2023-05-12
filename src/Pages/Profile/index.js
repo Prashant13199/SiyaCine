@@ -19,9 +19,8 @@ import Grow from '@mui/material/Grow';
 
 export default function Profile() {
 
-  const currentuid = localStorage.getItem('uid')
-  const currentusername = localStorage.getItem('username')
   const [currentPhoto, setCurrentPhoto] = useState('')
+  const [currentusername, setCurrentusername] = useState('')
   const [watchlist, setWatchlist] = useState([])
   const [favourite, setFavourite] = useState([])
   const [watching, setWatching] = useState([])
@@ -55,7 +54,6 @@ export default function Profile() {
   const signOut = () => {
     auth.signOut().then(() => {
       history.push('/')
-      localStorage.clear()
       window.location.reload()
     })
   }
@@ -72,7 +70,7 @@ export default function Profile() {
     } catch (e) {
       console.log(e);
     }
-    database.ref(`/Users/${currentuid}`).update({ photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}` }).then(() => {
+    database.ref(`/Users/${auth?.currentUser?.uid}`).update({ photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}` }).then(() => {
       console.log('Picture removed')
     });
   }
@@ -85,13 +83,14 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
       setCurrentPhoto(snapshot.val()?.photo)
+      setCurrentusername(snapshot.val()?.username)
     })
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/watchlist`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
@@ -101,7 +100,7 @@ export default function Profile() {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/favourites`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
@@ -112,7 +111,7 @@ export default function Profile() {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/watching`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
@@ -122,7 +121,7 @@ export default function Profile() {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/cast`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/cast`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data })
@@ -132,7 +131,7 @@ export default function Profile() {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/suggestions`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/suggestions`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, by: snap.val().by })

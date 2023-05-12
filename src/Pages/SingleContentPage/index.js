@@ -9,7 +9,7 @@ import { IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
-import { database } from '../../firebase'
+import { database, auth } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { Link } from 'react-router-dom';
@@ -36,8 +36,7 @@ export default function SingleContentPage() {
   const [credit, setCredit] = useState([])
   const [similar, setSimilar] = useState([])
   const [video, setVideo] = useState();
-  const uid = localStorage.getItem('uid')
-  const currentusername = localStorage.getItem('username')
+  const [currentusername, setCurrentusername] = useState('')
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
   const [watching, setWatching] = useState(false)
@@ -74,7 +73,12 @@ export default function SingleContentPage() {
   })
 
   useEffect(() => {
-    database.ref(`/Users/${uid}/favourites/${id}`).on('value', snapshot => {
+
+    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
+      setCurrentusername(snapshot.val()?.username)
+    })
+
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
       } else {
@@ -82,7 +86,7 @@ export default function SingleContentPage() {
       }
     })
 
-    database.ref(`/Users/${uid}/watchlist/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatchlist(true)
       } else {
@@ -90,7 +94,7 @@ export default function SingleContentPage() {
       }
     })
 
-    database.ref(`/Users/${uid}/watching/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatching(true)
       } else {
@@ -101,19 +105,19 @@ export default function SingleContentPage() {
     database.ref(`/Users`).on('value', snapshot => {
       let user = []
       snapshot.forEach((snap) => {
-        if (snap.key !== uid) {
+        if (snap.key !== auth?.currentUser?.uid) {
           user.push(snap.val())
         }
       })
       setUsers(user)
     })
 
-    database.ref(`/Reviews/${id}`).on('value', snapshot => {
+    database.ref(`/Reviews/${id}`).orderByChild('timestamp').on('value', snapshot => {
       let data = []
       snapshot.forEach((snap) => {
         data.push(snap.val())
       })
-      setReviews2(data)
+      setReviews2(data.reverse())
     })
 
   }, [id])
@@ -183,14 +187,14 @@ export default function SingleContentPage() {
 
   const handleFavourite = () => {
     if (!favourite) {
-      database.ref(`/Users/${uid}/favourites/${id}`).set({
+      database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).set({
         id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to favourite")
         setFavourite(true)
       })
     } else {
-      database.ref(`/Users/${uid}/favourites/${id}`).remove().then(() => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).remove().then(() => {
         console.log("Removed from favourite")
         setFavourite(false)
       })
@@ -199,14 +203,14 @@ export default function SingleContentPage() {
 
   const handleWatchlist = () => {
     if (!watchlist) {
-      database.ref(`/Users/${uid}/watchlist/${id}`).set({
+      database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).set({
         id: id, data: data, type: type
       }).then(() => {
         console.log("Set to watchlist")
         setWatchlist(true)
       })
     } else {
-      database.ref(`/Users/${uid}/watchlist/${id}`).remove().then(() => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
         console.log("Removed from watchlist")
         setWatchlist(false)
       })
@@ -215,14 +219,14 @@ export default function SingleContentPage() {
 
   const handleWatching = () => {
     if (!watching) {
-      database.ref(`/Users/${uid}/watching/${id}`).set({
+      database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).set({
         id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to watching")
         setWatching(true)
       })
     } else {
-      database.ref(`/Users/${uid}/watching/${id}`).remove().then(() => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
         console.log("Removed from watching")
         setWatching(false)
       })
@@ -239,8 +243,8 @@ export default function SingleContentPage() {
   }
 
   const handleAddReview = () => {
-    database.ref(`/Reviews/${id}/${uid}`).update({
-      review: review, timestamp: Date.now(), uid: uid
+    database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).update({
+      review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid
     }).then(() => {
       console.log("Review added")
       setReview('')
@@ -250,7 +254,7 @@ export default function SingleContentPage() {
   }
 
   const removeReview = () => {
-    database.ref(`/Reviews/${id}/${uid}`).remove()
+    database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).remove()
       .then(() => console.log('Review Removed'))
       .catch((e) => console.log(e))
   }
@@ -280,7 +284,7 @@ export default function SingleContentPage() {
           </div>}
 
           <div className='actions'>
-            {uid && <div style={{ marginRight: '20px' }}>
+            {auth?.currentUser?.uid && <div style={{ marginRight: '20px' }}>
               <Tooltip title="Favourite">
                 <IconButton style={{ backgroundColor: '#3385ff' }} onClick={() => handleFavourite()}>
                   {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
@@ -462,8 +466,8 @@ export default function SingleContentPage() {
           {reviews2 && reviews2.map((data) => {
             return <div className='single_review' data-aos="fade-left" key={data.uid}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Link to={data.uid === uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
-                {data.uid === uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
+                <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
+                {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
               </div>
               <Review review={data.review} />
             </div>

@@ -11,7 +11,7 @@ import { Button, IconButton } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import Login from '../Login';
 import Register from '../Register';
-import { database } from '../../firebase';
+import { database, auth } from '../../firebase';
 import './style.css'
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
@@ -21,7 +21,6 @@ import { ColorModeContext } from '../../Services/ThemeContext';
 
 export default function NavBarMain() {
 
-  const uid = localStorage.getItem('uid')
   const [currentPhoto, setCurrentPhoto] = useState("")
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -34,10 +33,10 @@ export default function NavBarMain() {
   const theme = useTheme()
 
   useEffect(() => {
-    database.ref(`/Users/${uid}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
       setCurrentPhoto(snapshot.val()?.photo)
     })
-  }, [uid])
+  }, [])
 
   return (
     <>
@@ -63,7 +62,7 @@ export default function NavBarMain() {
           </NavLink>
         </Navbar.Brand>
         <Nav className="me-auto"></Nav>
-        {uid ? <>
+        {auth?.currentUser?.uid ? <>
           <Nav>
             <NavLink to='/search' activeClassName="is-active" className="navlink"
               exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink>
@@ -90,7 +89,7 @@ export default function NavBarMain() {
         <Nav className="me-auto"></Nav>
         <Nav><NavLink to='/tv' activeClassName="is-active" className="navlink"
           exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><TvIcon /> TV</NavLink></Nav>
-        {uid && <><Nav className="me-auto"></Nav>
+        {auth?.currentUser?.uid && <><Nav className="me-auto"></Nav>
           <Nav><NavLink to='/people' activeClassName="is-active" className="navlink"
             exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><PeopleIcon /> PEOPLE</NavLink></Nav></>}
       </Navbar>
