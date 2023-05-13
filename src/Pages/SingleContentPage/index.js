@@ -456,26 +456,32 @@ export default function SingleContentPage() {
           </div>
         </>}
         <br />
-        <div className='trending_title' data-aos="fade-right" style={{ display: 'flex', justifyContent: 'space-between' }}>
-          Reviews
-          <div onClick={() => handleShow3()} className='addreview'>
+        <div className='trending_title' style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div data-aos="fade-right">
+            Reviews
+          </div>
+          <div onClick={() => handleShow3()} className='addreview' data-aos="fade-left">
             <AddCircleOutlineIcon fontSize='small' />&nbsp;Add Review
           </div>
         </div>
         <div className='reviews'>
           {reviews2 && reviews2.map((data) => {
-            return <div className='single_review' data-aos="fade-left" key={data.uid}>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+            return <div className='single_review' key={data.uid}>
+              <div style={{ display: 'flex', alignItems: 'center' }} data-aos="fade-right">
                 <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
                 {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
               </div>
-              <Review review={data.review} />
+              <div data-aos="fade-left">
+                <Review review={data.review} />
+              </div>
             </div>
           })}
           {reviews && reviews.map((data) => {
-            return <div className='single_review' data-aos="fade-left" key={data.id}>
-              <div style={{ fontWeight: '600', fontSize: '18px' }}>{data.author_details.username}</div>
-              <Review review={data.content} />
+            return <div className='single_review' key={data.id}>
+              <div style={{ fontWeight: '600', fontSize: '18px' }} data-aos="fade-right">{data.author_details.username}</div>
+              <div data-aos="fade-left">
+                <Review review={data.content} />
+              </div>
             </div>
           })}
           {reviews.length === 0 && reviews2.length === 0 && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>No Reviews</div>}
