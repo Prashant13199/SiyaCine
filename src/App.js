@@ -41,7 +41,7 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <Box sx={{ bgcolor: 'background.default', color: 'text.primary', minHeight: '100vh' }}>
-            <Box sx={{ flexGrow: 1, marginY: 6, marginX: 2, paddingY: 2 }}>
+            <Box sx={{ flexGrow: 1, marginY: 7, marginX: 0.2 }}>
               <NavBarMain />
               <CssBaseline />
               <Switch>

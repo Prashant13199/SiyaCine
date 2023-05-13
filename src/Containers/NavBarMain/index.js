@@ -53,8 +53,8 @@ export default function NavBarMain() {
       <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='top' style={{ height: '50px', padding: '0px 20px' }}>
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
-            <div style={{ display: 'flex' }}>
-              <img src={logo} height={'35px'} width={'35px'} alt="logo" />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <img src={logo} alt="logo" className='navbar_icon' />
               <div style={{ fontSize: '25px' }}>
                 <span style={{ fontSize: '18px', marginLeft: '5px', color: theme.palette.text.primary }}>SIYA<strong>CINE</strong></span>
               </div>
@@ -67,7 +67,7 @@ export default function NavBarMain() {
           <NavLink to='/search' activeClassName="is-active" className="navlink"
             exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink>
         </Nav>
-        <Nav><IconButton style={{ marginLeft: '20px' }} sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}</IconButton></Nav>
+        <Nav style={{ marginLeft: '10px' }}><IconButton onClick={toggleColorMode} color="inherit">{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}</IconButton></Nav>
         {auth?.currentUser?.uid ? <Nav>
           <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} className="navlink" activeStyle={{ color: '#3385ff' }}
             exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>

@@ -487,7 +487,7 @@ export default function SingleContentPage() {
           {reviews.length === 0 && reviews2.length === 0 && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>No Reviews</div>}
         </div>
       </div>
-      <br /><br /><br /><br />
+      <br /><br />
     </>
   )
 }

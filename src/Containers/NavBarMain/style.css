@@ -10,6 +10,11 @@
     border-style: solid;
 }
 
+.navbar_icon {
+    height: 35px;
+    width: 35px;
+}
+
 .navbar__img_active {
     height: 35px;
     width: 35px;
@@ -28,4 +33,21 @@
 
 .navlink:hover {
     transform: scale(0.9);
+}
+
+@media screen and (max-width: 660px) {
+    .navbar_icon {
+        height: 30px;
+        width: 30px;
+    }
+
+    .navbar__img {
+        height: 30px;
+        width: 30px;
+    }
+
+    .navbar__img_active {
+        height: 30px;
+        width: 30px;
+    }
 }
