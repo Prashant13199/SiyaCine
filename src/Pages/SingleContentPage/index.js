@@ -463,12 +463,12 @@ export default function SingleContentPage() {
           <div data-aos="fade-right">
             Reviews
           </div>
-          <div onClick={() => handleShow3()} className='addreview' data-aos="fade-left">
+          {currentuid && <div onClick={() => handleShow3()} className='addreview' data-aos="fade-left">
             <AddCircleOutlineIcon fontSize='small' />&nbsp;Add Review
-          </div>
+          </div>}
         </div>
         <div className='reviews'>
-          {reviews2 && reviews2.map((data) => {
+          {reviews2 && currentuid && reviews2.map((data) => {
             return <div className='single_review' key={data.uid}>
               <div style={{ display: 'flex', alignItems: 'center' }} data-aos="fade-right">
                 <Link to={data.uid === currentuid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
