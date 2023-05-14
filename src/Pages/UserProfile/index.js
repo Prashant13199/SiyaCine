@@ -22,8 +22,8 @@ export default function UserProfile() {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    AOS.init({ duration: 800, })
-  })
+    AOS.init({ duration: 800 })
+  }, [])
 
   useEffect(() => {
     database.ref(`/Users/${uid}`).on('value', snapshot => {

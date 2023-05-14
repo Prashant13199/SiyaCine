@@ -33,6 +33,8 @@ export default function Login() {
         setLoading(true);
         const user = await auth.signInWithEmailAndPassword(email, password).then((user) => {
             setLoading(false);
+            localStorage.setItem("uid", user.user.uid);
+            localStorage.setItem("username", email.replace("@gmail.com", ""));
             window.location.reload();
         })
             .catch((e) => {

@@ -11,7 +11,7 @@ import { Button, IconButton } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import Login from '../Login';
 import Register from '../Register';
-import { database, auth } from '../../firebase';
+import { database } from '../../firebase';
 import './style.css'
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
@@ -21,6 +21,7 @@ import { ColorModeContext } from '../../Services/ThemeContext';
 
 export default function NavBarMain() {
 
+  const uid = localStorage.getItem('uid')
   const [currentPhoto, setCurrentPhoto] = useState("")
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -33,10 +34,10 @@ export default function NavBarMain() {
   const theme = useTheme()
 
   useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
+    database.ref(`/Users/${uid}`).on('value', snapshot => {
       setCurrentPhoto(snapshot.val()?.photo)
     })
-  }, [])
+  }, [uid])
 
   return (
     <>
@@ -53,8 +54,8 @@ export default function NavBarMain() {
       <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='top' style={{ height: '50px', padding: '0px 20px' }}>
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <img src={logo} alt="logo" className='navbar_icon' />
+            <div style={{ display: 'flex' }}>
+              <img src={logo} height={'35px'} width={'35px'} alt="logo" />
               <div style={{ fontSize: '25px' }}>
                 <span style={{ fontSize: '18px', marginLeft: '5px', color: theme.palette.text.primary }}>SIYA<strong>CINE</strong></span>
               </div>
@@ -62,13 +63,12 @@ export default function NavBarMain() {
           </NavLink>
         </Navbar.Brand>
         <Nav className="me-auto"></Nav>
-
         <Nav>
           <NavLink to='/search' activeClassName="is-active" className="navlink"
             exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink>
         </Nav>
-        <Nav style={{ marginLeft: '10px' }}><IconButton onClick={toggleColorMode} color="inherit">{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}</IconButton></Nav>
-        {auth?.currentUser?.uid ? <Nav>
+        <Nav><IconButton style={{ marginLeft: '20px' }} sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}</IconButton></Nav>
+        {uid ? <Nav>
           <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} className="navlink" activeStyle={{ color: '#3385ff' }}
             exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
         </Nav>
@@ -88,7 +88,7 @@ export default function NavBarMain() {
         <Nav className="me-auto"></Nav>
         <Nav><NavLink to='/tv' activeClassName="is-active" className="navlink"
           exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><TvIcon /> TV</NavLink></Nav>
-        {auth?.currentUser?.uid && <><Nav className="me-auto"></Nav>
+        {uid && <><Nav className="me-auto"></Nav>
           <Nav><NavLink to='/people' activeClassName="is-active" className="navlink"
             exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><PeopleIcon /> PEOPLE</NavLink></Nav></>}
       </Navbar>

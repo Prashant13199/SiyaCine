@@ -1,0 +1,10 @@
+.loading {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+}
+
+.loadingicon {
+    height: 30px;
+    width: 30px;
+}

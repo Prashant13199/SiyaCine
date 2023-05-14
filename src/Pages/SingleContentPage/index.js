@@ -59,6 +59,7 @@ export default function SingleContentPage() {
   const [snackBar, setSnackBar] = useState(false)
   const [name, setName] = useState('')
   const [review, setReview] = useState('')
+  const currentuid = localStorage.getItem('uid')
 
   const getUsername = (id) => {
     let name = ""
@@ -69,16 +70,16 @@ export default function SingleContentPage() {
   }
 
   useEffect(() => {
-    AOS.init({ duration: 800, })
-  })
+    AOS.init({ duration: 800 })
+  }, [])
 
   useEffect(() => {
 
-    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
+    database.ref(`/Users/${currentuid}`).on('value', snapshot => {
       setCurrentusername(snapshot.val()?.username)
     })
 
-    database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${currentuid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
       } else {
@@ -86,7 +87,7 @@ export default function SingleContentPage() {
       }
     })
 
-    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${currentuid}/watchlist/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatchlist(true)
       } else {
@@ -94,7 +95,7 @@ export default function SingleContentPage() {
       }
     })
 
-    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${currentuid}/watching/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatching(true)
       } else {
@@ -105,7 +106,7 @@ export default function SingleContentPage() {
     database.ref(`/Users`).on('value', snapshot => {
       let user = []
       snapshot.forEach((snap) => {
-        if (snap.key !== auth?.currentUser?.uid) {
+        if (snap.key !== currentuid) {
           user.push(snap.val())
         }
       })
@@ -134,7 +135,9 @@ export default function SingleContentPage() {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
-    setWatchProvider(data.results ? { path: data.results?.IN ? data.results?.IN?.flatrate[0].logo_path : '', link: data.results?.IN ? data.results?.IN?.link : '' } : '');
+    if (data.results?.IN?.flatrate) {
+      setWatchProvider({ path: data.results?.IN?.flatrate[0] ? data.results?.IN?.flatrate[0]?.logo_path : '', link: data.results?.IN ? data.results?.IN?.link : '' });
+    }
   };
 
   const fetchCredit = async () => {
@@ -187,14 +190,14 @@ export default function SingleContentPage() {
 
   const handleFavourite = () => {
     if (!favourite) {
-      database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).set({
+      database.ref(`/Users/${currentuid}/favourites/${id}`).set({
         id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to favourite")
         setFavourite(true)
       })
     } else {
-      database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).remove().then(() => {
+      database.ref(`/Users/${currentuid}/favourites/${id}`).remove().then(() => {
         console.log("Removed from favourite")
         setFavourite(false)
       })
@@ -203,14 +206,14 @@ export default function SingleContentPage() {
 
   const handleWatchlist = () => {
     if (!watchlist) {
-      database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).set({
+      database.ref(`/Users/${currentuid}/watchlist/${id}`).set({
         id: id, data: data, type: type
       }).then(() => {
         console.log("Set to watchlist")
         setWatchlist(true)
       })
     } else {
-      database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
+      database.ref(`/Users/${currentuid}/watchlist/${id}`).remove().then(() => {
         console.log("Removed from watchlist")
         setWatchlist(false)
       })
@@ -219,14 +222,14 @@ export default function SingleContentPage() {
 
   const handleWatching = () => {
     if (!watching) {
-      database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).set({
+      database.ref(`/Users/${currentuid}/watching/${id}`).set({
         id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to watching")
         setWatching(true)
       })
     } else {
-      database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
+      database.ref(`/Users/${currentuid}/watching/${id}`).remove().then(() => {
         console.log("Removed from watching")
         setWatching(false)
       })
@@ -243,8 +246,8 @@ export default function SingleContentPage() {
   }
 
   const handleAddReview = () => {
-    database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).update({
-      review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid
+    database.ref(`/Reviews/${id}/${currentuid}`).update({
+      review: review, timestamp: Date.now(), uid: currentuid
     }).then(() => {
       console.log("Review added")
       setReview('')
@@ -254,7 +257,7 @@ export default function SingleContentPage() {
   }
 
   const removeReview = () => {
-    database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).remove()
+    database.ref(`/Reviews/${id}/${currentuid}`).remove()
       .then(() => console.log('Review Removed'))
       .catch((e) => console.log(e))
   }
@@ -284,7 +287,7 @@ export default function SingleContentPage() {
           </div>}
 
           <div className='actions'>
-            {auth?.currentUser?.uid && <div style={{ marginRight: '20px' }}>
+            {currentuid && <div style={{ marginRight: '20px' }}>
               <Tooltip title="Favourite">
                 <IconButton style={{ backgroundColor: '#3385ff' }} onClick={() => handleFavourite()}>
                   {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
@@ -468,8 +471,8 @@ export default function SingleContentPage() {
           {reviews2 && reviews2.map((data) => {
             return <div className='single_review' key={data.uid}>
               <div style={{ display: 'flex', alignItems: 'center' }} data-aos="fade-right">
-                <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
-                {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
+                <Link to={data.uid === currentuid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
+                {data.uid === currentuid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
               </div>
               <div data-aos="fade-left">
                 <Review review={data.review} />
@@ -487,7 +490,6 @@ export default function SingleContentPage() {
           {reviews.length === 0 && reviews2.length === 0 && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>No Reviews</div>}
         </div>
       </div>
-      <br /><br />
     </>
   )
 }

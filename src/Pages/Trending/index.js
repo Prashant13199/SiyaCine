@@ -47,8 +47,8 @@ export default function Trending() {
   };
 
   useEffect(() => {
-    AOS.init({ duration: 800, })
-  })
+    AOS.init({ duration: 800 })
+  }, [])
 
   const fetchPopularmovie = async () => {
     const { data } = await axios.get(

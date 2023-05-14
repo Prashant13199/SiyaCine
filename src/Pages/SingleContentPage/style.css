@@ -106,6 +106,10 @@
     opacity: 1;
 }
 
+.reviews {
+    padding-bottom: 100px;
+}
+
 @media only screen and (max-width: 880px) {
     .singlecontent_responsive {
         display: grid;

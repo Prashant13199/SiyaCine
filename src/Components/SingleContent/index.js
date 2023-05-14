@@ -9,7 +9,7 @@ export default function SingleContent({ data, type }) {
   const history = useHistory()
   useEffect(() => {
     AOS.init({ duration: 800 })
-  })
+  }, [])
   return data?.poster_path && (
     <Grid xs={2} sm={4} md={4} key={data.id} data-aos="fade-up">
       <img

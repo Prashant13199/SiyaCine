@@ -9,7 +9,7 @@ export default function User({ user }) {
 
   useEffect(() => {
     AOS.init({ duration: 800 })
-  })
+  }, [])
 
   return (
     <Grid xs={2} sm={4} md={4} key={user.uid} data-aos="fade-up">
