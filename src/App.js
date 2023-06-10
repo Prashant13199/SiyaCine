@@ -40,9 +40,9 @@ function App() {
     >
       <BrowserRouter>
         <div className="App">
-          <Box sx={{ bgcolor: 'background.default', color: 'text.primary', minHeight: '100vh' }}>
+          <Box sx={{ bgcolor: 'background.default', color: 'text.primary' }}>
+            <NavBarMain />
             <Box sx={{ flexGrow: 1, marginY: 7, marginX: 0.2 }}>
-              <NavBarMain />
               <CssBaseline />
               <Switch>
                 <Route path="/" component={Trending} exact />

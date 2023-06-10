@@ -13,6 +13,10 @@ export default function People() {
 
     useEffect(() => {
         window.scroll(0, 0)
+        fetchUsers()
+    }, [])
+
+    const fetchUsers = () => {
         database.ref(`/Users`).orderByChild('createdAccountOn').on('value', snapshot => {
             let user = []
             snapshot.forEach((snap) => {
@@ -22,7 +26,7 @@ export default function People() {
             setUsers(user)
             setLoading(false)
         })
-    }, [])
+    }
 
     return !loading ? (
         <div className='people'>

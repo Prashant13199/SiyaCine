@@ -88,9 +88,8 @@ export default function UploadPicture({ handleClose }) {
               });
               setProgress(0);
               setImage(null);
-              handleClose();
               document.getElementById("image-preview").style.display = "none";
-              document.getElementById("fileInput").value = "";
+              handleClose();
               console.log("Picture Updated")
             });
         }

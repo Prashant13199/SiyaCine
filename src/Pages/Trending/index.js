@@ -8,17 +8,6 @@ import Grow from '@mui/material/Grow';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
-// const observer = new IntersectionObserver((entries) => {
-//   entries.forEach((entry) => {
-//     if (entry.isIntersecting) {
-//       console.log(entry)
-//       entry.target.classList.add('show');
-//     } else {
-//       entry.target.classList.remove('show')
-//     }
-//   })
-// })
-
 export default function Trending() {
 
   const [trendingMovie, setTrendingMovie] = useState([]);
@@ -33,10 +22,6 @@ export default function Trending() {
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
-
-  // useEffect(() => {
-  //   document.querySelectorAll('.hidden').forEach((el) => observer.observe(el))
-  // })
 
   const fetchNowplaying = async () => {
     const { data } = await axios.get(
