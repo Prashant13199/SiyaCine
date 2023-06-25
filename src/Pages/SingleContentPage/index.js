@@ -357,27 +357,29 @@ export default function SingleContentPage() {
         </Modal.Body>
       </Modal>
       <Modal show={show2} onHide={handleClose2} centered>
-        <Modal.Body style={{ backgroundColor: theme.palette.background.default, maxHeight: '60vh', overflowY: 'auto', borderRadius: '10px' }}>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <IconButton onClick={() => handleClose2()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <h2>Share To</h2>
-          {users && users.map((user) => {
-            return <div className='share_user' onClick={() => {
-              handleSend(user.uid)
-              setName(user.username)
-            }
-            }>
-              <div>
-                <img src={user.photo} className="share_user_image" />
+          <div style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+            {users && users.map((user) => {
+              return <div className='share_user' onClick={() => {
+                handleSend(user.uid)
+                setName(user.username)
+              }
+              }>
+                <div>
+                  <img src={user.photo} className="share_user_image" />
+                </div>
+                <div className='share_user_username'>
+                  {user.username.length > 25 ? user.username.substring(0, 25).concat('...') : user.username}
+                </div>
               </div>
-              <div className='share_user_username'>
-                {user.username.length > 25 ? user.username.substring(0, 25).concat('...') : user.username}
-              </div>
-            </div>
-          })}
+            })}
+          </div>
         </Modal.Body>
       </Modal>
       <Modal show={show3} onHide={handleClose3} centered>
-        <Modal.Body style={{ backgroundColor: theme.palette.background.default, borderRadius: '10px' }}>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <IconButton onClick={() => handleClose3()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <div style={{ margin: '10px 0px' }}>
             <TextField

@@ -8,8 +8,8 @@
 }
 
 .cast_image {
-    height: 200px;
-    width: auto;
+    height: 130px;
+    width: 130px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 50%;
 }
