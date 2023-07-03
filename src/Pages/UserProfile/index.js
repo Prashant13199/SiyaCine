@@ -8,6 +8,7 @@ import Cast from '../../Components/Cast'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Grow from '@mui/material/Grow';
+import { Link } from 'react-router-dom'
 
 export default function UserProfile() {
 
@@ -84,20 +85,22 @@ export default function UserProfile() {
   return (
     <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
       <div className='Profile'>
-        <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
-          <div className='welcome_backdrop'>
-            <div style={{ width: '100%' }}>
-              <div className='profile_header'>
-                <div>
-                  <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
-                </div>
-                <div className="profile_actions">
-                  <div className='profile_username'>{username ? username.length > 15 ? username.substring(0, 15).concat('...') : username : 'Loading...'}</div>
+        <Link to={`/singlecontent/${favourite[number]?.id}/${favourite[number]?.type}`} style={{ textDecoration: 'none' }}>
+          <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
+            <div className='welcome_backdrop'>
+              <div style={{ width: '100%' }}>
+                <div className='profile_header'>
+                  <div>
+                    <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
+                  </div>
+                  <div className="profile_actions">
+                    <div className='profile_username'>{username ? username.length > 15 ? username.substring(0, 15).concat('...') : username : 'Loading...'}</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Link>
         {watching.length !== 0 && <><br />
           <div className='trending_title' data-aos="fade-right">Watching Now</div>
           <div className='trending_scroll' data-aos="fade-left">

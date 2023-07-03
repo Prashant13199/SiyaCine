@@ -75,7 +75,7 @@ export default function NavBarMain() {
           :
           <Nav>
             <Button onClick={handleShow}>Login</Button>
-            <Button onClick={handleShow2}>Register</Button>
+            <Button variant="contained" onClick={handleShow2}>Register</Button>
           </Nav>
         }
       </Navbar>
