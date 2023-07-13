@@ -51,7 +51,7 @@ export default function NavBarMain() {
           <Register />
         </Modal.Body>
       </Modal>
-      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='top' style={{ height: '50px', padding: '0px 20px' }}>
+      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='top' style={{ height: '50px', padding: '0px 2px' }}>
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <div style={{ display: 'flex' }}>
@@ -75,11 +75,11 @@ export default function NavBarMain() {
           :
           <Nav>
             <Button onClick={handleShow}>Login</Button>
-            <Button variant="contained" onClick={handleShow2}>Register</Button>
+            <Button onClick={handleShow2}>Register</Button>
           </Nav>
         }
       </Navbar>
-      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px', padding: '0px 20px' }}>
+      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px', padding: '0px 2px' }}>
         <Nav><NavLink to='/' activeClassName="is-active" className="navlink"
           exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><div style={{ display: 'grid', placeItems: 'center' }}><div><WhatshotIcon /></div><div>HOT</div></div></NavLink></Nav>
         <Nav className="me-auto"></Nav>

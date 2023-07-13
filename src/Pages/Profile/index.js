@@ -16,7 +16,6 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useTheme } from '@mui/material';
 import Grow from '@mui/material/Grow';
-import { Link } from 'react-router-dom';
 
 export default function Profile() {
 
@@ -153,7 +152,6 @@ export default function Profile() {
       </Modal>
       <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
         <div className='Profile'>
-          <Link to={`/singlecontent/${favourite[number]?.id}/${favourite[number]?.type}`} style={{ textDecoration: 'none' }}>
             <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
               <div className='welcome_backdrop'>
                 <div style={{ width: '100%' }}>
@@ -175,7 +173,6 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-          </Link>
           {watching.length !== 0 && <><br />
             <div className='trending_title' data-aos="fade-right">Watching Now</div>
             <div className='trending_scroll' data-aos="fade-left">
