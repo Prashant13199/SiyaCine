@@ -51,7 +51,7 @@ export default function NavBarMain() {
           <Register />
         </Modal.Body>
       </Modal>
-      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='top' style={{ height: '50px', padding: '0px 2px' }}>
+      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='top' style={{ height: '50px', padding: '0px 5px' }}>
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <div style={{ display: 'flex' }}>
@@ -79,7 +79,8 @@ export default function NavBarMain() {
           </Nav>
         }
       </Navbar>
-      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px', padding: '0px 2px' }}>
+      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px'}}>
+        <Nav className="me-auto"></Nav>
         <Nav><NavLink to='/' activeClassName="is-active" className="navlink"
           exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><div style={{ display: 'grid', placeItems: 'center' }}><div><WhatshotIcon /></div><div>HOT</div></div></NavLink></Nav>
         <Nav className="me-auto"></Nav>
@@ -91,6 +92,7 @@ export default function NavBarMain() {
         {uid && <><Nav className="me-auto"></Nav>
           <Nav><NavLink to='/people' activeClassName="is-active" className="navlink"
             exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><div style={{ display: 'grid', placeItems: 'center' }}><div><PeopleIcon /></div><div>PEOPLE</div></div></NavLink></Nav></>}
+      <Nav className="me-auto"></Nav>
       </Navbar>
     </>
   )
