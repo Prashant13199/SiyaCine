@@ -20,12 +20,10 @@
     font-size: small;
     margin-left: 10px;
     opacity: 0.9;
-    color: #3385ff;
 }
 
 .viewall:hover {
     opacity: 1;
-    color: #3385ff;
 }
 
 .switch {
@@ -42,13 +40,11 @@
 }
 
 .switch_span_active {
-    background-color: #3385ff;
     padding: 0px 10px;
     border-radius: 20px;
     width: 120px;
     text-align: center;
     transition: all .2s;
-    color: white;
 }
 
 .switch_span {

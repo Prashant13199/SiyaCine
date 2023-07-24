@@ -103,14 +103,10 @@ export default function Register() {
                     </div>
                     <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                         <Button
-                            variant="primary"
+                            variant="warning"
                             size="md"
                             id="uploadBtn"
                             onClick={register}
-                            style={{
-                                color: "white",
-                                cursor: "pointer",
-                            }}
                         >
                             {loading ? "Please Wait.." : "Register"}
                         </Button>

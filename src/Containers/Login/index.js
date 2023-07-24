@@ -103,20 +103,15 @@ export default function Login() {
                     <br />
                     <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                         <Button
-                            variant="primary"
+                            variant="warning"
                             size="md"
                             id="uploadBtn"
-                            onClick={login}
-                            style={{
-                                color: "white",
-                                cursor: "pointer",
-                            }}
                         >
                             {loading ? "Please Wait.." : "Login"}
                         </Button>
                     </div>
                     <div className="d-grid gap-2" style={{ marginTop: "10px", cursor: 'pointer' }}>
-                        <a href="#" onClick={() => handleShow2()} style={{ textDecoration: 'none' }}>Forgot Password?</a>
+                        <a href="#" onClick={() => handleShow2()} style={{ textDecoration: 'none', color: theme.palette.warning.main }}>Forgot Password?</a>
                     </div>
                     <GoogleSignin />
                 </div>

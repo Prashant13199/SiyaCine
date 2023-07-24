@@ -289,22 +289,22 @@ export default function SingleContentPage() {
           <div className='actions'>
             {currentuid && <div style={{ marginRight: '20px' }}>
               <Tooltip title="Favourite">
-                <IconButton style={{ backgroundColor: '#3385ff' }} onClick={() => handleFavourite()}>
+                <IconButton style={{ backgroundColor: theme.palette.warning.main }} onClick={() => handleFavourite()}>
                   {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
                 </IconButton>
               </Tooltip>
               <Tooltip title="Watchlist">
-                <IconButton style={{ backgroundColor: '#3385ff', marginLeft: '10px' }} onClick={() => handleWatchlist()}>
+                <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatchlist()}>
                   {watchlist ? <DoneIcon style={{ color: 'white' }} /> : <AddIcon style={{ color: 'white' }} />}
                 </IconButton>
               </Tooltip>
               <Tooltip title="Watching">
-                <IconButton style={{ backgroundColor: '#3385ff', marginLeft: '10px' }} onClick={() => handleWatching()}>
-                  {watching ? <PlayCircleOutlineIcon style={{ color: 'orange' }} /> : <PlayCircleOutlineIcon style={{ color: 'white' }} />}
+                <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatching()}>
+                  {watching ? <PlayCircleOutlineIcon color="primary" /> : <PlayCircleOutlineIcon style={{ color: 'white' }} />}
                 </IconButton>
               </Tooltip>
               <Tooltip title="Share">
-                <IconButton style={{ backgroundColor: '#3385ff', marginLeft: '10px' }} onClick={() => handleShow2()}>
+                <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleShow2()}>
                   <SendIcon style={{ color: 'white' }} />
                 </IconButton>
               </Tooltip>
@@ -437,7 +437,7 @@ export default function SingleContentPage() {
                 <div className='cast_single' key={c.id}>
                   <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                   <div style={{ marginTop: '5px' }}>
-                    <div style={{ fontWeight: '500', maxWidth: '150px' }}>{c.original_name}</div>
+                    <div style={{ fontWeight: '500', maxWidth: '150px', color: theme.palette.warning.main }}>{c.original_name}</div>
                     <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
                   </div>
                 </div>
@@ -465,7 +465,7 @@ export default function SingleContentPage() {
           <div data-aos="fade-right">
             Reviews
           </div>
-          {currentuid && <div onClick={() => handleShow3()} className='addreview' data-aos="fade-left">
+          {currentuid && <div onClick={() => handleShow3()} className='addreview' data-aos="fade-left" style={{ color: theme.palette.warning.main }}>
             <AddCircleOutlineIcon fontSize='small' />&nbsp;Add Review
           </div>}
         </div>
@@ -489,8 +489,8 @@ export default function SingleContentPage() {
               </div>
             </div>
           })}
-          {(reviews.length !== 0 || reviews2.length !== 0) && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>That's all</div>}
-          {reviews.length === 0 && reviews2.length === 0 && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>No Reviews</div>}
+          {(reviews.length !== 0 || reviews2.length !== 0) && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
+          {reviews.length === 0 && reviews2.length === 0 && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
         </div>
       </div>
     </>

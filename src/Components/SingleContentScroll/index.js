@@ -3,10 +3,12 @@ import './style.css'
 import { useHistory } from 'react-router-dom'
 import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useTheme } from '@mui/material'
 
 export default function SingleContentScroll({ data, type, by, id }) {
 
   const history = useHistory()
+  const theme = useTheme()
 
   const removeSuggestion = () => {
     if (id) {
@@ -24,7 +26,7 @@ export default function SingleContentScroll({ data, type, by, id }) {
         className="poster_scroll"
         onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
       />
-      {by && <div className='user'>
+      {by && <div className='user' style={{ color: theme.palette.warning.main }}>
         <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => removeSuggestion()} />
         {by}
       </div>}

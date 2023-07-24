@@ -11,6 +11,7 @@ import InputBase from '@mui/material/InputBase';
 import empty from '../../assets/empty.png'
 import { Link } from 'react-router-dom';
 import Grow from '@mui/material/Grow';
+import { useTheme } from '@mui/material';
 
 export default function Search() {
 
@@ -24,6 +25,7 @@ export default function Search() {
     const [value, setValue] = useState(0);
     const [person, setPerson] = useState(0);
     const [checked, setChecked] = useState(false);
+    const theme = useTheme()
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -95,7 +97,7 @@ export default function Search() {
             </Paper>
             {query && <><div className='searchresultfor'>Showing results for</div>
                 <div className='discover_movies_title'>{query}</div>
-                <Tabs value={value} onChange={handleChange} centered >
+                <Tabs value={value} onChange={handleChange} centered indicatorColor="primary" textColor='inherit' style={{ color: theme.palette.warning.main }}>
                     <Tab label="Movie" style={{ fontFamily: 'Montserrat' }} />
                     <Tab label="TV" style={{ fontFamily: 'Montserrat' }} />
                     <Tab label="Person" style={{ fontFamily: 'Montserrat' }} />
@@ -129,7 +131,7 @@ export default function Search() {
                                     <div className='cast_scroll'>
                                         <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_scroll_image' />
                                         <div style={{ marginTop: '5px' }}>
-                                            <div style={{ fontWeight: '500' }}>{c.name}</div>
+                                            <div style={{ fontWeight: '500', color: theme.palette.warning.main }}>{c.name}</div>
                                         </div>
                                     </div>
                                 </Link></Grid>

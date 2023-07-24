@@ -65,34 +65,34 @@ export default function NavBarMain() {
         <Nav className="me-auto"></Nav>
         <Nav>
           <NavLink to='/search' activeClassName="is-active" className="navlink"
-            exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><SearchIcon /></NavLink>
+            exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><SearchIcon /></NavLink>
         </Nav>
         <Nav><IconButton style={{ marginLeft: '10px' }} sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}</IconButton></Nav>
         {uid ? <Nav>
-          <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} className="navlink" activeStyle={{ color: '#3385ff' }}
+          <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} className="navlink" activeStyle={{ color: theme.palette.warning.main }}
             exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
         </Nav>
           :
           <Nav>
-            <Button onClick={handleShow}>Login</Button>
-            <Button onClick={handleShow2}>Register</Button>
+            <Button color='warning' onClick={handleShow}>Login</Button>
+            <Button color='warning' onClick={handleShow2}>Register</Button>
           </Nav>
         }
       </Navbar>
-      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px'}}>
+      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px' }}>
         <Nav className="me-auto"></Nav>
         <Nav><NavLink to='/' activeClassName="is-active" className="navlink"
-          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><div style={{ display: 'grid', placeItems: 'center' }}><div><WhatshotIcon /></div><div>HOT</div></div></NavLink></Nav>
+          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><WhatshotIcon /></div><div>HOT</div></div></NavLink></Nav>
         <Nav className="me-auto"></Nav>
         <Nav><NavLink to='/movies' activeClassName="is-active" className="navlink"
-          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><div style={{ display: 'grid', placeItems: 'center' }}><div><MovieIcon /></div><div>MOVIE</div></div></NavLink></Nav>
+          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><MovieIcon /></div><div>MOVIE</div></div></NavLink></Nav>
         <Nav className="me-auto"></Nav>
         <Nav><NavLink to='/tv' activeClassName="is-active" className="navlink"
-          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><div style={{ display: 'grid', placeItems: 'center' }}><div><TvIcon /></div><div>TV</div></div></NavLink></Nav>
+          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><TvIcon /></div><div>TV</div></div></NavLink></Nav>
         {uid && <><Nav className="me-auto"></Nav>
           <Nav><NavLink to='/people' activeClassName="is-active" className="navlink"
-            exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: '#3385ff' }}><div style={{ display: 'grid', placeItems: 'center' }}><div><PeopleIcon /></div><div>PEOPLE</div></div></NavLink></Nav></>}
-      <Nav className="me-auto"></Nav>
+            exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><PeopleIcon /></div><div>PEOPLE</div></div></NavLink></Nav></>}
+        <Nav className="me-auto"></Nav>
       </Navbar>
     </>
   )

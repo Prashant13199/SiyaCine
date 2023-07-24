@@ -6,8 +6,10 @@ import { database } from "../../firebase";
 import googlelogo from "../../assets/googlelogo.png";
 
 export default function GoogleSignin() {
+
   const [loading, setLoading] = useState(false);
   const avatarArray = ['Willow', 'Spooky', 'Bubba', 'Lily', 'Whiskers', 'Pepper', 'Tiger', 'Zoey', 'Dusty', 'Simba']
+
   const signInBtnClick = async () => {
     setLoading(true);
     let userBySignIn = await signInWithGoogle();
@@ -45,10 +47,13 @@ export default function GoogleSignin() {
       console.log('Error')
     }
   };
+
   return (
+
     <div className="login__withGoogle" onClick={signInBtnClick}>
       <img src={googlelogo} alt="Google Logo" />
       {!loading ? "Sign in using google" : "Please Wait..."}
     </div>
+
   );
 }

@@ -10,20 +10,23 @@ export default function CustomPagination({ setPage, numOfPages = 10 }) {
   };
 
   return (
+    <>
+    <br />
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        margin: '20px 0px'
+        display: "grid",
+        placeItems: "center",
       }}
     >
       <Pagination
         onChange={(e) => handlePageChange(e.target.textContent)}
         count={numOfPages}
-        color="primary"
+        color="warning"
         hideNextButton
         hidePrevButton
       />
     </div>
-  );
+    <br />
+    </>
+  )
 }

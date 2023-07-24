@@ -7,6 +7,7 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import Grow from '@mui/material/Grow';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useTheme } from '@mui/material';
 
 export default function Trending() {
 
@@ -22,6 +23,7 @@ export default function Trending() {
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
+  const theme = useTheme()
 
   const fetchNowplaying = async () => {
     const { data } = await axios.get(
@@ -112,7 +114,7 @@ export default function Trending() {
           <br />
           <div className='trending_title' data-aos="fade-right">
             Now Playing in Theatres
-            <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres`} className="viewall">
+            <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres`} className="viewall" style={{ color: theme.palette.warning.main }}>
               View all
             </Link>
           </div>
@@ -123,7 +125,7 @@ export default function Trending() {
           </div>
           <br />
           <div className='trending_title' data-aos="fade-right">Upcoming
-            <Link to={`/singlecategory/upcoming/movie/Upcoming`} className="viewall">
+            <Link to={`/singlecategory/upcoming/movie/Upcoming`} className="viewall" style={{ color: theme.palette.warning.main }}>
               View all
             </Link>
           </div>
@@ -134,9 +136,9 @@ export default function Trending() {
           </div>
           <br />
           <div className='trending_title' data-aos="fade-right">Trending&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchTrending(switchTrending === 0 ? 1 : 0)}>
-            <div className={switchTrending === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
-            <div className={switchTrending === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
-          </div><Link to={`/singlecategory/trending/${switchTrending === 0 ? 'movie' : 'tv'}/Trending ${switchTrending === 0 ? 'Movie' : 'TV'}`} className="viewall">View all</Link></div>
+            <div className={switchTrending === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTrending === 0 && theme.palette.warning.main, color: switchTrending === 0 && theme.palette.warning.contrastText }}>Movie</div>
+            <div className={switchTrending === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTrending === 1 && theme.palette.warning.main, color: switchTrending === 1 && theme.palette.warning.contrastText }}>TV</div>
+          </div><Link to={`/singlecategory/trending/${switchTrending === 0 ? 'movie' : 'tv'}/Trending ${switchTrending === 0 ? 'Movie' : 'TV'}`} className="viewall" style={{ color: theme.palette.warning.main }}>View all</Link></div>
           <div className='trending_scroll' data-aos="fade-left">
             {trendingMovie && switchTrending === 0 && trendingMovie.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="movie" />
@@ -147,9 +149,9 @@ export default function Trending() {
           </div>
           <br />
           <div className='trending_title' data-aos="fade-right">Top Rated&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchTopRated(switchTopRated === 0 ? 1 : 0)}>
-            <div className={switchTopRated === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
-            <div className={switchTopRated === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
-          </div><Link to={`/singlecategory/top_rated/${switchTopRated === 0 ? 'movie' : 'tv'}/Top Rated ${switchTopRated === 0 ? 'Movie' : 'TV'}`} className="viewall">View all</Link></div>
+            <div className={switchTopRated === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTopRated === 0 && theme.palette.warning.main, color: switchTopRated === 0 && theme.palette.warning.contrastText }}>Movie</div>
+            <div className={switchTopRated === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTopRated === 1 && theme.palette.warning.main, color: switchTopRated === 1 && theme.palette.warning.contrastText }}>TV</div>
+          </div><Link to={`/singlecategory/top_rated/${switchTopRated === 0 ? 'movie' : 'tv'}/Top Rated ${switchTopRated === 0 ? 'Movie' : 'TV'}`} className="viewall" style={{ color: theme.palette.warning.main }}>View all</Link></div>
           <div className='trending_scroll' data-aos="fade-left">
             {topratedmovie && switchTopRated === 0 && topratedmovie.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="movie" />
@@ -160,9 +162,9 @@ export default function Trending() {
           </div>
           <br />
           <div className='trending_title' data-aos="fade-right">Popular&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchPopular(switchPopular === 0 ? 1 : 0)}>
-            <div className={switchPopular === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
-            <div className={switchPopular === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
-          </div><Link to={`/singlecategory/popular/${switchPopular === 0 ? 'movie' : 'tv'}/Popular ${switchPopular === 0 ? 'Movie' : 'TV'}`} className="viewall">View all</Link></div>
+            <div className={switchPopular === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchPopular === 0 && theme.palette.warning.main, color: switchPopular === 0 && theme.palette.warning.contrastText }}>Movie</div>
+            <div className={switchPopular === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchPopular === 1 && theme.palette.warning.main, color: switchPopular === 1 && theme.palette.warning.contrastText }}>TV</div>
+          </div><Link to={`/singlecategory/popular/${switchPopular === 0 ? 'movie' : 'tv'}/Popular ${switchPopular === 0 ? 'Movie' : 'TV'}`} className="viewall" style={{ color: theme.palette.warning.main }}>View all</Link></div>
           <div className='trending_scroll' data-aos="fade-left">
             {popularmovie && switchPopular === 0 && popularmovie.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type="movie" />

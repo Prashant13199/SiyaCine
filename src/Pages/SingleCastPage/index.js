@@ -10,6 +10,7 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import Grow from '@mui/material/Grow';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { useTheme } from '@mui/material';
 
 export default function SingleCastPage() {
 
@@ -22,6 +23,7 @@ export default function SingleCastPage() {
   const [checked, setChecked] = useState(false);
   const [switchC, setSwitchC] = useState(0)
   const currentuid = localStorage.getItem('uid')
+  const theme = useTheme()
 
   useEffect(() => {
     AOS.init({ duration: 800, })
@@ -92,7 +94,7 @@ export default function SingleCastPage() {
             <div className='actions'>
               {currentuid && <div>
                 <Tooltip title="Favourite">
-                  <IconButton style={{ backgroundColor: '#3385ff' }} onClick={() => handleFavourite()}>
+                  <IconButton style={{ backgroundColor: theme.palette.warning.main }} onClick={() => handleFavourite()}>
                     {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
                   </IconButton>
                 </Tooltip>
@@ -119,8 +121,8 @@ export default function SingleCastPage() {
         </div>
         <br />
         <div className='trending_title' data-aos="fade-right"><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
-          <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'}>Movie</div>
-          <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'}>TV</div>
+          <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 0 && theme.palette.warning.main, color: switchC === 0 && theme.palette.warning.contrastText }}>Movie</div>
+          <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 1 && theme.palette.warning.main, color: switchC === 1 && theme.palette.warning.contrastText }}>TV</div>
         </div>
         </div>
         <div style={{ marginTop: '10px' }}></div>

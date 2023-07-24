@@ -152,27 +152,27 @@ export default function Profile() {
       </Modal>
       <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
         <div className='Profile'>
-            <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
-              <div className='welcome_backdrop'>
-                <div style={{ width: '100%' }}>
-                  <div className='profile_header'>
-                    <div style={{ position: 'relative', width: 'fit-content' }}>
-                      <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
-                      <div style={{ position: 'absolute', left: 5, bottom: 5 }}>
-                        <IconButton style={{ backgroundColor: theme.palette.background.default }}><CreateIcon fontSize='small' onClick={() => handleShow()} /></IconButton>
-                      </div>
-                      {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 5, bottom: 5 }}>
-                        <IconButton style={{ backgroundColor: theme.palette.background.default, marginRight: '10px' }}><DeleteIcon fontSize='small' onClick={() => removePicture()} /></IconButton>
-                      </div>}
+          <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
+            <div className='welcome_backdrop'>
+              <div style={{ width: '100%' }}>
+                <div className='profile_header'>
+                  <div style={{ position: 'relative', width: 'fit-content' }}>
+                    <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
+                    <div style={{ position: 'absolute', left: 5, bottom: 5 }}>
+                      <IconButton style={{ backgroundColor: theme.palette.background.default }}><CreateIcon color="warning" fontSize='small' onClick={() => handleShow()} /></IconButton>
                     </div>
-                    <div className="profile_actions">
-                      <div className='profile_username'>{currentusername ? currentusername.length > 15 ? currentusername.substring(0, 15).concat('...') : currentusername : 'Loading...'}</div>
-                      &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon /></IconButton>
-                    </div>
+                    {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 5, bottom: 5 }}>
+                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginRight: '10px' }}><DeleteIcon color="warning" fontSize='small' onClick={() => removePicture()} /></IconButton>
+                    </div>}
+                  </div>
+                  <div className="profile_actions">
+                    <div className='profile_username'>{currentusername ? currentusername.length > 15 ? currentusername.substring(0, 15).concat('...') : currentusername : 'Loading...'}</div>
+                    &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon color="warning" /></IconButton>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           {watching.length !== 0 && <><br />
             <div className='trending_title' data-aos="fade-right">Watching Now</div>
             <div className='trending_scroll' data-aos="fade-left">

@@ -19,10 +19,12 @@ import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
+import { useTheme } from '@mui/material';
 
 function App() {
 
   const [loading, setLoading] = useState(true)
+  const theme = useTheme()
 
   useEffect(() => {
     setTimeout(() => {
@@ -34,13 +36,12 @@ function App() {
     <LoadingScreen
       loading={loading}
       bgColor='background.default'
-      spinnerColor='#9ee5f8'
-      textColor='#676767'
+      spinnerColor={theme.palette.warning.main}
       logoSrc={logo}
     >
       <BrowserRouter>
         <div className="App">
-          <Box sx={{ bgcolor: 'background.default', color: 'text.primary' }}>
+          <Box sx={{ bgcolor: 'background.default', color: 'text.warning' }}>
             <NavBarMain />
             <Box sx={{ flexGrow: 1, marginY: 7, marginX: 0.2 }}>
               <CssBaseline />

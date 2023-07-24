@@ -49,7 +49,7 @@ export default function Genres({
           label={genre.name}
           key={genre.id}
           clickable
-          color='warning'
+          color='primary'
           size="small"
           onDelete={() => handleRemove(genre)}
         />
@@ -61,7 +61,7 @@ export default function Genres({
           key={genre.id}
           clickable
           size="small"
-          color='primary'
+          color='warning'
           onClick={() => handleAdd(genre)}
         />
       ))}
