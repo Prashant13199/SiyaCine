@@ -70,7 +70,7 @@ export default function ForgotPassword() {
                             variant="primary"
                             size="md"
                             id="uploadBtn"
-                            onClick={forgot}
+                            onClick={() => forgot()}
                             style={{
                                 color: "white",
                                 cursor: "pointer",

@@ -44,6 +44,7 @@ export default function Login() {
                 setShow(true)
             });
     };
+
     return (
         <>
             <Modal show={show2} onHide={handleClose2} centered>
@@ -106,6 +107,7 @@ export default function Login() {
                             variant="warning"
                             size="md"
                             id="uploadBtn"
+                            onClick={() => login()}
                         >
                             {loading ? "Please Wait.." : "Login"}
                         </Button>

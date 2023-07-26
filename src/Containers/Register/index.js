@@ -32,23 +32,21 @@ export default function Register() {
                 email: email,
                 createdAccountOn: Date.now(),
                 timestamp: Date.now(),
-            })
-                .then(() => {
-                    setLoading(false);
-                    localStorage.setItem('uid', user.user.uid)
-                    localStorage.setItem('username', email.replace("@gmail.com", ""))
-                    window.location.reload()
-                })
-                .catch((e) => {
-                    setLoading(false);
-                    setError(e)
-                    setShow(true)
-                });
+            }).then(() => {
+                setLoading(false);
+                localStorage.setItem('uid', user.user.uid)
+                localStorage.setItem('username', email.replace("@gmail.com", ""))
+                window.location.reload()
+            }).catch((e) => {
+                setLoading(false);
+                setError(e.toString())
+                setShow(true)
+            });
         })
             .catch((e) => {
                 console.log(e);
                 setLoading(false);
-                setError(e)
+                setError(e.toString())
                 setShow(true)
             });
     };
@@ -106,7 +104,7 @@ export default function Register() {
                             variant="warning"
                             size="md"
                             id="uploadBtn"
-                            onClick={register}
+                            onClick={() => register()}
                         >
                             {loading ? "Please Wait.." : "Register"}
                         </Button>
