@@ -4,8 +4,9 @@ import { useHistory } from 'react-router-dom'
 import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useTheme } from '@mui/material'
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-export default function SingleContentScroll({ data, type, by, id }) {
+export default function SingleContentScroll({ data, type, by, byuid, id }) {
 
   const history = useHistory()
   const theme = useTheme()
@@ -28,7 +29,7 @@ export default function SingleContentScroll({ data, type, by, id }) {
       />
       {by && <div className='user' style={{ color: theme.palette.warning.main }}>
         <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => removeSuggestion()} />
-        {by}
+        <Link style={{ color: theme.palette.warning.main, textDecoration: 'none' }} to={`/user/${byuid}`}>{by}</Link>
       </div>}
     </div>
   )

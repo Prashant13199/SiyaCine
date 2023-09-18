@@ -137,7 +137,7 @@ export default function Profile() {
     database.ref(`/Users/${currentuid}/suggestions`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, by: snap.val().by })
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, by: snap.val().by, byuid: snap.val().byuid })
       })
       setSuggestions(arr)
     })
@@ -174,14 +174,14 @@ export default function Profile() {
             </div>
           </div>
           {watching.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Watching Now</div>
+            <div className='trending_title' data-aos="fade-right">Watching Now ({watching?.length})</div>
             <div className='trending_scroll' data-aos="fade-left">
               {watching && watching.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {watchlist.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Watchlist</div>
+            <div className='trending_title' data-aos="fade-right">Watchlist ({watchlist?.length})</div>
             <div className='trending_scroll' data-aos="fade-left">
               {watchlist && watchlist.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
@@ -196,16 +196,16 @@ export default function Profile() {
               })}
             </div></>}
           {suggestions.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Suggestions</div>
+            <div className='trending_title' data-aos="fade-right">Suggestions ({suggestions?.length})</div>
             <div className='trending_scroll' data-aos="fade-left">
               {suggestions && suggestions.map((data) => {
                 return <div>
-                  <SingleContentScroll data={data.data} key={data.id} type={data.type} by={data.by} id={data.id} />
+                  <SingleContentScroll data={data.data} key={data.id} type={data.type} by={data.by} byuid={data.byuid} id={data.id} />
                 </div>
               })}
             </div></>}
           {favourite.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Favourites</div>
+            <div className='trending_title' data-aos="fade-right">Favourites ({favourite?.length})</div>
             <div className='trending_scroll' data-aos="fade-left">
               {favourite && favourite.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />

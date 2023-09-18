@@ -238,7 +238,7 @@ export default function SingleContentPage() {
 
   const handleSend = (user) => {
     database.ref(`/Users/${user}/suggestions/${id}`).update({
-      type: type, data: data, id: id, by: currentusername
+      type: type, data: data, id: id, by: currentusername, byuid: currentuid
     }).then(() => {
       handleClose2()
       setSnackBar(true)
