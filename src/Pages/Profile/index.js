@@ -17,6 +17,7 @@ import 'aos/dist/aos.css';
 import { useTheme } from '@mui/material';
 import Grow from '@mui/material/Grow';
 import CachedIcon from '@mui/icons-material/Cached';
+import SingleContentScrollWatched from '../../Components/SingleContentScrollWatched';
 
 export default function Profile() {
 
@@ -215,7 +216,7 @@ export default function Profile() {
             <div className='trending_title' data-aos="fade-right">Watched ({watched?.length})</div>
             <div className='trending_scroll' data-aos="fade-left">
               {watched && watched.map((data) => {
-                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+                return <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {suggestions.length !== 0 && <><br />

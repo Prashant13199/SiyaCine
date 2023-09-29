@@ -9,6 +9,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Grow from '@mui/material/Grow';
 import { Link } from 'react-router-dom'
+import SingleContentScrollWatched from '../../Components/SingleContentScrollWatched'
 
 export default function UserProfile() {
 
@@ -120,7 +121,7 @@ export default function UserProfile() {
             })}
           </div></>}
         {watchlist.length !== 0 && <><br />
-          <div className='trending_title' data-aos="fade-right">Watchlist ({watching?.length})</div>
+          <div className='trending_title' data-aos="fade-right">Watchlist ({watchlist?.length})</div>
           <div className='trending_scroll' data-aos="fade-left">
             {watchlist && watchlist.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
@@ -130,7 +131,7 @@ export default function UserProfile() {
           <div className='trending_title' data-aos="fade-right">Watched ({watched?.length})</div>
           <div className='trending_scroll' data-aos="fade-left">
             {watched && watched.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              return <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
         {favourite.length !== 0 && <><br />

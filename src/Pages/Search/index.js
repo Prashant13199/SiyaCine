@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './style.css';
 import axios from "axios";
-import SingleContent from '../../Components/SingleContent';
+import SingleContentSearch from '../../Components/SingleContentSearch';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -105,7 +105,7 @@ export default function Search() {
 
                 <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {contentM && value === 0 && contentM.map((data) => {
-                        return <SingleContent data={data} key={data.id} type='movie' />
+                        return <SingleContentSearch data={data} key={data.id} type='movie' />
                     })}
                 </Grid>
 
@@ -115,7 +115,7 @@ export default function Search() {
 
                 <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {contentT && value === 1 && contentT.map((data) => {
-                        return <SingleContent data={data} key={data.id} type='tv' />
+                        return <SingleContentSearch data={data} key={data.id} type='tv' />
                     })}
                 </Grid>
 
