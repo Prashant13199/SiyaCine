@@ -194,14 +194,14 @@ export default function Profile() {
             <div className='trending_title' data-aos="fade-right">Watching Now ({watching?.length})</div>
             <div className='trending_scroll' data-aos="fade-left">
               {watching && watching.map((data) => {
-                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+                return <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {watchlist.length !== 0 && <><br />
             <div className='trending_title' data-aos="fade-right">Watchlist ({watchlist?.length})</div>
             <div className='trending_scroll' data-aos="fade-left">
               {watchlist && watchlist.map((data) => {
-                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+                return <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {recommendation.length !== 0 && <><br />
@@ -224,7 +224,7 @@ export default function Profile() {
             <div className='trending_scroll' data-aos="fade-left">
               {suggestions && suggestions.map((data) => {
                 return <div>
-                  <SingleContentScroll data={data.data} key={data.id} type={data.type} by={data.by} byuid={data.byuid} id={data.id} />
+                  <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} by={data.by} byuid={data.byuid} id={data.id} />
                 </div>
               })}
             </div></>}
@@ -232,7 +232,7 @@ export default function Profile() {
             <div className='trending_title' data-aos="fade-right">Favourites ({favourite?.length})</div>
             <div className='trending_scroll' data-aos="fade-left">
               {favourite && favourite.map((data) => {
-                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+                return <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {cast.length !== 0 && <><br />

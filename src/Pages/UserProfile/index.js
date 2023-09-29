@@ -117,14 +117,14 @@ export default function UserProfile() {
           <div className='trending_title' data-aos="fade-right">Watching Now ({watching?.length})</div>
           <div className='trending_scroll' data-aos="fade-left">
             {watching && watching.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              return <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
         {watchlist.length !== 0 && <><br />
           <div className='trending_title' data-aos="fade-right">Watchlist ({watchlist?.length})</div>
           <div className='trending_scroll' data-aos="fade-left">
             {watchlist && watchlist.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              return <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
         {watched.length !== 0 && <><br />
@@ -138,7 +138,7 @@ export default function UserProfile() {
           <div className='trending_title' data-aos="fade-right">Favourites ({favourite?.length})</div>
           <div className='trending_scroll' data-aos="fade-left">
             {favourite && favourite.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              return <SingleContentScrollWatched data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
         {cast.length !== 0 && <><br />
