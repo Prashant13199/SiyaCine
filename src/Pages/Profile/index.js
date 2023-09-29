@@ -16,6 +16,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useTheme } from '@mui/material';
 import Grow from '@mui/material/Grow';
+import CachedIcon from '@mui/icons-material/Cached';
 
 export default function Profile() {
 
@@ -23,6 +24,7 @@ export default function Profile() {
   const currentusername = localStorage.getItem('username')
   const [currentPhoto, setCurrentPhoto] = useState('')
   const [watchlist, setWatchlist] = useState([])
+  const [watched, setWatched] = useState([])
   const [favourite, setFavourite] = useState([])
   const [watching, setWatching] = useState([])
   const [cast, setCast] = useState([])
@@ -49,8 +51,12 @@ export default function Profile() {
   }, [])
 
   useEffect(() => {
-    setNumber(Math.floor(Math.random() * favourite.length))
+    randomNumber()
   }, [favourite.length])
+
+  const randomNumber = () => {
+    setNumber(Math.floor(Math.random() * favourite.length))
+  }
 
   const signOut = () => {
     auth.signOut().then(() => {
@@ -99,6 +105,16 @@ export default function Profile() {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
       setWatchlist(arr)
+    })
+  }, [])
+
+  useEffect(() => {
+    database.ref(`/Users/${currentuid}/watched`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+      setWatched(arr)
     })
   }, [])
 
@@ -157,7 +173,7 @@ export default function Profile() {
               <div style={{ width: '100%' }}>
                 <div className='profile_header'>
                   <div style={{ position: 'relative', width: 'fit-content' }}>
-                    <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
+                    <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className='profile_image' />
                     <div style={{ position: 'absolute', left: 5, bottom: 5 }}>
                       <IconButton style={{ backgroundColor: theme.palette.background.default }}><CreateIcon color="warning" fontSize='small' onClick={() => handleShow()} /></IconButton>
                     </div>
@@ -188,11 +204,18 @@ export default function Profile() {
               })}
             </div></>}
           {recommendation.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Recommendation</div>
+            <div className='trending_title' data-aos="fade-right">Recommendation <IconButton><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
             <div className='searchresultfor' data-aos="fade-right">Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
             <div className='trending_scroll' data-aos="fade-left">
               {recommendation && recommendation.map((data) => {
                 return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
+              })}
+            </div></>}
+          {watched.length !== 0 && <><br />
+            <div className='trending_title' data-aos="fade-right">Watched ({watched?.length})</div>
+            <div className='trending_scroll' data-aos="fade-left">
+              {watched && watched.map((data) => {
+                return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {suggestions.length !== 0 && <><br />

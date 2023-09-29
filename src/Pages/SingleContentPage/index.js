@@ -12,6 +12,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import { database, auth } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import ReactPlayer from 'react-player'
@@ -27,6 +28,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
+import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
+import FeaturedVideoOutlinedIcon from '@mui/icons-material/FeaturedVideoOutlined';
 
 export default function SingleContentPage() {
 
@@ -39,6 +42,7 @@ export default function SingleContentPage() {
   const [currentusername, setCurrentusername] = useState('')
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
+  const [watched, setWatched] = useState(false)
   const [watching, setWatching] = useState(false)
   const [recommendations, setRecommendations] = useState([])
   const [reviews, setReviews] = useState([])
@@ -92,6 +96,14 @@ export default function SingleContentPage() {
         setWatchlist(true)
       } else {
         setWatchlist(false)
+      }
+    })
+
+    database.ref(`/Users/${currentuid}/watched/${id}`).on('value', snapshot => {
+      if (snapshot.val()?.id === id) {
+        setWatched(true)
+      } else {
+        setWatched(false)
       }
     })
 
@@ -220,6 +232,22 @@ export default function SingleContentPage() {
     }
   }
 
+  const handleWatched = () => {
+    if (!watched) {
+      database.ref(`/Users/${currentuid}/watched/${id}`).set({
+        id: id, data: data, type: type
+      }).then(() => {
+        console.log("Set to watched")
+        setWatched(true)
+      })
+    } else {
+      database.ref(`/Users/${currentuid}/watched/${id}`).remove().then(() => {
+        console.log("Removed from watched")
+        setWatched(false)
+      })
+    }
+  }
+
   const handleWatching = () => {
     if (!watching) {
       database.ref(`/Users/${currentuid}/watching/${id}`).set({
@@ -300,7 +328,12 @@ export default function SingleContentPage() {
               </Tooltip>
               <Tooltip title="Watching">
                 <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatching()}>
-                  {watching ? <PlayCircleOutlineIcon color="primary" /> : <PlayCircleOutlineIcon style={{ color: 'white' }} />}
+                  {watching ? <PlayCircleFilledWhiteIcon style={{ color: 'white' }} /> : <PlayCircleOutlineIcon style={{ color: 'white' }} />}
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Watched">
+                <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatched()}>
+                  {watched ? <FeaturedVideoIcon style={{ color: 'white' }} /> : <FeaturedVideoOutlinedIcon style={{ color: 'white' }} />}
                 </IconButton>
               </Tooltip>
               <Tooltip title="Share">
@@ -339,7 +372,7 @@ export default function SingleContentPage() {
           {data.overview && <div className='overview'>
             <h4>Overview</h4>
             {data.overview?.length > 200 && !readMore ? data.overview.substring(0, 200).concat('...') : data.overview}
-            <span className='readmore' onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 200 && (!readMore ? 'read more.' : 'Less')}</span>
+            <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 200 && (!readMore ? 'read more.' : 'Less')}</span>
           </div>}
         </div>
       </div>

@@ -16,6 +16,7 @@ export default function UserProfile() {
   const [username, setUsername] = useState('')
   const [photo, setPhoto] = useState('')
   const [watchlist, setWatchlist] = useState([])
+  const [watched, setWatched] = useState([])
   const [favourite, setFavourite] = useState([])
   const [watching, setWatching] = useState([])
   const [cast, setCast] = useState([])
@@ -50,6 +51,16 @@ export default function UserProfile() {
       setWatchlist(arr)
     })
   }, [uid])
+
+  useEffect(() => {
+    database.ref(`/Users/${uid}/watched`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+      setWatched(arr)
+    })
+  }, [])
 
   useEffect(() => {
     database.ref(`/Users/${uid}/favourites`).on('value', snapshot => {
@@ -112,6 +123,13 @@ export default function UserProfile() {
           <div className='trending_title' data-aos="fade-right">Watchlist ({watching?.length})</div>
           <div className='trending_scroll' data-aos="fade-left">
             {watchlist && watchlist.map((data) => {
+              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+            })}
+          </div></>}
+        {watched.length !== 0 && <><br />
+          <div className='trending_title' data-aos="fade-right">Watched ({watched?.length})</div>
+          <div className='trending_scroll' data-aos="fade-left">
+            {watched && watched.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
