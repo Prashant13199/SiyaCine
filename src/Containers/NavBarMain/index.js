@@ -79,8 +79,8 @@ export default function NavBarMain() {
           </Nav>
         }
       </Navbar>
-      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px' }}>
-        <Nav className="me-auto"></Nav>
+      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px', padding: '0px 5px' }}>
+        <Nav className="me-auto pc"></Nav>
         <Nav><NavLink to='/' activeClassName="is-active" className="navlink"
           exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><WhatshotIcon /></div><div>HOT</div></div></NavLink></Nav>
         <Nav className="me-auto"></Nav>
@@ -92,7 +92,7 @@ export default function NavBarMain() {
         {uid && <><Nav className="me-auto"></Nav>
           <Nav><NavLink to='/people' activeClassName="is-active" className="navlink"
             exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><PeopleIcon /></div><div>PEOPLE</div></div></NavLink></Nav></>}
-        <Nav className="me-auto"></Nav>
+        <Nav className="me-auto pc"></Nav>
       </Navbar>
     </>
   )

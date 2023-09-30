@@ -205,7 +205,7 @@ export default function Profile() {
               })}
             </div></>}
           {recommendation.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Recommendation <IconButton><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
+            <div className='trending_title' data-aos="fade-right">Recommendation <IconButton className='refresh_icon'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
             <div className='searchresultfor' data-aos="fade-right">Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
             <div className='trending_scroll' data-aos="fade-left">
               {recommendation && recommendation.map((data) => {

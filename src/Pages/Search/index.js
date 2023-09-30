@@ -80,10 +80,10 @@ export default function Search() {
     return (
         <div className="search">
             <div className='discover_movies_title'>Search</div>
-            <Paper component="form" sx={{ p: '4px 4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '20px' }}>
+            <Paper component="form" sx={{ p: '4px 4px', display: 'flex', alignItems: 'center', width: '98%', borderRadius: '20px', margin: 'auto' }}>
                 <InputBase
-                    sx={{ ml: 1, flex: 1, fontFamily: 'Montserrat' }}
-                    placeholder="Search for a movie, tv show or cast"
+                    sx={{ ml: 1, flex: 1, fontFamily: 'Montserrat', fontSize: '24px', padding: '10px' }}
+                    placeholder="Search for a Movie, TV Show or Cast"
                     inputProps={{ 'aria-label': 'search google maps' }}
                     value={query}
                     autoFocus
@@ -95,8 +95,7 @@ export default function Search() {
                     }}
                 />
             </Paper>
-            {query && <><div className='searchresultfor'>Showing results for</div>
-                <div className='discover_movies_title'>{query}</div>
+            {query && <><br />
                 <Tabs value={value} onChange={handleChange} centered indicatorColor="primary" textColor='inherit' style={{ color: theme.palette.warning.main }}>
                     <Tab label="Movie" style={{ fontFamily: 'Montserrat' }} />
                     <Tab label="TV" style={{ fontFamily: 'Montserrat' }} />

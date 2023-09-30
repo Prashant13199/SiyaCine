@@ -15,16 +15,22 @@
     font-size: 40px;
     font-weight: bold;
 }
+
 .profile_actions {
-    display: flex; 
+    display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.refresh_icon {
+    padding: 0 5px !important;
 }
 
 @media only screen and (max-width: 600px) {
     .profile_username {
         font-size: 25px;
     }
+
     .profile_image {
         height: 120px;
         width: 120px;
