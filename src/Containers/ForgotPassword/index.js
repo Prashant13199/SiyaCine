@@ -43,12 +43,12 @@ export default function ForgotPassword() {
                 setShow2(false)
             }
             } dismissible>
-                <Alert.Heading>Password reset link Montserratt!</Alert.Heading>
+                <Alert.Heading>Password reset link sent!</Alert.Heading>
                 <div style={{ fontSize: 'small' }}>
                     Please check spam also
                 </div>
             </Alert>}
-            <div className="login">
+            <div className="login">se
                 <div className="login__container">
                     <div className="login__text">
                         <h4>

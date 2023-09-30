@@ -14,3 +14,7 @@
 .App {
     overflow-x: hidden;
 }
+
+* {
+    font-family: 'Montserrat' !important;
+}
