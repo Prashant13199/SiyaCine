@@ -94,7 +94,7 @@ export default function UserProfile() {
                   <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
                 </div>
                 <div className="profile_actions">
-                  <div className='profile_username'>{username ? username.length > 15 ? username.substring(0, 15).concat('...') : username : 'Loading...'}</div>
+                  <div className='profile_username'>{username ? username.length > 20 ? username.substring(0, 20).concat('...') : username : 'Loading...'}</div>
                 </div>
               </div>
             </div>

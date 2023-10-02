@@ -47,13 +47,13 @@ function App() {
             <Switch>
               <Route path="/" component={Trending} exact />
               <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/user/:uid" component={UserProfile} />
               <Box sx={{ paddingTop: 7 }}>
                 <Route path="/movies" component={Movies} />
                 <Route path="/tv" component={TV} />
                 <Route path="/search" component={Search} />
-                <Route path="/profile" component={Profile} />
                 <Route path="/people" component={People} />
-                <Route path="/user/:uid" component={UserProfile} />
                 <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
                 <Route path="/singlecast/:id" component={SingleCastPage} />
               </Box>

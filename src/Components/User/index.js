@@ -12,7 +12,7 @@ export default function User({ user }) {
           <img className='user_image' src={user ? user.photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} />
           <div className='user_back'>
             <div className='user_username'>
-              {user.username.length > 12 ? user.username.substring(0, 12).concat('...') : user.username}
+              {user.username.length > 16 ? user.username.substring(0, 16).concat('...') : user.username}
             </div>
           </div>
         </div>

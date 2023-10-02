@@ -168,15 +168,15 @@ export default function Profile() {
                 <div className='profile_header'>
                   <div style={{ position: 'relative', width: 'fit-content' }}>
                     <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className='profile_image' />
-                    <div style={{ position: 'absolute', left: 5, bottom: 5 }}>
+                    <div style={{ position: 'absolute', left: 2, bottom: 2 }}>
                       <IconButton style={{ backgroundColor: theme.palette.background.default }}><CreateIcon color="warning" fontSize='small' onClick={() => handleShow()} /></IconButton>
                     </div>
-                    {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 5, bottom: 5 }}>
-                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginRight: '10px' }}><DeleteIcon color="warning" fontSize='small' onClick={() => removePicture()} /></IconButton>
+                    {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 2, bottom: 2 }}>
+                      <IconButton style={{ backgroundColor: theme.palette.background.default }}><DeleteIcon color="warning" fontSize='small' onClick={() => removePicture()} /></IconButton>
                     </div>}
                   </div>
                   <div className="profile_actions">
-                    <div className='profile_username'>{currentusername ? currentusername.length > 15 ? currentusername.substring(0, 15).concat('...') : currentusername : 'Loading...'}</div>
+                    <div className='profile_username'>{currentusername ? currentusername.length > 20 ? currentusername.substring(0, 20).concat('...') : currentusername : 'Loading...'}</div>
                     &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon color="warning" /></IconButton>
                   </div>
                 </div>
