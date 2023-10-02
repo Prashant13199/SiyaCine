@@ -26,9 +26,19 @@
     padding: 0 5px !important;
 }
 
+.empty {
+    width: 80px;
+    height: auto;
+    margin-top: 100px;
+}
+
 @media only screen and (max-width: 600px) {
     .profile_username {
         font-size: 20px;
+    }
+
+    .empty {
+        width: 60px;
     }
 
     .profile_image {

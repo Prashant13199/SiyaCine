@@ -139,12 +139,15 @@ export default function Search() {
                     })}
                 </Grid>
             </>}
-            {contentM.length === 0 && value === 0 && query && <center>
-                <img src={empty} width={'100px'} height={'auto'} />
-                <h6 style={{ color: 'gray' }}>Oops... No Movies found</h6></center>}
-            {contentT.length === 0 && value === 1 && query && <center>
-                <img src={empty} width={'100px'} height={'auto'} />
-                <h6 style={{ color: 'gray' }}>Oops... No TV Shows found</h6></center>}
+            {contentM?.length === 0 && value === 0 && query && <center>
+                <img src={empty} className='empty' />
+                <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+            {contentT?.length === 0 && value === 1 && query && <center>
+                <img src={empty} className='empty' />
+                <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+            {person?.length === 0 && value === 2 && query && <center>
+                <img src={empty} className='empty' />
+                <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
         </div>
     )
 }

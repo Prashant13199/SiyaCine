@@ -86,7 +86,7 @@ export default function UserProfile() {
 
     <div className='Profile'>
       <Link to={`/singlecontent/${favourite[number]?.id}/${favourite[number]?.type}`} style={{ textDecoration: 'none' }}>
-        <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
+        <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
           <div className='welcome_backdrop'>
             <div style={{ width: '100%' }}>
               <div className='profile_header'>
@@ -137,8 +137,8 @@ export default function UserProfile() {
           })}
         </div></>}
       {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
-        <img src={empty} width={'100px'} height={'auto'} alt="" />
-        <h6 style={{ color: 'gray' }}>Nothing to show</h6></center>}
+        <img src={empty} className='empty' alt="" />
+        <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
     </div>
 
   )

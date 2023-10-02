@@ -25,7 +25,7 @@ export default function Header() {
 
   return (
     <Link to={`/singlecontent/${upcoming[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
-      <div className='welcome' style={{ backgroundImage: upcoming.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${upcoming[number].backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', borderRadius: '10px' }}>
+      <div className='welcome' style={{ backgroundImage: upcoming.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${upcoming[number].backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>
             <div className='welcomeText'>{upcoming[number]?.title}</div>
