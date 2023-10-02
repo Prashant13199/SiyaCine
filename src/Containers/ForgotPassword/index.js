@@ -48,7 +48,7 @@ export default function ForgotPassword() {
                     Please check spam also
                 </div>
             </Alert>}
-            <div className="login">se
+            <div className="login">
                 <div className="login__container">
                     <div className="login__text">
                         <h4>
@@ -67,14 +67,10 @@ export default function ForgotPassword() {
                     </div>
                     <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                         <Button
-                            variant="primary"
+                            variant="warning"
                             size="md"
                             id="uploadBtn"
                             onClick={() => forgot()}
-                            style={{
-                                color: "white",
-                                cursor: "pointer",
-                            }}
                         >
                             {loading ? "Please Wait.." : "Send Reset Link"}
                         </Button>

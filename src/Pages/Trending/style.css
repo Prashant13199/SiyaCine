@@ -16,10 +16,7 @@
 }
 
 .viewall {
-    text-decoration: none;
-    font-size: small;
-    margin-left: 10px;
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
 .viewall:hover {
@@ -56,10 +53,13 @@
 
 @media only screen and (max-width: 880px) {
     .trending_title {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .switch {
-        font-size: 14px;
+        font-size: 12px;
+        border-width: 1px;
+        padding: 1px;
     }
+
 }

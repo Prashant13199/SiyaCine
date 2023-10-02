@@ -1,6 +1,6 @@
 .navbar__img {
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
     object-fit: cover;
     margin-left: 10px;
     border-radius: 50%;
@@ -10,14 +10,18 @@
     border-style: solid;
 }
 
-.navbar_icon {
-    height: 35px;
-    width: 35px;
+.MuiButtonBase-root {
+    text-transform: none !important;
+}
+
+.navbar_main {
+    padding: 0 50px;
+    height: 50px;
 }
 
 .navbar__img_active {
-    height: 35px;
-    width: 35px;
+    height: 30px;
+    width: 30px;
     object-fit: cover;
     margin-left: 10px;
     border-radius: 50%;
@@ -26,27 +30,55 @@
     border-style: solid;
 }
 
+.dropdown-menu {
+    background-color: rgb(18, 18, 18);
+}
+
 .navlink {
     transition: transform .2s;
 }
 
 .navlink:hover {
-    transform: scale(0.9);
+    opacity: 1 !important;
+}
+
+.navbar_brand {
+    font-size: 22px;
+}
+
+.navbar_icon {
+    height: 30px;
+    width: 30px;
 }
 
 @media screen and (max-width: 660px) {
+
+    .navbar_brand {
+        font-size: 18px;
+    }
+
+    .navbar_main {
+        padding: 0 5px;
+        height: 40px;
+    }
+
     .navbar_icon {
-        height: 30px;
-        width: 30px;
+        height: 25px;
+        width: 25px;
     }
 
     .navbar__img {
-        height: 30px;
-        width: 30px;
+        height: 25px;
+        width: 25px;
     }
 
     .navbar__img_active {
-        height: 30px;
-        width: 30px;
+        height: 25px;
+        width: 25px;
+    }
+
+    .navbar_icon {
+        height: 25px;
+        width: 25px;
     }
 }

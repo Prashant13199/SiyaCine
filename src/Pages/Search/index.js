@@ -84,7 +84,7 @@ export default function Search() {
                 <InputBase
                     sx={{ ml: 1, flex: 1 }}
                     className='input_search'
-                    placeholder="Search for a Movie, TV Show or Cast"
+                    placeholder="Search for a Movies, TV Shows or Cast"
                     inputProps={{ 'aria-label': 'search google maps' }}
                     value={query}
                     autoFocus
@@ -97,7 +97,7 @@ export default function Search() {
                 />
             </Paper>
             {query && <><br />
-                <Tabs value={value} onChange={handleChange} centered indicatorColor="primary" textColor='inherit' style={{ color: theme.palette.warning.main }}>
+                <Tabs value={value} onChange={handleChange} centered indicatorColor="secondary" textColor='inherit' style={{ color: theme.palette.warning.main }}>
                     <Tab label="Movie" />
                     <Tab label="TV" />
                     <Tab label="Person" />
@@ -141,10 +141,10 @@ export default function Search() {
             </>}
             {contentM.length === 0 && value === 0 && query && <center>
                 <img src={empty} width={'100px'} height={'auto'} />
-                <h6 style={{ color: 'gray' }}>Oops... no movies found</h6></center>}
+                <h6 style={{ color: 'gray' }}>Oops... No Movies found</h6></center>}
             {contentT.length === 0 && value === 1 && query && <center>
                 <img src={empty} width={'100px'} height={'auto'} />
-                <h6 style={{ color: 'gray' }}>Oops... no tv shows found</h6></center>}
+                <h6 style={{ color: 'gray' }}>Oops... No TV Shows found</h6></center>}
         </div>
     )
 }

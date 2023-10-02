@@ -8,8 +8,6 @@ import { database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Grow from '@mui/material/Grow';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import { useTheme } from '@mui/material';
 
 export default function SingleCastPage() {
@@ -24,10 +22,6 @@ export default function SingleCastPage() {
   const [switchC, setSwitchC] = useState(0)
   const currentuid = localStorage.getItem('uid')
   const theme = useTheme()
-
-  useEffect(() => {
-    AOS.init({ duration: 800, })
-  }, [])
 
   useEffect(() => {
     database.ref(`/Users/${currentuid}/cast/${id}`).on('value', snapshot => {
@@ -120,13 +114,13 @@ export default function SingleCastPage() {
           </div>
         </div>
         <br />
-        <div className='trending_title' data-aos="fade-right"><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
+        <div className='trending_title' ><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
           <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 0 && theme.palette.warning.main, color: switchC === 0 && theme.palette.warning.contrastText }}>Movie</div>
           <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 1 && theme.palette.warning.main, color: switchC === 1 && theme.palette.warning.contrastText }}>TV</div>
         </div>
         </div>
         <div style={{ marginTop: '10px' }}></div>
-        <div className='trending_scroll' data-aos="fade-left">
+        <div className='trending_scroll' >
           {movie && switchC === 0 && movie.map((data) => {
             return <SingleContentScroll data={data} key={data.id} type="movie" />
           })}

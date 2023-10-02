@@ -43,21 +43,21 @@ function App() {
         <div className="App">
           <Box sx={{ bgcolor: 'background.default', color: 'text.warning' }}>
             <NavBarMain />
-            <Box sx={{ flexGrow: 1, marginY: 7, marginX: 0.2 }}>
-              <CssBaseline />
-              <Switch>
-                <Route path="/" component={Trending} exact />
+            <CssBaseline />
+            <Switch>
+              <Route path="/" component={Trending} exact />
+              <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
+              <Box sx={{ paddingTop: 7 }}>
                 <Route path="/movies" component={Movies} />
                 <Route path="/tv" component={TV} />
-                <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
                 <Route path="/search" component={Search} />
                 <Route path="/profile" component={Profile} />
                 <Route path="/people" component={People} />
                 <Route path="/user/:uid" component={UserProfile} />
                 <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
                 <Route path="/singlecast/:id" component={SingleCastPage} />
-              </Switch>
-            </Box>
+              </Box>
+            </Switch>
           </Box>
         </div>
       </BrowserRouter>

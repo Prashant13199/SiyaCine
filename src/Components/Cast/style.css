@@ -13,3 +13,30 @@
     object-fit: cover;
     border-radius: 50%;
 }
+
+.cast_name {
+    font-weight: 500;
+    max-width: 150px;
+}
+
+.cast_char {
+    color: gray;
+    max-width: 150px;
+    font-size: 14px;
+}
+
+@media only screen and (max-width: 660px) {
+
+    .cast_image {
+        height: 100px;
+        width: 100px;
+    }
+
+    .cast_char {
+        font-size: 12px;
+    }
+
+    .cast_name {
+        font-size: 14px;
+    }
+}

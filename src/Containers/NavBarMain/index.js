@@ -1,13 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import logo from '../../assets/logo.png'
 import { NavLink, useLocation } from "react-router-dom";
-import TvIcon from '@mui/icons-material/Tv';
-import MovieIcon from '@mui/icons-material/Movie';
-import PeopleIcon from '@mui/icons-material/People';
-import WhatshotIcon from '@mui/icons-material/Whatshot';
-import { Button, IconButton } from '@mui/material';
+import { Button } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import Login from '../Login';
 import Register from '../Register';
@@ -15,9 +11,7 @@ import { database } from '../../firebase';
 import './style.css'
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { ColorModeContext } from '../../Services/ThemeContext';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export default function NavBarMain() {
 
@@ -30,14 +24,38 @@ export default function NavBarMain() {
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
   const location = useLocation()
-  const toggleColorMode = useContext(ColorModeContext);
   const theme = useTheme()
+  const [top, setTop] = useState(true)
+  const [routeName, setRouteName] = useState('Home')
 
   useEffect(() => {
     database.ref(`/Users/${uid}`).on('value', snapshot => {
       setCurrentPhoto(snapshot.val()?.photo)
     })
   }, [uid])
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    setTop(window.pageYOffset)
+  };
+
+  useEffect(() => {
+    if (location.pathname === '/movies') {
+      setRouteName('Movies')
+    } else if (location.pathname === '/tv') {
+      setRouteName('TV Shows')
+    } else if (location.pathname === '/people') {
+      setRouteName('Users')
+    } else {
+      setRouteName('Home')
+    }
+  }, [location])
 
   return (
     <>
@@ -51,48 +69,41 @@ export default function NavBarMain() {
           <Register />
         </Modal.Body>
       </Modal>
-      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='top' style={{ height: '50px', padding: '0px 5px' }}>
+      <Navbar className='navbar_main' variant={theme.palette.mode} fixed='top' style={{ backgroundImage: top < 50 ? 'linear-gradient(rgba(0, 0, 0, 0.7) 10%, rgba(0, 0, 0, 0))' : '', backgroundColor: top > 50 ? theme.palette.background.default : '' }}>
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <div style={{ display: 'flex' }}>
-              <img src={logo} height={'35px'} width={'35px'} alt="logo" />
-              <div style={{ fontSize: '25px' }}>
-                <span style={{ fontSize: '18px', marginLeft: '5px', color: theme.palette.text.primary }}>SIYA<strong>CINE</strong></span>
+              <img className='navbar_icon' src={logo} height={'30px'} width={'30px'} alt="logo" />
+              <div className='navbar_brand'>
+                <span style={{ marginLeft: '5px', color: theme.palette.text.primary }}>Siya<strong>Cine</strong></span>
               </div>
             </div>
           </NavLink>
         </Navbar.Brand>
+        <NavDropdown title={routeName} id="basic-nav-dropdown" className='mobile'>
+          <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}>Home</NavLink></NavDropdown.Item>
+          <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/movies' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}>Movies</NavLink></NavDropdown.Item>
+          <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/tv' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}>TV Shows</NavLink></NavDropdown.Item>
+          <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/people' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}>Users</NavLink></NavDropdown.Item>
+        </NavDropdown>
+        <Nav><NavLink to='/' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}>Home</NavLink></Nav>
+        <Nav><NavLink to='/movies' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}>Movies</NavLink></Nav>
+        <Nav><NavLink to='/tv' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}>TV Shows</NavLink></Nav>
+        {uid && <>
+          <Nav><NavLink to='/people' activeClassName="is-active" className="navlink pc"
+            exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}>Users</NavLink></Nav></>}
         <Nav className="me-auto"></Nav>
-        <Nav>
-          <NavLink to='/search' activeClassName="is-active" className="navlink"
-            exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><SearchIcon /></NavLink>
-        </Nav>
-        <Nav><IconButton style={{ marginLeft: '10px' }} sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">{theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}</IconButton></Nav>
+        <Nav><NavLink to='/search' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, opacity: 0.8, margin: '0 10px' }} activeStyle={{ opacity: 1 }}><SearchIcon /></NavLink></Nav>
         {uid ? <Nav>
-          <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: 'white' }} className="navlink" activeStyle={{ color: theme.palette.warning.main }}
+          <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: theme.palette.warning.main }} className="navlink" activeStyle={{ opacity: 1 }}
             exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
         </Nav>
           :
           <Nav>
-            <Button color='warning' onClick={handleShow}>Login</Button>
-            <Button color='warning' onClick={handleShow2}>Register</Button>
+            <Button style={{ color: theme.palette.text.primary }} onClick={handleShow}>Login</Button>
+            <Button style={{ color: theme.palette.text.primary }} onClick={handleShow2}>Register</Button>
           </Nav>
         }
-      </Navbar>
-      <Navbar bg={theme.palette.mode} variant={theme.palette.mode} fixed='bottom' style={{ height: '50px', padding: '0px 5px' }}>
-        <Nav className="me-auto pc"></Nav>
-        <Nav><NavLink to='/' activeClassName="is-active" className="navlink"
-          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><WhatshotIcon /></div><div>HOT</div></div></NavLink></Nav>
-        <Nav className="me-auto"></Nav>
-        <Nav><NavLink to='/movies' activeClassName="is-active" className="navlink"
-          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><MovieIcon /></div><div>MOVIE</div></div></NavLink></Nav>
-        <Nav className="me-auto"></Nav>
-        <Nav><NavLink to='/tv' activeClassName="is-active" className="navlink"
-          exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><TvIcon /></div><div>TV</div></div></NavLink></Nav>
-        {uid && <><Nav className="me-auto"></Nav>
-          <Nav><NavLink to='/people' activeClassName="is-active" className="navlink"
-            exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary }} activeStyle={{ color: theme.palette.warning.main }}><div style={{ display: 'grid', placeItems: 'center' }}><div><PeopleIcon /></div><div>PEOPLE</div></div></NavLink></Nav></>}
-        <Nav className="me-auto pc"></Nav>
       </Navbar>
     </>
   )

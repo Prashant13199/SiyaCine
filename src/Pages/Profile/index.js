@@ -12,8 +12,6 @@ import UploadPicture from '../../Containers/UploadPicture';
 import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import { useTheme } from '@mui/material';
 import Grow from '@mui/material/Grow';
 import CachedIcon from '@mui/icons-material/Cached';
@@ -37,10 +35,6 @@ export default function Profile() {
   const [checked, setChecked] = useState(false);
   const theme = useTheme()
   const [suggestions, setSuggestions] = useState([])
-
-  useEffect(() => {
-    AOS.init({ duration: 800 })
-  }, [])
 
   useEffect(() => {
     fetchRecommendation();
@@ -190,37 +184,37 @@ export default function Profile() {
             </div>
           </div>
           {watching.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Watching Now ({watching?.length})</div>
-            <div className='trending_scroll' data-aos="fade-left">
+            <div className='trending_title' >Watching Now ({watching?.length})</div>
+            <div className='trending_scroll' >
               {watching && watching.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {watchlist.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Watchlist ({watchlist?.length})</div>
-            <div className='trending_scroll' data-aos="fade-left">
+            <div className='trending_title' >Watchlist ({watchlist?.length})</div>
+            <div className='trending_scroll' >
               {watchlist && watchlist.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {recommendation.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Recommendation <IconButton className='refresh_icon'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
-            <div className='searchresultfor' data-aos="fade-right">Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
-            <div className='trending_scroll' data-aos="fade-left">
+            <div className='trending_title' >Recommendation <IconButton className='refresh_icon'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
+            <div className='searchresultfor' >Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
+            <div className='trending_scroll' >
               {recommendation && recommendation.map((data) => {
                 return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
               })}
             </div></>}
           {watched.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Watched ({watched?.length})</div>
-            <div className='trending_scroll' data-aos="fade-left">
+            <div className='trending_title' >Watched ({watched?.length})</div>
+            <div className='trending_scroll' >
               {watched && watched.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {suggestions.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Suggestions ({suggestions?.length})</div>
-            <div className='trending_scroll' data-aos="fade-left">
+            <div className='trending_title' >Suggestions ({suggestions?.length})</div>
+            <div className='trending_scroll' >
               {suggestions && suggestions.map((data) => {
                 return <div>
                   <SingleContentScroll data={data.data} key={data.id} type={data.type} by={data.by} byuid={data.byuid} id={data.id} />
@@ -228,15 +222,15 @@ export default function Profile() {
               })}
             </div></>}
           {favourite.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Favourites ({favourite?.length})</div>
-            <div className='trending_scroll' data-aos="fade-left">
+            <div className='trending_title' >Favourites ({favourite?.length})</div>
+            <div className='trending_scroll' >
               {favourite && favourite.map((data) => {
                 return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
               })}
             </div></>}
           {cast.length !== 0 && <><br />
-            <div className='trending_title' data-aos="fade-right">Favourite Cast</div>
-            <div className='trending_scroll' data-aos="fade-left">
+            <div className='trending_title' >Favourite Cast</div>
+            <div className='trending_scroll' >
               {cast && cast.map((c) => {
                 return <Cast c={c} key={c.id} />
               })}
@@ -244,7 +238,7 @@ export default function Profile() {
           {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
             <img src={empty} width={'100px'} height={'auto'} />
             <h6 style={{ color: 'gray' }}>Nothing to show</h6>
-            <h3>Add to Watchlist or Favourite to appear here</h3></center>}
+            <h5>Add to Watchlist or Favourite to appear here</h5></center>}
         </div>
       </Grow>
     </>

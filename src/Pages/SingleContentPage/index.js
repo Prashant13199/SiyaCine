@@ -9,7 +9,7 @@ import { IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
-import { database, auth } from '../../firebase'
+import { database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
@@ -19,13 +19,10 @@ import ReactPlayer from 'react-player'
 import CloseIcon from '@mui/icons-material/Close';
 import StarIcon from '@mui/icons-material/Star';
 import Review from '../../Components/review';
-import Grow from '@mui/material/Grow';
 import SendIcon from '@mui/icons-material/Send';
 import { useTheme } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
@@ -57,7 +54,6 @@ export default function SingleContentPage() {
   const handleClose3 = () => setShow3(false);
   const handleShow3 = () => setShow3(true);
   const [readMore, setReadMore] = useState(false)
-  const [checked, setChecked] = React.useState(false);
   const [users, setUsers] = useState([])
   const theme = useTheme()
   const [snackBar, setSnackBar] = useState(false)
@@ -72,10 +68,6 @@ export default function SingleContentPage() {
     })
     return name;
   }
-
-  useEffect(() => {
-    AOS.init({ duration: 800 })
-  }, [])
 
   useEffect(() => {
 
@@ -140,7 +132,6 @@ export default function SingleContentPage() {
       `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
     setData(data);
-    setChecked(true)
   };
 
   const fetchProvider = async () => {
@@ -190,7 +181,6 @@ export default function SingleContentPage() {
 
   useEffect(() => {
     window.scroll(0, 0);
-    setChecked(false)
     fetchProvider();
     fetchDetails();
     fetchCredit();
@@ -291,92 +281,92 @@ export default function SingleContentPage() {
   }
 
   const render = (
-    <Grow in={checked} {...(checked ? { timeout: 1000 } : {})} style={{ transformOrigin: '0 0 0' }}>
-      <div className='singlecontent_responsive'>
-        <div className='singlecontentposter_responsive'>
-          <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
-        </div>
-        <div className='details'>
-          <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}{(data.release_date || data.first_air_date) && data.runtime && <>&nbsp;&#183;&nbsp;</>}</>}{data.runtime && data.runtime !== 0 && <>{Math.ceil(data.runtime / 60)}h</>}
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', margin: '10px 0px' }}>
-            {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
-          </div>
-          {data.vote_average !== 0 && <div className='overview'>
-            <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
-          </div>}
-          {data.tagline && (
-            <div className="tagline"><i>{data.tagline}</i></div>
-          )}
-          {data.number_of_seasons && <div className='overview'>
-            {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
-          </div>}
 
-          <div className='actions'>
-            {currentuid && <div style={{ marginRight: '20px' }}>
-              <Tooltip title="Favourite">
-                <IconButton style={{ backgroundColor: theme.palette.warning.main }} onClick={() => handleFavourite()}>
-                  {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Watchlist">
-                <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatchlist()}>
-                  {watchlist ? <DoneIcon style={{ color: 'white' }} /> : <AddIcon style={{ color: 'white' }} />}
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Watching">
-                <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatching()}>
-                  {watching ? <PlayCircleFilledWhiteIcon style={{ color: 'white' }} /> : <PlayCircleOutlineIcon style={{ color: 'white' }} />}
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Watched">
-                <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatched()}>
-                  {watched ? <FeaturedVideoIcon style={{ color: 'white' }} /> : <FeaturedVideoOutlinedIcon style={{ color: 'white' }} />}
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Share">
-                <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleShow2()}>
-                  <SendIcon style={{ color: 'white' }} />
-                </IconButton>
-              </Tooltip>
-            </div>}
-            <div className='watchprovider'>
-              {video && <Button
-                startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
-                className='button'
-                target="__blank"
-                onClick={() => handleShow()}
-                variant='filled'
-              >
-                Play Trailer
-              </Button>}
-              {watchprovider.path && <Button
-                startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
-                className='button'
-                target="__blank"
-                href={watchprovider.link}
-                variant='filled'
-              >
-                Available Now
-              </Button>}
-            </div>
-          </div>
-          {credit.crew && credit.crew.map((cr) => {
-            return cr.job === 'Director' && <div className='overview' key={cr.id}>
-              <h4>Director</h4>
-              {cr.name}
-            </div>
-          })}
-          {data.overview && <div className='overview'>
-            <h4>Overview</h4>
-            {data.overview?.length > 200 && !readMore ? data.overview.substring(0, 200).concat('...') : data.overview}
-            <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 200 && (!readMore ? 'read more.' : 'Less')}</span>
-          </div>}
-        </div>
+    <div className='singlecontent_responsive'>
+      <div className='singlecontentposter_responsive'>
+        <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
       </div>
-    </Grow>
+      <div className='details'>
+        <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}{(data.release_date || data.first_air_date) && data.runtime && <>&nbsp;&#183;&nbsp;</>}</>}{data.runtime && data.runtime !== 0 && <>{Math.ceil(data.runtime / 60)}h</>}
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', margin: '10px 0px' }}>
+          {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
+        </div>
+        {data.vote_average !== 0 && <div className='overview'>
+          <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
+        </div>}
+        {data.tagline && (
+          <div className="tagline"><i>{data.tagline}</i></div>
+        )}
+        {data.number_of_seasons && <div className='overview'>
+          {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
+        </div>}
+
+        <div className='actions'>
+          {currentuid && <div style={{ marginRight: '20px' }}>
+            <Tooltip title="Favourite">
+              <IconButton style={{ backgroundColor: theme.palette.warning.main }} onClick={() => handleFavourite()}>
+                {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Watchlist">
+              <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatchlist()}>
+                {watchlist ? <DoneIcon style={{ color: 'white' }} /> : <AddIcon style={{ color: 'white' }} />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Watching">
+              <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatching()}>
+                {watching ? <PlayCircleFilledWhiteIcon style={{ color: 'white' }} /> : <PlayCircleOutlineIcon style={{ color: 'white' }} />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Watched">
+              <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleWatched()}>
+                {watched ? <FeaturedVideoIcon style={{ color: 'white' }} /> : <FeaturedVideoOutlinedIcon style={{ color: 'white' }} />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Share">
+              <IconButton style={{ backgroundColor: theme.palette.warning.main, marginLeft: '10px' }} onClick={() => handleShow2()}>
+                <SendIcon style={{ color: 'white' }} />
+              </IconButton>
+            </Tooltip>
+          </div>}
+          <div className='watchprovider'>
+            {video && <Button
+              startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
+              className='button'
+              target="__blank"
+              onClick={() => handleShow()}
+              variant='filled'
+            >
+              Play Trailer
+            </Button>}
+            {watchprovider.path && <Button
+              startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
+              className='button'
+              target="__blank"
+              href={watchprovider.link}
+              variant='filled'
+            >
+              Available Now
+            </Button>}
+          </div>
+        </div>
+        {credit.crew && credit.crew.map((cr) => {
+          return cr.job === 'Director' && <div className='overview' key={cr.id}>
+            <h4>Director</h4>
+            {cr.name}
+          </div>
+        })}
+        {data.overview && <div className='overview'>
+          <h4>Overview</h4>
+          {data.overview?.length > 200 && !readMore ? data.overview.substring(0, 200).concat('...') : data.overview}
+          <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 200 && (!readMore ? 'read more.' : 'Less')}</span>
+        </div>}
+      </div>
+    </div>
+
   )
 
   return (
@@ -420,13 +410,14 @@ export default function SingleContentPage() {
               id="standard-multiline-static"
               label="Add you review"
               multiline
-              rows={10}
+              rows={5}
               variant="standard"
+              color='warning'
               value={review}
               onChange={(e) => setReview(e.target.value)}
             />
           </div>
-          <Button fullWidth variant="contained" onClick={() => handleAddReview()}>Review</Button>
+          <Button fullWidth color='warning' variant="contained" onClick={() => handleAddReview()}>Review</Button>
         </Modal.Body>
       </Modal>
 
@@ -463,31 +454,31 @@ export default function SingleContentPage() {
           {render}
         </div>
         <div className='pc'><br /></div>
-        {credit.cast && credit.cast.length !== 0 && <><div className='trending_title' data-aos="fade-right">Cast</div>
-          <div className='cast' data-aos="fade-left">
+        {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>
+          <div className='cast'>
             {credit && credit.cast.map((c) => {
               return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
                 <div className='cast_single' key={c.id}>
                   <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                   <div style={{ marginTop: '5px' }}>
-                    <div style={{ fontWeight: '500', maxWidth: '150px', color: theme.palette.warning.main }}>{c.original_name}</div>
-                    <div style={{ color: "gray", maxWidth: '150px', fontSize: '14px' }}>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
+                    <div className='cast_name' style={{ color: theme.palette.warning.main }}>{c.original_name}</div>
+                    <div className='cast_char'>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
                   </div>
                 </div>
               </Link>
             })}
           </div></>}
         {similar.length !== 0 && <><br />
-          <div className='trending_title' data-aos="fade-right">Similar</div>
-          <div className='trending_scroll' data-aos="fade-left">
+          <div className='trending_title' >Similar</div>
+          <div className='trending_scroll' >
             {similar && similar.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={type} />
             })}
           </div>
         </>}
         {recommendations.length !== 0 && <><br />
-          <div className='trending_title' data-aos="fade-right">Recommendations</div>
-          <div className='trending_scroll' data-aos="fade-left">
+          <div className='trending_title' >Recommendations</div>
+          <div className='trending_scroll' >
             {recommendations && recommendations.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={type} />
             })}
@@ -495,35 +486,35 @@ export default function SingleContentPage() {
         </>}
         <br />
         <div className='trending_title' style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div data-aos="fade-right">
+          <div >
             Reviews
           </div>
-          {currentuid && <div onClick={() => handleShow3()} className='addreview' data-aos="fade-left" style={{ color: theme.palette.warning.main }}>
+          {currentuid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
             <AddCircleOutlineIcon fontSize='small' />&nbsp;Add Review
           </div>}
         </div>
         <div className='reviews'>
           {reviews2 && currentuid && reviews2.map((data) => {
             return <div className='single_review' key={data.uid}>
-              <div style={{ display: 'flex', alignItems: 'center' }} data-aos="fade-right">
+              <div style={{ display: 'flex', alignItems: 'center' }} >
                 <Link to={data.uid === currentuid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
                 {data.uid === currentuid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
               </div>
-              <div data-aos="fade-left">
+              <div >
                 <Review review={data.review} />
               </div>
             </div>
           })}
           {reviews && reviews.map((data) => {
             return <div className='single_review' key={data.id}>
-              <div style={{ fontWeight: '600', fontSize: '18px' }} data-aos="fade-right">{data.author_details.username}</div>
-              <div data-aos="fade-left">
+              <div style={{ fontWeight: '600', fontSize: '18px' }} >{data.author_details.username}</div>
+              <div >
                 <Review review={data.content} />
               </div>
             </div>
           })}
-          {(reviews.length !== 0 || reviews2.length !== 0) && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
-          {reviews.length === 0 && reviews2.length === 0 && <div data-aos="zoom-out-up" style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
+          {(reviews.length !== 0 || reviews2.length !== 0) && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
+          {reviews.length === 0 && reviews2.length === 0 && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
         </div>
       </div>
     </>
