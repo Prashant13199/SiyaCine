@@ -45,6 +45,10 @@ function App() {
     setTop(document.getElementById('back')?.scrollTop)
   };
 
+  const scrollTop = () => {
+    document.getElementById('back')?.scrollTo(0, 0)
+  }
+
   return (
     <LoadingScreen
       loading={loading}
@@ -63,7 +67,7 @@ function App() {
                   <Trending setBackdrop={setBackdrop} />
                 </Route>
                 <Route path="/singlecontent/:id/:type" >
-                  <SingleContentPage setBackdrop={setBackdrop} />
+                  <SingleContentPage setBackdrop={setBackdrop} scrollTop={scrollTop} />
                 </Route>
                 <Route path="/user/:uid">
                   <UserProfile setBackdrop={setBackdrop} />
@@ -75,7 +79,9 @@ function App() {
                 <Route path="/tv" component={TV} />
                 <Route path="/search" component={Search} />
                 <Route path="/people" component={People} />
-                <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
+                <Route path="/singlecategory/:category/:type/:name">
+                  <SingleCategory scrollTop={scrollTop} />
+                </Route>
                 <Route path="/singlecast/:id" component={SingleCastPage} />
               </Switch>
             </div>

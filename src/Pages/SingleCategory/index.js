@@ -8,7 +8,7 @@ import CustomPagination from '../../Components/Pagination/CustomPagination';
 import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
 
-export default function SingleCategory() {
+export default function SingleCategory({ scrollTop }) {
 
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -35,12 +35,12 @@ export default function SingleCategory() {
   }
 
   useEffect(() => {
-    window.scroll(0, 0);
     if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated')) {
       fetch();
     } else {
       fetch2()
     }
+    scrollTop()
   }, [genreforURL, page]);
 
   return (

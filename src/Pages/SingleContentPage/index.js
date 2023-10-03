@@ -29,7 +29,7 @@ import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
 import FeaturedVideoOutlinedIcon from '@mui/icons-material/FeaturedVideoOutlined';
 import { FavoriteOutlined } from '@mui/icons-material';
 
-export default function SingleContentPage({ setBackdrop }) {
+export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const { id, type } = useParams()
   const [data, setData] = useState([])
@@ -185,7 +185,6 @@ export default function SingleContentPage({ setBackdrop }) {
   };
 
   useEffect(() => {
-    window.scroll(0, 0);
     fetchProvider();
     fetchDetails();
     fetchCredit();
@@ -193,6 +192,7 @@ export default function SingleContentPage({ setBackdrop }) {
     fetchVideo();
     fetchRecommendation();
     fetchReviews();
+    scrollTop()
   }, [id])
 
   const handleFavourite = () => {
