@@ -19,7 +19,6 @@ import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from '@mui/material';
-import { auth } from './firebase';
 
 function App() {
 

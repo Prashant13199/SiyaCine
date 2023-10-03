@@ -3,7 +3,7 @@ import './style.css'
 import { auth, database } from '../../firebase'
 import User from '../../Components/User'
 import Grid from '@mui/material/Unstable_Grid2';
-import LoadingIcon from '../../assets/loading.gif'
+import { CircularProgress } from '@mui/material';
 
 export default function People() {
 
@@ -37,6 +37,6 @@ export default function People() {
         </div>
     )
         : <div className="loading">
-            <img src={LoadingIcon} alt="loadingicon" className="loadingicon" />
+            <CircularProgress color='warning' />
         </div>
 }
