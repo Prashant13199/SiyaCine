@@ -7,7 +7,7 @@ import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast'
 import { Link } from 'react-router-dom'
 
-export default function UserProfile() {
+export default function UserProfile({ setBackdrop }) {
 
   const { uid } = useParams()
   const [username, setUsername] = useState('')
@@ -19,6 +19,10 @@ export default function UserProfile() {
   const [cast, setCast] = useState([])
   const [number, setNumber] = useState(null)
   const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setBackdrop(window.innerWidth > 600 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
+  }, [favourite, number])
 
   useEffect(() => {
     database.ref(`/Users/${uid}`).on('value', snapshot => {
@@ -85,22 +89,14 @@ export default function UserProfile() {
   return (
 
     <div className='Profile'>
-      <Link to={`/singlecontent/${favourite[number]?.id}/${favourite[number]?.type}`} style={{ textDecoration: 'none' }}>
-        <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
-          <div className='welcome_backdrop'>
-            <div style={{ width: '100%' }}>
-              <div className='profile_header'>
-                <div>
-                  <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
-                </div>
-                <div className="profile_actions">
-                  <div className='profile_username'>{username ? username.length > 20 ? username.substring(0, 20).concat('...') : username : 'Loading...'}</div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className='profile_header'>
+        <div>
+          <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
         </div>
-      </Link>
+        <div className="profile_actions">
+          <div className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading...'}</div>
+        </div>
+      </div>
       {watching.length !== 0 && <><br />
         <div className='trending_title' >Watching Now ({watching?.length})</div>
         <div className='trending_scroll' >

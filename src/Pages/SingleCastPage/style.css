@@ -9,6 +9,10 @@
     cursor: pointer;
 }
 
+.singlecastpage {
+    padding-top: 50px;
+}
+
 @media only screen and (max-width: 880px) {
     .singlecontent_responsive_cast {
         display: grid;

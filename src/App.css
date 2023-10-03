@@ -1,18 +1,24 @@
-/* .hidden {
-    opacity: 0;
-    transform: translateX(50%);
-    filter: blur(2px);
-    transition: all 1s;
-}
-
-.show {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateX(0);
-} */
-
 .App {
     overflow-x: hidden;
+    background-size: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 0;
+}
+
+.backdrop_opacity {
+    background-color: rgba(0, 0, 0, 0.7);
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+}
+
+.content {
+    padding-bottom: 20px;
+    padding: 1px;
 }
 
 * {

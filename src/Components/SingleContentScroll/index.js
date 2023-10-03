@@ -27,9 +27,9 @@ export default function SingleContentScroll({ data, type, by, byuid, id }) {
         className="poster_scroll"
         onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
       />
-      {by && <div className='user' style={{ color: theme.palette.warning.main }}>
-        <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => removeSuggestion()} />
-        <Link style={{ color: theme.palette.warning.main, textDecoration: 'none' }} to={`/user/${byuid}`}>{by}</Link>
+      {by && <div className='user'>
+        <DeleteIcon color="error" style={{ cursor: 'pointer' }} onClick={() => removeSuggestion()} />
+        <Link style={{ color: theme.palette.text.primary, textDecoration: 'none' }} to={`/user/${byuid}`}>{by}</Link>
       </div>}
     </div>
   )

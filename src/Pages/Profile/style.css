@@ -1,12 +1,18 @@
 .profile_header {
     display: grid;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
+    padding: 20px;
+    place-items: flex-start;
+}
+
+.Profile {
+    padding-top: 50px;
 }
 
 .profile_image {
-    height: 200px;
-    width: 200px;
+    height: 380px;
+    width: 300px;
     border-radius: 10px;
     object-fit: cover;
 }
@@ -14,6 +20,7 @@
 .profile_username {
     font-size: 40px;
     font-weight: bold;
+    word-wrap: break-word;
 }
 
 .profile_actions {
@@ -42,7 +49,20 @@
     }
 
     .profile_image {
-        height: 100px;
+        height: 140px;
         width: 100px;
+    }
+
+    .icon {
+        height: 12px !important;
+        width: 12px !important;
+    }
+
+    .icon_button {
+        padding: 6px !important;
+    }
+
+    .profile_header {
+        padding: 10px;
     }
 }

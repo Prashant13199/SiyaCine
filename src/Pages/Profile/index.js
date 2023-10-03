@@ -15,7 +15,7 @@ import Cast from '../../Components/Cast';
 import { useTheme } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
 
-export default function Profile() {
+export default function Profile({ setBackdrop }) {
 
   const currentuid = localStorage.getItem('uid')
   const currentusername = localStorage.getItem('username')
@@ -33,6 +33,10 @@ export default function Profile() {
   const handleShow = () => setShow(true);
   const theme = useTheme()
   const [suggestions, setSuggestions] = useState([])
+
+  useEffect(() => {
+    setBackdrop(window.innerWidth > 600 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
+  }, [favourite, number])
 
   useEffect(() => {
     fetchRecommendation();
@@ -155,25 +159,19 @@ export default function Profile() {
       </Modal>
 
       <div className='Profile'>
-        <div className='welcome' style={{ backgroundImage: favourite.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${favourite[number].data.backdrop_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
-          <div className='welcome_backdrop'>
-            <div style={{ width: '100%' }}>
-              <div className='profile_header'>
-                <div style={{ position: 'relative', width: 'fit-content' }}>
-                  <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className='profile_image' />
-                  <div style={{ position: 'absolute', left: 2, bottom: 2 }}>
-                    <IconButton style={{ backgroundColor: theme.palette.background.default }}><CreateIcon color="warning" fontSize='small' onClick={() => handleShow()} /></IconButton>
-                  </div>
-                  {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 2, bottom: 2 }}>
-                    <IconButton style={{ backgroundColor: theme.palette.background.default }}><DeleteIcon color="warning" fontSize='small' onClick={() => removePicture()} /></IconButton>
-                  </div>}
-                </div>
-                <div className="profile_actions">
-                  <div className='profile_username'>{currentusername ? currentusername.length > 20 ? currentusername.substring(0, 20).concat('...') : currentusername : 'Loading...'}</div>
-                  &nbsp;<IconButton onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon color="warning" /></IconButton>
-                </div>
-              </div>
+        <div className='profile_header'>
+          <div style={{ position: 'relative', width: 'fit-content' }}>
+            <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className='profile_image' />
+            <div style={{ position: 'absolute', left: 2, bottom: 2 }}>
+              <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }}><CreateIcon className="icon" onClick={() => handleShow()} /></IconButton>
             </div>
+            {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 2, bottom: 2 }}>
+              <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }}><DeleteIcon color="error" className="icon" onClick={() => removePicture()} /></IconButton>
+            </div>}
+          </div>
+          <div className="profile_actions">
+            <div className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentusername ? currentusername : 'Loading...'}</div>
+            &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
           </div>
         </div>
         {watching.length !== 0 && <><br />

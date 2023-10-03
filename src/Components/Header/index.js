@@ -3,10 +3,14 @@ import './style.css';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 
-export default function Header() {
+export default function Header({ setBackdrop }) {
 
   const [upcoming, setUpcoming] = useState([])
   const [number, setNumber] = useState(null)
+
+  useEffect(() => {
+    setBackdrop(window.innerWidth > 600 ? upcoming[number]?.backdrop_path : upcoming[number]?.poster_path)
+  }, [upcoming, number])
 
   const fetchUpcoming = async () => {
     const { data } = await axios.get(

@@ -25,12 +25,25 @@ function App() {
 
   const [loading, setLoading] = useState(true)
   const theme = useTheme()
+  const [backdrop, setBackdrop] = useState('')
+  const [top, setTop] = useState(true)
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 500);
   }, [])
+
+  useEffect(() => {
+    document.getElementById('back')?.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      document.getElementById('back')?.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    setTop(document.getElementById('back')?.scrollTop)
+  };
 
   return (
     <LoadingScreen
@@ -40,28 +53,36 @@ function App() {
       logoSrc={logo}
     >
       <BrowserRouter>
-        <div className="App">
-          <Box sx={{ bgcolor: 'background.default', color: 'text.warning' }}>
-            <NavBarMain />
-            <CssBaseline />
-            <Switch>
-              <Route path="/" component={Trending} exact />
-              <Route path="/singlecontent/:id/:type" component={SingleContentPage} />
-              <Route path="/profile" component={Profile} />
-              <Route path="/user/:uid" component={UserProfile} />
-              <Box sx={{ paddingTop: 7 }}>
+        <div className="App" style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
+          <div className='backdrop_opacity' id="back">
+            <div className='content'>
+              <NavBarMain top={top} />
+              <CssBaseline />
+              <Switch>
+                <Route path="/" exact>
+                  <Trending setBackdrop={setBackdrop} />
+                </Route>
+                <Route path="/singlecontent/:id/:type" >
+                  <SingleContentPage setBackdrop={setBackdrop} />
+                </Route>
+                <Route path="/user/:uid">
+                  <UserProfile setBackdrop={setBackdrop} />
+                </Route>
+                <Route path="/profile">
+                  <Profile setBackdrop={setBackdrop} />
+                </Route>
                 <Route path="/movies" component={Movies} />
                 <Route path="/tv" component={TV} />
                 <Route path="/search" component={Search} />
                 <Route path="/people" component={People} />
                 <Route path="/singlecategory/:category/:type/:name" component={SingleCategory} />
                 <Route path="/singlecast/:id" component={SingleCastPage} />
-              </Box>
-            </Switch>
-          </Box>
+              </Switch>
+            </div>
+          </div>
         </div>
       </BrowserRouter>
-    </LoadingScreen>
+    </LoadingScreen >
   );
 }
 
