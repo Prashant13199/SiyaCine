@@ -107,7 +107,7 @@ export default function Register({ handleClose2 }) {
                             {loading ? "Please Wait.." : "Register"}
                         </Button>
                     </div>
-                    <GoogleSignin />
+                    <GoogleSignin close={handleClose2} />
                 </div>
             </div>
         </>

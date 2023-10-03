@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { database } from "../../firebase";
 import googlelogo from "../../assets/googlelogo.png";
 
-export default function GoogleSignin() {
+export default function GoogleSignin({ close }) {
 
   const [loading, setLoading] = useState(false);
   const avatarArray = ['Willow', 'Spooky', 'Bubba', 'Lily', 'Whiskers', 'Pepper', 'Tiger', 'Zoey', 'Dusty', 'Simba']
@@ -17,7 +17,7 @@ export default function GoogleSignin() {
       database.ref(`/Users/${userBySignIn.uid}`).on("value", (snapshot) => {
         if (snapshot.val()) {
           setLoading(false);
-          window.location.reload()
+          close()
         } else {
           database
             .ref(`/Users/${userBySignIn.uid}`)
@@ -31,7 +31,7 @@ export default function GoogleSignin() {
             })
             .then(() => {
               setLoading(false);
-              window.location.reload()
+              close()
             })
             .catch((e) => {
               console.log(e);

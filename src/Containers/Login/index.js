@@ -112,7 +112,7 @@ export default function Login({ handleClose }) {
                     <div className="d-grid gap-2" style={{ marginTop: "10px", cursor: 'pointer' }}>
                         <a href="#" onClick={() => handleShow2()} style={{ textDecoration: 'none', color: theme.palette.warning.main }}>Forgot Password?</a>
                     </div>
-                    <GoogleSignin />
+                    <GoogleSignin close={handleClose} />
                 </div>
             </div>
         </>
