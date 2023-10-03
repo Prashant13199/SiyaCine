@@ -9,7 +9,7 @@ import { IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
-import { database } from '../../firebase'
+import { auth, database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
@@ -60,7 +60,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [snackBar, setSnackBar] = useState(false)
   const [name, setName] = useState('')
   const [review, setReview] = useState('')
-  const currentuid = localStorage.getItem('uid')
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 600 ? data?.backdrop_path : data?.poster_path)
@@ -76,11 +75,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
 
-    database.ref(`/Users/${currentuid}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
       setCurrentusername(snapshot.val()?.username)
     })
 
-    database.ref(`/Users/${currentuid}/favourites/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
       } else {
@@ -88,7 +87,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       }
     })
 
-    database.ref(`/Users/${currentuid}/watchlist/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatchlist(true)
       } else {
@@ -96,7 +95,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       }
     })
 
-    database.ref(`/Users/${currentuid}/watched/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatched(true)
       } else {
@@ -104,7 +103,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       }
     })
 
-    database.ref(`/Users/${currentuid}/watching/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatching(true)
       } else {
@@ -115,7 +114,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     database.ref(`/Users`).on('value', snapshot => {
       let user = []
       snapshot.forEach((snap) => {
-        if (snap.key !== currentuid) {
+        if (snap.key !== auth?.currentUser?.uid) {
           user.push(snap.val())
         }
       })
@@ -197,14 +196,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleFavourite = () => {
     if (!favourite) {
-      database.ref(`/Users/${currentuid}/favourites/${id}`).set({
+      database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).set({
         id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to favourite")
         setFavourite(true)
       })
     } else {
-      database.ref(`/Users/${currentuid}/favourites/${id}`).remove().then(() => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).remove().then(() => {
         console.log("Removed from favourite")
         setFavourite(false)
       })
@@ -213,14 +212,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleWatchlist = () => {
     if (!watchlist) {
-      database.ref(`/Users/${currentuid}/watchlist/${id}`).set({
+      database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).set({
         id: id, data: data, type: type
       }).then(() => {
         console.log("Set to watchlist")
         setWatchlist(true)
       })
     } else {
-      database.ref(`/Users/${currentuid}/watchlist/${id}`).remove().then(() => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
         console.log("Removed from watchlist")
         setWatchlist(false)
       })
@@ -229,14 +228,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleWatched = () => {
     if (!watched) {
-      database.ref(`/Users/${currentuid}/watched/${id}`).set({
+      database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).set({
         id: id, data: data, type: type
       }).then(() => {
         console.log("Set to watched")
         setWatched(true)
       })
     } else {
-      database.ref(`/Users/${currentuid}/watched/${id}`).remove().then(() => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
         console.log("Removed from watched")
         setWatched(false)
       })
@@ -245,14 +244,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleWatching = () => {
     if (!watching) {
-      database.ref(`/Users/${currentuid}/watching/${id}`).set({
+      database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).set({
         id: id, data: data, type: type,
       }).then(() => {
         console.log("Set to watching")
         setWatching(true)
       })
     } else {
-      database.ref(`/Users/${currentuid}/watching/${id}`).remove().then(() => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
         console.log("Removed from watching")
         setWatching(false)
       })
@@ -261,7 +260,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleSend = (user) => {
     database.ref(`/Users/${user}/suggestions/${id}`).update({
-      type: type, data: data, id: id, by: currentusername, byuid: currentuid
+      type: type, data: data, id: id, by: currentusername, byuid: auth?.currentUser?.uid
     }).then(() => {
       handleClose2()
       setSnackBar(true)
@@ -269,8 +268,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   }
 
   const handleAddReview = () => {
-    database.ref(`/Reviews/${id}/${currentuid}`).update({
-      review: review, timestamp: Date.now(), uid: currentuid
+    database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).update({
+      review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid
     }).then(() => {
       console.log("Review added")
       setReview('')
@@ -280,7 +279,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   }
 
   const removeReview = () => {
-    database.ref(`/Reviews/${id}/${currentuid}`).remove()
+    database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).remove()
       .then(() => console.log('Review Removed'))
       .catch((e) => console.log(e))
   }
@@ -381,7 +380,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           </div>}
 
           <div className='actions'>
-            {currentuid && <div style={{ marginRight: '20px' }}>
+            {auth?.currentUser?.uid && <div style={{ marginRight: '20px' }}>
               <Tooltip title="Favourite">
                 <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
                   {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
@@ -481,16 +480,16 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <div >
             Reviews
           </div>
-          {currentuid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
+          {auth?.currentUser?.uid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
             <AddCircleOutlineIcon fontSize='small' />&nbsp;Add Review
           </div>}
         </div>
         <div className='reviews'>
-          {reviews2 && currentuid && reviews2.map((data) => {
+          {reviews2 && auth?.currentUser?.uid && reviews2.map((data) => {
             return <div className='single_review' key={data.uid}>
               <div style={{ display: 'flex', alignItems: 'center' }} >
-                <Link to={data.uid === currentuid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
-                {data.uid === currentuid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
+                <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
+                {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
               </div>
               <div >
                 <Review review={data.review} />

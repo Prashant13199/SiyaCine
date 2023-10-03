@@ -17,9 +17,9 @@ import { useEffect, useState } from 'react';
 import logo from '../src/assets/logo.png'
 import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
-import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from '@mui/material';
+import { auth } from './firebase';
 
 function App() {
 

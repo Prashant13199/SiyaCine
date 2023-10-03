@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 import { database, auth } from "../../firebase";
 import GoogleSignin from "../../Components/GoogleSignin";
 
-export default function Register() {
+export default function Register({ handleClose2 }) {
 
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
@@ -34,9 +34,7 @@ export default function Register() {
                 timestamp: Date.now(),
             }).then(() => {
                 setLoading(false);
-                localStorage.setItem('uid', user.user.uid)
-                localStorage.setItem('username', email.replace("@gmail.com", ""))
-                window.location.reload()
+                handleClose2()
             }).catch((e) => {
                 setLoading(false);
                 setError(e.toString())

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
-import { storage, database } from "../../firebase";
+import { auth, storage, database } from "../../firebase";
 import Compressor from "compressorjs";
 import { Button } from "react-bootstrap";
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -11,7 +11,6 @@ export default function UploadPicture({ handleClose }) {
   let fileName = "";
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
-  const currentuid = localStorage.getItem("uid");
 
   const handleChange = (e) => {
     if (
@@ -49,7 +48,7 @@ export default function UploadPicture({ handleClose }) {
 
   const handleUpload = () => {
     if (image) {
-      var imageName = currentuid;
+      var imageName = auth?.currentUser?.uid;
       if (
         image.name.toLowerCase().includes(".jpg") ||
         image.name.toLowerCase().includes(".png") ||
@@ -83,7 +82,7 @@ export default function UploadPicture({ handleClose }) {
             .child(`${fileName}`)
             .getDownloadURL()
             .then((imageUrl) => {
-              database.ref(`/Users/${currentuid}`).update({
+              database.ref(`/Users/${auth?.currentUser?.uid}`).update({
                 photo: imageUrl,
               });
               setProgress(0);

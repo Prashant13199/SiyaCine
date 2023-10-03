@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 
-export default function ForgotPassword() {
+export default function ForgotPassword({ handleClose2 }) {
 
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
@@ -20,6 +20,7 @@ export default function ForgotPassword() {
             .then((user) => {
                 setLoading(false);
                 setShow2(true)
+                handleClose2()
             })
             .catch((e) => {
                 setLoading(false);

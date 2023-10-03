@@ -17,8 +17,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 
 export default function Profile({ setBackdrop }) {
 
-  const currentuid = localStorage.getItem('uid')
-  const currentusername = localStorage.getItem('username')
+  const [currentUsername, setCurrentUsername] = useState('')
   const [currentPhoto, setCurrentPhoto] = useState('')
   const [watchlist, setWatchlist] = useState([])
   const [watched, setWatched] = useState([])
@@ -53,8 +52,6 @@ export default function Profile({ setBackdrop }) {
   const signOut = () => {
     auth.signOut().then(() => {
       history.push('/')
-      localStorage.clear()
-      window.location.reload()
     })
   }
   const avatarArray = ['Willow', 'Spooky', 'Bubba', 'Lily', 'Whiskers', 'Pepper', 'Tiger', 'Zoey', 'Dusty', 'Simba']
@@ -70,7 +67,7 @@ export default function Profile({ setBackdrop }) {
     } catch (e) {
       console.log(e);
     }
-    database.ref(`/Users/${currentuid}`).update({ photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}` }).then(() => {
+    database.ref(`/Users/${auth?.currentUser?.uid}`).update({ photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}` }).then(() => {
       console.log('Picture removed')
     });
   }
@@ -85,13 +82,14 @@ export default function Profile({ setBackdrop }) {
   };
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
       setCurrentPhoto(snapshot.val()?.photo)
+      setCurrentUsername(snapshot.val()?.username)
     })
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/watchlist`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
@@ -101,7 +99,7 @@ export default function Profile({ setBackdrop }) {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/watched`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watched`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
@@ -111,7 +109,7 @@ export default function Profile({ setBackdrop }) {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/favourites`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
@@ -121,7 +119,7 @@ export default function Profile({ setBackdrop }) {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/watching`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
@@ -131,7 +129,7 @@ export default function Profile({ setBackdrop }) {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/cast`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/cast`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data })
@@ -141,7 +139,7 @@ export default function Profile({ setBackdrop }) {
   }, [])
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/suggestions`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/suggestions`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, by: snap.val().by, byuid: snap.val().byuid })
@@ -170,7 +168,7 @@ export default function Profile({ setBackdrop }) {
             </div>}
           </div>
           <div className="profile_actions">
-            <div className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentusername ? currentusername : 'Loading...'}</div>
+            <div className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading...'}</div>
             &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
           </div>
         </div>

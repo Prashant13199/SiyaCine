@@ -2,17 +2,15 @@ import React, { useEffect, useState } from 'react'
 import './style.css'
 import { useHistory } from 'react-router-dom'
 import Grid from '@mui/material/Unstable_Grid2';
-import { database } from '../../firebase';
+import { auth, database } from '../../firebase';
 
 export default function SingleContent({ data, type }) {
 
   const history = useHistory()
-  const currentuid = localStorage.getItem('uid')
-
   const [show, setShow] = useState(true)
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/watched/${data.id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watched/${data.id}`).on('value', snapshot => {
       if (snapshot?.val()) {
         setShow(false)
       } else {

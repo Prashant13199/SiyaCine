@@ -4,7 +4,7 @@ import './style.css'
 import axios from "axios";
 import { IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { database } from '../../firebase'
+import { auth, database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
@@ -18,11 +18,10 @@ export default function SingleCastPage() {
   const [tv, setTv] = useState([])
   const [readMore, setReadMore] = useState(false)
   const [switchC, setSwitchC] = useState(0)
-  const currentuid = localStorage.getItem('uid')
   const theme = useTheme()
 
   useEffect(() => {
-    database.ref(`/Users/${currentuid}/cast/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
       }
@@ -59,14 +58,14 @@ export default function SingleCastPage() {
 
   const handleFavourite = () => {
     if (!favourite) {
-      database.ref(`/Users/${currentuid}/cast/${id}`).set({
+      database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).set({
         id: id, data: data,
       }).then(() => {
         console.log("Set to cast")
         setFavourite(true)
       })
     } else {
-      database.ref(`/Users/${currentuid}/cast/${id}`).remove().then(() => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).remove().then(() => {
         console.log("Removed from cast")
         setFavourite(false)
       })
@@ -83,7 +82,7 @@ export default function SingleCastPage() {
         <div className='details'>
           <h2 style={{ fontWeight: 'bold' }}>{data.name}</h2>
           <div className='actions'>
-            {currentuid && <div>
+            {auth?.currentUser?.uid && <div>
               <Tooltip title="Favourite">
                 <IconButton style={{ backgroundColor: theme.palette.warning.main }} onClick={() => handleFavourite()}>
                   {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
