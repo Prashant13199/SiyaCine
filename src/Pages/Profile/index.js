@@ -86,9 +86,6 @@ export default function Profile({ setBackdrop }) {
       setCurrentPhoto(snapshot.val()?.photo)
       setCurrentUsername(snapshot.val()?.username)
     })
-  }, [])
-
-  useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -96,9 +93,6 @@ export default function Profile({ setBackdrop }) {
       })
       setWatchlist(arr)
     })
-  }, [])
-
-  useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/watched`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -106,9 +100,6 @@ export default function Profile({ setBackdrop }) {
       })
       setWatched(arr)
     })
-  }, [])
-
-  useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -116,9 +107,6 @@ export default function Profile({ setBackdrop }) {
       })
       setFavourite(arr)
     })
-  }, [])
-
-  useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -126,9 +114,6 @@ export default function Profile({ setBackdrop }) {
       })
       setWatching(arr)
     })
-  }, [])
-
-  useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/cast`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -136,9 +121,6 @@ export default function Profile({ setBackdrop }) {
       })
       setCast(arr)
     })
-  }, [])
-
-  useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/suggestions`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -146,7 +128,7 @@ export default function Profile({ setBackdrop }) {
       })
       setSuggestions(arr)
     })
-  }, [])
+  }, [auth?.currentUser?.uid])
 
   return (
     <>
@@ -172,36 +154,36 @@ export default function Profile({ setBackdrop }) {
             &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
           </div>
         </div>
-        {watching.length !== 0 && <><br />
+        {watching.length !== 0 && <>
           <div className='trending_title' >Watching Now ({watching?.length})</div>
           <div className='trending_scroll' >
             {watching && watching.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
-          </div></>}
-        {watchlist.length !== 0 && <><br />
+          </div><br /></>}
+        {watchlist.length !== 0 && <>
           <div className='trending_title' >Watchlist ({watchlist?.length})</div>
           <div className='trending_scroll' >
             {watchlist && watchlist.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
-          </div></>}
-        {recommendation.length !== 0 && <><br />
+          </div><br /></>}
+        {recommendation.length !== 0 && <>
           <div className='trending_title' >Recommendation <IconButton className='refresh_icon'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
           <div className='searchresultfor' >Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
           <div className='trending_scroll' >
             {recommendation && recommendation.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
             })}
-          </div></>}
-        {watched.length !== 0 && <><br />
+          </div><br /></>}
+        {watched.length !== 0 && <>
           <div className='trending_title' >Watched ({watched?.length})</div>
           <div className='trending_scroll' >
             {watched && watched.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
-          </div></>}
-        {suggestions.length !== 0 && <><br />
+          </div><br /></>}
+        {suggestions.length !== 0 && <>
           <div className='trending_title' >Suggestions ({suggestions?.length})</div>
           <div className='trending_scroll' >
             {suggestions && suggestions.map((data) => {
@@ -209,21 +191,21 @@ export default function Profile({ setBackdrop }) {
                 <SingleContentScroll data={data.data} key={data.id} type={data.type} by={data.by} byuid={data.byuid} id={data.id} />
               </div>
             })}
-          </div></>}
-        {favourite.length !== 0 && <><br />
+          </div><br /></>}
+        {favourite.length !== 0 && <>
           <div className='trending_title' >Favourites ({favourite?.length})</div>
           <div className='trending_scroll' >
             {favourite && favourite.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
-          </div></>}
-        {cast.length !== 0 && <><br />
+          </div><br /></>}
+        {cast.length !== 0 && <>
           <div className='trending_title' >Favourite Cast</div>
           <div className='trending_scroll' >
             {cast && cast.map((c) => {
               return <Cast c={c} key={c.id} />
             })}
-          </div></>}
+          </div><br /></>}
         {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
           <img src={empty} className='empty' alt="" />
           <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}

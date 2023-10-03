@@ -8,7 +8,7 @@
 .singlecontent_responsive {
     display: flex;
     padding: 0px 20px;
-    padding-top: 50px;
+    padding-top: 70px;
 }
 
 .details {
@@ -116,7 +116,7 @@
     .singlecontent_responsive {
         display: grid;
         padding: 0;
-        padding-top: 50px;
+        padding-top: 60px;
     }
 
     .actions {

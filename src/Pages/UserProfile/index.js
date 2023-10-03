@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast'
-import { Link } from 'react-router-dom'
 
 export default function UserProfile({ setBackdrop }) {
 
@@ -18,24 +17,20 @@ export default function UserProfile({ setBackdrop }) {
   const [watching, setWatching] = useState([])
   const [cast, setCast] = useState([])
   const [number, setNumber] = useState(null)
-  const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 600 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
   }, [favourite, number])
 
   useEffect(() => {
-    database.ref(`/Users/${uid}`).on('value', snapshot => {
-      setUsername(snapshot.val()?.username)
-      setPhoto(snapshot.val()?.photo)
-    })
-  }, [uid])
-
-  useEffect(() => {
     setNumber(Math.floor(Math.random() * favourite.length))
   }, [favourite.length])
 
   useEffect(() => {
+    database.ref(`/Users/${uid}`).on('value', snapshot => {
+      setUsername(snapshot.val()?.username)
+      setPhoto(snapshot.val()?.photo)
+    })
     database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -43,9 +38,6 @@ export default function UserProfile({ setBackdrop }) {
       })
       setWatchlist(arr)
     })
-  }, [uid])
-
-  useEffect(() => {
     database.ref(`/Users/${uid}/watched`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -53,9 +45,6 @@ export default function UserProfile({ setBackdrop }) {
       })
       setWatched(arr)
     })
-  }, [])
-
-  useEffect(() => {
     database.ref(`/Users/${uid}/favourites`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -63,9 +52,6 @@ export default function UserProfile({ setBackdrop }) {
       })
       setFavourite(arr)
     })
-  }, [uid])
-
-  useEffect(() => {
     database.ref(`/Users/${uid}/watching`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -73,9 +59,6 @@ export default function UserProfile({ setBackdrop }) {
       })
       setWatching(arr)
     })
-  }, [uid])
-
-  useEffect(() => {
     database.ref(`/Users/${uid}/cast`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -83,7 +66,6 @@ export default function UserProfile({ setBackdrop }) {
       })
       setCast(arr)
     })
-
   }, [uid])
 
   return (
@@ -97,41 +79,41 @@ export default function UserProfile({ setBackdrop }) {
           <div className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading...'}</div>
         </div>
       </div>
-      {watching.length !== 0 && <><br />
+      {watching.length !== 0 && <>
         <div className='trending_title' >Watching Now ({watching?.length})</div>
         <div className='trending_scroll' >
           {watching && watching.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
-        </div></>}
-      {watchlist.length !== 0 && <><br />
+        </div><br /></>}
+      {watchlist.length !== 0 && <>
         <div className='trending_title' >Watchlist ({watchlist?.length})</div>
         <div className='trending_scroll' >
           {watchlist && watchlist.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
-        </div></>}
-      {watched.length !== 0 && <><br />
+        </div><br /></>}
+      {watched.length !== 0 && <>
         <div className='trending_title' >Watched ({watched?.length})</div>
         <div className='trending_scroll' >
           {watched && watched.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
-        </div></>}
-      {favourite.length !== 0 && <><br />
+        </div><br /></>}
+      {favourite.length !== 0 && <>
         <div className='trending_title' >Favourites ({favourite?.length})</div>
         <div className='trending_scroll' >
           {favourite && favourite.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
-        </div></>}
-      {cast.length !== 0 && <><br />
+        </div><br /></>}
+      {cast.length !== 0 && <>
         <div className='trending_title' >Favourite Cast</div>
         <div className='trending_scroll' >
           {cast && cast.map((c) => {
             return <Cast c={c} />
           })}
-        </div></>}
+        </div><br /></>}
       {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
         <img src={empty} className='empty' alt="" />
         <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}

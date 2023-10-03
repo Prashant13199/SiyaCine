@@ -2,17 +2,18 @@
     display: grid;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 20px;
+    padding: 0px 20px;
     place-items: flex-start;
+    padding-bottom: 20px;
 }
 
 .Profile {
-    padding-top: 50px;
+    padding-top: 70px;
 }
 
 .profile_image {
-    height: 380px;
-    width: 300px;
+    height: 400px;
+    width: 330px;
     border-radius: 10px;
     object-fit: cover;
 }
@@ -41,7 +42,7 @@
 
 @media only screen and (max-width: 600px) {
     .profile_username {
-        font-size: 20px;
+        font-size: 24px;
     }
 
     .empty {
@@ -49,20 +50,28 @@
     }
 
     .profile_image {
-        height: 140px;
-        width: 100px;
+        height: 320px;
+        width: 250px;
     }
 
     .icon {
-        height: 12px !important;
-        width: 12px !important;
+        height: 15px !important;
+        width: 15px !important;
     }
 
     .icon_button {
-        padding: 6px !important;
+        padding: 8px !important;
     }
 
     .profile_header {
         padding: 10px;
+        display: grid;
+        place-items: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .Profile {
+        padding-top: 50px;
     }
 }
