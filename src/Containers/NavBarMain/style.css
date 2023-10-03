@@ -39,7 +39,7 @@
 }
 
 .navlink:hover {
-    opacity: 1 !important;
+    color: rgb(255, 167, 38) !important;
 }
 
 .navbar_brand {
