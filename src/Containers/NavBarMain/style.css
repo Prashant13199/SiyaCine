@@ -10,6 +10,16 @@
     border-style: solid;
 }
 
+.navbar_back_image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7) 10%, rgba(0, 0, 0, 0));
+    transition: all .6s;
+}
+
+.navbar_back {
+    background-color: rgb(18, 18, 18);
+    transition: all .6s;
+}
+
 .MuiButtonBase-root {
     text-transform: none !important;
 }

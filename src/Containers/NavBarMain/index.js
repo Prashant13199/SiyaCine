@@ -58,7 +58,7 @@ export default function NavBarMain({ top }) {
           <Register />
         </Modal.Body>
       </Modal>
-      <Navbar className='navbar_main' variant={theme.palette.mode} fixed='top' style={{ backgroundImage: top < 50 ? 'linear-gradient(rgba(0, 0, 0, 0.7) 10%, rgba(0, 0, 0, 0))' : '', backgroundColor: top > 50 ? theme.palette.background.default : '' }}>
+      <Navbar className={top < 50 ? 'navbar_main navbar_back_image' : 'navbar_main navbar_back'} variant={theme.palette.mode} fixed='top'>
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <div style={{ display: 'flex' }}>
