@@ -173,7 +173,7 @@ export default function Profile({ setBackdrop }) {
           <div className='searchresultfor' >Because you liked {favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
           <div className='trending_scroll' >
             {recommendation && recommendation.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} />
+              return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} recom={true} />
             })}
           </div><br /></>}
         {watched.length !== 0 && <>
