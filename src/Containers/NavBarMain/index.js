@@ -62,9 +62,6 @@ export default function NavBarMain({ top }) {
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <div style={{ display: 'flex' }}>
               <img className='navbar_icon' style={{ width: '100px', height: 'auto', backdropFilter: 'unset' }} src={logo} alt="logo" />
-              {/* <div className='navbar_brand'>
-                <span style={{ marginLeft: '5px', color: theme.palette.text.primary }}>Siya<strong>Cine</strong></span>
-              </div> */}
             </div>
           </NavLink>
         </Navbar.Brand>
