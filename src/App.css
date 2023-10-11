@@ -9,8 +9,6 @@
 
 .backdrop_opacity {
     background-color: rgba(0, 0, 0, 0.75);
-    min-height: 100vh;
-    max-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0;

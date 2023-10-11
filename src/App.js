@@ -57,7 +57,7 @@ function App() {
     >
       <BrowserRouter>
         <div className="App" style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
-          <div className='backdrop_opacity' id="back">
+          <div className='backdrop_opacity' id="back" style={{ maxHeight: window.innerHeight, minHeight: window.innerHeight }}>
             <div className='content'>
               <NavBarMain top={top} />
               <CssBaseline />
