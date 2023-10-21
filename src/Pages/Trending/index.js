@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { IconButton, useTheme } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { database, auth } from '../../firebase';
 
-export default function Trending({ setBackdrop }) {
+export default function Trending({ setBackdrop, scrollTop }) {
 
   const [trendingMovie, setTrendingMovie] = useState([]);
   const [trendingTv, setTrendingTv] = useState([]);
@@ -20,6 +21,7 @@ export default function Trending({ setBackdrop }) {
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
+  const [watching, setWatching] = useState([])
   const theme = useTheme()
 
   const fetchNowplaying = async () => {
@@ -86,8 +88,19 @@ export default function Trending({ setBackdrop }) {
     setTrendingTv(data.results);
   };
 
+  const fetchWatching = () => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+      setWatching(arr)
+    })
+  }
+
   useEffect(() => {
-    window.scroll(0, 0)
+    scrollTop()
+    fetchWatching()
     fetchNowplaying();
     fetchPopularmovie();
     fetchPopulartv();
@@ -112,7 +125,7 @@ export default function Trending({ setBackdrop }) {
           </div>
           <div className='trending_scroll' >
             {nowplaying?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" />
+              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
             })}
           </div>
         </>}
@@ -124,7 +137,14 @@ export default function Trending({ setBackdrop }) {
           </div>
           <div className='trending_scroll' >
             {upcoming?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" />
+              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
+            })}
+          </div></>}
+        {watching?.length !== 0 && <><br />
+          <div className='trending_title' >Watching Now</div>
+          <div className='trending_scroll' >
+            {watching?.map((data) => {
+              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div></>}
         {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
@@ -134,10 +154,10 @@ export default function Trending({ setBackdrop }) {
           </div><Link to={`/singlecategory/trending/${switchTrending === 0 ? 'movie' : 'tv'}/Trending ${switchTrending === 0 ? 'Movie' : 'TV'}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {switchTrending === 0 && trendingMovie?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" />
+              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
             })}
             {switchTrending === 1 && trendingTv?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="tv" />
+              return <SingleContentScroll data={data} key={data.id} type="tv" recom={true} />
             })}
           </div></>}
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
@@ -147,10 +167,10 @@ export default function Trending({ setBackdrop }) {
           </div><Link to={`/singlecategory/top_rated/${switchTopRated === 0 ? 'movie' : 'tv'}/Top Rated ${switchTopRated === 0 ? 'Movie' : 'TV'}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {switchTopRated === 0 && topratedmovie?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" />
+              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
             })}
             {switchTopRated === 1 && topratedtv?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="tv" />
+              return <SingleContentScroll data={data} key={data.id} type="tv" recom={true} />
             })}
           </div></>}
         {(popularmovie?.length !== 0 || populartv?.length !== 0) && <><br />
@@ -160,10 +180,10 @@ export default function Trending({ setBackdrop }) {
           </div><Link to={`/singlecategory/popular/${switchPopular === 0 ? 'movie' : 'tv'}/Popular ${switchPopular === 0 ? 'Movie' : 'TV'}`} className="viewall" ><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {popularmovie && switchPopular === 0 && popularmovie.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" />
+              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
             })}
             {populartv && switchPopular === 1 && populartv.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="tv" />
+              return <SingleContentScroll data={data} key={data.id} type="tv" recom={true} />
             })}
           </div></>}
       </>

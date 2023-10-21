@@ -63,7 +63,7 @@ function App() {
               <CssBaseline />
               <Switch>
                 <Route path="/" exact>
-                  <Trending setBackdrop={setBackdrop} />
+                  <Trending setBackdrop={setBackdrop} scrollTop={scrollTop} />
                 </Route>
                 <Route path="/singlecontent/:id/:type" >
                   <SingleContentPage setBackdrop={setBackdrop} scrollTop={scrollTop} />
@@ -74,14 +74,22 @@ function App() {
                 <Route path="/profile">
                   <Profile setBackdrop={setBackdrop} />
                 </Route>
-                <Route path="/movies" component={Movies} />
-                <Route path="/tv" component={TV} />
-                <Route path="/search" component={Search} />
+                <Route path="/movies">
+                  <Movies scrollTop={scrollTop} />
+                </Route>
+                <Route path="/tv">
+                  <TV scrollTop={scrollTop} />
+                </Route>
+                <Route path="/search" >
+                  <Search scrollTop={scrollTop} />
+                </Route>
                 <Route path="/people" component={People} />
                 <Route path="/singlecategory/:category/:type/:name">
                   <SingleCategory scrollTop={scrollTop} />
                 </Route>
-                <Route path="/singlecast/:id" component={SingleCastPage} />
+                <Route path="/singlecast/:id">
+                  <SingleCastPage scrollTop={scrollTop} />
+                </Route>
               </Switch>
             </div>
           </div>

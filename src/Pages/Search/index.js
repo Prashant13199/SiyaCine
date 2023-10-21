@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import Grow from '@mui/material/Grow';
 import { useTheme } from '@mui/material';
 
-export default function Search() {
+export default function Search({ scrollTop }) {
 
     const [pageM, setPageM] = useState(1);
     const [contentM, setContentM] = useState([]);
@@ -70,7 +70,7 @@ export default function Search() {
     };
 
     useEffect(() => {
-        window.scroll(0, 0)
+        scrollTop()
         setChecked(false)
         fetchSearchMovie();
         fetchSearchTV();

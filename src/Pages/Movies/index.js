@@ -7,7 +7,7 @@ import Genres from '../../Components/Genres'
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import Grid from '@mui/material/Unstable_Grid2';
 
-export default function Movies() {
+export default function Movies({ scrollTop }) {
 
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -25,7 +25,7 @@ export default function Movies() {
   };
 
   useEffect(() => {
-    window.scroll(0, 0);
+    scrollTop();
     fetchMovies();
   }, [genreforURL, page]);
 

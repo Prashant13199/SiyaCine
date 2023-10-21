@@ -9,7 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
 
-export default function SingleCastPage() {
+export default function SingleCastPage({ scrollTop }) {
 
   const { id } = useParams()
   const [data, setData] = useState([])
@@ -50,7 +50,7 @@ export default function SingleCastPage() {
   };
 
   useEffect(() => {
-    window.scroll(0, 0);
+    scrollTop()
     fetchDetails();
     fetchMovieCredits();
     fetchTvCredits();
