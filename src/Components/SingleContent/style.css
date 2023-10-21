@@ -8,4 +8,5 @@
 
 .poster:hover {
   transform: scale(0.95);
+  transition: transform .2s;
 }

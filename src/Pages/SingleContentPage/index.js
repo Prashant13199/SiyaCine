@@ -381,22 +381,22 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
           <div className='actions'>
             {auth?.currentUser?.uid && <div style={{ marginRight: '20px' }}>
-              <Tooltip title="Favourite">
+              <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
                 <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
                   {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Watchlist">
+              <Tooltip title={watchlist ? "Remove from Watchlist" : 'Add to Watchlist'}>
                 <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatchlist()}>
                   {watchlist ? <DoneIcon color="warning" /> : <AddIcon />}
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Watching">
+              <Tooltip title={watching ? "Remove from Watching" : "Add to Watching"}>
                 <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatching()}>
                   {watching ? <PlayCircleFilledWhiteIcon color="warning" /> : <PlayCircleOutlineIcon />}
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Watched">
+              <Tooltip title={watched ? "Remove from Watched" : 'Add to Watched'}>
                 <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatched()}>
                   {watched ? <FeaturedVideoIcon color="warning" /> : <FeaturedVideoOutlinedIcon />}
                 </IconButton>
@@ -438,8 +438,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           })}
           {data.overview && <div className='overview'>
             <h4>Overview</h4>
-            {data.overview?.length > 200 && !readMore ? data.overview.substring(0, 200).concat('...') : data.overview}
-            <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 200 && (!readMore ? 'read more.' : 'Less')}</span>
+            {data.overview?.length > 400 && !readMore ? data.overview.substring(0, 400).concat('...') : data.overview}
+            <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 400 && (!readMore ? 'read more.' : 'Less')}</span>
           </div>}
         </div>
       </div>
