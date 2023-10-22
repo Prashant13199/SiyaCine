@@ -6,7 +6,7 @@ import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast'
 
-export default function UserProfile({ setBackdrop }) {
+export default function UserProfile({ setBackdrop, scrollTop }) {
 
   const { uid } = useParams()
   const [username, setUsername] = useState('')
@@ -17,6 +17,10 @@ export default function UserProfile({ setBackdrop }) {
   const [watching, setWatching] = useState([])
   const [cast, setCast] = useState([])
   const [number, setNumber] = useState(null)
+
+  useEffect(() => {
+    scrollTop()
+  }, [])
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 600 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)

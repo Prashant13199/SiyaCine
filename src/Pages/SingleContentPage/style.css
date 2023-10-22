@@ -107,6 +107,16 @@
     opacity: 1;
 }
 
+@media only screen and (max-width: 600px) {
+    .pc {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+    }
+}
+
 @media only screen and (max-width: 880px) {
 
     .singlecontentposter {
@@ -135,14 +145,6 @@
 
     .details {
         padding: 20px 10px;
-    }
-
-    .pc {
-        display: none;
-    }
-
-    .mobile {
-        display: block;
     }
 
     .trailer {

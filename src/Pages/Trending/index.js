@@ -100,7 +100,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     scrollTop()
-    fetchWatching()
     fetchNowplaying();
     fetchPopularmovie();
     fetchPopulartv();
@@ -110,6 +109,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
     fetchTrendingMovie();
     fetchTrendingTv();
   }, []);
+
+  useEffect(() => {
+    fetchWatching()
+  }, [auth?.currentUser?.uid])
 
   return (
 

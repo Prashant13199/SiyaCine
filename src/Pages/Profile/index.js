@@ -15,7 +15,7 @@ import Cast from '../../Components/Cast';
 import { useTheme } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
 
-export default function Profile({ setBackdrop }) {
+export default function Profile({ setBackdrop, scrollTop }) {
 
   const [currentUsername, setCurrentUsername] = useState('')
   const [currentPhoto, setCurrentPhoto] = useState('')
@@ -32,6 +32,10 @@ export default function Profile({ setBackdrop }) {
   const handleShow = () => setShow(true);
   const theme = useTheme()
   const [suggestions, setSuggestions] = useState([])
+
+  useEffect(() => {
+    scrollTop()
+  }, [])
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 600 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)

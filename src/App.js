@@ -69,10 +69,10 @@ function App() {
                   <SingleContentPage setBackdrop={setBackdrop} scrollTop={scrollTop} />
                 </Route>
                 <Route path="/user/:uid">
-                  <UserProfile setBackdrop={setBackdrop} />
+                  <UserProfile setBackdrop={setBackdrop} scrollTop={scrollTop} />
                 </Route>
                 <Route path="/profile">
-                  <Profile setBackdrop={setBackdrop} />
+                  <Profile setBackdrop={setBackdrop} scrollTop={scrollTop} />
                 </Route>
                 <Route path="/movies">
                   <Movies scrollTop={scrollTop} />
