@@ -14,6 +14,7 @@ import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
 import { useTheme } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
+import { CircularProgress } from '@mui/material';
 
 export default function Profile({ setBackdrop, scrollTop }) {
 
@@ -32,6 +33,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const handleShow = () => setShow(true);
   const theme = useTheme()
   const [suggestions, setSuggestions] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     scrollTop()
@@ -89,6 +91,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
     database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
       setCurrentPhoto(snapshot.val()?.photo)
       setCurrentUsername(snapshot.val()?.username)
+      setLoading(false)
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).on('value', snapshot => {
       let arr = []
@@ -134,7 +137,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
     })
   }, [auth?.currentUser?.uid])
 
-  return (
+  return !loading ? (
     <>
       <Modal show={show} onHide={handleClose} centered >
         <Modal.Body className='modal_body' style={{ backgroundColor: theme.palette.background.default }}>
@@ -216,5 +219,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
       </div>
 
     </>
-  )
+  ) : <div className="loading">
+    <CircularProgress color='warning' />
+  </div>
 }

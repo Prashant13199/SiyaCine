@@ -7,6 +7,7 @@ import Genres from '../../Components/Genres'
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
+import { CircularProgress } from '@mui/material';
 
 export default function SingleCategory({ scrollTop }) {
 
@@ -17,6 +18,7 @@ export default function SingleCategory({ scrollTop }) {
   const [numOfPages, setNumOfPages] = useState();
   const genreforURL = useGenre(selectedGenres);
   const { category, type, name } = useParams()
+  const [loading, setLoading] = useState(true)
 
   const fetch = async () => {
     const { data } = await axios.get(
@@ -24,6 +26,7 @@ export default function SingleCategory({ scrollTop }) {
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
+    setLoading(false)
   };
 
   const fetch2 = async () => {
@@ -32,6 +35,7 @@ export default function SingleCategory({ scrollTop }) {
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -43,7 +47,7 @@ export default function SingleCategory({ scrollTop }) {
     scrollTop()
   }, [genreforURL, page]);
 
-  return (
+  return !loading ? (
     <div className='singlecategory'>
       <div className='discover_movies_title'>{name}</div>
       <Genres
@@ -65,4 +69,7 @@ export default function SingleCategory({ scrollTop }) {
       )}
     </div>
   )
+    : <div className="loading">
+      <CircularProgress color='warning' />
+    </div>
 }

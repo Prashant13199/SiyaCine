@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast'
+import { CircularProgress } from '@mui/material';
 
 export default function UserProfile({ setBackdrop, scrollTop }) {
 
@@ -17,6 +18,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const [watching, setWatching] = useState([])
   const [cast, setCast] = useState([])
   const [number, setNumber] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     scrollTop()
@@ -34,6 +36,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
     database.ref(`/Users/${uid}`).on('value', snapshot => {
       setUsername(snapshot.val()?.username)
       setPhoto(snapshot.val()?.photo)
+      setLoading(false)
     })
     database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
       let arr = []
@@ -72,7 +75,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
     })
   }, [uid])
 
-  return (
+  return !loading ? (
 
     <div className='Profile'>
       <div className='profile_header'>
@@ -124,4 +127,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
     </div>
 
   )
+    : <div className="loading">
+      <CircularProgress color='warning' />
+    </div>
 }

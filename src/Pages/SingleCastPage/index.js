@@ -8,6 +8,7 @@ import { auth, database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 
 export default function SingleCastPage({ scrollTop }) {
 
@@ -19,6 +20,7 @@ export default function SingleCastPage({ scrollTop }) {
   const [readMore, setReadMore] = useState(false)
   const [switchC, setSwitchC] = useState(0)
   const theme = useTheme()
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).on('value', snapshot => {
@@ -33,6 +35,7 @@ export default function SingleCastPage({ scrollTop }) {
       `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
     setData(data);
+    setLoading(false)
   };
 
   const fetchMovieCredits = async () => {
@@ -72,7 +75,7 @@ export default function SingleCastPage({ scrollTop }) {
     }
   }
 
-  return (
+  return !loading ? (
 
     <div className='singlecastpage'>
       <div className='singlecontent_responsive_cast'>
@@ -127,4 +130,7 @@ export default function SingleCastPage({ scrollTop }) {
     </div>
 
   )
+    : <div className="loading">
+      <CircularProgress color='warning' />
+    </div>
 }

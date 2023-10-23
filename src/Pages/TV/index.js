@@ -6,6 +6,7 @@ import './style.css';
 import Genres from '../../Components/Genres'
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import Grid from '@mui/material/Unstable_Grid2';
+import { CircularProgress } from '@mui/material';
 
 export default function TV({ scrollTop }) {
 
@@ -15,6 +16,7 @@ export default function TV({ scrollTop }) {
   const [content, setContent] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
   const genreforURL = useGenre(selectedGenres);
+  const [loading, setLoading] = useState(true)
 
   const fetchTV = async () => {
     const { data } = await axios.get(
@@ -22,6 +24,7 @@ export default function TV({ scrollTop }) {
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -29,7 +32,7 @@ export default function TV({ scrollTop }) {
     fetchTV();
   }, [genreforURL, page]);
 
-  return (
+  return !loading ? (
     <div className='tv'>
       <div className='discover_movies_title'>Discover TV</div>
       <Genres
@@ -52,5 +55,7 @@ export default function TV({ scrollTop }) {
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
       )}
     </div>
-  )
+  ) : <div className="loading">
+    <CircularProgress color='warning' />
+  </div>
 }
