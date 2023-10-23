@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { IconButton, useTheme } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { database, auth } from '../../firebase';
 
 export default function Trending({ setBackdrop, scrollTop }) {
 
@@ -21,8 +20,19 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
-  const [watching, setWatching] = useState([])
   const theme = useTheme()
+
+  useEffect(() => {
+    scrollTop()
+    fetchNowplaying();
+    fetchPopularmovie();
+    fetchPopulartv();
+    fetchTopratedtv();
+    fetchTopratedmovie();
+    fetchUpcoming();
+    fetchTrendingMovie();
+    fetchTrendingTv();
+  }, []);
 
   const fetchNowplaying = async () => {
     const { data } = await axios.get(
@@ -88,32 +98,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
     setTrendingTv(data.results);
   };
 
-  const fetchWatching = () => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setWatching(arr)
-    })
-  }
-
-  useEffect(() => {
-    scrollTop()
-    fetchNowplaying();
-    fetchPopularmovie();
-    fetchPopulartv();
-    fetchTopratedtv();
-    fetchTopratedmovie();
-    fetchUpcoming();
-    fetchTrendingMovie();
-    fetchTrendingTv();
-  }, []);
-
-  useEffect(() => {
-    fetchWatching()
-  }, [auth?.currentUser?.uid])
-
   return (
 
     <div className='trending'>
@@ -143,13 +127,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
               return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
             })}
           </div></>}
-        {watching?.length !== 0 && <><br />
-          <div className='trending_title' >Watching Now</div>
-          <div className='trending_scroll' >
-            {watching?.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-            })}
-          </div></>}
+
         {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
           <div className='trending_title' >Trending&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchTrending(switchTrending === 0 ? 1 : 0)}>
             <div className={switchTrending === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTrending === 0 && theme.palette.warning.main, color: switchTrending === 0 && theme.palette.warning.contrastText }}>Movie</div>

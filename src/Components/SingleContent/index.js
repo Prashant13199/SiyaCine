@@ -17,7 +17,7 @@ export default function SingleContent({ data, type }) {
         setShow(true)
       }
     })
-  }, [])
+  }, [auth?.currentUser?.uid])
 
   return data?.poster_path && show && (
     <Grid xs={2} sm={4} md={4} key={data.id}>

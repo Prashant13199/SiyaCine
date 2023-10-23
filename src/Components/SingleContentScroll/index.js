@@ -22,7 +22,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom }
         }
       })
     }
-  }, [])
+  }, [auth?.currentUser?.uid])
 
   const removeSuggestion = () => {
     if (id) {
