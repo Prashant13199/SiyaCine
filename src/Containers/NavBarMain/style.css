@@ -59,6 +59,7 @@
 .navbar_icon {
     height: 30px;
     width: 30px;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 660px) {
