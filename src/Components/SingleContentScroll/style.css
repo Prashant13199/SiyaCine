@@ -3,29 +3,13 @@
     height: 250px;
     border-radius: 10px;
     cursor: pointer;
+    transition: transform .2s;
     margin: 5px;
 }
 
-.poster_relative {
-    position: relative;
-    transition: transform .2s;
-}
-
-.poster_relative:hover {
+.poster_scroll:hover {
     transform: scale(0.95);
     transition: transform .2s;
-}
-
-.watchlist_icon {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-}
-
-.watched_icon {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
 }
 
 .user {

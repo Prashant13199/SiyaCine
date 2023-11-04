@@ -465,7 +465,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div className='trending_title' >Similar</div>
             <div className='trending_scroll' >
               {similar && similar.map((data) => {
-                return <SingleContentScroll data={data} key={data.id} type={type} />
+                return <SingleContentScroll data={data} key={data.id} type={type} recom={true} />
               })}
             </div>
           </>}
@@ -473,7 +473,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div className='trending_title' >Recommendations</div>
             <div className='trending_scroll' >
               {recommendations && recommendations.map((data) => {
-                return <SingleContentScroll data={data} key={data.id} type={type} />
+                return <SingleContentScroll data={data} key={data.id} type={type} recom={true} />
               })}
             </div>
           </>}
