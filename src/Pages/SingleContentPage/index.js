@@ -235,6 +235,12 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       }).then(() => {
         console.log("Set to watched")
         setWatched(true)
+        if(watchlist){
+          database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
+            console.log("Removed from watchlist")
+            setWatchlist(false)
+          })
+        }
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
