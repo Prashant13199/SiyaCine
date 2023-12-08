@@ -30,7 +30,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
-    }, 1500);
+    }, 800);
   }, [])
 
   useEffect(() => {
@@ -84,11 +84,11 @@ function App() {
                   <Search scrollTop={scrollTop} />
                 </Route>
                 <Route path="/people" component={People} />
-                <Route path="/singlecategory/:category/:type/:name">
+                <Route path="/singlecategory/:category/:type/:name/:uid">
                   <SingleCategory scrollTop={scrollTop} />
                 </Route>
                 <Route path="/singlecast/:id">
-                  <SingleCastPage scrollTop={scrollTop} />
+                  <SingleCastPage scrollTop={scrollTop} setBackdrop={setBackdrop} />
                 </Route>
               </Switch>
             </div>

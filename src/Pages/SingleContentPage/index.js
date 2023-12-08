@@ -186,6 +186,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   };
 
   useEffect(() => {
+    setLoading(true)
     fetchProvider();
     fetchDetails();
     fetchCredit();

@@ -10,7 +10,7 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 
-export default function SingleCastPage({ scrollTop }) {
+export default function SingleCastPage({ scrollTop, setBackdrop }) {
 
   const { id } = useParams()
   const [data, setData] = useState([])
@@ -21,6 +21,19 @@ export default function SingleCastPage({ scrollTop }) {
   const [switchC, setSwitchC] = useState(0)
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
+  const [number, setNumber] = useState(null)
+
+  useEffect(() => {
+    randomNumber()
+  }, [favourite.length])
+
+  const randomNumber = () => {
+    setNumber(Math.floor(Math.random() * movie.length))
+  }
+
+  useEffect(() => {
+    setBackdrop(window.innerWidth > 600 ? movie[number]?.backdrop_path : movie[number]?.poster_path)
+  }, [movie, number])
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).on('value', snapshot => {

@@ -15,6 +15,8 @@ import Cast from '../../Components/Cast';
 import { useTheme } from '@mui/material';
 import CachedIcon from '@mui/icons-material/Cached';
 import { CircularProgress } from '@mui/material';
+import { Link } from 'react-router-dom';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 export default function Profile({ setBackdrop, scrollTop }) {
 
@@ -169,7 +171,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             })}
           </div><br /></>}
         {watchlist.length !== 0 && <>
-          <div className='trending_title' >Watchlist ({watchlist?.length})</div>
+          <div className='trending_title' >Watchlist ({watchlist?.length})<Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watchlist && watchlist.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
@@ -184,7 +186,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             })}
           </div><br /></>}
         {watched.length !== 0 && <>
-          <div className='trending_title' >Watched ({watched?.length})</div>
+          <div className='trending_title' >Watched ({watched?.length})<Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watched && watched.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
@@ -200,7 +202,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             })}
           </div><br /></>}
         {favourite.length !== 0 && <>
-          <div className='trending_title' >Favourites ({favourite?.length})</div>
+          <div className='trending_title' >Favourites ({favourite?.length})<Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {favourite && favourite.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
