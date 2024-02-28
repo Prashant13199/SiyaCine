@@ -39,7 +39,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setNowplaying(data.results);
+    setNowplaying(data?.results);
   };
 
   const fetchPopularmovie = async () => {
@@ -47,7 +47,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setPopularmovie(data.results);
+    setPopularmovie(data?.results);
   };
 
   const fetchPopulartv = async () => {
@@ -55,7 +55,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setPopulartv(data.results);
+    setPopulartv(data?.results);
   };
 
   const fetchTopratedmovie = async () => {
@@ -63,7 +63,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setTopratedmovie(data.results);
+    setTopratedmovie(data?.results);
   };
 
   const fetchTopratedtv = async () => {
@@ -71,7 +71,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setTopratedtv(data.results);
+    setTopratedtv(data?.results);
   };
 
   const fetchUpcoming = async () => {
@@ -79,7 +79,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setUpcoming(data.results);
+    setUpcoming(data?.results);
   };
 
   const fetchTrendingMovie = async () => {
@@ -87,7 +87,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setTrendingMovie(data.results);
+    setTrendingMovie(data?.results);
   };
 
   const fetchTrendingTv = async () => {
@@ -95,7 +95,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.REACT_APP_API_KEY}`
     );
 
-    setTrendingTv(data.results);
+    setTrendingTv(data?.results);
   };
 
   return (
@@ -112,7 +112,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div>
           <div className='trending_scroll' >
             {nowplaying?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
+              return <SingleContentScroll data={data} key={data?.id} type="movie" />
             })}
           </div>
         </>}
@@ -124,7 +124,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div>
           <div className='trending_scroll' >
             {upcoming?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
+              return <SingleContentScroll data={data} key={data?.id} type="movie" />
             })}
           </div></>}
 
@@ -135,10 +135,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div><Link to={`/singlecategory/trending/${switchTrending === 0 ? 'movie' : 'tv'}/Trending ${switchTrending === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {switchTrending === 0 && trendingMovie?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
+              return <SingleContentScroll data={data} key={data?.id} type="movie" />
             })}
             {switchTrending === 1 && trendingTv?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="tv" recom={true} />
+              return <SingleContentScroll data={data} key={data?.id} type="tv" />
             })}
           </div></>}
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
@@ -148,10 +148,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div><Link to={`/singlecategory/top_rated/${switchTopRated === 0 ? 'movie' : 'tv'}/Top Rated ${switchTopRated === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {switchTopRated === 0 && topratedmovie?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
+              return <SingleContentScroll data={data} key={data?.id} type="movie" />
             })}
             {switchTopRated === 1 && topratedtv?.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="tv" recom={true} />
+              return <SingleContentScroll data={data} key={data?.id} type="tv" />
             })}
           </div></>}
         {(popularmovie?.length !== 0 || populartv?.length !== 0) && <><br />
@@ -161,10 +161,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div><Link to={`/singlecategory/popular/${switchPopular === 0 ? 'movie' : 'tv'}/Popular ${switchPopular === 0 ? 'Movie' : 'TV'}/$$`} className="viewall" ><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {popularmovie && switchPopular === 0 && popularmovie.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="movie" recom={true} />
+              return <SingleContentScroll data={data} key={data?.id} type="movie" />
             })}
             {populartv && switchPopular === 1 && populartv.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type="tv" recom={true} />
+              return <SingleContentScroll data={data} key={data?.id} type="tv" />
             })}
           </div></>}
       </>
