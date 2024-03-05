@@ -10,7 +10,7 @@ export default function Header({ setBackdrop }) {
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 600 ? upcoming[number]?.backdrop_path : upcoming[number]?.poster_path)
-  }, [upcoming, number])
+  }, [upcoming, number, window.innerWidth])
 
   const fetchUpcoming = async () => {
     const { data } = await axios.get(

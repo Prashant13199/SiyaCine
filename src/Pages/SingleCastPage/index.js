@@ -33,7 +33,7 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 600 ? movie[number]?.backdrop_path : movie[number]?.poster_path)
-  }, [movie, number])
+  }, [movie, number, window.innerWidth])
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).on('value', snapshot => {

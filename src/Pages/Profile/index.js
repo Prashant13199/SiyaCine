@@ -43,7 +43,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 600 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
-  }, [favourite, number])
+  }, [favourite, number, window.innerWidth])
 
   useEffect(() => {
     fetchRecommendation();

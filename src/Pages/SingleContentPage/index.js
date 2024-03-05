@@ -64,7 +64,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 600 ? data?.backdrop_path : data?.poster_path)
-  }, [data])
+  }, [data, window.innerWidth, window.innerWidth])
 
   const getUsername = (id) => {
     let name = ""
