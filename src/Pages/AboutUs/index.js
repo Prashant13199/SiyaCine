@@ -1,8 +1,10 @@
 import React from 'react'
 import './style.css'
 import prashant from '../../assets/prashantkumar.png'
+import { useTheme } from '@mui/material/styles';
 
 export default function AboutUs() {
+  const theme = useTheme()
   return (
     <div className='movies'>
       <div className='aboutus_content'>
@@ -19,7 +21,12 @@ export default function AboutUs() {
           <h2>About Siya Developers</h2>
           <br />
           <p>
-            Siya Developers was founded in 2018. The company's main goal was to offer users personalised apps that would make their work easier. Siya Developers created a variety of apps for users with the opportunity to customise them based on their needs, including SiyaExam, <a target='_blank' href="https://siyacine.netlify.app">Siyacine</a>, <a target='_blank' href="https://beesocio.netlify.app">BeeSocio</a>, <a target='_blank' href="https://siyafoods.netlify.app">SiyaFoods</a>, <a target='_blank' href="https://siyarawg.netlify.app">SiyaRawg</a>  and <a target='_blank' href="https://dailyquotes4u.netlify.app">Quotes4u</a>.
+            Siya Developers was founded in 2018. The company's main goal was to offer users personalised apps that would make their work easier. Siya Developers created a variety of apps for users with the opportunity to customise them based on their needs, including SiyaExam,
+            &nbsp;<a style={{ color: theme.palette.warning.main }} target='_blank' href="https://siyacine.netlify.app">Siyacine</a>,
+            &nbsp;<a style={{ color: theme.palette.warning.main }} target='_blank' href="https://beesocio.netlify.app">BeeSocio</a>,
+            &nbsp;<a style={{ color: theme.palette.warning.main }} target='_blank' href="https://siyafoods.netlify.app">SiyaFoods</a>,
+            &nbsp;<a style={{ color: theme.palette.warning.main }} target='_blank' href="https://siyarawg.netlify.app">SiyaRawg</a>  and
+            &nbsp;<a style={{ color: theme.palette.warning.main }} target='_blank' href="https://dailyquotes4u.netlify.app">Quotes4u</a>.
           </p>
           <div className='user_row'>
             <img src={prashant} className='user_image' />

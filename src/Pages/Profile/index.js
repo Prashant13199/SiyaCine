@@ -151,10 +151,10 @@ export default function Profile({ setBackdrop, scrollTop }) {
         <div className='profile_header'>
           <div style={{ position: 'relative', width: 'fit-content' }}>
             <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className='profile_image' />
-            <div style={{ position: 'absolute', left: 2, bottom: 2 }}>
+            <div style={{ position: 'absolute', left: 6, bottom: 6 }}>
               <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }}><CreateIcon className="icon" onClick={() => handleShow()} /></IconButton>
             </div>
-            {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 2, bottom: 2 }}>
+            {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 6, bottom: 6 }}>
               <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }}><DeleteIcon color="error" className="icon" onClick={() => removePicture()} /></IconButton>
             </div>}
           </div>

@@ -43,7 +43,7 @@ export default function Genres({
 
   return (
     <div style={{ margin: '20px 0px' }}>
-      {selectedGenres && selectedGenres.map((genre) => (
+      {selectedGenres?.map((genre) => (
         <Chip
           style={{ margin: 2, padding: 4 }}
           label={genre.name}
@@ -54,7 +54,7 @@ export default function Genres({
           onDelete={() => handleRemove(genre)}
         />
       ))}
-      {genres && genres.map((genre) => (
+      {genres?.map((genre) => (
         <Chip
           style={{ margin: 2, padding: 4 }}
           label={genre.name}

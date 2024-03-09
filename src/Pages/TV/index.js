@@ -19,6 +19,7 @@ export default function TV({ scrollTop }) {
   const [loading, setLoading] = useState(true)
 
   const fetchTV = async () => {
+    setLoading(true);
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false&page=${page}&with_genres=${genreforURL}`
     );
@@ -32,7 +33,7 @@ export default function TV({ scrollTop }) {
     fetchTV();
   }, [genreforURL, page]);
 
-  return !loading ? (
+  return (
     <div className='tv'>
       <div className='discover_movies_title'>Discover TV</div>
       <Genres
@@ -43,19 +44,20 @@ export default function TV({ scrollTop }) {
         setGenres={setGenres}
         setPage={setPage}
       />
-
-      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-        {content &&
-          content.map((data) => {
-            return <SingleContent data={data} key={data.id} type={'tv'} />
-          })}
-      </Grid>
-
+      {!loading ?
+        <> <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+          {content &&
+            content.map((data) => {
+              return <SingleContent data={data} key={data.id} type={'tv'} />
+            })}
+        </Grid>
+        </>
+        : <div className="loading">
+          <CircularProgress color='warning' />
+        </div>}
       {numOfPages > 1 && (
         <CustomPagination setPage={setPage} numOfPages={numOfPages} />
       )}
     </div>
-  ) : <div className="loading">
-    <CircularProgress color='warning' />
-  </div>
+  )
 }
