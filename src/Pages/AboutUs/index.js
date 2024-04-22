@@ -32,7 +32,7 @@ export default function AboutUs() {
             <img src={prashant} className='user_image' />
             <div className='user_details'>
               <h3 className='user_name'>Prashant Kumar</h3>
-              <h4 className='user_designation'>Founder and CEO</h4>
+              <h5 className='user_designation'>Founder and CEO</h5>
             </div>
           </div>
         </div>

@@ -40,6 +40,12 @@ export default function NavBarMain({ top }) {
       setRouteName('TV')
     } else if (location.pathname === '/people') {
       setRouteName('User')
+    } else if (location.pathname === '/aboutus') {
+      setRouteName('About Us')
+    } else if (location.pathname === '/profile') {
+      setRouteName('Me')
+    } else if (location.pathname?.includes('/user')) {
+      setRouteName('User')
     } else {
       setRouteName('Home')
     }

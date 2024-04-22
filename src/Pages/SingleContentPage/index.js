@@ -138,6 +138,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     );
     setData(data);
     setLoading(false)
+    console.log(data)
   };
 
   const fetchProvider = async () => {
