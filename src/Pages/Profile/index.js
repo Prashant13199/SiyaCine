@@ -178,8 +178,8 @@ export default function Profile({ setBackdrop, scrollTop }) {
             })}
           </div><br /></>}
         {recommendation.length !== 0 && <>
-          <div className='trending_title' >{favourite[number]?.data?.title || favourite[number]?.data?.name} <IconButton className='refresh_icon'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
-          <div className='searchresultfor' >Recommended for you</div>
+          <div className='trending_title' >Because You Watched <IconButton className='refresh_icon'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
+          <div className='searchresultfor' >{favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
           <div className='trending_scroll' >
             {recommendation && recommendation.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} recom={true} />
