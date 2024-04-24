@@ -29,4 +29,9 @@
     .input_search {
         font-size: 16px !important;
     }
+
+    .searchresultfor {
+        margin: 0px 10px;
+        font-size: 18px;
+    }
 }
