@@ -1,6 +1,7 @@
 .cast_single {
-    margin: 5px;
+    margin: 5px 10px;
     transition: transform .2s;
+    text-align: center;
 }
 
 .cast_single:hover {
