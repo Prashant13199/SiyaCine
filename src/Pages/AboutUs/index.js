@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './style.css'
 import prashant from '../../assets/prashantkumar.png'
 import { useTheme } from '@mui/material/styles';
 
-export default function AboutUs() {
+export default function AboutUs({ scrollTop }) {
+
   const theme = useTheme()
+
+  useEffect(() => {
+    scrollTop()
+  }, [])
+
   return (
     <div className='movies'>
       <div className='aboutus_content'>

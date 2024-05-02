@@ -64,7 +64,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    setBackdrop(window.innerWidth > 600 ? data?.backdrop_path : data?.poster_path)
+    setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : data?.poster_path)
   }, [data, window.innerWidth, window.innerWidth])
 
   const getUsername = (id) => {
@@ -391,7 +391,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
           </div>
           <div className='details'>
-            <h2 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h2>
+            <h1 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h1>
             <div style={{ display: 'flex', flexWrap: 'wrap' }}>
               {(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}{(data.release_date || data.first_air_date) && data.runtime && <>&nbsp;&#183;&nbsp;</>}</>}{data.runtime && data.runtime !== 0 && <>{Math.ceil(data.runtime / 60)}h</>}
             </div>
@@ -436,7 +436,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   </IconButton>
                 </Tooltip>
               </div>}
-              <div className='watchprovider'>
+              {(video || watchprovider?.path) && <div className='watchprovider'>
                 {video && <Button
                   startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
                   className='button'
@@ -447,7 +447,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 >
                   Play Trailer
                 </Button>}
-                {watchprovider.path && <Button
+                {watchprovider?.path && <Button
                   startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
                   className='button'
                   target="__blank"
@@ -457,7 +457,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 >
                   Available Now
                 </Button>}
-              </div>
+              </div>}
             </div>
             {credit.crew && credit.crew.map((cr) => {
               return cr.job === 'Director' && <div className='overview' key={cr.id}>
@@ -488,7 +488,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 </Link>
               })}
             </div></>}
-          {similar.length !== 0 && <><br />
+          {similar.length !== 0 && <>
             <div className='trending_title' >Similar</div>
             <div className='trending_scroll' >
               {similar && similar.map((data) => {

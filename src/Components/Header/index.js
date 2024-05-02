@@ -7,9 +7,11 @@ export default function Header({ setBackdrop }) {
 
   const [upcoming, setUpcoming] = useState([])
   const [number, setNumber] = useState(null)
+  const [background, setBackground] = useState(null)
 
   useEffect(() => {
-    setBackdrop(window.innerWidth > 600 ? upcoming[number]?.backdrop_path : upcoming[number]?.poster_path)
+    setBackdrop(window.innerWidth > 900 ? upcoming[number]?.backdrop_path : upcoming[number]?.poster_path)
+    setBackground(window.innerWidth > 900 ? upcoming[number]?.backdrop_path : upcoming[number]?.poster_path)
   }, [upcoming, number, window.innerWidth])
 
   const fetchUpcoming = async () => {
@@ -29,7 +31,7 @@ export default function Header({ setBackdrop }) {
 
   return (
     <Link to={`/singlecontent/${upcoming[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
-      <div className='welcome' style={{ backgroundImage: upcoming.length !== 0 && number ? window.innerWidth > 600 ? `url(https://image.tmdb.org/t/p/original/${upcoming[number].backdrop_path})` : `url(https://image.tmdb.org/t/p/original/${upcoming[number].poster_path})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+      <div className='welcome' style={{ backgroundImage: upcoming?.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>
             <div className='welcomeText'>{upcoming[number]?.title}</div>

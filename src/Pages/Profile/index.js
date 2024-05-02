@@ -42,7 +42,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
   }, [])
 
   useEffect(() => {
-    setBackdrop(window.innerWidth > 600 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
+    setBackdrop(window.innerWidth > 900 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
   }, [favourite, number, window.innerWidth])
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             </div>}
           </div>
           <div className="profile_actions">
-            <div className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading...'}</div>
+            <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading...'}</h1>
             &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
           </div>
         </div>

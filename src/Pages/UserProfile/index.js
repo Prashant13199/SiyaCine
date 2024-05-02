@@ -27,7 +27,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   }, [])
 
   useEffect(() => {
-    setBackdrop(window.innerWidth > 600 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
+    setBackdrop(window.innerWidth > 900 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
   }, [favourite, number, window.innerWidth])
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
           <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
         </div>
         <div className="profile_actions">
-          <div className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading...'}</div>
+          <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading...'}</h1>
         </div>
       </div>
       {watching.length !== 0 && <>

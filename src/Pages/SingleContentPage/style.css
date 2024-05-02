@@ -39,8 +39,7 @@
 }
 
 .singlecontent {
-    padding-top: 10px;
-    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 .pc {
@@ -109,7 +108,7 @@
     opacity: 1;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 900px) {
     .pc {
         display: none;
     }
@@ -119,7 +118,7 @@
     }
 }
 
-@media only screen and (max-width: 880px) {
+@media only screen and (max-width: 900px) {
 
     .singlecontent_responsive {
         display: grid;
@@ -138,11 +137,11 @@
 
     .singlecontentposter_responsive {
         display: grid;
-        place-items: center;
+        padding: 20px;
     }
 
     .details {
-        padding: 20px 10px;
+        padding: 10px;
     }
 
     .trailer {
@@ -154,6 +153,6 @@
     }
 
     .singlecontent {
-        padding-top: 50px;
+        padding-top: 10px;
     }
 }

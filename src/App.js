@@ -92,7 +92,7 @@ function App() {
                   <SingleCastPage scrollTop={scrollTop} setBackdrop={setBackdrop} />
                 </Route>
                 <Route path="/aboutus">
-                  <AboutUs />
+                  <AboutUs scrollTop={scrollTop} />
                 </Route>
               </Switch>
             </div>
