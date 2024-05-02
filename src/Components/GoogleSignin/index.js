@@ -26,7 +26,7 @@ export default function GoogleSignin({ close }) {
               email: userBySignIn.email,
               createdAccountOn: Date.now(),
               photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}`,
-              username: userBySignIn.email.replace("@gmail.com", ""),
+              username: userBySignIn.email.split('@')[0],
               timestamp: Date.now(),
             })
             .then(() => {

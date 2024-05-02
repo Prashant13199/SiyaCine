@@ -27,7 +27,7 @@ export default function Register({ handleClose2 }) {
             setLoading(false);
             database.ref(`Users/${user.user.uid}`).update({
                 uid: user.user.uid,
-                username: email.replace("@gmail.com", ""),
+                username: email.split('@')[0],
                 photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}`,
                 email: email,
                 createdAccountOn: Date.now(),
