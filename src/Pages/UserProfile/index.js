@@ -36,7 +36,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     database.ref(`/Users/${uid}`).on('value', snapshot => {
-      setUsername(snapshot.val()?.username)
+      setUsername(snapshot.val()?.username?.split('@')[0])
       setPhoto(snapshot.val()?.photo)
       setLoading(false)
     })

@@ -28,6 +28,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
 import FeaturedVideoOutlinedIcon from '@mui/icons-material/FeaturedVideoOutlined';
 import { FavoriteOutlined } from '@mui/icons-material';
+import User from '../../Components/User';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -322,11 +323,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           </div>
         </Modal.Body>
       </Modal>
-      <Modal show={show2} onHide={handleClose2} centered>
+      <Modal size='md' show={show2} onHide={handleClose2} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <IconButton onClick={() => handleClose2()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <h2>Share To</h2>
-          <div style={{ maxHeight: '50vh', overflowY: 'auto' }}>
+          <div style={{ maxHeight: '70vh', overflowY: 'auto' }}>
             {users && users.map((user) => {
               return <div className='share_user' onClick={() => {
                 handleSend(user.uid)
@@ -337,7 +338,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   <img src={user.photo} className="share_user_image" />
                 </div>
                 <div className='share_user_username'>
-                  {user.username.length > 25 ? user.username.substring(0, 25).concat('...') : user.username}
+                  {user.username.split('@')[0]}
                 </div>
               </div>
             })}

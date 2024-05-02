@@ -1,15 +1,15 @@
 .poster_scroll {
     object-fit: cover;
-    height: 250px;
+    height: 300px;
     border-radius: 10px;
     cursor: pointer;
-    transition: transform .2s;
+    transition: transform .3s;
     margin: 5px;
 }
 
 .poster_scroll:hover {
     transform: scale(0.95);
-    transition: transform .2s;
+    transition: transform .3s;
 }
 
 .user {
@@ -23,7 +23,7 @@
 
 @media only screen and (max-width: 600px) {
     .poster_scroll {
-        height: 180px;
+        height: 220px;
     }
 
     .user {

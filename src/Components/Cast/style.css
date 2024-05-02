@@ -1,6 +1,6 @@
 .cast_single {
     margin: 5px 10px;
-    transition: transform .2s;
+    transition: transform .3s;
     text-align: center;
 }
 
@@ -9,8 +9,8 @@
 }
 
 .cast_image {
-    height: 130px;
-    width: 130px;
+    height: 160px;
+    width: 160px;
     object-fit: cover;
     border-radius: 50%;
 }
@@ -29,8 +29,8 @@
 @media only screen and (max-width: 660px) {
 
     .cast_image {
-        height: 100px;
-        width: 100px;
+        height: 120px;
+        width: 120px;
     }
 
     .cast_char {

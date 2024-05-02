@@ -1,10 +1,11 @@
 .searchresultfor {
     margin: 0px 10px;
     font-size: 20px;
+    color: rgb(255, 167, 38) !important;
 }
 
 .cast_scroll {
-    transition: transform .2s;
+    transition: transform .3s;
 }
 
 .cast_scroll:hover {

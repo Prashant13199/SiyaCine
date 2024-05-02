@@ -11,7 +11,7 @@ export default function User({ user }) {
         <div className='User' style={{ backgroundImage: user ? `url(${user.photo})` : `url(https://api.dicebear.com/6.x/thumbs/png?seed=Spooky)` }}>
           <div className='user_back'>
             <div className='user_username'>
-              {user.username}
+              {user.username.split('@')[0]}
             </div>
           </div>
         </div>

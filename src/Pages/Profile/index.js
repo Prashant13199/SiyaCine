@@ -92,7 +92,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
       setCurrentPhoto(snapshot.val()?.photo)
-      setCurrentUsername(snapshot.val()?.username)
+      setCurrentUsername(snapshot.val()?.username?.split('@')[0])
       setLoading(false)
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).on('value', snapshot => {

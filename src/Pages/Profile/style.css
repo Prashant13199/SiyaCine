@@ -22,6 +22,7 @@
     font-size: 40px;
     font-weight: bold;
     word-wrap: break-word;
+    margin-top: 10px;
 }
 
 .profile_actions {
@@ -42,7 +43,7 @@
 
 @media only screen and (max-width: 600px) {
     .profile_username {
-        font-size: 24px;
+        font-size: 28px;
     }
 
     .empty {
@@ -50,8 +51,8 @@
     }
 
     .profile_image {
-        height: 320px;
-        width: 250px;
+        height: 420px;
+        width: 300px;
     }
 
     .icon_button {

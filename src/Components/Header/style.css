@@ -1,6 +1,6 @@
 .welcome_backdrop {
     background-color: rgba(0, 0, 0, 0.4);
-    height: 60vh;
+    height: 80vh;
     display: flex;
     align-items: flex-end;
     padding: 20px;
@@ -20,19 +20,12 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .welcome {
-        height: 30vh;
-    }
-
-    .welcome_backdrop {
-        height: 30vh;
-    }
 
     .welcomeText {
-        font-size: 20px;
+        font-size: 30px;
     }
 
     .welcomeDesc {
-        font-size: 12px;
+        font-size: 14px;
     }
 }
