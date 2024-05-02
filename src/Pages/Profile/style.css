@@ -12,7 +12,7 @@
 }
 
 .profile_image {
-    height: 400px;
+    height: 480px;
     width: 330px;
     border-radius: 10px;
     object-fit: cover;
@@ -48,11 +48,6 @@
 
     .empty {
         width: 60px;
-    }
-
-    .profile_image {
-        height: 420px;
-        width: 300px;
     }
 
     .icon_button {

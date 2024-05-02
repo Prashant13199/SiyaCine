@@ -1,5 +1,5 @@
 .singlecontentposter {
-    height: auto;
+    height: 480px;
     width: 330px;
     border-radius: 10px;
     object-fit: cover;
@@ -120,10 +120,6 @@
 }
 
 @media only screen and (max-width: 880px) {
-
-    .singlecontentposter {
-        width: 300px;
-    }
 
     .singlecontent_responsive {
         display: grid;
