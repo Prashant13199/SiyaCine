@@ -52,15 +52,15 @@
     transition: all .2s;
 }
 
-@media only screen and (max-width: 880px) {
+@media only screen and (max-width: 660px) {
     .trending_title {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .switch {
         font-size: 12px;
-        border-width: 1px;
-        padding: 1px;
+        border-width: .7px;
+        padding: 1.5px;
     }
 
 }
