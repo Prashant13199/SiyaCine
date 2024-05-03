@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import axios from "axios";
 import './style.css'
 import Header from '../../Components/Header';
 import { Link } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { IconButton, useTheme } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import useFetchContent from '../../hooks/useFetchContent';
 
 export default function Trending({ setBackdrop, scrollTop }) {
 
-  const [trendingMovie, setTrendingMovie] = useState([]);
-  const [trendingTv, setTrendingTv] = useState([]);
-  const [upcoming, setUpcoming] = useState([])
-  const [topratedmovie, setTopratedmovie] = useState([])
-  const [topratedtv, setTopratedtv] = useState([])
-  const [popularmovie, setPopularmovie] = useState([])
-  const [populartv, setPopulartv] = useState([])
-  const [nowplaying, setNowplaying] = useState([])
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
@@ -24,79 +16,16 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     scrollTop()
-    fetchNowplaying();
-    fetchPopularmovie();
-    fetchPopulartv();
-    fetchTopratedtv();
-    fetchTopratedmovie();
-    fetchUpcoming();
-    fetchTrendingMovie();
-    fetchTrendingTv();
   }, []);
 
-  const fetchNowplaying = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    setNowplaying(data?.results);
-  };
-
-  const fetchPopularmovie = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    setPopularmovie(data?.results);
-  };
-
-  const fetchPopulartv = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    setPopulartv(data?.results);
-  };
-
-  const fetchTopratedmovie = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    setTopratedmovie(data?.results);
-  };
-
-  const fetchTopratedtv = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    setTopratedtv(data?.results);
-  };
-
-  const fetchUpcoming = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    setUpcoming(data?.results);
-  };
-
-  const fetchTrendingMovie = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    setTrendingMovie(data?.results);
-  };
-
-  const fetchTrendingTv = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.REACT_APP_API_KEY}`
-    );
-
-    setTrendingTv(data?.results);
-  };
+  const nowplaying = useFetchContent('now_playing', 'movie')
+  const popularmovie = useFetchContent('popular', 'movie')
+  const populartv = useFetchContent('popular', 'tv')
+  const topratedmovie = useFetchContent('top_rated', 'movie')
+  const topratedtv = useFetchContent('top_rated', 'tv')
+  const upcoming = useFetchContent('upcoming', 'movie')
+  const trendingMovie = useFetchContent('trending', 'movie')
+  const trendingTv = useFetchContent('trending', 'tv')
 
   return (
 

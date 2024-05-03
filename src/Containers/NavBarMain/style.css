@@ -1,6 +1,6 @@
 .navbar__img {
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
     object-fit: cover;
     margin-left: 10px;
     border-radius: 50%;
@@ -30,8 +30,8 @@
 }
 
 .navbar__img_active {
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
     object-fit: cover;
     margin-left: 10px;
     border-radius: 50%;
@@ -71,13 +71,13 @@
     }
 
     .navbar__img {
-        height: 40px;
-        width: 40px;
+        height: 35px;
+        width: 35px;
     }
 
     .navbar__img_active {
-        height: 40px;
-        width: 40px;
+        height: 35px;
+        width: 35px;
     }
 
 }

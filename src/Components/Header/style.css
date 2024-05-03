@@ -17,6 +17,10 @@
 
 .welcome {
     cursor: pointer;
+    overflow-x: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 @media only screen and (max-width: 600px) {

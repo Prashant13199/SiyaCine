@@ -52,7 +52,7 @@ function App() {
   return (
     <LoadingScreen
       loading={loading}
-      bgColor='background.default'
+      bgColor={'black'}
       spinnerColor={theme.palette.warning.main}
       logoSrc={logo}
     >

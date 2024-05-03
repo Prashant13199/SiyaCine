@@ -61,7 +61,7 @@ export default function Search({ scrollTop }) {
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/search/person?api_key=${process.env.REACT_APP_API_KEY
-                }&language=en-US&query=${query}&page=${pageT}`
+                }&language=en-US&query=${query}`
             );
             setPerson(data.results)
         } catch (error) {
@@ -80,7 +80,7 @@ export default function Search({ scrollTop }) {
     return (
         <div className="search">
             <div className='discover_movies_title'>Search</div>
-            <Paper component="form" sx={{ p: '4px 4px', display: 'flex', alignItems: 'center', width: '98%', borderRadius: '20px', margin: 'auto' }}>
+            <Paper component="form" sx={{ p: '8px 4px', display: 'flex', alignItems: 'center', width: '98%', borderRadius: '10px', margin: 'auto' }}>
                 <InputBase
                     sx={{ ml: 1, flex: 1 }}
                     className='input_search'

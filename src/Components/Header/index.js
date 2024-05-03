@@ -31,7 +31,7 @@ export default function Header({ setBackdrop }) {
 
   return (
     <Link to={`/singlecontent/${upcoming[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
-      <div className='welcome' style={{ backgroundImage: upcoming?.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(0deg, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%)', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+      <div className='welcome' style={{ backgroundImage: upcoming?.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>
             <div className='welcomeText'>{upcoming[number]?.title}</div>

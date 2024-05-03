@@ -17,11 +17,10 @@ import CachedIcon from '@mui/icons-material/Cached';
 import { CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import useFetchDB from '../../hooks/useFetchDB'
 
 export default function Profile({ setBackdrop, scrollTop }) {
 
-  const [currentUsername, setCurrentUsername] = useState('')
-  const [currentPhoto, setCurrentPhoto] = useState('')
   const [watchlist, setWatchlist] = useState([])
   const [watched, setWatched] = useState([])
   const [favourite, setFavourite] = useState([])
@@ -89,12 +88,10 @@ export default function Profile({ setBackdrop, scrollTop }) {
     }
   };
 
+  const currentPhoto = useFetchDB('photo')
+  const currentUsername = useFetchDB('username')
+
   useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
-      setCurrentPhoto(snapshot.val()?.photo)
-      setCurrentUsername(snapshot.val()?.username?.split('@')[0])
-      setLoading(false)
-    })
     database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -137,6 +134,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
       })
       setSuggestions(arr)
     })
+    setLoading(false)
   }, [auth?.currentUser?.uid])
 
   return !loading ? (
@@ -159,7 +157,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             </div>}
           </div>
           <div className="profile_actions">
-            <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading...'}</h1>
+            <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading username...'}</h1>
             &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
           </div>
         </div>

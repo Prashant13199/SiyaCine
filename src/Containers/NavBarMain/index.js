@@ -7,15 +7,15 @@ import { Button } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import Login from '../Login';
 import Register from '../Register';
-import { auth, database } from '../../firebase';
+import { auth } from '../../firebase';
 import './style.css'
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import useFetchDB from '../../hooks/useFetchDB';
 
 export default function NavBarMain({ top }) {
 
-  const [currentPhoto, setCurrentPhoto] = useState("")
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -27,11 +27,7 @@ export default function NavBarMain({ top }) {
 
   const [routeName, setRouteName] = useState('Home')
 
-  useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
-      setCurrentPhoto(snapshot.val()?.photo)
-    })
-  }, [auth?.currentUser?.uid])
+  const currentPhoto = useFetchDB('photo')
 
   useEffect(() => {
     if (location.pathname === '/movies') {
@@ -46,6 +42,22 @@ export default function NavBarMain({ top }) {
       setRouteName('Me')
     } else if (location.pathname?.includes('/user')) {
       setRouteName('User')
+    } else if (location.pathname?.includes('/singlecontent')) {
+      setRouteName('Content')
+    } else if (location.pathname?.includes('/singlecast')) {
+      setRouteName('Cast')
+    } else if (location.pathname?.includes('/Upcoming')) {
+      setRouteName('Upcoming')
+    } else if (location.pathname?.includes('/now_playing')) {
+      setRouteName('Now Playing')
+    } else if (location.pathname?.includes('/trending')) {
+      setRouteName('Trending')
+    } else if (location.pathname?.includes('/top_rated')) {
+      setRouteName('Top Rated')
+    } else if (location.pathname?.includes('/popular')) {
+      setRouteName('Popular')
+    } else if (location.pathname?.includes('/search')) {
+      setRouteName('Search')
     } else {
       setRouteName('Home')
     }
