@@ -39,7 +39,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [similar, setSimilar] = useState([])
   const [video, setVideo] = useState();
   const [videoPlay, setVideoPlay] = useState();
-  const [server, setServer] = useState();
   const [currentusername, setCurrentusername] = useState('')
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
@@ -66,11 +65,9 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [show4, setShow4] = useState(false);
   const handleClose4 = () => {
     setShow4(false)
-    setServer()
   }
-  const handleShow4 = (id) => {
+  const handleShow4 = () => {
     setShow4(true)
-    setServer(id)
     handleResume()
   }
   const [readMore, setReadMore] = useState(false)
@@ -393,9 +390,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default }}>
           <IconButton onClick={() => handleClose4()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <div style={{ height: '100%', width: '100%' }}>
-            {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
-            {server === 2 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
-            {server === 3 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://embed.smashystream.com/playere.php?tmdb=${id}`}></iframe>}
+            {type === 'movie' && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
+            {type === 'tv' && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtvfull/${id}`}></iframe>}
           </div>
         </Modal.Body>
       </Modal>
@@ -496,39 +492,32 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     Available Now
                   </Button>}
                 </div>}
+                {(type === 'movie' && auth?.currentUser?.uid) ?
+                  <div className='watchprovider'>
+                    <Button
+                      startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
+                      className='button'
+                      target="__blank"
+                      onClick={() => handleShow4()}
+                      variant='contained'
+                      style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                    >
+                      Play Movie
+                    </Button>
+                  </div>
+                  :
+                  <Button
+                    startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
+                    className='button'
+                    target="__blank"
+                    onClick={() => handleShow4()}
+                    variant='contained'
+                    style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                  >
+                    Play Series
+                  </Button>
+                }
               </div>
-              {type === 'movie' && auth?.currentUser?.uid && <div className='watchprovider'>
-                <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
-                  className='button'
-                  target="__blank"
-                  onClick={() => handleShow4(1)}
-                  variant='contained'
-                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                >
-                  Play Server 1
-                </Button>
-                <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
-                  className='button'
-                  target="__blank"
-                  onClick={() => handleShow4(2)}
-                  variant='contained'
-                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                >
-                  Play Server 2
-                </Button>
-                <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
-                  className='button'
-                  target="__blank"
-                  onClick={() => handleShow4(3)}
-                  variant='contained'
-                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                >
-                  Play Server 3
-                </Button>
-              </div>}
               {credit.crew && credit.crew.map((cr) => {
                 return cr.job === 'Director' && <div className='overview' key={cr.id}>
                   <h4>Director</h4>
@@ -606,7 +595,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               {(reviews.length !== 0 || reviews2.length !== 0) && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
               {reviews.length === 0 && reviews2.length === 0 && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
             </div>
-            {/* </div> */}
           </div >
         </div>
       </>
