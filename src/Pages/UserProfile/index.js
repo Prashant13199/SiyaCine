@@ -9,6 +9,7 @@ import { CircularProgress, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Count from '../../Components/Count'
+import Premium from '../../Components/Premium'
 
 export default function UserProfile({ setBackdrop, scrollTop }) {
 
@@ -89,6 +90,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       <div className="profile_actions">
         <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading username...'}</h1>
       </div>
+      <Premium />
       {watching.length !== 0 && <>
         <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
         <div className='trending_scroll' >

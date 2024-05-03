@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchDB from '../../hooks/useFetchDB'
 import Count from '../../Components/Count';
+import Premium from '../../Components/Premium';
 
 export default function Profile({ setBackdrop, scrollTop }) {
 
@@ -156,6 +157,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
           <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading username...'}</h1>
           &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
         </div>
+        <Premium />
         {resume?.length !== 0 && <>
           <div className='trending_title' ><Count value={resume?.length} />Resume Watching</div>
           <div className='trending_scroll' >
