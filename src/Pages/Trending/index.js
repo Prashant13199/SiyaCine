@@ -6,17 +6,73 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import { IconButton, useTheme } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchContent from '../../hooks/useFetchContent';
+import { auth, database } from '../../firebase'
+import axios from "axios";
+import CachedIcon from '@mui/icons-material/Cached';
 
 export default function Trending({ setBackdrop, scrollTop }) {
 
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
+  const [resume, setResume] = useState([])
+  const [watching, setWatching] = useState([])
+  const [recommendation, setRecommendation] = useState([])
+  const [favourite, setFavourite] = useState([])
+  const [number, setNumber] = useState(null)
   const theme = useTheme()
 
   useEffect(() => {
     scrollTop()
   }, []);
+
+  useEffect(() => {
+    fetchRecommendation();
+  }, [number])
+
+  useEffect(() => {
+    randomNumber()
+  }, [favourite.length])
+
+  const randomNumber = () => {
+    setNumber(Math.floor(Math.random() * favourite.length))
+  }
+
+  useEffect(() => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/resume`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+      setResume(arr)
+    })
+
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+      setWatching(arr)
+    })
+
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+      setFavourite(arr)
+    })
+
+  }, [auth?.currentUser?.uid])
+
+  const fetchRecommendation = async () => {
+    if (favourite[number]?.type) {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${favourite[number]?.type}/${favourite[number]?.id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false`
+      );
+      setRecommendation(data.results);
+    }
+  };
 
   const nowplaying = useFetchContent('now_playing', 'movie')
   const popularmovie = useFetchContent('popular', 'movie')
@@ -32,6 +88,21 @@ export default function Trending({ setBackdrop, scrollTop }) {
     <div className='trending'>
       <Header setBackdrop={setBackdrop} />
       <>
+        {resume?.length !== 0 && <><br />
+          <div className='trending_title' >Resume Watching</div>
+          <div className='trending_scroll' >
+            {resume && resume.map((data) => {
+              return <SingleContentScroll data={data.data} key={data.id} type={data.type} resume={true} />
+            })}
+          </div></>}
+
+        {watching?.length !== 0 && <><br />
+          <div className='trending_title' >Watching Now</div>
+          <div className='trending_scroll' >
+            {watching && watching.map((data) => {
+              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+            })}
+          </div></>}
         {nowplaying?.length !== 0 && <><br />
           <div className='trending_title' >
             Now Playing in Theatres
@@ -54,6 +125,15 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_scroll' >
             {upcoming?.map((data) => {
               return <SingleContentScroll data={data} key={data?.id} type="movie" />
+            })}
+          </div></>}
+
+        {recommendation?.length !== 0 && <><br />
+          <div className='trending_title' >Because You Watched <IconButton className='refresh_icon'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
+          <div className='searchresultfor' >{favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
+          <div className='trending_scroll' >
+            {recommendation && recommendation.map((data) => {
+              return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} recom={true} />
             })}
           </div></>}
 

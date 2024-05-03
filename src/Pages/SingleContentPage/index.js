@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { createRef, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './style.css'
 import axios from "axios";
@@ -71,6 +71,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const handleShow4 = (id) => {
     setShow4(true)
     setServer(id)
+    handleResume()
   }
   const [readMore, setReadMore] = useState(false)
   const [users, setUsers] = useState([])
@@ -245,6 +246,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setWatchlist(false)
       })
     }
+  }
+
+  const handleResume = () => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/resume/${id}`).set({
+      id: id, data: data, type: type
+    }).then(() => {
+      console.log("Set to resume")
+    })
   }
 
   const handleWatched = () => {
@@ -490,7 +499,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               </div>
               {type === 'movie' && auth?.currentUser?.uid && <div className='watchprovider'>
                 <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
                   className='button'
                   target="__blank"
                   onClick={() => handleShow4(1)}
@@ -500,7 +509,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   Play Server 1
                 </Button>
                 <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
                   className='button'
                   target="__blank"
                   onClick={() => handleShow4(2)}
@@ -510,7 +519,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   Play Server 2
                 </Button>
                 <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
                   className='button'
                   target="__blank"
                   onClick={() => handleShow4(3)}

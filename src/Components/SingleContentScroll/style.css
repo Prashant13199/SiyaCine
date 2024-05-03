@@ -21,6 +21,24 @@
     text-overflow: ellipsis;
 }
 
+.res {
+    display: flex;
+    align-items: center;
+    color: lightgray;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.single_content_scroll {
+    position: relative;
+}
+
+.close_icon {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
 @media only screen and (max-width: 600px) {
     .poster_scroll {
         height: 220px;
@@ -28,5 +46,11 @@
 
     .user {
         width: 130px;
+    }
+
+    .close_icon {
+        position: absolute;
+        right: 10px;
+        top: 10px;
     }
 }
