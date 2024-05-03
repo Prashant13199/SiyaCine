@@ -7,6 +7,7 @@ import Genres from '../../Components/Genres'
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import Grid from '@mui/material/Unstable_Grid2';
 import { CircularProgress } from '@mui/material';
+import empty from '../../assets/empty.png'
 
 export default function TV({ scrollTop }) {
 
@@ -51,6 +52,9 @@ export default function TV({ scrollTop }) {
               return <SingleContent data={data} key={data.id} type={'tv'} />
             })}
         </Grid>
+          {content?.length === 0 && <center><br />
+            <img src={empty} className='empty' alt="" />
+            <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
         </>
         : <div className="loading">
           <CircularProgress color='warning' />
