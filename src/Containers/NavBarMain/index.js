@@ -50,14 +50,26 @@ export default function NavBarMain({ top }) {
       setRouteName('Upcoming')
     } else if (location.pathname?.includes('/now_playing')) {
       setRouteName('Now Playing')
-    } else if (location.pathname?.includes('/trending')) {
-      setRouteName('Trending')
-    } else if (location.pathname?.includes('/top_rated')) {
-      setRouteName('Top Rated')
-    } else if (location.pathname?.includes('/popular')) {
-      setRouteName('Popular')
+    } else if (location.pathname?.includes('/trending/movie')) {
+      setRouteName('Trending Movie')
+    } else if (location.pathname?.includes('/trending/tv')) {
+      setRouteName('Trending TV')
+    } else if (location.pathname?.includes('/top_rated/movie')) {
+      setRouteName('Top Rated Movie')
+    } else if (location.pathname?.includes('/top_rated/tv')) {
+      setRouteName('Top Rated TV')
+    } else if (location.pathname?.includes('/popular/movie')) {
+      setRouteName('Popular Movie')
+    } else if (location.pathname?.includes('/popular/tv')) {
+      setRouteName('Popular TV')
     } else if (location.pathname?.includes('/search')) {
       setRouteName('Search')
+    } else if (location.pathname?.includes('/watchlist')) {
+      setRouteName('Watchlist')
+    } else if (location.pathname?.includes('/watched')) {
+      setRouteName('Watched')
+    } else if (location.pathname?.includes('/favourites')) {
+      setRouteName('Favourites')
     } else {
       setRouteName('Home')
     }
@@ -79,7 +91,7 @@ export default function NavBarMain({ top }) {
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
             <div style={{ display: 'flex' }}>
-              <img className='navbar_icon' style={{ width: '100px', height: 'auto', backdropFilter: 'unset' }} src={logo} alt="logo" />
+              <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
             </div>
           </NavLink>
         </Navbar.Brand>

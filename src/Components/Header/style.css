@@ -1,6 +1,6 @@
 .welcome_backdrop {
     background-color: rgba(0, 0, 0, 0.4);
-    height: 80vh;
+    height: 90vh;
     display: flex;
     align-items: flex-end;
     padding: 20px;
@@ -16,14 +16,17 @@
 }
 
 .welcome {
-    cursor: pointer;
     overflow-x: hidden;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-@media only screen and (max-width: 600px) {
+.header_buttons {
+    margin-top: 10px;
+}
+
+@media only screen and (max-width: 660px) {
 
     .welcomeText {
         font-size: 30px;
@@ -31,5 +34,9 @@
 
     .welcomeDesc {
         font-size: 14px;
+    }
+
+    .welcome_backdrop {
+        padding: 10px;
     }
 }

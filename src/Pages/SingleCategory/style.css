@@ -1,3 +1,9 @@
 .singlecategory {
     padding-top: 60px;
 }
+
+@media only screen and (max-width: 900px) {
+    .singlecategory {
+        padding-top: 70px;
+    }
+}

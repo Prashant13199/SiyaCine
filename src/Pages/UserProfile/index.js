@@ -84,9 +84,9 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
         <div>
           <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
         </div>
-        <div className="profile_actions">
-          <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading username...'}</h1>
-        </div>
+      </div>
+      <div className="profile_actions">
+        <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading username...'}</h1>
       </div>
       {watching.length !== 0 && <>
         <div className='trending_title' >Watching Now ({watching?.length})</div>

@@ -70,11 +70,11 @@ export default function SingleCategory({ scrollTop }) {
   useEffect(() => {
     if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated')) {
       fetch();
-    } else if(category === 'watchlist'){
+    } else if (category === 'watchlist') {
       fetchWatchlist()
-    }else if(category === 'watched'){
+    } else if (category === 'watched') {
       fetchWatched()
-    }else if(category === 'favourites'){
+    } else if (category === 'favourites') {
       fetchFavourite()
     }
     else {
@@ -86,7 +86,6 @@ export default function SingleCategory({ scrollTop }) {
   return !loading ? (
     <div className='singlecategory'>
       <div className='discover_movies_title'>{name}</div>
-      <br />
       <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
         {content &&
           content.map((data) => {

@@ -52,32 +52,30 @@
     color: rgb(255, 167, 38) !important;
 }
 
-.navbar_brand {
-    font-size: 22px;
-}
-
 .navbar_icon {
     cursor: pointer;
+    height: auto;
+    width: 100px;
 }
 
 @media screen and (max-width: 660px) {
-
-    .navbar_brand {
-        font-size: 18px;
-    }
 
     .navbar_main {
         padding: 0 3px;
     }
 
     .navbar__img {
-        height: 35px;
-        width: 35px;
+        height: 40px;
+        width: 40px;
     }
 
     .navbar__img_active {
-        height: 35px;
-        width: 35px;
+        height: 40px;
+        width: 40px;
+    }
+
+    .navbar_icon {
+        width: 80px;
     }
 
 }
