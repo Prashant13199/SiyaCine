@@ -28,6 +28,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
 import FeaturedVideoOutlinedIcon from '@mui/icons-material/FeaturedVideoOutlined';
 import { FavoriteOutlined } from '@mui/icons-material';
+import HdIcon from '@mui/icons-material/Hd';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -37,6 +38,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [credit, setCredit] = useState([])
   const [similar, setSimilar] = useState([])
   const [video, setVideo] = useState();
+  const [videoPlay, setVideoPlay] = useState();
+  const [server, setServer] = useState();
   const [currentusername, setCurrentusername] = useState('')
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
@@ -46,14 +49,29 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [reviews, setReviews] = useState([])
   const [reviews2, setReviews2] = useState([])
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => {
+    setShow(false)
+    setVideoPlay()
+  }
+  const handleShow = (vid) => {
+    setShow(true);
+    setVideoPlay(vid.key)
+  }
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
   const [show3, setShow3] = useState(false);
   const handleClose3 = () => setShow3(false);
   const handleShow3 = () => setShow3(true);
+  const [show4, setShow4] = useState(false);
+  const handleClose4 = () => {
+    setShow4(false)
+    setServer()
+  }
+  const handleShow4 = (id) => {
+    setShow4(true)
+    setServer(id)
+  }
   const [readMore, setReadMore] = useState(false)
   const [users, setUsers] = useState([])
   const theme = useTheme()
@@ -138,7 +156,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     );
     setData(data);
     setLoading(false)
-    console.log(data)
   };
 
   const fetchProvider = async () => {
@@ -175,8 +192,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
-
-    setVideo(data.results[0]?.key);
+    const values = data.results.filter((value) => value.type === 'Trailer')
+    setVideo(values.splice(0, 2))
   };
 
   const fetchReviews = async () => {
@@ -318,7 +335,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default }}>
           <IconButton onClick={() => handleClose()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <div style={{ height: '100%', width: '100%' }}>
-            <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls />
+            <ReactPlayer url={`https://www.youtube.com/watch?v=${videoPlay}`} width={'100%'} height={'100%'} controls />
           </div>
         </Modal.Body>
       </Modal>
@@ -361,6 +378,16 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             />
           </div>
           <Button fullWidth color='warning' variant="contained" onClick={() => handleAddReview()}>Review</Button>
+        </Modal.Body>
+      </Modal>
+      <Modal show={show4} onHide={handleClose4} centered size="xl">
+        <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default }}>
+          <IconButton onClick={() => handleClose4()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          <div style={{ height: '100%', width: '100%' }}>
+            {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
+            {server === 2 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
+            {server === 3 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://embed.smashystream.com/playere.php?tmdb=${id}`}></iframe>}
+          </div>
         </Modal.Body>
       </Modal>
       <Snackbar
@@ -437,16 +464,18 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   </Tooltip>
                 </div>}
                 {(video || watchprovider?.path) && <div className='watchprovider'>
-                  {video && <Button
-                    startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
-                    className='button'
-                    target="__blank"
-                    onClick={() => handleShow()}
-                    variant='contained'
-                    style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                  >
-                    Play Trailer
-                  </Button>}
+                  {video?.map((vid, index) => {
+                    return <Button
+                      startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
+                      className='button'
+                      target="__blank"
+                      onClick={() => handleShow(vid)}
+                      variant='contained'
+                      style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                    >
+                      Play Trailer {video?.length === 1 ? '' : index + 1}
+                    </Button>
+                  })}
                   {watchprovider?.path && <Button
                     startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
                     className='button'
@@ -459,6 +488,38 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   </Button>}
                 </div>}
               </div>
+              {type === 'movie' && auth?.currentUser?.uid && <div className='watchprovider'>
+                <Button
+                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  className='button'
+                  target="__blank"
+                  onClick={() => handleShow4(1)}
+                  variant='contained'
+                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                >
+                  Play Server 1
+                </Button>
+                <Button
+                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  className='button'
+                  target="__blank"
+                  onClick={() => handleShow4(2)}
+                  variant='contained'
+                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                >
+                  Play Server 2
+                </Button>
+                <Button
+                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  className='button'
+                  target="__blank"
+                  onClick={() => handleShow4(3)}
+                  variant='contained'
+                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                >
+                  Play Server 3
+                </Button>
+              </div>}
               {credit.crew && credit.crew.map((cr) => {
                 return cr.job === 'Director' && <div className='overview' key={cr.id}>
                   <h4>Director</h4>
@@ -467,8 +528,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               })}
               {data.overview && <div className='overview'>
                 <h4>Overview</h4>
-                {data.overview?.length > 400 && !readMore ? data.overview.substring(0, 400).concat('...') : data.overview}
-                <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 400 && (!readMore ? 'read more.' : 'Less')}</span>
+                {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
+                <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more.' : 'Less')}</span>
               </div>}
             </div>
           </div>

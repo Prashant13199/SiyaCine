@@ -34,8 +34,10 @@
 }
 
 .actions {
-    margin: 20px 0px;
+    margin: 10px 0px;
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .mobile {
@@ -56,8 +58,9 @@
     position: relative;
 }
 
-.watchprovider {
-    margin-left: 20px;
+.button {
+    margin: 5px !important;
+    width: 170px !important;
 }
 
 .genrelist {
@@ -132,14 +135,13 @@
         display: grid;
     }
 
-    .watchprovider {
-        margin-top: 20px;
-        margin-left: 0;
-    }
-
     .singlecontentposter_responsive {
         display: grid;
         padding: 5px;
+    }
+
+    .watchprovider {
+        margin-top: 10px;
     }
 
     .details {

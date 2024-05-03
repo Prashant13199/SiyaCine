@@ -45,8 +45,9 @@ export default function Header({ setBackdrop }) {
   }, [])
 
   useEffect(() => {
-    fetchVideo()
-  }, [upcoming])
+    if (upcoming[number]?.id)
+      fetchVideo()
+  }, [upcoming[number]?.id])
 
   useEffect(() => {
     setNumber(Math.floor(Math.random() * upcoming.length))
@@ -57,8 +58,8 @@ export default function Header({ setBackdrop }) {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/movie/${upcoming[number]?.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
-
-      setVideo(data.results[0]?.key);
+      const values = data.results.filter((value) => value.type === 'Trailer')
+      setVideo(values[0]?.key);
     }
     catch (e) {
       console.log(e)

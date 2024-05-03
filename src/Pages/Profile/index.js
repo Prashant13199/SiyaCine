@@ -163,14 +163,14 @@ export default function Profile({ setBackdrop, scrollTop }) {
           &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
         </div>
         {watching.length !== 0 && <>
-          <div className='trending_title' >Watching Now <Count value={watching?.length} /></div>
+          <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
           <div className='trending_scroll' >
             {watching && watching.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div><br /></>}
         {watchlist.length !== 0 && <>
-          <div className='trending_title' >Watchlist <Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_title' ><Count value={watchlist?.length} />Watchlist<Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watchlist && watchlist.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
@@ -185,14 +185,14 @@ export default function Profile({ setBackdrop, scrollTop }) {
             })}
           </div><br /></>}
         {watched.length !== 0 && <>
-          <div className='trending_title' >Watched <Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_title' ><Count value={watched?.length} />Watched<Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watched && watched.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
             })}
           </div><br /></>}
         {suggestions.length !== 0 && <>
-          <div className='trending_title' >Suggestions <Count value={suggestions?.length} /></div>
+          <div className='trending_title' ><Count value={suggestions?.length} />Suggestions</div>
           <div className='trending_scroll' >
             {suggestions && suggestions.map((data) => {
               return <div>
@@ -201,7 +201,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             })}
           </div><br /></>}
         {favourite.length !== 0 && <>
-          <div className='trending_title' >Favourites <Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_title' ><Count value={favourite?.length} />Favourites<Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {favourite && favourite.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
@@ -214,7 +214,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
               return <Cast c={c} key={c.id} />
             })}
           </div><br /></>}
-        {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
+        {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
           <img src={empty} className='empty' alt="" />
           <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
       </div>

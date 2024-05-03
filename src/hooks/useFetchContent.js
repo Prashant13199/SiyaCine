@@ -32,7 +32,6 @@ export default function useFetchContent(value, type) {
             );
 
             setContent(data?.results);
-            console.log(data.results)
         }
         catch (e) {
             console.log(e)

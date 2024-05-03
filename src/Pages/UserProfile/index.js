@@ -8,6 +8,7 @@ import Cast from '../../Components/Cast'
 import { CircularProgress, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import Count from '../../Components/Count'
 
 export default function UserProfile({ setBackdrop, scrollTop }) {
 
@@ -89,28 +90,28 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
         <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading username...'}</h1>
       </div>
       {watching.length !== 0 && <>
-        <div className='trending_title' >Watching Now ({watching?.length})</div>
+        <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
         <div className='trending_scroll' >
           {watching && watching.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div><br /></>}
       {watchlist.length !== 0 && <>
-        <div className='trending_title' >Watchlist ({watchlist?.length})<Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+        <div className='trending_title' ><Count value={watchlist?.length} />Watchlist<Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
         <div className='trending_scroll' >
           {watchlist && watchlist.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div><br /></>}
       {watched.length !== 0 && <>
-        <div className='trending_title' >Watched ({watched?.length})<Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+        <div className='trending_title' ><Count value={watched?.length} />Watched<Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
         <div className='trending_scroll' >
           {watched && watched.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
           })}
         </div><br /></>}
       {favourite.length !== 0 && <>
-        <div className='trending_title' >Favourites ({favourite?.length})<Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+        <div className='trending_title' ><Count value={favourite?.length} />Favourites<Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
         <div className='trending_scroll' >
           {favourite && favourite.map((data) => {
             return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
@@ -123,7 +124,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
             return <Cast c={c} />
           })}
         </div><br /></>}
-      {favourite.length === 0 && cast.length === 0 && watchlist.length === 0 && watching.length === 0 && <center><br />
+      {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
         <img src={empty} className='empty' alt="" />
         <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
     </div>
