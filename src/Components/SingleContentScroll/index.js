@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { IconButton, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-export default function SingleContentScroll({ data, type, by, byuid, id, recom, resume }) {
+export default function SingleContentScroll({ data, type, by, byuid, id, recom, resume, key }) {
 
   const history = useHistory()
   const theme = useTheme()
@@ -34,15 +34,13 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   }
 
   const removeResume = () => {
-    if (resume) {
-      database.ref(`/Users/${auth?.currentUser?.uid}/resume/${data.id}`).remove().then(() => {
-        console.log('Resume Removed')
-      }).catch((e) => console.log(e))
-    }
+    database.ref(`/Users/${auth?.currentUser?.uid}/resume/${data.id}`).remove().then(() => {
+      console.log('Resume Removed')
+    }).catch((e) => console.log(e))
   }
 
   return data?.poster_path && show && (
-    <div className='single_content_scroll'>
+    <div className='single_content_scroll' key={key}>
       <img
         src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
         alt={data?.title || data?.name}
