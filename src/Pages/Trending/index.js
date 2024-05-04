@@ -39,13 +39,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   }
 
   useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/resume`).on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setResume(arr)
-    })
 
     database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
       let arr = []
@@ -61,6 +54,14 @@ export default function Trending({ setBackdrop, scrollTop }) {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
       setFavourite(arr)
+    })
+
+    database.ref(`/Users/${auth?.currentUser?.uid}/resume`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+      })
+      setResume(arr)
     })
 
   }, [auth?.currentUser?.uid])

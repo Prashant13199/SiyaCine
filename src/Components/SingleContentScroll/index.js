@@ -49,7 +49,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
         className="poster_scroll"
         onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
       />
-      {resume && <div className='close_icon'>
+      {resume && <div className='remove_icon'>
         <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }} onClick={() => removeResume()}>
           <CloseIcon color="error" />
         </IconButton>
