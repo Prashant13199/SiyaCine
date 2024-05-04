@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { database, auth, storage } from '../../firebase';
 import './style.css';
-import { IconButton, setRef } from '@mui/material';
+import { IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useHistory } from 'react-router-dom';
-import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import CreateIcon from '@mui/icons-material/Create';
 import { Modal } from 'react-bootstrap';
@@ -13,7 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
 import { useTheme } from '@mui/material';
-import CachedIcon from '@mui/icons-material/Cached';
+import Button from '@mui/material/Button';
 import { CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -144,12 +143,24 @@ export default function Profile({ setBackdrop, scrollTop }) {
               <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }}><DeleteIcon color="error" className="icon" onClick={() => removePicture()} /></IconButton>
             </div>}
           </div>
+          <div className='profile_right'>
+            <div className="profile_actions">
+              <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading...'}</h1>
+            </div>
+            <Premium />
+            <Button
+              startIcon={<LogoutIcon style={{ fontSize: '30px' }} />}
+              className='button'
+              target="__blank"
+              onClick={() => signOut()}
+              variant='contained'
+              style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+            >
+              Sign Out
+            </Button>
+          </div>
         </div>
-        <div className="profile_actions">
-          <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading username...'}</h1>
-          &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
-        </div>
-        <Premium />
+
         {watching?.length !== 0 && <>
           <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
           <div className='trending_scroll' >

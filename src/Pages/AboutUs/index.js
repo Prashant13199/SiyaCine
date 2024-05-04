@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import './style.css'
-import prashant from '../../assets/prashantkumar.png'
 import { useTheme } from '@mui/material/styles';
 
 export default function AboutUs({ scrollTop }) {
@@ -34,13 +33,6 @@ export default function AboutUs({ scrollTop }) {
             &nbsp;<a style={{ color: theme.palette.warning.main }} target='_blank' href="https://siyarawg.netlify.app">SiyaRawg</a>  and
             &nbsp;<a style={{ color: theme.palette.warning.main }} target='_blank' href="https://dailyquotes4u.netlify.app">Quotes4u</a>.
           </p>
-          <div className='user_row'>
-            <img src={prashant} className='user_image' />
-            <div className='user_details'>
-              <h3 className='user_name'>Prashant Kumar</h3>
-              <h5 className='user_designation'>Founder and CEO</h5>
-            </div>
-          </div>
         </div>
       </div>
     </div>

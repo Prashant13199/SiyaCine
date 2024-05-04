@@ -515,7 +515,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 </div>}
 
               </div>
-              {type === 'movie' && auth?.currentUser?.uid && <div className='watchprovider'>
+              {credit.crew && credit.crew.map((cr) => {
+                return cr.job === 'Director' && <div className='overview' key={cr.id}>
+                  <h4>Director</h4>
+                  {cr.name}
+                </div>
+              })}
+
+              {type === 'movie' && auth?.currentUser?.uid && <><h4>Servers</h4><div className='watchprovider'>
                 <Button
                   startIcon={<HdIcon style={{ fontSize: '30px' }} />}
                   className='button'
@@ -546,13 +553,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 >
                   Play Server 3
                 </Button>
-              </div>}
-              {credit.crew && credit.crew.map((cr) => {
-                return cr.job === 'Director' && <div className='overview' key={cr.id}>
-                  <h4>Director</h4>
-                  {cr.name}
-                </div>
-              })}
+              </div></>}
               {data.overview && <div className='overview'>
                 <h4>Overview</h4>
                 {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}

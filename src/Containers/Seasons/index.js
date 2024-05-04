@@ -8,6 +8,7 @@ import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 export default function Seasons({ value }) {
 
@@ -92,7 +93,10 @@ export default function Seasons({ value }) {
                             handleShow4(datas?.episode_number)
                         }
                     }}>
-                        <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
+                        <div className='relative'>
+                            <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
+                            <div className="play_icon"><PlayArrowIcon /></div>
+                        </div>
                         <div className="episode_name">
                             S{datas.season_number}E{datas.episode_number} {datas.name}
                         </div>

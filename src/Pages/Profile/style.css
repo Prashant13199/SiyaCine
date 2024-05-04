@@ -1,13 +1,16 @@
 .profile_header {
-    display: grid;
+    display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 0px 5px;
-    place-items: flex-start;
+    padding: 20px;
 }
 
 .Profile {
     padding-top: 80px;
+}
+
+.profile_right {
+    margin-left: 20px;
 }
 
 .profile_image {
@@ -59,7 +62,6 @@
         display: grid;
         place-items: center;
         justify-content: center;
-        align-items: center;
         padding-bottom: 10px;
     }
 
