@@ -291,7 +291,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const handleWatching = () => {
     if (!watching) {
       database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).set({
-        id: id, data: data, type: type,
+        id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
         console.log("Set to watching")
         setWatching(true)

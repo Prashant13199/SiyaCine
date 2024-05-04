@@ -38,12 +38,12 @@ export default function Trending({ setBackdrop, scrollTop }) {
   }
 
   useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setWatching(arr)
+      setWatching(arr.reverse())
     })
 
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).on('value', snapshot => {

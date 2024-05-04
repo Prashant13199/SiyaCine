@@ -33,7 +33,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
 
     const handleResume = (number) => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).set({
-            id: value?.id, data: value, type: 'tv', season: seasonNumber, episode: number
+            id: value?.id, data: value, type: 'tv', season: seasonNumber, episode: number, timestamp: Date.now()
         }).then(() => {
             console.log("Set to watching")
             if (watchlist) {
@@ -115,7 +115,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                             {auth?.currentUser?.uid && <div className="play_icon"><PlayArrowIcon sx={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} /></div>}
                         </div>
                         <div className="episode_name">
-                            {datas?.name?.substring(0, 55)?.concat('...')}
+                            {datas?.name?.length > 55 ? datas?.name?.substring(0, 55)?.concat('...') : datas?.name}
                         </div>
                         {lastPlayed?.season === seasonNumber && lastPlayed?.episode === datas?.episode_number && <div className='playing'>Last Played</div>}
                     </div>
