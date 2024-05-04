@@ -25,11 +25,11 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FeaturedVideoIcon from '@mui/icons-material/FeaturedVideo';
-import FeaturedVideoOutlinedIcon from '@mui/icons-material/FeaturedVideoOutlined';
 import { FavoriteOutlined } from '@mui/icons-material';
 import HdIcon from '@mui/icons-material/Hd';
 import Seasons from '../../Containers/Seasons';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -245,6 +245,12 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       }).then(() => {
         console.log("Set to watchlist")
         setWatchlist(true)
+        if (watched) {
+          database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
+            console.log("Removed from watched")
+            setWatched(false)
+          })
+        }
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
@@ -465,7 +471,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   </Tooltip>
                   <Tooltip title={watched ? "Remove from Watched" : 'Add to Watched'}>
                     <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatched()}>
-                      {watched ? <FeaturedVideoIcon color="warning" /> : <FeaturedVideoOutlinedIcon />}
+                      {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Share">
@@ -493,6 +499,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     target="__blank"
                     href={watchprovider.link}
                     variant='contained'
+                    color='warning'
                     style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                   >
                     Available Now
@@ -501,7 +508,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     <Button
                       startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
                       className='button'
-                      target="__blank"
                       onClick={() => handleShow4()}
                       variant='contained'
                       style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
@@ -521,45 +527,18 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               {data.overview && <div className='overview'>
                 <h4>Overview</h4>
                 {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
-                <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more.' : 'Less')}</span>
+                <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more' : 'less')}</span>
               </div>}
+              {type === 'movie' && premium && <ButtonGroup variant="outlined" color="warning">
+                <Button onClick={() => handleShow4(1)}>Server 1</Button>
+                <Button onClick={() => handleShow4(2)}>Server 2</Button>
+                <Button onClick={() => handleShow4(3)}>Server 3</Button>
+              </ButtonGroup>}
 
-              {type === 'movie' && premium && <div className='watchprovider'>
-                <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
-                  className='button'
-                  target="__blank"
-                  onClick={() => handleShow4(1)}
-                  variant='contained'
-                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                >
-                  Server 1
-                </Button>
-                <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
-                  className='button'
-                  target="__blank"
-                  onClick={() => handleShow4(2)}
-                  variant='contained'
-                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                >
-                  Server 2
-                </Button>
-                <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
-                  className='button'
-                  target="__blank"
-                  onClick={() => handleShow4(3)}
-                  variant='contained'
-                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                >
-                  Server 3
-                </Button>
-              </div>}
             </div>
           </div>
 
-          {type === 'tv' && <Seasons value={data} />}
+          {type === 'tv' && <Seasons value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
 
           <div className='singlecontent' >
             {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>

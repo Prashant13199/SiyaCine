@@ -9,8 +9,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import empty from '../../assets/empty.png'
 
-export default function Seasons({ value }) {
+export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched }) {
 
     const theme = useTheme()
 
@@ -35,6 +36,18 @@ export default function Seasons({ value }) {
             id: value?.id, data: value, type: 'tv', season: seasonNumber, episode: number
         }).then(() => {
             console.log("Set to watching")
+            if (watchlist) {
+                database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${value?.id}`).remove().then(() => {
+                    console.log("Removed from watchlist")
+                    setWatchlist(false)
+                })
+            }
+            if (watched) {
+                database.ref(`/Users/${auth?.currentUser?.uid}/watched/${value?.id}`).remove().then(() => {
+                    console.log("Removed from watched")
+                    setWatched(false)
+                })
+            }
         })
     }
 
@@ -54,6 +67,7 @@ export default function Seasons({ value }) {
     }, [])
 
     const fetchDetails = async () => {
+        setContent([])
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/tv/${value?.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -95,17 +109,21 @@ export default function Seasons({ value }) {
                             handleShow4(datas?.episode_number)
                         }
                     }}>
+                        <span className='episode_number'>S{datas.season_number} E{datas.episode_number}</span>
                         <div className='relative'>
                             <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
-                            {auth?.currentUser?.uid && <div className="play_icon"><PlayArrowIcon sx={{ fontSize: '30px' }} /></div>}
+                            {auth?.currentUser?.uid && <div className="play_icon"><PlayArrowIcon sx={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} /></div>}
                         </div>
                         <div className="episode_name">
-                            S{datas.season_number}E{datas.episode_number} {datas.name}
+                            {datas?.name?.substring(0, 55)?.concat('...')}
                         </div>
                         {lastPlayed?.season === seasonNumber && lastPlayed?.episode === datas?.episode_number && <div className='playing'>Last Played</div>}
                     </div>
                 })}
             </div>
+            {content?.length === 0 && <center>
+                <img src={empty} className='empty_series' alt="" />
+                <h6 style={{ color: 'gray' }}>No shows available</h6></center>}
         </>
     )
 }

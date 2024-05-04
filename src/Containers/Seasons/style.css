@@ -8,6 +8,7 @@
 .single_episode {
     margin: 5px;
     cursor: pointer;
+    transition: all .3s;
 }
 
 .relative {
@@ -16,6 +17,7 @@
 
 .single_episode:hover {
     transform: scale(0.95);
+    transition: all .3s;
 }
 
 .close_icon_button {
@@ -52,8 +54,8 @@
 }
 
 .episode_name {
-    font-size: 14px;
-    word-break: break-all;
+    font-size: 15px;
+    word-wrap: break-word;
 }
 
 .dropdown_item {
@@ -66,8 +68,17 @@
     background-color: rgb(255, 167, 38);
 }
 
+.episode_number {
+    color: rgb(255, 167, 38);
+}
+
 .playing {
     color: rgb(255, 167, 38);
+}
+
+.dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 @media only screen and (max-width: 660px) {

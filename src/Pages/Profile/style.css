@@ -44,12 +44,21 @@
     margin-top: 100px;
 }
 
+.empty_series {
+    width: 80px;
+    height: auto;
+}
+
 @media only screen and (max-width: 900px) {
     .profile_username {
         font-size: 28px;
     }
 
     .empty {
+        width: 60px;
+    }
+
+    .empty_series {
         width: 60px;
     }
 

@@ -6,6 +6,6 @@ export default function Review({ review }) {
     const theme = useTheme()
     return (
         <div style={{ fontSize: '14px', marginTop: '5px' }}>{review?.length > 200 && !readMore ? review.substring(0, 200).concat('...') : review}
-            <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{review && review?.length > 200 && (!readMore ? 'read more.' : 'Less')}</span></div>
+            <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{review && review?.length > 200 && (!readMore ? 'read more' : 'less')}</span></div>
     )
 }
