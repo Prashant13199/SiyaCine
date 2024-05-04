@@ -140,9 +140,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             </div>}
           </div>
           <div className='profile_right'>
-            <div className="profile_actions">
-              <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading...'}</h1>
-            </div>
+            <h1 className='profile_username'>{currentUsername ? currentUsername : 'Loading...'}</h1>
             <Premium premium={premium} />
             <Button
               startIcon={<LogoutIcon style={{ fontSize: '30px' }} />}

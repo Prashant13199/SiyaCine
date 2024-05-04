@@ -114,9 +114,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
           <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
         </div>
         <div className='profile_right'>
-          <div className="profile_actions">
-            <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading username...'}</h1>
-          </div>
+          <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
           <div onClick={() => { handlePremium() }} className='handlepremium'>
             <Premium premium={premium} />
           </div>
