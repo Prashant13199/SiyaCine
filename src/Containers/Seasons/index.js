@@ -65,9 +65,9 @@ export default function Seasons({ value }) {
 
     return (
         <>
-            <Modal show={show4} onHide={handleClose4} centered size="xl">
-                <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default }}>
-                    <IconButton onClick={() => handleClose4()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+            <Modal show={show4} onHide={handleClose4} fullscreen>
+                <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+                    <IconButton onClick={() => handleClose4()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
                     <div style={{ height: '100%', width: '100%' }}>
                         <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>
                     </div>

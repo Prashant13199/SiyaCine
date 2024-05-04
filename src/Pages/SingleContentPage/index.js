@@ -341,9 +341,9 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   return (
     <>
-      <Modal show={show} onHide={handleClose} centered size="xl">
-        <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default }}>
-          <IconButton onClick={() => handleClose()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+      <Modal show={show} onHide={handleClose} fullscreen>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+          <IconButton onClick={() => handleClose()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
           <div style={{ height: '100%', width: '100%' }}>
             <ReactPlayer url={`https://www.youtube.com/watch?v=${videoPlay}`} width={'100%'} height={'100%'} controls />
           </div>
@@ -390,9 +390,9 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <Button fullWidth color='warning' variant="contained" onClick={() => handleAddReview()}>Review</Button>
         </Modal.Body>
       </Modal>
-      <Modal show={show4} onHide={handleClose4} centered size="xl">
-        <Modal.Body className='trailer' style={{ backgroundColor: theme.palette.background.default }}>
-          <IconButton onClick={() => handleClose4()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+      <Modal show={show4} onHide={handleClose4} fullscreen>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+          <IconButton onClick={() => handleClose4()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
           <div style={{ height: '100%', width: '100%' }}>
             {type === 'movie' &&
               <>
