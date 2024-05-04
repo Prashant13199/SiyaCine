@@ -25,7 +25,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const [watchlist, setWatchlist] = useState([])
   const [watched, setWatched] = useState([])
   const [favourite, setFavourite] = useState([])
-  const [watching, setWatching] = useState([])
   const [cast, setCast] = useState([])
   const history = useHistory()
   const [number, setNumber] = useState(null)
@@ -100,13 +99,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
       })
       setFavourite(arr)
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setWatching(arr)
-    })
     database.ref(`/Users/${auth?.currentUser?.uid}/cast`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -160,14 +152,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
             </Button>
           </div>
         </div>
-
-        {watching?.length !== 0 && <>
-          <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
-          <div className='trending_scroll' >
-            {watching && watching.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-            })}
-          </div><br /></>}
         {watchlist?.length !== 0 && <>
           <div className='trending_title' ><Count value={watchlist?.length} />Watchlist<Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
@@ -205,7 +189,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
               return <Cast c={c} key={c.id} />
             })}
           </div><br /></>}
-        {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
+        {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && <center><br />
           <img src={empty} className='empty' alt="" />
           <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
       </div>

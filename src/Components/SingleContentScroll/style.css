@@ -29,16 +29,6 @@
     cursor: pointer;
 }
 
-.single_content_scroll {
-    position: relative;
-}
-
-.remove_icon {
-    position: absolute;
-    right: 10px;
-    top: 10px;
-}
-
 @media only screen and (max-width: 600px) {
     .poster_scroll {
         height: 220px;

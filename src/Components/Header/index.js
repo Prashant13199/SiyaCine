@@ -71,7 +71,7 @@ export default function Header({ setBackdrop }) {
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <IconButton onClick={() => handleClose()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
-          <div style={{ height: '100%', width: '100%' }}>
+          <div className="padding40">
             <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls />
           </div>
         </Modal.Body>

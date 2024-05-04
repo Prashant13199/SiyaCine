@@ -15,7 +15,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
-  const [resume, setResume] = useState([])
   const [watching, setWatching] = useState([])
   const [recommendation, setRecommendation] = useState([])
   const [favourite, setFavourite] = useState([])
@@ -39,14 +38,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   }
 
   useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/resume`).on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setResume(arr)
-    })
-
     database.ref(`/Users/${auth?.currentUser?.uid}/watching`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -88,16 +79,8 @@ export default function Trending({ setBackdrop, scrollTop }) {
     <div className='trending'>
       <Header setBackdrop={setBackdrop} />
       <>
-        {resume?.length !== 0 && <><br />
-          <div className='trending_title' >Resume Watching</div>
-          <div className='trending_scroll' >
-            {resume && resume.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} resume={true} />
-            })}
-          </div></>}
-
         {watching?.length !== 0 && <><br />
-          <div className='trending_title' >Watching Now</div>
+          <div className='trending_title' >Resume Playing</div>
           <div className='trending_scroll' >
             {watching && watching.map((data) => {
               return <SingleContentScroll data={data.data} key={data.id} type={data.type} />

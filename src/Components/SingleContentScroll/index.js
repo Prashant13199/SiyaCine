@@ -49,12 +49,14 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
       />
       {resume && <div className='remove_icon'>
         <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }} onClick={() => removeResume()}>
-          <CloseIcon color="error" />
+          <DeleteIcon color="error" className="close_icon_size" />
         </IconButton>
       </div>}
       {by && <div className='user'>
-        <DeleteIcon color="error" style={{ cursor: 'pointer' }} onClick={() => removeSuggestion()} />
-        <Link style={{ color: theme.palette.text.primary, textDecoration: 'none' }} to={`/user/${byuid}`}>{by}</Link>
+        <IconButton style={{ backgroundColor: theme.palette.background.default }}>
+          <DeleteIcon color="error" style={{ cursor: 'pointer' }} onClick={() => removeSuggestion()} />
+        </IconButton>
+        <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
       </div>}
     </div>
   )

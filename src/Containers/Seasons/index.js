@@ -31,10 +31,10 @@ export default function Seasons({ value }) {
     }
 
     const handleResume = (number) => {
-        database.ref(`/Users/${auth?.currentUser?.uid}/resume/${value?.id}`).set({
+        database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).set({
             id: value?.id, data: value, type: 'tv', season: seasonNumber, episode: number
         }).then(() => {
-            console.log("Set to resume")
+            console.log("Set to watching")
         })
     }
 
@@ -43,7 +43,7 @@ export default function Seasons({ value }) {
     }, [seasonNumber])
 
     useEffect(() => {
-        database.ref(`/Users/${auth?.currentUser?.uid}/resume/${value?.id}`).on('value', snapshot => {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).on('value', snapshot => {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
                 setSeasonNumber(snapshot.val()?.season)
@@ -68,7 +68,7 @@ export default function Seasons({ value }) {
             <Modal show={show4} onHide={handleClose4} fullscreen>
                 <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
                     <IconButton onClick={() => handleClose4()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
-                    <div style={{ height: '100%', width: '100%' }}>
+                    <div className='padding40'>
                         <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>
                     </div>
                 </Modal.Body>
@@ -95,7 +95,7 @@ export default function Seasons({ value }) {
                     }}>
                         <div className='relative'>
                             <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
-                            <div className="play_icon"><PlayArrowIcon /></div>
+                            {auth?.currentUser?.uid && <div className="play_icon"><PlayArrowIcon /></div>}
                         </div>
                         <div className="episode_name">
                             S{datas.season_number}E{datas.episode_number} {datas.name}

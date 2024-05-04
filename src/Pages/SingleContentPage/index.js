@@ -72,7 +72,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const handleShow4 = (id) => {
     setShow4(true)
     setServer(id)
-    handleResume()
+    handleWatching()
   }
   const [readMore, setReadMore] = useState(false)
   const [users, setUsers] = useState([])
@@ -125,7 +125,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     })
 
     database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).on('value', snapshot => {
-      if (snapshot.val()?.id === id) {
+      if (snapshot.val()?.id == id) {
         setWatching(true)
       } else {
         setWatching(false)
@@ -249,14 +249,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     }
   }
 
-  const handleResume = () => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/resume/${id}`).set({
-      id: id, data: data, type: type
-    }).then(() => {
-      console.log("Set to resume")
-    })
-  }
-
   const handleWatched = () => {
     if (!watched) {
       database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).set({
@@ -344,7 +336,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <IconButton onClick={() => handleClose()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
-          <div style={{ height: '100%', width: '100%' }}>
+          <div className='padding40'>
             <ReactPlayer url={`https://www.youtube.com/watch?v=${videoPlay}`} width={'100%'} height={'100%'} controls />
           </div>
         </Modal.Body>
@@ -392,8 +384,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       </Modal>
       <Modal show={show4} onHide={handleClose4} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-          <IconButton onClick={() => handleClose4()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
-          <div style={{ height: '100%', width: '100%' }}>
+          <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
+          <div className='padding40'>
             {type === 'movie' &&
               <>
                 {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
@@ -422,7 +414,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setName('')
       }
       } severity="success" sx={{ width: '100%' }}>
-          Suggested to {name && name.length > 12 ? name.substring(0, 12).concat('...') : name}!
+          Suggested to {name?.split('@')[0]}!
         </Alert>
       </Snackbar>
       {!loading ? <>
