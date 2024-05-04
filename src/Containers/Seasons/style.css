@@ -1,0 +1,56 @@
+.episode_list {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    width: 100%;
+}
+
+.single_episode {
+    margin: 5px;
+    cursor: pointer;
+}
+
+.single_episode:hover {
+    transform: scale(0.95);
+}
+
+.single_episode_image {
+    height: 150px;
+    width: 280px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.episode_container {
+    margin-top: 10px;
+}
+
+.seasons_button {
+    margin: 10px;
+}
+
+.episode_name {
+    font-size: 14px;
+    word-break: break-all;
+}
+
+.dropdown_item {
+    color: white;
+    background-color: black;
+}
+
+.dropdown_item:hover {
+    color: black;
+    background-color: rgb(255, 167, 38);
+}
+
+.playing {
+    color: rgb(255, 167, 38);
+}
+
+@media only screen and (max-width: 660px) {
+    .single_episode_image {
+        height: 120px;
+        width: 220px;
+    }
+}

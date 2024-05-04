@@ -123,7 +123,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
         <div className='trending_title' >Favourite Cast</div>
         <div className='trending_scroll' >
           {cast && cast.map((c) => {
-            return <Cast c={c} />
+            return <Cast c={c} key={c?.id} />
           })}
         </div><br /></>}
       {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />

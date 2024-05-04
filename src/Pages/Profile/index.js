@@ -27,7 +27,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const [watched, setWatched] = useState([])
   const [favourite, setFavourite] = useState([])
   const [watching, setWatching] = useState([])
-  const [resume, setResume] = useState([])
   const [cast, setCast] = useState([])
   const history = useHistory()
   const [number, setNumber] = useState(null)
@@ -87,13 +86,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
       setWatchlist(arr)
-    })
-    database.ref(`/Users/${auth?.currentUser?.uid}/resume`).on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setResume(arr)
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/watched`).on('value', snapshot => {
       let arr = []
@@ -158,13 +150,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
           &nbsp;<IconButton className='icon_button' onClick={() => signOut()} style={{ backgroundColor: theme.palette.background.default }}><LogoutIcon className="icon" /></IconButton>
         </div>
         <Premium />
-        {resume?.length !== 0 && <>
-          <div className='trending_title' ><Count value={resume?.length} />Resume Watching</div>
-          <div className='trending_scroll' >
-            {resume && resume.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} resume={true} />
-            })}
-          </div><br /></>}
         {watching?.length !== 0 && <>
           <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
           <div className='trending_scroll' >
