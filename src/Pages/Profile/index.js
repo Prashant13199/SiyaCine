@@ -34,6 +34,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const theme = useTheme()
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
+  const [premium, setPremium] = useState(false)
 
   useEffect(() => {
     scrollTop()
@@ -78,6 +79,9 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const currentUsername = useFetchDB('username')
 
   useEffect(() => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
+      setPremium(snapshot.val())
+    })
     database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -139,7 +143,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             <div className="profile_actions">
               <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{currentUsername ? currentUsername : 'Loading...'}</h1>
             </div>
-            <Premium />
+            <Premium premium={premium} />
             <Button
               startIcon={<LogoutIcon style={{ fontSize: '30px' }} />}
               className='button'

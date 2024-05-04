@@ -97,7 +97,7 @@ export default function Seasons({ value }) {
                     }}>
                         <div className='relative'>
                             <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
-                            {auth?.currentUser?.uid && <div className="play_icon"><PlayArrowIcon /></div>}
+                            {auth?.currentUser?.uid && <div className="play_icon"><PlayArrowIcon sx={{ fontSize: '30px' }} /></div>}
                         </div>
                         <div className="episode_name">
                             S{datas.season_number}E{datas.episode_number} {datas.name}

@@ -81,6 +81,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [name, setName] = useState('')
   const [review, setReview] = useState('')
   const [loading, setLoading] = useState(true)
+  const [premium, setPremium] = useState(false)
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : data?.poster_path)
@@ -130,6 +131,10 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       } else {
         setWatching(false)
       }
+    })
+
+    database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
+      setPremium(snapshot.val())
     })
 
     database.ref(`/Users`).on('value', snapshot => {
@@ -479,7 +484,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                       variant='contained'
                       style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                     >
-                      Play Trailer {video?.length === 1 ? '' : index + 1}
+                      Trailer {video?.length === 1 ? '' : index + 1}
                     </Button>
                   })}
                   {watchprovider?.path && <Button
@@ -492,7 +497,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   >
                     Available Now
                   </Button>}
-                  {(type === 'tv' && auth?.currentUser?.uid) &&
+                  {(type === 'tv' && premium) &&
                     <Button
                       startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
                       className='button'
@@ -513,43 +518,43 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   {cr.name}
                 </div>
               })}
+              {data.overview && <div className='overview'>
+                <h4>Overview</h4>
+                {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
+                <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more.' : 'Less')}</span>
+              </div>}
 
-              {type === 'movie' && auth?.currentUser?.uid && <><h4>Servers</h4><div className='watchprovider'>
+              {type === 'movie' && premium && <div className='watchprovider'>
                 <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
                   className='button'
                   target="__blank"
                   onClick={() => handleShow4(1)}
                   variant='contained'
                   style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                 >
-                  Play Server 1
+                  Server 1
                 </Button>
                 <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
                   className='button'
                   target="__blank"
                   onClick={() => handleShow4(2)}
                   variant='contained'
                   style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                 >
-                  Play Server 2
+                  Server 2
                 </Button>
                 <Button
-                  startIcon={<HdIcon style={{ fontSize: '30px' }} />}
+                  startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
                   className='button'
                   target="__blank"
                   onClick={() => handleShow4(3)}
                   variant='contained'
                   style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                 >
-                  Play Server 3
+                  Server 3
                 </Button>
-              </div></>}
-              {data.overview && <div className='overview'>
-                <h4>Overview</h4>
-                {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
-                <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more.' : 'Less')}</span>
               </div>}
             </div>
           </div>

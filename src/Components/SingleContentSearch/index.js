@@ -3,7 +3,7 @@ import './style.css'
 import { useHistory } from 'react-router-dom'
 import Grid from '@mui/material/Unstable_Grid2';
 
-export default function SingleContent({ data, type }) {
+export default function SingleContent({ data }) {
 
     const history = useHistory()
 
@@ -13,7 +13,7 @@ export default function SingleContent({ data, type }) {
                 src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
                 alt={data?.title || data?.name}
                 className="poster"
-                onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
+                onClick={() => history.push(`/singlecontent/${data.id}/${data.media_type}`)}
             />
         </Grid>
     )

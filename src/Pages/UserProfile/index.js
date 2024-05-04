@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { database } from '../../firebase'
+import { auth, database } from '../../firebase'
 import './style.css'
 import { useParams } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
@@ -23,6 +23,8 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const [cast, setCast] = useState([])
   const [number, setNumber] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [admin, setAdmin] = useState(false)
+  const [premium, setPremium] = useState(false)
 
   useEffect(() => {
     scrollTop()
@@ -41,6 +43,9 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       setUsername(snapshot.val()?.username?.split('@')[0])
       setPhoto(snapshot.val()?.photo)
       setLoading(false)
+    })
+    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
+      setAdmin(snapshot.val()?.admin)
     })
     database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
       let arr = []
@@ -77,7 +82,29 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       })
       setCast(arr)
     })
+    database.ref(`/Users/${uid}/premium`).on('value', snapshot => {
+      setPremium(snapshot.val())
+    })
   }, [uid])
+
+  const handlePremium = () => {
+    if (admin) {
+      if (!premium) {
+        database.ref(`/Users/${uid}`).update({
+          premium: true
+        }).then(() => {
+          console.log("Set to Premium")
+          setPremium(true)
+        })
+      } else {
+        database.ref(`/Users/${uid}/premium`).remove().then(() => {
+          console.log("Removed Premium")
+          setPremium(false)
+        })
+      }
+    }
+
+  }
 
   return !loading ? (
 
@@ -90,7 +117,9 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
           <div className="profile_actions">
             <h1 className='profile_username' style={{ maxWidth: window.innerWidth - 100 }}>{username ? username : 'Loading username...'}</h1>
           </div>
-          <Premium />
+          <div onClick={() => { handlePremium() }} className='handlepremium'>
+            <Premium premium={premium} />
+          </div>
         </div>
       </div>
 
