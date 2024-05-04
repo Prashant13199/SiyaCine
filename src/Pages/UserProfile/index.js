@@ -123,7 +123,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
           })}
         </div><br /></>}
       {cast.length !== 0 && <>
-        <div className='trending_title' >Favourite Cast</div>
+        <div className='trending_title' ><Count value={cast?.length} />Favourite Cast</div>
         <div className='trending_scroll' >
           {cast && cast.map((c) => {
             return <Cast c={c} key={c?.id} />

@@ -47,6 +47,8 @@ export default function Seasons({ value }) {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
                 setSeasonNumber(snapshot.val()?.season)
+            } else {
+                setLastPlayed({})
             }
         })
     }, [])
@@ -100,7 +102,7 @@ export default function Seasons({ value }) {
                         <div className="episode_name">
                             S{datas.season_number}E{datas.episode_number} {datas.name}
                         </div>
-                        {lastPlayed.season === seasonNumber && lastPlayed.episode === datas?.episode_number && <div className='playing'>Playing</div>}
+                        {lastPlayed?.season === seasonNumber && lastPlayed?.episode === datas?.episode_number && <div className='playing'>Last Played</div>}
                     </div>
                 })}
             </div>
