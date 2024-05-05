@@ -16,11 +16,15 @@
 }
 
 .viewall {
-    opacity: 0.8;
+    opacity: 0.6;
 }
 
 .viewall:hover {
-    opacity: 1;
+    opacity: 0.8;
+}
+
+.refresh_icon {
+    margin-left: 2px !important;
 }
 
 .switch {

@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { database, auth, storage } from '../../firebase';
+import { database, auth } from '../../firebase';
 import './style.css';
 import { IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useHistory } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
-import CreateIcon from '@mui/icons-material/Create';
-import { Modal } from 'react-bootstrap';
-import UploadPicture from '../../Containers/UploadPicture';
 import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
@@ -28,9 +25,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const [cast, setCast] = useState([])
   const history = useHistory()
   const [number, setNumber] = useState(null)
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const theme = useTheme()
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
@@ -56,23 +50,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
     auth.signOut().then(() => {
       history.push('/')
     })
-  }
-  const avatarArray = ['Willow', 'Spooky', 'Bubba', 'Lily', 'Whiskers', 'Pepper', 'Tiger', 'Zoey', 'Dusty', 'Simba']
-
-  const removePicture = () => {
-    try {
-      var imageRef = storage.refFromURL(currentPhoto);
-      imageRef.delete().then(() => {
-        console.log("Removed from storage");
-      }).catch((e) => {
-        console.log(e);
-      });
-    } catch (e) {
-      console.log(e);
-    }
-    database.ref(`/Users/${auth?.currentUser?.uid}`).update({ photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}` }).then(() => {
-      console.log('Picture removed')
-    });
   }
 
   const currentPhoto = useFetchDB('photo')
@@ -122,22 +99,10 @@ export default function Profile({ setBackdrop, scrollTop }) {
 
   return !loading ? (
     <>
-      <Modal show={show} onHide={handleClose} centered >
-        <Modal.Body className='modal_body' style={{ backgroundColor: theme.palette.background.default }}>
-          <UploadPicture handleClose={handleClose} />
-        </Modal.Body>
-      </Modal>
-
       <div className='Profile'>
         <div className='profile_header'>
           <div style={{ position: 'relative', width: 'fit-content' }}>
             <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className='profile_image' />
-            <div style={{ position: 'absolute', left: 6, bottom: 6 }}>
-              <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }}><CreateIcon className="icon" onClick={() => handleShow()} /></IconButton>
-            </div>
-            {currentPhoto && currentPhoto.includes('firebase') && <div style={{ position: 'absolute', right: 6, bottom: 6 }}>
-              <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }}><DeleteIcon color="error" className="icon" onClick={() => removePicture()} /></IconButton>
-            </div>}
           </div>
           <div className='profile_right'>
             <h1 className='profile_username'>{currentUsername ? currentUsername : 'Loading...'}</h1>

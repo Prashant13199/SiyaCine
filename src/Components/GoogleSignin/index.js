@@ -8,7 +8,6 @@ import googlelogo from "../../assets/googlelogo.png";
 export default function GoogleSignin({ close }) {
 
   const [loading, setLoading] = useState(false);
-  const avatarArray = ['Willow', 'Spooky', 'Bubba', 'Lily', 'Whiskers', 'Pepper', 'Tiger', 'Zoey', 'Dusty', 'Simba']
 
   const signInBtnClick = async () => {
     setLoading(true);
@@ -25,7 +24,7 @@ export default function GoogleSignin({ close }) {
               uid: userBySignIn.uid,
               email: userBySignIn.email,
               createdAccountOn: Date.now(),
-              photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}`,
+              photo: `https://api.dicebear.com/8.x/fun-emoji/svg?seed=${userBySignIn.email.split('@')[0]}?size=96`,
               username: userBySignIn.email.split('@')[0],
               timestamp: Date.now(),
             })

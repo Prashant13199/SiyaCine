@@ -3,7 +3,7 @@
     width: 45px;
     object-fit: cover;
     margin-left: 10px;
-    border-radius: 50%;
+    border-radius: 6px;
     border-color: transparent;
     border-width: 1.2px;
     padding: 1.2px;
@@ -34,7 +34,7 @@
     width: 45px;
     object-fit: cover;
     margin-left: 10px;
-    border-radius: 50%;
+    border-radius: 6px;
     border-width: 1.2px;
     padding: 1.2px;
     border-style: solid;

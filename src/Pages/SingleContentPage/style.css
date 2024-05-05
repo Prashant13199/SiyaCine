@@ -1,7 +1,7 @@
 .singlecontentposter {
     height: 480px;
     width: 330px;
-    border-radius: 10px;
+    border-radius: 6px;
     object-fit: cover;
 }
 

@@ -6,7 +6,7 @@
 }
 
 .Profile {
-    padding-top: 80px;
+    padding-top: 70px;
 }
 
 .profile_right {
@@ -14,19 +14,15 @@
 }
 
 .profile_image {
-    height: 480px;
-    width: 330px;
-    border-radius: 10px;
+    height: 300px;
+    width: 300px;
+    border-radius: 6px;
     object-fit: cover;
 }
 
 .profile_username {
     font-weight: bold;
     word-wrap: break-word;
-}
-
-.refresh_icon {
-    padding: 0 5px !important;
 }
 
 .empty {
@@ -61,7 +57,6 @@
         padding: 0;
         display: grid;
         justify-content: center;
-        padding-bottom: 10px;
     }
 
     .profile_right {

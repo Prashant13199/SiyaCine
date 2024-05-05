@@ -4,20 +4,6 @@
     color: rgb(255, 167, 38) !important;
 }
 
-.cast_scroll {
-    transition: transform .3s;
-}
-
-.cast_scroll:hover {
-    transform: scale(0.95);
-}
-
-.cast_scroll_image {
-    border-radius: 10px;
-    width: 100%;
-    height: auto;
-}
-
 .input_search {
     font-size: 20px !important;
 }

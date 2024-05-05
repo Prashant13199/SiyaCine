@@ -20,7 +20,6 @@ export default function Register({ handleClose2 }) {
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
     const [show, setShow] = useState(false);
     const [error, setError] = useState("")
-    const avatarArray = ['Willow', 'Spooky', 'Bubba', 'Lily', 'Whiskers', 'Pepper', 'Tiger', 'Zoey', 'Dusty', 'Simba']
     const register = async () => {
         setLoading(true);
         auth.createUserWithEmailAndPassword(email, password).then((user) => {
@@ -28,7 +27,7 @@ export default function Register({ handleClose2 }) {
             database.ref(`Users/${user.user.uid}`).update({
                 uid: user.user.uid,
                 username: email.split('@')[0],
-                photo: `https://api.dicebear.com/6.x/thumbs/png?seed=${avatarArray[Math.ceil(Math.random() * 10)]}`,
+                photo: `https://api.dicebear.com/8.x/fun-emoji/svg?seed=${email.split('@')[0]}?size=96`,
                 email: email,
                 createdAccountOn: Date.now(),
                 timestamp: Date.now(),

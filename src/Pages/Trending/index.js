@@ -112,7 +112,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {recommendation?.length !== 0 && <><br />
-          <div className='trending_title' >Because You Watched <IconButton className='refresh_icon'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
+          <div className='trending_title' >Because You Watched <IconButton className='refresh_icon viewall'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
           <div className='searchresultfor' >{favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
           <div className='trending_scroll' >
             {recommendation && recommendation.map((data) => {
