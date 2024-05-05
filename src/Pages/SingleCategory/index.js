@@ -35,34 +35,34 @@ export default function SingleCategory({ scrollTop }) {
   }
 
   const fetchWatchlist = async () => {
-    database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/watchlist`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setContent(arr)
+      setContent(arr.reverse())
       setLoading(false)
     })
   }
 
   const fetchWatched = async () => {
-    database.ref(`/Users/${uid}/watched`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/watched`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setContent(arr)
+      setContent(arr.reverse())
       setLoading(false)
     })
   }
 
   const fetchFavourite = async () => {
-    database.ref(`/Users/${uid}/favourites`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/favourites`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setContent(arr)
+      setContent(arr.reverse())
       setLoading(false)
     })
   }

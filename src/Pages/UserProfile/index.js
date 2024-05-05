@@ -47,40 +47,40 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
     database.ref(`/Users/${auth?.currentUser?.uid}/admin`).on('value', snapshot => {
       setAdmin(snapshot.val())
     })
-    database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/watchlist`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setWatchlist(arr)
+      setWatchlist(arr.reverse())
     })
-    database.ref(`/Users/${uid}/watched`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/watched`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setWatched(arr)
+      setWatched(arr.reverse())
     })
-    database.ref(`/Users/${uid}/favourites`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/favourites`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setFavourite(arr)
+      setFavourite(arr.reverse())
     })
-    database.ref(`/Users/${uid}/watching`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/watching`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setWatching(arr)
+      setWatching(arr.reverse())
     })
-    database.ref(`/Users/${uid}/cast`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/cast`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data })
       })
-      setCast(arr)
+      setCast(arr.reverse())
     })
     database.ref(`/Users/${uid}/premium`).on('value', snapshot => {
       setPremium(snapshot.val())
