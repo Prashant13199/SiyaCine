@@ -225,7 +225,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const handleFavourite = () => {
     if (!favourite) {
       database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).set({
-        id: id, data: data, type: type,
+        id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
         console.log("Set to favourite")
         setFavourite(true)
@@ -241,7 +241,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const handleWatchlist = () => {
     if (!watchlist) {
       database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).set({
-        id: id, data: data, type: type
+        id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
         console.log("Set to watchlist")
         setWatchlist(true)
@@ -263,7 +263,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const handleWatched = () => {
     if (!watched) {
       database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).set({
-        id: id, data: data, type: type
+        id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
         console.log("Set to watched")
         setWatched(true)
@@ -318,7 +318,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleSend = (user) => {
     database.ref(`/Users/${user}/suggestions/${id}`).update({
-      type: type, data: data, id: id, by: currentusername, byuid: auth?.currentUser?.uid
+      type: type, data: data, id: id, by: currentusername, byuid: auth?.currentUser?.uid, timestamp: Date.now()
     }).then(() => {
       handleClose2()
       setSnackBar(true)
@@ -327,7 +327,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleAddReview = () => {
     database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).update({
-      review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid
+      review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid, timestamp: Date.now()
     }).then(() => {
       console.log("Review added")
       setReview('')
@@ -584,20 +584,16 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               {reviews2 && auth?.currentUser?.uid && reviews2.map((data) => {
                 return <div className='single_review' key={data.uid}>
                   <div style={{ display: 'flex', alignItems: 'center' }} >
-                    <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', color: 'black', fontWeight: '600', fontSize: '18px' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
-                    {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon /></IconButton></div>}
+                    <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', fontWeight: '600', fontSize: '18px', color: 'white' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
+                    {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon sx={{ color: theme.palette.error.main }} /></IconButton></div>}
                   </div>
-                  <div >
-                    <Review review={data.review} />
-                  </div>
+                  <Review review={data.review} />
                 </div>
               })}
               {reviews && reviews.map((data) => {
                 return <div className='single_review' key={data.id}>
                   <div style={{ fontWeight: '600', fontSize: '18px' }} >{data.author_details.username}</div>
-                  <div >
-                    <Review review={data.content} />
-                  </div>
+                  <Review review={data.content} />
                 </div>
               })}
               {(reviews.length !== 0 || reviews2.length !== 0) && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
