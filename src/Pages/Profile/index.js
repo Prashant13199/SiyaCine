@@ -123,7 +123,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
       <div className='Profile'>
         <div className='profile_header'>
           <div style={{ position: 'relative', width: 'fit-content' }}>
-            <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/6.x/thumbs/png?seed=Bubba`} className='profile_image' />
+            <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
           </div>
           <div className='profile_right'>
             <h1 className='profile_username'>{currentUsername ? currentUsername : 'Loading...'}</h1>

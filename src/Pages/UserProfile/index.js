@@ -111,7 +111,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
     <div className='Profile'>
       <div className='profile_header'>
         <div>
-          <img alt="" src={photo ? photo : `https://api.dicebear.com/6.x/thumbs/png?seed=Spooky`} className='profile_image' />
+          <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
         </div>
         <div className='profile_right'>
           <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
