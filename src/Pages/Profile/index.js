@@ -120,22 +120,20 @@ export default function Profile({ setBackdrop, scrollTop }) {
 
   return !loading ? (
     <>
-      <div className='Profile'>
+      <div className='profile'>
         <div className='profile_header'>
-          <div style={{ position: 'relative', width: 'fit-content' }}>
-            <img src={currentPhoto ? currentPhoto : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
+          <div className='pic_container'>
+            <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image' />
           </div>
           <div className='profile_right'>
-            <h1 className='profile_username'>{currentUsername ? currentUsername : 'Loading...'}</h1>
+            <h1 style={{ fontWeight: 'bold' }}>{currentUsername ? currentUsername : 'Loading...'}</h1>
             <Premium premium={premium} />
-
             <div className='switchAccount'>
               <div className='switchAcc' onClick={() => handlePublic()}>
                 <div className={publicAcc ? 'switchAcc_span_active' : 'switchAcc_span'} style={{ backgroundColor: publicAcc && theme.palette.warning.main, color: publicAcc && theme.palette.warning.contrastText }}>Public</div>
                 <div className={!publicAcc ? 'switchAcc_span_active' : 'switchAcc_span'} style={{ backgroundColor: !publicAcc && theme.palette.warning.main, color: !publicAcc && theme.palette.warning.contrastText }}>Private</div>
               </div>
             </div>
-
             <Button
               startIcon={<LogoutIcon style={{ fontSize: '30px' }} />}
               className='button'

@@ -431,7 +431,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       {!loading ? <>
         <div className='singlecontentPage'>
           <div className='singlecontent_responsive'>
-            <div className='singlecontentposter_responsive'>
+            <div className='pic_container'>
               <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
             </div>
             <div className='details'>
