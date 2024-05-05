@@ -5,7 +5,6 @@ import { IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useHistory } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
-import DeleteIcon from '@mui/icons-material/Delete';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
 import { useTheme } from '@mui/material';
@@ -29,6 +28,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
   const [premium, setPremium] = useState(false)
+  const [publicAcc, setPublicAcc] = useState(true)
 
   useEffect(() => {
     scrollTop()
@@ -52,6 +52,24 @@ export default function Profile({ setBackdrop, scrollTop }) {
     })
   }
 
+  const handlePublic = () => {
+    if (publicAcc) {
+      database.ref(`/Users/${auth?.currentUser?.uid}`).update({
+        public: false
+      }).then(() => {
+        setPublicAcc(false)
+        console.log('Set to Private')
+      })
+    } else {
+      database.ref(`/Users/${auth?.currentUser?.uid}`).update({
+        public: true
+      }).then(() => {
+        setPublicAcc(true)
+        console.log('Set to Public')
+      })
+    }
+  }
+
   const currentPhoto = useFetchDB('photo')
   const currentUsername = useFetchDB('username')
 
@@ -59,40 +77,43 @@ export default function Profile({ setBackdrop, scrollTop }) {
     database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
       setPremium(snapshot.val())
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/public`).on('value', snapshot => {
+      setPublicAcc(snapshot.val())
+    })
+    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setWatchlist(arr)
+      setWatchlist(arr.reverse())
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/watched`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watched`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setWatched(arr)
+      setWatched(arr.reverse())
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
-      setFavourite(arr)
+      setFavourite(arr.reverse())
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/cast`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/cast`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data })
       })
-      setCast(arr)
+      setCast(arr.reverse())
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/suggestions`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/suggestions`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, by: snap.val().by, byuid: snap.val().byuid })
       })
-      setSuggestions(arr)
+      setSuggestions(arr.reverse())
     })
     setLoading(false)
   }, [auth?.currentUser?.uid])
@@ -107,6 +128,14 @@ export default function Profile({ setBackdrop, scrollTop }) {
           <div className='profile_right'>
             <h1 className='profile_username'>{currentUsername ? currentUsername : 'Loading...'}</h1>
             <Premium premium={premium} />
+
+            <div className='switchAccount'>
+              <div className='switchAcc' onClick={() => handlePublic()}>
+                <div className={publicAcc ? 'switchAcc_span_active' : 'switchAcc_span'} style={{ backgroundColor: publicAcc && theme.palette.warning.main, color: publicAcc && theme.palette.warning.contrastText }}>Public</div>
+                <div className={!publicAcc ? 'switchAcc_span_active' : 'switchAcc_span'} style={{ backgroundColor: !publicAcc && theme.palette.warning.main, color: !publicAcc && theme.palette.warning.contrastText }}>Private</div>
+              </div>
+            </div>
+
             <Button
               startIcon={<LogoutIcon style={{ fontSize: '30px' }} />}
               className='button'

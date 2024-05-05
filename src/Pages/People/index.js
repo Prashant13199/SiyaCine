@@ -22,7 +22,7 @@ export default function People() {
                 if (snap.val().uid !== auth?.currentUser?.uid)
                     user.push({ data: snap.val() })
             })
-            setUsers(user)
+            setUsers(user.reverse())
             setLoading(false)
         })
     }

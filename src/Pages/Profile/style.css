@@ -36,6 +36,39 @@
     height: auto;
 }
 
+.switchAccount {
+    margin: 20px 0px;
+}
+
+.switchAcc {
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 2px;
+    cursor: pointer;
+    width: 150px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 14px;
+    padding: 2px;
+    border-color: rgb(255, 167, 38);
+}
+
+.switchAcc_span_active {
+    padding: 0px 10px;
+    border-radius: 20px;
+    width: 150px;
+    text-align: center;
+    transition: all .3s;
+}
+
+.switchAcc_span {
+    width: 150px;
+    text-align: center;
+    padding: 0px 10px;
+    transition: all .3s;
+}
+
 @media only screen and (max-width: 900px) {
     .profile_username {
         font-size: 28px;

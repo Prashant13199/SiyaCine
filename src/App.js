@@ -19,7 +19,6 @@ import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from '@mui/material';
-import AboutUs from './Pages/AboutUs';
 
 function App() {
 
@@ -90,9 +89,6 @@ function App() {
                 </Route>
                 <Route path="/singlecast/:id">
                   <SingleCastPage scrollTop={scrollTop} setBackdrop={setBackdrop} />
-                </Route>
-                <Route path="/aboutus">
-                  <AboutUs scrollTop={scrollTop} />
                 </Route>
               </Switch>
             </div>

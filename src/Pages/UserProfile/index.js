@@ -44,8 +44,8 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       setPhoto(snapshot.val()?.photo)
       setLoading(false)
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
-      setAdmin(snapshot.val()?.admin)
+    database.ref(`/Users/${auth?.currentUser?.uid}/admin`).on('value', snapshot => {
+      setAdmin(snapshot.val())
     })
     database.ref(`/Users/${uid}/watchlist`).on('value', snapshot => {
       let arr = []
@@ -115,7 +115,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
         </div>
         <div className='profile_right'>
           <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-          <div onClick={() => { handlePremium() }} className='handlepremium'>
+          <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
             <Premium premium={premium} />
           </div>
         </div>
