@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
-export default function SingleContentScroll({ data, type, by, byuid, id, recom, resume, key }) {
+export default function SingleContentScroll({ data, type, by, byuid, id, recom, resume }) {
 
   const history = useHistory()
   const theme = useTheme()
@@ -37,7 +37,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   }
 
   return data?.poster_path && show && (
-    <div className='single_content_scroll' key={key}>
+    <div className='single_content_scroll' key={id}>
       <img
         src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
         alt={data?.title || data?.name}

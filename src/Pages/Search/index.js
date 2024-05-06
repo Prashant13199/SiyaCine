@@ -12,10 +12,10 @@ import CloseIcon from '@mui/icons-material/Close';
 
 export default function Search({ scrollTop }) {
 
-    const [pageM, setPageM] = useState(localStorage.getItem('searchPage') ? localStorage.getItem('searchPage') : 1);
+    const [pageM, setPageM] = useState(localStorage.getItem('searchPage') !== null ? localStorage.getItem('searchPage') : 1);
     const [contentM, setContentM] = useState([]);
     const [numOfPagesM, setNumOfPagesM] = useState();
-    const [query, setQuery] = useState(localStorage.getItem('searchQuery'))
+    const [query, setQuery] = useState(localStorage.getItem('searchQuery') !== null ? localStorage.getItem('searchQuery') : '')
 
     const fetchSearch = async () => {
         try {

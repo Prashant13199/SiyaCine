@@ -38,6 +38,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [data, setData] = useState([])
   const [watchprovider, setWatchProvider] = useState({})
   const [credit, setCredit] = useState([])
+  const [director, setDirector] = useState([])
   const [similar, setSimilar] = useState([])
   const [video, setVideo] = useState();
   const [videoPlay, setVideoPlay] = useState();
@@ -177,6 +178,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
     );
     setCredit(data);
+    setDirector(data.crew.filter((cr) => cr.job === 'Director'))
   };
 
   const fetchSimilar = async () => {
@@ -341,8 +343,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <IconButton onClick={() => handleClose2()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <h2>Share To</h2>
           <div style={{ maxHeight: '70vh', overflowY: 'auto' }}>
-            {users && users.map((user) => {
-              return <div className='share_user' onClick={() => {
+            {users && users.map((user, index) => {
+              return <div key={index} className='share_user' onClick={() => {
                 handleSend(user.uid)
                 setName(user.username)
               }
@@ -467,6 +469,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 {(video || watchprovider?.path || type === 'tv') && <div className='watchprovider'>
                   {video?.map((vid, index) => {
                     return <Button
+                      key={index}
                       startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
                       className='button'
                       target="__blank"
@@ -500,15 +503,16 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     </Button>
                   }
                 </div>}
-
               </div>
 
-              {credit.crew && credit.crew.map((cr) => {
-                return cr.job === 'Director' && <div className='overview' key={cr.id}>
-                  <h4>Director</h4>
-                  {cr.name}
+              <div className='overview' >
+                <h4>Director</h4>
+                <div className='directors'>
+                  {director?.map((cr, index) => {
+                    return <div key={cr?.id}>{index !== 0 && <>,&nbsp;</>}{cr?.name}</div>
+                  })}
                 </div>
-              })}
+              </div>
 
               {data.overview && <div className='overview'>
                 <h4>Overview</h4>
@@ -516,7 +520,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more' : 'less')}</span>
               </div>}
 
-              {data?.last_air_date && <div lassName='overview'>
+              {data?.last_air_date && <div className='overview'>
                 Last Aired Date: {data?.last_air_date}
               </div>}
 
