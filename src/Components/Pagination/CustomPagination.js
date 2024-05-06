@@ -2,7 +2,7 @@ import React from "react";
 import Pagination from '@mui/material/Pagination';
 import './style.css'
 
-export default function CustomPagination({ setPage, pageM, numOfPages = 10 }) {
+export default function CustomPagination({ setPage, page, numOfPages = 10 }) {
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -21,7 +21,7 @@ export default function CustomPagination({ setPage, pageM, numOfPages = 10 }) {
         <Pagination
           onChange={handlePageChange}
           count={numOfPages}
-          page={Number(pageM)}
+          page={Number(page)}
           color="warning"
           hideNextButton
           hidePrevButton

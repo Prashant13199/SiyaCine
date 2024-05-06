@@ -60,7 +60,7 @@ export default function TV({ scrollTop }) {
           <CircularProgress color='warning' />
         </div>}
       {numOfPages > 1 && (
-        <CustomPagination setPage={setPage} numOfPages={numOfPages} />
+        <CustomPagination setPage={setPage} numOfPages={numOfPages} page={page} />
       )}
     </div>
   )

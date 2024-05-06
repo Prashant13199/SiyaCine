@@ -83,7 +83,7 @@ export default function Search({ scrollTop }) {
                 </Grid>
 
                 {numOfPagesM > 1 && (
-                    <CustomPagination setPage={setPageM} pageM={pageM} numOfPages={numOfPagesM} />
+                    <CustomPagination setPage={setPageM} page={pageM} numOfPages={numOfPagesM} />
                 )}
             </>}
             {contentM?.length === 0 && query && <center>
