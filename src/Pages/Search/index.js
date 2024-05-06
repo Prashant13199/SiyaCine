@@ -7,18 +7,15 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import empty from '../../assets/empty.png'
-import { useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 export default function Search({ scrollTop }) {
 
-    const [pageM, setPageM] = useState(1);
+    const [pageM, setPageM] = useState(localStorage.getItem('searchPage') ? localStorage.getItem('searchPage') : 1);
     const [contentM, setContentM] = useState([]);
     const [numOfPagesM, setNumOfPagesM] = useState();
     const [query, setQuery] = useState(localStorage.getItem('searchQuery'))
-    const [checked, setChecked] = useState(false);
-    const theme = useTheme()
 
     const fetchSearch = async () => {
         try {
@@ -35,21 +32,24 @@ export default function Search({ scrollTop }) {
 
     useEffect(() => {
         scrollTop()
-        setChecked(false)
         fetchSearch();
         saveQuery()
     }, [pageM, query])
 
-    const saveQuery = () => {
-        if (query?.length > 0) {
-            localStorage.setItem('searchQuery', query)
-        } else {
-            localStorage.setItem('searchQuery', '')
+    useEffect(() => {
+        if (query?.length === 0) {
+            setPageM(1)
         }
+    }, [query])
+
+    const saveQuery = () => {
+        localStorage.setItem('searchQuery', query)
+        localStorage.setItem('searchPage', pageM)
     }
 
     const clearQuery = () => {
         setQuery('')
+        setPageM(1)
     }
 
     return (
@@ -83,7 +83,7 @@ export default function Search({ scrollTop }) {
                 </Grid>
 
                 {numOfPagesM > 1 && (
-                    <CustomPagination setPage={setPageM} numOfPages={numOfPagesM} />
+                    <CustomPagination setPage={setPageM} pageM={pageM} numOfPages={numOfPagesM} />
                 )}
             </>}
             {contentM?.length === 0 && query && <center>
