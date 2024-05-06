@@ -28,6 +28,7 @@ function App() {
   const [top, setTop] = useState(true)
 
   useEffect(() => {
+    localStorage.clear()
     setTimeout(() => {
       setLoading(false)
     }, 600);

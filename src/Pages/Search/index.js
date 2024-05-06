@@ -8,13 +8,15 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import empty from '../../assets/empty.png'
 import { useTheme } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function Search({ scrollTop }) {
 
     const [pageM, setPageM] = useState(1);
     const [contentM, setContentM] = useState([]);
     const [numOfPagesM, setNumOfPagesM] = useState();
-    const [query, setQuery] = useState("")
+    const [query, setQuery] = useState(localStorage.getItem('searchQuery'))
     const [checked, setChecked] = useState(false);
     const theme = useTheme()
 
@@ -35,7 +37,20 @@ export default function Search({ scrollTop }) {
         scrollTop()
         setChecked(false)
         fetchSearch();
+        saveQuery()
     }, [pageM, query])
+
+    const saveQuery = () => {
+        if (query?.length > 0) {
+            localStorage.setItem('searchQuery', query)
+        } else {
+            localStorage.setItem('searchQuery', '')
+        }
+    }
+
+    const clearQuery = () => {
+        setQuery('')
+    }
 
     return (
         <div className="search">
@@ -55,6 +70,9 @@ export default function Search({ scrollTop }) {
                         }
                     }}
                 />
+                {query?.length > 0 && <IconButton type="button" sx={{ p: '4px' }} aria-label="search" onClick={() => clearQuery()}>
+                    <CloseIcon />
+                </IconButton>}
             </Paper>
             <br />
             {query && <>
