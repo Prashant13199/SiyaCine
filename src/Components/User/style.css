@@ -1,11 +1,11 @@
 .single_user {
-    transition: all .3s;
+    transition: all .3s ease-in-out;
     margin-bottom: 10px;
 }
 
 .single_user:hover {
     transform: scale(0.95);
-    transition: transform .3s;
+    transition: transform .3s ease-in-out;
 }
 
 .users_image {

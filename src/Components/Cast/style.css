@@ -1,6 +1,6 @@
 .cast_single {
     margin: 5px 10px;
-    transition: transform .3s;
+    transition: transform .3s ease-in-out;
     text-align: center;
 }
 

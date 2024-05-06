@@ -8,7 +8,7 @@
 .single_episode {
     margin: 5px;
     cursor: pointer;
-    transition: all .3s;
+    transition: all .3s ease-in-out;
 }
 
 .relative {
@@ -17,7 +17,7 @@
 
 .single_episode:hover {
     transform: scale(0.95);
-    transition: all .3s;
+    transition: all .3s ease-in-out;
 }
 
 .close_icon_button {

@@ -45,14 +45,14 @@
     border-radius: 20px;
     width: 150px;
     text-align: center;
-    transition: all .3s;
+    transition: all .3s ease-in-out;
 }
 
 .switchAcc_span {
     width: 150px;
     text-align: center;
     padding: 0px 10px;
-    transition: all .3s;
+    transition: all .3s ease-in-out;
 }
 
 .switchAccount {

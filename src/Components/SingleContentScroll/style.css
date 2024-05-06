@@ -3,13 +3,13 @@
     height: 300px;
     border-radius: 6px;
     cursor: pointer;
-    transition: transform .3s;
+    transition: all .3s ease-in-out;
     margin: 5px;
 }
 
 .poster_scroll:hover {
     transform: scale(0.95);
-    transition: transform .3s;
+    transition: all .3s ease-in-out;
 }
 
 .user {
