@@ -15,6 +15,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const [switchTrending, setSwitchTrending] = useState(0)
   const [switchTopRated, setSwitchTopRated] = useState(0)
   const [switchPopular, setSwitchPopular] = useState(0)
+  const [switchIndian, setSwitchIndian] = useState(0)
   const [watching, setWatching] = useState([])
   const [recommendation, setRecommendation] = useState([])
   const [favourite, setFavourite] = useState([])
@@ -73,6 +74,8 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const upcoming = useFetchContent('upcoming', 'movie')
   const trendingMovie = useFetchContent('trending', 'movie')
   const trendingTv = useFetchContent('trending', 'tv')
+  const indianMovie = useFetchContent('discover', 'movie')
+  const indianTv = useFetchContent('discover', 'tv')
 
   return (
 
@@ -113,10 +116,24 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
         {recommendation?.length !== 0 && <><br />
           <div className='trending_title' >Because You Watched</div>
-          <div className='searchresultfor' >{favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
+          <div className='searchresultfor' >{favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</div>
           <div className='trending_scroll' >
             {recommendation && recommendation.map((data) => {
               return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} recom={true} />
+            })}
+          </div></>}
+
+        {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
+          <div className='trending_title' >Indian Origin&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchIndian(switchIndian === 0 ? 1 : 0)}>
+            <div className={switchIndian === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchIndian === 0 && theme.palette.warning.main, color: switchIndian === 0 && theme.palette.warning.contrastText }}>Movie</div>
+            <div className={switchIndian === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchIndian === 1 && theme.palette.warning.main, color: switchIndian === 1 && theme.palette.warning.contrastText }}>TV</div>
+          </div><Link to={`/singlecategory/discover/${switchIndian === 0 ? 'movie' : 'tv'}/Indian ${switchIndian === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_scroll' >
+            {switchIndian === 0 && indianMovie?.map((data) => {
+              return <SingleContentScroll data={data} key={data?.id} type="movie" />
+            })}
+            {switchIndian === 1 && indianTv?.map((data) => {
+              return <SingleContentScroll data={data} key={data?.id} type="tv" />
             })}
           </div></>}
 

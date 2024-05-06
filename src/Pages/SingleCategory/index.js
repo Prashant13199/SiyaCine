@@ -7,6 +7,8 @@ import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
 import { CircularProgress } from '@mui/material';
 import { database } from '../../firebase';
+import useGenre from '../../hooks/useGenre';
+import Genres from '../../Components/Genres';
 
 export default function SingleCategory({ scrollTop }) {
 
@@ -15,6 +17,10 @@ export default function SingleCategory({ scrollTop }) {
   const [numOfPages, setNumOfPages] = useState();
   const { category, type, name, uid } = useParams()
   const [loading, setLoading] = useState(true)
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const genreforURL = useGenre(selectedGenres);
+  const [genres, setGenres] = useState([]);
+
 
   const fetch = async () => {
     const { data } = await axios.get(
@@ -28,6 +34,15 @@ export default function SingleCategory({ scrollTop }) {
   const fetch2 = async () => {
     const { data } = await axios.get(
       `https://api.themoviedb.org/3/${category}/${type}/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`
+    );
+    setContent(data.results);
+    setNumOfPages(data.total_pages);
+    setLoading(false)
+  }
+
+  const fetchDiscover = async () => {
+    const { data } = await axios.get(
+      `https://api.themoviedb.org/3/${category}/${type}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_origin_country=IN&with_genres=${genreforURL}`
     );
     setContent(data.results);
     setNumOfPages(data.total_pages);
@@ -70,6 +85,8 @@ export default function SingleCategory({ scrollTop }) {
   useEffect(() => {
     if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated')) {
       fetch();
+    } else if (category === 'discover') {
+      fetchDiscover()
     } else if (category === 'watchlist') {
       fetchWatchlist()
     } else if (category === 'watched') {
@@ -81,11 +98,19 @@ export default function SingleCategory({ scrollTop }) {
       fetch2()
     }
     scrollTop()
-  }, [page]);
+  }, [page, genreforURL]);
 
   return !loading ? (
     <div className='singlecategory'>
       <div className='discover_movies_title'>{name}</div>
+      {category === 'discover' && <Genres
+        type={type}
+        selectedGenres={selectedGenres}
+        setSelectedGenres={setSelectedGenres}
+        genres={genres}
+        setGenres={setGenres}
+        setPage={setPage}
+      />}
       <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
         {content &&
           content.map((data) => {
@@ -93,7 +118,7 @@ export default function SingleCategory({ scrollTop }) {
           })}
       </Grid>
       {numOfPages > 1 && (
-        <CustomPagination setPage={setPage} numOfPages={numOfPages} />
+        <CustomPagination setPage={setPage} page={page} numOfPages={numOfPages} />
       )}
     </div>
   )

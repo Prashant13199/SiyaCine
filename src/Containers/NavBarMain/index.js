@@ -49,15 +49,15 @@ export default function NavBarMain({ top }) {
     } else if (location.pathname?.includes('/now_playing')) {
       setRouteName('Now Playing')
     } else if (location.pathname?.includes('/trending/movie')) {
-      setRouteName('Trending Movie')
+      setRouteName('Trending Movies')
     } else if (location.pathname?.includes('/trending/tv')) {
       setRouteName('Trending TV')
     } else if (location.pathname?.includes('/top_rated/movie')) {
-      setRouteName('Top Rated Movie')
+      setRouteName('Top Rated Movies')
     } else if (location.pathname?.includes('/top_rated/tv')) {
       setRouteName('Top Rated TV')
     } else if (location.pathname?.includes('/popular/movie')) {
-      setRouteName('Popular Movie')
+      setRouteName('Popular Movies')
     } else if (location.pathname?.includes('/popular/tv')) {
       setRouteName('Popular TV')
     } else if (location.pathname?.includes('/search')) {
@@ -68,6 +68,10 @@ export default function NavBarMain({ top }) {
       setRouteName('Watched')
     } else if (location.pathname?.includes('/favourites')) {
       setRouteName('Favourites')
+    } else if (location.pathname?.includes('/discover/movie')) {
+      setRouteName('Indian Movies')
+    } else if (location.pathname?.includes('/discover/tv')) {
+      setRouteName('Indian TV')
     } else {
       setRouteName('Home')
     }

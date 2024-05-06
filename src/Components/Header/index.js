@@ -100,7 +100,7 @@ export default function Header({ setBackdrop }) {
                   variant='contained'
                   style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                 >
-                  View Details
+                  More Info
                 </Button>
               </Link>
             </div>
