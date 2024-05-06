@@ -505,16 +505,16 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 </div>}
               </div>
 
-              <div className='overview' >
+              {director?.length > 0 && <div className='overview' >
                 <h4>Director</h4>
                 <div className='directors'>
                   {director?.map((cr, index) => {
                     return <div key={cr?.id}>{index !== 0 && <>,&nbsp;</>}{cr?.name}</div>
                   })}
                 </div>
-              </div>
+              </div>}
 
-              {data.overview && <div className='overview'>
+              {data?.overview && <div className='overview'>
                 <h4>Overview</h4>
                 {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
                 <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more' : 'less')}</span>
@@ -550,18 +550,18 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   </Link>
                 })}
               </div></>}
-            {similar.length !== 0 && <>
+            {similar?.length !== 0 && <>
               <div className='trending_title' >Similar</div>
               <div className='trending_scroll' >
-                {similar && similar.map((data) => {
+                {similar?.map((data) => {
                   return <SingleContentScroll data={data} key={data.id} type={type} recom={true} />
                 })}
               </div>
             </>}
-            {recommendations.length !== 0 && <><br />
+            {recommendations?.length !== 0 && <><br />
               <div className='trending_title' >Recommendations</div>
               <div className='trending_scroll' >
-                {recommendations && recommendations.map((data) => {
+                {recommendations?.map((data) => {
                   return <SingleContentScroll data={data} key={data.id} type={type} recom={true} />
                 })}
               </div>
