@@ -8,7 +8,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchContent from '../../hooks/useFetchContent';
 import { auth, database } from '../../firebase'
 import axios from "axios";
-import CachedIcon from '@mui/icons-material/Cached';
+import Footer from '../../Containers/Footer'
 
 export default function Trending({ setBackdrop, scrollTop }) {
 
@@ -112,7 +112,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {recommendation?.length !== 0 && <><br />
-          <div className='trending_title' >Because You Watched <IconButton className='refresh_icon viewall'><CachedIcon onClick={() => randomNumber()} /></IconButton></div>
+          <div className='trending_title' >Because You Watched</div>
           <div className='searchresultfor' >{favourite[number]?.data?.title || favourite[number]?.data?.name}</div>
           <div className='trending_scroll' >
             {recommendation && recommendation.map((data) => {
@@ -159,6 +159,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
               return <SingleContentScroll data={data} key={data?.id} type="tv" />
             })}
           </div></>}
+        <Footer />
       </>
     </div>
 

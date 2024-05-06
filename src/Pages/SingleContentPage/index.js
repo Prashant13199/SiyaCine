@@ -30,6 +30,7 @@ import HdIcon from '@mui/icons-material/Hd';
 import Seasons from '../../Containers/Seasons';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import useFetchDB from '../../hooks/useFetchDB';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -41,7 +42,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [video, setVideo] = useState();
   const [videoPlay, setVideoPlay] = useState();
   const [server, setServer] = useState();
-  const [currentusername, setCurrentusername] = useState('')
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
   const [watched, setWatched] = useState(false)
@@ -95,11 +95,9 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     return name;
   }
 
-  useEffect(() => {
+  const currentUsername = useFetchDB('username')
 
-    database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
-      setCurrentusername(snapshot.val()?.username)
-    })
+  useEffect(() => {
 
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
@@ -155,7 +153,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       setReviews2(data.reverse())
     })
 
-  }, [id])
+  }, [id, auth?.currentUser?.uid])
 
   const fetchDetails = async () => {
     const { data } = await axios.get(
@@ -227,12 +225,10 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).set({
         id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
-        console.log("Set to favourite")
         setFavourite(true)
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).remove().then(() => {
-        console.log("Removed from favourite")
         setFavourite(false)
       })
     }
@@ -243,18 +239,15 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).set({
         id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
-        console.log("Set to watchlist")
         setWatchlist(true)
         if (watched) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
-            console.log("Removed from watched")
             setWatched(false)
           })
         }
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
-        console.log("Removed from watchlist")
         setWatchlist(false)
       })
     }
@@ -265,24 +258,20 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).set({
         id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
-        console.log("Set to watched")
         setWatched(true)
         if (watchlist) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
-            console.log("Removed from watchlist")
             setWatchlist(false)
           })
         }
         if (watching) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
-            console.log("Removed from watching")
             setWatching(false)
           })
         }
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
-        console.log("Removed from watched")
         setWatched(false)
       })
     }
@@ -293,24 +282,20 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).set({
         id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
-        console.log("Set to watching")
         setWatching(true)
         if (watchlist) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
-            console.log("Removed from watchlist")
             setWatchlist(false)
           })
         }
         if (watched) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
-            console.log("Removed from watched")
             setWatched(false)
           })
         }
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
-        console.log("Removed from watching")
         setWatching(false)
       })
     }
@@ -318,7 +303,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleSend = (user) => {
     database.ref(`/Users/${user}/suggestions/${id}`).update({
-      type: type, data: data, id: id, by: currentusername, byuid: auth?.currentUser?.uid, timestamp: Date.now()
+      type: type, data: data, id: id, by: currentUsername, byuid: auth?.currentUser?.uid, timestamp: Date.now()
     }).then(() => {
       handleClose2()
       setSnackBar(true)
@@ -329,7 +314,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).update({
       review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid, timestamp: Date.now()
     }).then(() => {
-      console.log("Review added")
       setReview('')
       handleClose3()
     }
@@ -338,7 +322,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const removeReview = () => {
     database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).remove()
-      .then(() => console.log('Review Removed'))
+      .then(() => { })
       .catch((e) => console.log(e))
   }
 
@@ -435,9 +419,9 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
             </div>
             <div className='details'>
-              <h1 style={{ fontWeight: 'bold' }}>{data.title || data.original_name}</h1>
+              <h1 style={{ fontWeight: 'bold' }}>{data.name || data.title || data.original_name}</h1>
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                {(data.release_date || data.first_air_date) && <>{data.release_date || data.first_air_date}{(data.release_date || data.first_air_date) && data.runtime && <>&nbsp;&#183;&nbsp;</>}</>}{data.runtime && data.runtime !== 0 && <>{Math.ceil(data.runtime / 60)}h</>}
+                {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{Math.ceil(data?.runtime / 60)}h</>}
               </div>
               <div style={{ display: 'flex', flexWrap: 'wrap', margin: '10px 0px' }}>
                 {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
@@ -512,24 +496,31 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                       variant='contained'
                       style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                     >
-                      All Seasons
+                      Binge Watch
                     </Button>
                   }
                 </div>}
 
               </div>
+
               {credit.crew && credit.crew.map((cr) => {
                 return cr.job === 'Director' && <div className='overview' key={cr.id}>
                   <h4>Director</h4>
                   {cr.name}
                 </div>
               })}
+
               {data.overview && <div className='overview'>
                 <h4>Overview</h4>
                 {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
                 <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more' : 'less')}</span>
               </div>}
-              {type === 'movie' && premium && <ButtonGroup variant="outlined" color="warning">
+
+              {data?.last_air_date && <div lassName='overview'>
+                Last Aired Date: {data?.last_air_date}
+              </div>}
+
+              {type === 'movie' && premium && data.status === 'Released' && <ButtonGroup variant="outlined" color="warning">
                 <Button onClick={() => handleShow4(1)}>Server 1</Button>
                 <Button onClick={() => handleShow4(2)}>Server 2</Button>
                 <Button onClick={() => handleShow4(3)}>Server 3</Button>

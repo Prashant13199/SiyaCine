@@ -126,7 +126,6 @@
 
     .singlecontent_responsive {
         display: grid;
-        place-items: center;
         padding: 0;
     }
 

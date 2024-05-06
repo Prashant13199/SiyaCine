@@ -93,12 +93,10 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
         database.ref(`/Users/${uid}`).update({
           premium: true
         }).then(() => {
-          console.log("Set to Premium")
           setPremium(true)
         })
       } else {
         database.ref(`/Users/${uid}/premium`).remove().then(() => {
-          console.log("Removed Premium")
           setPremium(false)
         })
       }

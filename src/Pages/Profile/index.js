@@ -58,14 +58,12 @@ export default function Profile({ setBackdrop, scrollTop }) {
         public: false
       }).then(() => {
         setPublicAcc(false)
-        console.log('Set to Private')
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}`).update({
         public: true
       }).then(() => {
         setPublicAcc(true)
-        console.log('Set to Public')
       })
     }
   }

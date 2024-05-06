@@ -35,16 +35,13 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).set({
             id: value?.id, data: value, type: 'tv', season: seasonNumber, episode: number, timestamp: Date.now()
         }).then(() => {
-            console.log("Set to watching")
             if (watchlist) {
                 database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${value?.id}`).remove().then(() => {
-                    console.log("Removed from watchlist")
                     setWatchlist(false)
                 })
             }
             if (watched) {
                 database.ref(`/Users/${auth?.currentUser?.uid}/watched/${value?.id}`).remove().then(() => {
-                    console.log("Removed from watched")
                     setWatched(false)
                 })
             }

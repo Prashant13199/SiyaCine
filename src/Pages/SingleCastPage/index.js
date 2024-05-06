@@ -77,12 +77,10 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
       database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).set({
         id: id, data: data,
       }).then(() => {
-        console.log("Set to cast")
         setFavourite(true)
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).remove().then(() => {
-        console.log("Removed from cast")
         setFavourite(false)
       })
     }

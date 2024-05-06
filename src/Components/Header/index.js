@@ -77,7 +77,7 @@ export default function Header({ setBackdrop }) {
         </Modal.Body>
       </Modal>
 
-      <div className='welcome' style={{ backgroundImage: upcoming?.length !== 0 && number ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
+      <div className='welcome' style={{ backgroundImage: upcoming?.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>
             <div className='welcomeText'>{upcoming[number]?.title}</div>
