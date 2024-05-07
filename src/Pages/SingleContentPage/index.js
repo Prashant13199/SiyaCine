@@ -509,7 +509,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 <h4>Director</h4>
                 <div className='directors'>
                   {director?.map((cr, index) => {
-                    return <div key={cr?.id}>{index !== 0 && <>,&nbsp;</>}{cr?.name}</div>
+                    return <div key={cr?.id}>{cr?.name}{index < director?.length - 1 && <>,&nbsp;</>}</div>
                   })}
                 </div>
               </div>}

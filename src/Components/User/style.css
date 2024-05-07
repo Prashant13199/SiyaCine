@@ -20,3 +20,12 @@
     word-wrap: break-word;
     font-size: 18px;
 }
+
+@media screen and (max-width: 660px) {
+    .users_image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+    }
+}
