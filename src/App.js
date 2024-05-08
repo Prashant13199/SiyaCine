@@ -81,7 +81,7 @@ function App() {
                 <Route path="/tv">
                   <TV scrollTop={scrollTop} />
                 </Route>
-                <Route path="/search" >
+                <Route path="/search">
                   <Search scrollTop={scrollTop} />
                 </Route>
                 <Route path="/people" component={People} />

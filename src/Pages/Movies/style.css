@@ -5,11 +5,18 @@
 }
 
 .movies {
-    padding-top: 60px;
+    margin-top: 70px;
+    padding: 0 40px;
 }
 
 @media only screen and (max-width: 900px) {
     .discover_movies_title {
         display: none;
+    }
+}
+
+@media only screen and (max-width: 660px) {
+    .movies {
+        padding: 0;
     }
 }

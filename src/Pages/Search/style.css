@@ -1,24 +1,17 @@
-.searchresultfor {
-    margin: 0px 10px;
-    font-size: 20px;
-    color: rgb(255, 167, 38) !important;
-}
-
 .input_search {
     font-size: 20px !important;
 }
 
 .search {
-    padding-top: 60px;
+    margin-top: 80px;
+    padding: 0 40px;
 }
 
 @media only screen and (max-width: 660px) {
     .input_search {
         font-size: 16px !important;
     }
-
-    .searchresultfor {
-        margin: 0px 10px;
-        font-size: 18px;
+    .search {
+        padding: 0;
     }
 }

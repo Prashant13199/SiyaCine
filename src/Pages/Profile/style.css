@@ -1,5 +1,5 @@
 .profile {
-    padding-top: 70px;
+    margin-top: 70px;
 }
 
 .profile_image {
@@ -12,7 +12,7 @@
 .profile_header {
     display: flex;
     align-items: flex-start;
-    padding: 20px;
+    padding: 20px 40px;
 }
 
 .empty {
@@ -83,8 +83,7 @@
     }
 
     .profile_right {
-        margin: 20px 0px;
-        margin-left: 5px;
+        margin: 20px 40px;
     }
 
     .pic_container {
@@ -94,5 +93,12 @@
     .profile_image {
         height: 300px;
         width: 300px;
+    }
+}
+
+@media only screen and (max-width: 660px) {
+    .profile_right {
+        margin: 20px 0px;
+        padding-left: 5px;
     }
 }

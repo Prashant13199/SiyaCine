@@ -33,7 +33,7 @@ export default function NavBarMain({ top }) {
     if (location.pathname === '/movies') {
       setRouteName('Movie')
     } else if (location.pathname === '/tv') {
-      setRouteName('TV')
+      setRouteName('TV Shows')
     } else if (location.pathname === '/people') {
       setRouteName('People')
     } else if (location.pathname === '/profile') {

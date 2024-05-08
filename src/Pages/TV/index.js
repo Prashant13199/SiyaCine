@@ -35,8 +35,7 @@ export default function TV({ scrollTop }) {
   }, [genreforURL, page]);
 
   return (
-    <div className='tv'>
-      <div className='discover_movies_title'>Discover TV</div>
+    <div className='movies'>
       <Genres
         type="tv"
         selectedGenres={selectedGenres}

@@ -1,11 +1,12 @@
 .trending_scroll {
     display: flex;
     overflow: auto;
+    padding-left: 40px;
 }
 
 .trending_title {
     font-weight: 700;
-    margin: 0px 10px;
+    margin-left: 40px;
     font-size: 22px;
     display: flex;
     align-items: center;
@@ -52,15 +53,29 @@
     transition: all .3s ease-in-out;
 }
 
+.searchresultfor {
+    margin-left: 40px;
+    font-size: 20px;
+    color: rgb(255, 167, 38) !important;
+}
+
 @media only screen and (max-width: 660px) {
     .trending_title {
         font-size: 18px;
+        margin-left: 5px;
     }
 
     .switch {
         font-size: 12px;
         border-width: .7px;
         padding: 1.5px;
+    }
+    .trending_scroll {
+        padding-left: 0px;
+    }
+    .searchresultfor {
+        margin-left: 5px;
+        font-size: 18px;
     }
 
 }

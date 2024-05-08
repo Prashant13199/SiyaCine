@@ -9,7 +9,7 @@
 }
 
 .users_image {
-    height: 220px;
+    height: 200px;
     width: 100%;
     object-fit: cover;
     border-radius: 6px;
@@ -23,7 +23,7 @@
 
 @media screen and (max-width: 660px) {
     .users_image {
-        height: 200px;
+        height: 180px;
         width: 100%;
         object-fit: cover;
         border-radius: 6px;

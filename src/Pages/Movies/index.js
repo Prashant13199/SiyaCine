@@ -36,7 +36,6 @@ export default function Movies({ scrollTop }) {
 
   return (
     <div className='movies'>
-      <div className='discover_movies_title'>Discover Movies</div>
       <Genres
         type="movie"
         selectedGenres={selectedGenres}
