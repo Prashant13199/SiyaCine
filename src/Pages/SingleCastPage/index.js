@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
 import { CircularProgress } from '@mui/material';
+import empty from '../../assets/empty.png'
 
 export default function SingleCastPage({ scrollTop, setBackdrop }) {
 
@@ -131,13 +132,19 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
       </div>
       <div style={{ marginTop: '10px' }}></div>
       <div className='trending_scroll' >
-        {movie && switchC === 0 && movie.map((data) => {
+        {switchC === 0 && movie?.map((data) => {
           return <SingleContentScroll data={data} key={data.id} type="movie" />
         })}
-        {tv && switchC === 1 && tv.map((data) => {
+        {switchC === 1 && tv?.map((data) => {
           return <SingleContentScroll data={data} key={data.id} type="tv" />
         })}
       </div>
+      {movie?.length === 0 && switchC === 0 && <center>
+        <img src={empty} className='empty' alt="" />
+        <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+      {tv?.length === 0 && switchC === 1 && <center>
+        <img src={empty} className='empty' alt="" />
+        <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
     </div>
 
   )

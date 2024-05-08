@@ -6,13 +6,13 @@
 }
 
 .singlecontentPage {
-    padding-top: 70px;
+    margin-top: 70px;
 }
 
 .singlecontent_responsive {
     display: flex;
     align-items: flex-start;
-    padding: 20px;
+    padding: 20px 40px;
 }
 
 .details {
@@ -31,6 +31,7 @@
 .cast {
     display: flex;
     overflow-y: auto;
+    padding-left: 40px;
 }
 
 .actions {
@@ -76,11 +77,11 @@
     border-radius: 6px;
     font-size: 14px;
     border-color: rgb(255, 167, 38);
-    color: rgb(255, 167, 38);
+    color: rgb(238, 193, 126);
 }
 
 .single_review {
-    margin: 10px;
+    padding: 0 40px;
 }
 
 .share_user {
@@ -120,6 +121,20 @@
     opacity: 1;
 }
 
+@media only screen and (max-width: 660px) {
+    .cast {
+        padding-left: 5px;
+    }
+
+    .single_review {
+        padding-left: 5px;
+    }
+
+    .singlecontent_responsive {
+        padding: 0px 0px !important;
+    }
+}
+
 @media only screen and (max-width: 900px) {
 
     .pc {
@@ -132,7 +147,7 @@
 
     .singlecontent_responsive {
         display: grid;
-        padding: 0;
+        padding: 0 40px;
     }
 
     .actions {

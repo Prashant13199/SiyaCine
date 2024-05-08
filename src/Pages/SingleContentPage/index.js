@@ -567,7 +567,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               </div>
             </>}
             <br />
-            <div className='trending_title' style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
               <div >
                 Reviews
               </div>
