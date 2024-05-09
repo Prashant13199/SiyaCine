@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, useTheme } from '@mui/material'
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+import { Link } from 'react-router-dom';
 
 export default function SingleContentScroll({ data, type, by, byuid, id, recom, resume }) {
 

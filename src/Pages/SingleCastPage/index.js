@@ -110,7 +110,7 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
           <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
         </div>
         <div className='details'>
-          <h2 style={{ fontWeight: 'bold' }}>{data.name}</h2>
+          <h1>{data.name}</h1>
           <div className='actions'>
             {auth?.currentUser?.uid && <div>
               <Tooltip title="Favourite">

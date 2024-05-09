@@ -124,7 +124,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image' />
           </div>
           <div className='profile_right'>
-            <h1 style={{ fontWeight: 'bold' }}>{currentUsername ? currentUsername : 'Loading...'}</h1>
+            <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
             <Premium premium={premium} />
             <div className='switchAccount'>
               <div className='switchAcc' onClick={() => handlePublic()}>

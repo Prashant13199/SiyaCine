@@ -456,7 +456,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
             </div>
             <div className='details'>
-              <h1 style={{ fontWeight: 'bold' }}>{data.name || data.title || data.original_name}</h1>
+              <h1>{data.name || data.title || data.original_name}</h1>
               <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                 {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{Math.ceil(data?.runtime / 60)}h</>}
               </div>
@@ -614,7 +614,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               {reviews2 && auth?.currentUser?.uid && reviews2.map((data) => {
                 return <div className='single_review' key={data.uid}>
                   <div style={{ display: 'flex', alignItems: 'center' }} >
-                    <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', fontWeight: '600', fontSize: '18px', color: 'white' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
+                    <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', fontSize: '18px', color: 'white' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
                     {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon sx={{ color: theme.palette.error.main }} /></IconButton></div>}
                   </div>
                   <Review review={data.review} />
@@ -622,7 +622,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               })}
               {reviews && reviews.map((data) => {
                 return <div className='single_review' key={data.id}>
-                  <div style={{ fontWeight: '600', fontSize: '18px' }} >{data.author_details.username}</div>
+                  <div style={{ fontSize: '18px' }} >{data.author_details.username}</div>
                   <Review review={data.content} />
                 </div>
               })}
