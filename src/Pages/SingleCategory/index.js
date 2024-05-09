@@ -23,63 +23,93 @@ export default function SingleCategory({ scrollTop }) {
 
 
   const fetch = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${category}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`
-    );
-    setContent(data.results);
-    setNumOfPages(data.total_pages);
-    setLoading(false)
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${category}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`
+      );
+      setContent(data.results);
+      setNumOfPages(data.total_pages);
+      setLoading(false)
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const fetch2 = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${category}/${type}/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`
-    );
-    setContent(data.results);
-    setNumOfPages(data.total_pages);
-    setLoading(false)
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${category}/${type}/day?api_key=${process.env.REACT_APP_API_KEY}&page=${page}`
+      );
+      setContent(data.results);
+      setNumOfPages(data.total_pages);
+      setLoading(false)
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
 
   const fetchDiscover = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${category}/${type}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_origin_country=IN&with_genres=${genreforURL}`
-    );
-    setContent(data.results);
-    setNumOfPages(data.total_pages);
-    setLoading(false)
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${category}/${type}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_origin_country=IN&with_genres=${genreforURL}`
+      );
+      setContent(data.results);
+      setNumOfPages(data.total_pages);
+      setLoading(false)
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
 
   const fetchWatchlist = async () => {
-    database.ref(`/Users/${uid}/watchlist`).orderByChild('timestamp').on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+    try {
+      database.ref(`/Users/${uid}/watchlist`).orderByChild('timestamp').on('value', snapshot => {
+        let arr = []
+        snapshot?.forEach((snap) => {
+          arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+        })
+        setContent(arr.reverse())
+        setLoading(false)
       })
-      setContent(arr.reverse())
-      setLoading(false)
-    })
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
 
   const fetchWatched = async () => {
-    database.ref(`/Users/${uid}/watched`).orderByChild('timestamp').on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+    try {
+      database.ref(`/Users/${uid}/watched`).orderByChild('timestamp').on('value', snapshot => {
+        let arr = []
+        snapshot?.forEach((snap) => {
+          arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+        })
+        setContent(arr.reverse())
+        setLoading(false)
       })
-      setContent(arr.reverse())
-      setLoading(false)
-    })
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
 
   const fetchFavourite = async () => {
-    database.ref(`/Users/${uid}/favourites`).orderByChild('timestamp').on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+    try {
+      database.ref(`/Users/${uid}/favourites`).orderByChild('timestamp').on('value', snapshot => {
+        let arr = []
+        snapshot?.forEach((snap) => {
+          arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+        })
+        setContent(arr.reverse())
+        setLoading(false)
       })
-      setContent(arr.reverse())
-      setLoading(false)
-    })
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
 
   useEffect(() => {

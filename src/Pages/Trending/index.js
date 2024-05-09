@@ -20,6 +20,9 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const [recommendation, setRecommendation] = useState([])
   const [favourite, setFavourite] = useState([])
   const [number, setNumber] = useState(null)
+  const [favouriteCast, setFavouriteCast] = useState([])
+  const [recommendationCast, setRecommendationCast] = useState([])
+  const [numberCast, setNumberCast] = useState(null)
   const theme = useTheme()
 
   useEffect(() => {
@@ -31,11 +34,23 @@ export default function Trending({ setBackdrop, scrollTop }) {
   }, [number])
 
   useEffect(() => {
+    fetchRecommendationCast();
+  }, [numberCast])
+
+  useEffect(() => {
     randomNumber()
-  }, [favourite.length])
+  }, [favourite?.length])
+
+  useEffect(() => {
+    randomNumberCast()
+  }, [favouriteCast?.length])
 
   const randomNumber = () => {
     setNumber(Math.floor(Math.random() * favourite.length))
+  }
+
+  const randomNumberCast = () => {
+    setNumberCast(Math.floor(Math.random() * favouriteCast.length))
   }
 
   useEffect(() => {
@@ -55,14 +70,41 @@ export default function Trending({ setBackdrop, scrollTop }) {
       setFavourite(arr)
     })
 
+    database.ref(`/Users/${auth?.currentUser?.uid}/cast`).on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push({ id: snap.val().id, data: snap.val().data })
+      })
+      setFavouriteCast(arr)
+    })
+
   }, [auth?.currentUser?.uid])
 
   const fetchRecommendation = async () => {
-    if (favourite[number]?.type) {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/${favourite[number]?.type}/${favourite[number]?.id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false`
-      );
-      setRecommendation(data.results);
+    try {
+      if (favourite[number]?.type) {
+        const { data } = await axios.get(
+          `https://api.themoviedb.org/3/${favourite[number]?.type}/${favourite[number]?.id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false`
+        );
+        setRecommendation(data.results);
+      }
+    }
+    catch (e) {
+      console.log(e)
+    }
+  };
+
+  const fetchRecommendationCast = async () => {
+    try {
+      if (favourite[number]?.type) {
+        const { data } = await axios.get(
+          `https://api.themoviedb.org/3/person/${favouriteCast[numberCast]?.id}/combined_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+        );
+        setRecommendationCast(data.cast);
+      }
+    }
+    catch (e) {
+      console.log(e)
     }
   };
 
@@ -78,7 +120,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const indianTv = useFetchContent('discover', 'tv')
 
   return (
-
     <div className='trending'>
       <Header setBackdrop={setBackdrop} />
       <>
@@ -118,8 +159,8 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_title' >Because You Watched</div>
           <div className='searchresultfor' >{favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</div>
           <div className='trending_scroll' >
-            {recommendation && recommendation.map((data) => {
-              return <SingleContentScroll data={data} key={data.id} type={favourite[number]?.type} recom={true} />
+            {recommendation?.map((data, index) => {
+              return <SingleContentScroll data={data} key={index} type={data?.media_type} recom={true} />
             })}
           </div></>}
 
@@ -150,6 +191,16 @@ export default function Trending({ setBackdrop, scrollTop }) {
               return <SingleContentScroll data={data} key={data?.id} type="tv" />
             })}
           </div></>}
+
+        {recommendationCast?.length !== 0 && <><br />
+          <div className='trending_title' >Because You Liked</div>
+          <div className='searchresultfor' >{favouriteCast[numberCast]?.data?.name}</div>
+          <div className='trending_scroll' >
+            {recommendationCast?.map((data, index) => {
+              return <SingleContentScroll data={data} key={index} type={data?.media_type} recom={true} />
+            })}
+          </div></>}
+
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
           <div className='trending_title' >Top Rated&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchTopRated(switchTopRated === 0 ? 1 : 0)}>
             <div className={switchTopRated === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTopRated === 0 && theme.palette.warning.main, color: switchTopRated === 0 && theme.palette.warning.contrastText }}>Movie</div>

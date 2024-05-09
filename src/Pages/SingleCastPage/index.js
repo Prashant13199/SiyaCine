@@ -45,25 +45,40 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
   }, [])
 
   const fetchDetails = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setData(data);
-    setLoading(false)
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      setData(data);
+      setLoading(false)
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const fetchMovieCredits = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setMovie(data.cast);
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      setMovie(data.cast);
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const fetchTvCredits = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setTv(data.cast);
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      setTv(data.cast);
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   useEffect(() => {

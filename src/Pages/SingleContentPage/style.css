@@ -133,6 +133,11 @@
     .singlecontent_responsive {
         padding: 0px 0px !important;
     }
+
+    .server_buttons {
+        display: flex;
+        justify-content: center;
+    }
 }
 
 @media only screen and (max-width: 900px) {

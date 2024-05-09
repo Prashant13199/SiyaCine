@@ -157,57 +157,92 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   }, [id, auth?.currentUser?.uid])
 
   const fetchDetails = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setData(data);
-    setLoading(false)
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      setData(data);
+      setLoading(false)
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const fetchProvider = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    if (data.results?.IN?.flatrate) {
-      setWatchProvider({ path: data.results?.IN?.flatrate[0] ? data.results?.IN?.flatrate[0]?.logo_path : '', link: data.results?.IN ? data.results?.IN?.link : '' });
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      if (data.results?.IN?.flatrate) {
+        setWatchProvider({ path: data.results?.IN?.flatrate[0] ? data.results?.IN?.flatrate[0]?.logo_path : '', link: data.results?.IN ? data.results?.IN?.link : '' });
+      }
+    }
+    catch (e) {
+      console.log(e)
     }
   };
 
   const fetchCredit = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setCredit(data);
-    setDirector(data.crew.filter((cr) => cr.job === 'Director'))
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      setCredit(data);
+      setDirector(data.crew.filter((cr) => cr.job === 'Director'))
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const fetchSimilar = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-    );
-    setSimilar(data.results);
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
+      );
+      setSimilar(data.results);
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const fetchRecommendation = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-    );
-    setRecommendations(data.results);
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
+      );
+      setRecommendations(data.results);
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const fetchVideo = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    const values = data.results.filter((value) => value.type === 'Trailer')
-    setVideo(values.splice(0, 2))
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      const values = data.results.filter((value) => value.type === 'Trailer')
+      setVideo(values.splice(0, 2))
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   const fetchReviews = async () => {
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-    );
-    setReviews(data.results)
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}/reviews?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+      );
+      setReviews(data.results)
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   useEffect(() => {
@@ -524,11 +559,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 Last Aired Date: {data?.last_air_date}
               </div>}
 
-              {type === 'movie' && premium && data.status === 'Released' && <ButtonGroup variant="outlined" color="warning">
+              {type === 'movie' && premium && data.status === 'Released' && <div className='server_buttons'><ButtonGroup variant="outlined" size="large" color="warning">
                 <Button onClick={() => handleShow4(1)}>Server 1</Button>
                 <Button onClick={() => handleShow4(2)}>Server 2</Button>
                 <Button onClick={() => handleShow4(3)}>Server 3</Button>
-              </ButtonGroup>}
+              </ButtonGroup></div>}
 
             </div>
           </div>
@@ -572,7 +607,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 Reviews
               </div>
               {auth?.currentUser?.uid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
-                <AddCircleOutlineIcon fontSize='small' />&nbsp;Add Review
+                <AddCircleOutlineIcon fontSize='medium' />
               </div>}
             </div>
             <div className='reviews'>

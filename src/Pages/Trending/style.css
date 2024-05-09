@@ -59,6 +59,17 @@
     color: rgb(255, 167, 38) !important;
 }
 
+.recom_flex {
+    display: flex;
+    align-items: center;
+}
+
+.recom_img {
+    height: auto;
+    width: 40px;
+    object-fit: cover;
+}
+
 @media only screen and (max-width: 660px) {
     .trending_title {
         font-size: 18px;
@@ -70,9 +81,11 @@
         border-width: .7px;
         padding: 1.5px;
     }
+
     .trending_scroll {
         padding-left: 0px;
     }
+
     .searchresultfor {
         margin-left: 5px;
         font-size: 18px;

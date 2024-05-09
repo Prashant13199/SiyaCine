@@ -20,13 +20,18 @@ export default function Movies({ scrollTop }) {
   const [loading, setLoading] = useState(true)
 
   const fetchMovies = async () => {
-    setLoading(true)
-    const { data } = await axios.get(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false&page=${page}&with_genres=${genreforURL}`
-    );
-    setContent(data?.results);
-    setNumOfPages(data?.total_pages);
-    setLoading(false)
+    try {
+      setLoading(true)
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false&page=${page}&with_genres=${genreforURL}`
+      );
+      setContent(data?.results);
+      setNumOfPages(data?.total_pages);
+      setLoading(false)
+    }
+    catch (e) {
+      console.log(e)
+    }
   };
 
   useEffect(() => {
