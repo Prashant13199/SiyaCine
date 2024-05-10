@@ -10,6 +10,7 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import empty from '../../assets/empty.png'
+import { Helmet } from 'react-helmet';
 
 export default function SingleCastPage({ scrollTop, setBackdrop }) {
 
@@ -102,68 +103,72 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
     }
   }
 
-  return !loading ? (
-
-    <div className='singlecastpage'>
-      <div className='singlecontent_responsive_cast'>
-        <div className='pic_container'>
-          <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
-        </div>
-        <div className='details'>
-          <h1>{data.name}</h1>
-          <div className='actions'>
-            {auth?.currentUser?.uid && <div>
-              <Tooltip title="Favourite">
-                <IconButton style={{ backgroundColor: theme.palette.warning.main }} onClick={() => handleFavourite()}>
-                  {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
-                </IconButton>
-              </Tooltip>
+  return (
+    <>
+      <Helmet>
+        <title>SiyaCine - Cast{data?.name ? ` - ${data?.name}` : ''}</title>
+      </Helmet>
+      {!loading ? <div className='singlecastpage'>
+        <div className='singlecontent_responsive_cast'>
+          <div className='pic_container'>
+            <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+          </div>
+          <div className='details'>
+            <h1>{data.name}</h1>
+            <div className='actions'>
+              {auth?.currentUser?.uid && <div>
+                <Tooltip title="Favourite">
+                  <IconButton style={{ backgroundColor: theme.palette.warning.main }} onClick={() => handleFavourite()}>
+                    {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
+                  </IconButton>
+                </Tooltip>
+              </div>}
+            </div>
+            {data.birthday && <div className='overview'>
+              <h4>Birthday</h4>
+              {data.birthday}
+            </div>}
+            {data.place_of_birth && <div className='overview'>
+              <h4>Place of Birth</h4>
+              {data.place_of_birth}
+            </div>}
+            {data.known_for_department && <div className='overview'>
+              <h4>Known for departmant</h4>
+              {data.known_for_department}
+            </div>}
+            {data.biography && <div className='overview'>
+              <h4>Biography</h4>
+              {data.biography?.length > 200 && !readMore ? data.biography.substring(0, 200).concat('...') : data.biography}
+              <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.biography && data.biography?.length > 200 && (!readMore ? 'read more' : 'less')}</span>
             </div>}
           </div>
-          {data.birthday && <div className='overview'>
-            <h4>Birthday</h4>
-            {data.birthday}
-          </div>}
-          {data.place_of_birth && <div className='overview'>
-            <h4>Place of Birth</h4>
-            {data.place_of_birth}
-          </div>}
-          {data.known_for_department && <div className='overview'>
-            <h4>Known for departmant</h4>
-            {data.known_for_department}
-          </div>}
-          {data.biography && <div className='overview'>
-            <h4>Biography</h4>
-            {data.biography?.length > 200 && !readMore ? data.biography.substring(0, 200).concat('...') : data.biography}
-            <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.biography && data.biography?.length > 200 && (!readMore ? 'read more' : 'less')}</span>
-          </div>}
         </div>
+        <br />
+        <div className='trending_title' ><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
+          <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 0 && theme.palette.warning.main, color: switchC === 0 && theme.palette.warning.contrastText }}>Movie</div>
+          <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 1 && theme.palette.warning.main, color: switchC === 1 && theme.palette.warning.contrastText }}>TV</div>
+        </div>
+        </div>
+        <div style={{ marginTop: '10px' }}></div>
+        <div className='trending_scroll' >
+          {switchC === 0 && movie?.map((data) => {
+            return <SingleContentScroll data={data} key={data.id} type="movie" />
+          })}
+          {switchC === 1 && tv?.map((data) => {
+            return <SingleContentScroll data={data} key={data.id} type="tv" />
+          })}
+        </div>
+        {movie?.length === 0 && switchC === 0 && <center>
+          <img src={empty} className='empty' alt="" />
+          <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+        {tv?.length === 0 && switchC === 1 && <center>
+          <img src={empty} className='empty' alt="" />
+          <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+      </div> : <div className="loading">
+        <CircularProgress color='warning' />
       </div>
-      <br />
-      <div className='trending_title' ><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
-        <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 0 && theme.palette.warning.main, color: switchC === 0 && theme.palette.warning.contrastText }}>Movie</div>
-        <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 1 && theme.palette.warning.main, color: switchC === 1 && theme.palette.warning.contrastText }}>TV</div>
-      </div>
-      </div>
-      <div style={{ marginTop: '10px' }}></div>
-      <div className='trending_scroll' >
-        {switchC === 0 && movie?.map((data) => {
-          return <SingleContentScroll data={data} key={data.id} type="movie" />
-        })}
-        {switchC === 1 && tv?.map((data) => {
-          return <SingleContentScroll data={data} key={data.id} type="tv" />
-        })}
-      </div>
-      {movie?.length === 0 && switchC === 0 && <center>
-        <img src={empty} className='empty' alt="" />
-        <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-      {tv?.length === 0 && switchC === 1 && <center>
-        <img src={empty} className='empty' alt="" />
-        <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-    </div>
-
+      }
+    </>
   )
-    : <div className="loading">
-      <CircularProgress color='warning' />
-    </div>
+
 }

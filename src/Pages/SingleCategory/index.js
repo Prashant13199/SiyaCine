@@ -9,6 +9,7 @@ import { CircularProgress } from '@mui/material';
 import { database } from '../../firebase';
 import useGenre from '../../hooks/useGenre';
 import Genres from '../../Components/Genres';
+import { Helmet } from 'react-helmet';
 
 export default function SingleCategory({ scrollTop }) {
 
@@ -130,29 +131,33 @@ export default function SingleCategory({ scrollTop }) {
     scrollTop()
   }, [page, genreforURL]);
 
-  return !loading ? (
-    <div className='singlecategory'>
-      <div className='discover_movies_title'>{name}</div>
-      {category === 'discover' && <Genres
-        type={type}
-        selectedGenres={selectedGenres}
-        setSelectedGenres={setSelectedGenres}
-        genres={genres}
-        setGenres={setGenres}
-        setPage={setPage}
-      />}
-      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-        {content &&
-          content.map((data) => {
-            return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} /> : <SingleContent data={data} key={data.id} type={type} />
-          })}
-      </Grid>
-      {numOfPages > 1 && (
-        <CustomPagination setPage={setPage} page={page} numOfPages={numOfPages} />
-      )}
-    </div>
+  return (
+    <>
+      <Helmet>
+        <title>SiyaCine{name ? ` - ${name}` : ''}</title>
+      </Helmet>
+      {!loading ? <div className='singlecategory'>
+        <div className='discover_movies_title'>{name}</div>
+        {category === 'discover' && <Genres
+          type={type}
+          selectedGenres={selectedGenres}
+          setSelectedGenres={setSelectedGenres}
+          genres={genres}
+          setGenres={setGenres}
+          setPage={setPage}
+        />}
+        <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+          {content &&
+            content.map((data) => {
+              return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} /> : <SingleContent data={data} key={data.id} type={type} />
+            })}
+        </Grid>
+        {numOfPages > 1 && (
+          <CustomPagination setPage={setPage} page={page} numOfPages={numOfPages} />
+        )}
+      </div> : <div className="loading">
+        <CircularProgress color='warning' />
+      </div>}
+    </>
   )
-    : <div className="loading">
-      <CircularProgress color='warning' />
-    </div>
 }

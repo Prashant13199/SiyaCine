@@ -31,6 +31,7 @@ import Seasons from '../../Containers/Seasons';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import useFetchDB from '../../hooks/useFetchDB';
+import { Helmet } from 'react-helmet';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -365,6 +366,9 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   return (
     <>
+      <Helmet>
+        <title>SiyaCine{data?.name ? ` - ${data?.name}` : '' || data?.title ? ` - ${data?.title}` : '' || data?.original_name ? ` - ${data?.original_name}` : ''}</title>
+      </Helmet>
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>

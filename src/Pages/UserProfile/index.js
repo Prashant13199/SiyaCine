@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Count from '../../Components/Count'
 import Premium from '../../Components/Premium'
+import { Helmet } from 'react-helmet'
 
 export default function UserProfile({ setBackdrop, scrollTop }) {
 
@@ -104,63 +105,65 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
 
   }
 
-  return !loading ? (
-
-    <div className='profile'>
-      <div className='profile_header'>
-        <div className='pic_container'>
-          <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
-        </div>
-        <div className='profile_right'>
-          <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-          <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
-            <Premium premium={premium} />
+  return (
+    <>
+      <Helmet>
+        <title>SiyaCine{username ? ` - ${username}` : ''}</title>
+      </Helmet>
+      {!loading ? <div className='profile'>
+        <div className='profile_header'>
+          <div className='pic_container'>
+            <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
+          </div>
+          <div className='profile_right'>
+            <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+            <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
+              <Premium premium={premium} />
+            </div>
           </div>
         </div>
-      </div>
 
-      {watching.length !== 0 && <>
-        <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
-        <div className='trending_scroll' >
-          {watching && watching.map((data) => {
-            return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-          })}
-        </div><br /></>}
-      {watchlist.length !== 0 && <>
-        <div className='trending_title' ><Count value={watchlist?.length} />Watchlist<Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-        <div className='trending_scroll' >
-          {watchlist && watchlist.map((data) => {
-            return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-          })}
-        </div><br /></>}
-      {watched.length !== 0 && <>
-        <div className='trending_title' ><Count value={watched?.length} />Watched<Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-        <div className='trending_scroll' >
-          {watched && watched.map((data) => {
-            return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-          })}
-        </div><br /></>}
-      {favourite.length !== 0 && <>
-        <div className='trending_title' ><Count value={favourite?.length} />Favourites<Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-        <div className='trending_scroll' >
-          {favourite && favourite.map((data) => {
-            return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
-          })}
-        </div><br /></>}
-      {cast.length !== 0 && <>
-        <div className='trending_title' ><Count value={cast?.length} />Favourite Cast</div>
-        <div className='trending_scroll' >
-          {cast && cast.map((c) => {
-            return <Cast c={c} key={c?.id} />
-          })}
-        </div><br /></>}
-      {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
-        <img src={empty} className='empty' alt="" />
-        <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-    </div>
-
+        {watching.length !== 0 && <>
+          <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
+          <div className='trending_scroll' >
+            {watching && watching.map((data) => {
+              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+            })}
+          </div><br /></>}
+        {watchlist.length !== 0 && <>
+          <div className='trending_title' ><Count value={watchlist?.length} />Watchlist<Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_scroll' >
+            {watchlist && watchlist.map((data) => {
+              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+            })}
+          </div><br /></>}
+        {watched.length !== 0 && <>
+          <div className='trending_title' ><Count value={watched?.length} />Watched<Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_scroll' >
+            {watched && watched.map((data) => {
+              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+            })}
+          </div><br /></>}
+        {favourite.length !== 0 && <>
+          <div className='trending_title' ><Count value={favourite?.length} />Favourites<Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_scroll' >
+            {favourite && favourite.map((data) => {
+              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+            })}
+          </div><br /></>}
+        {cast.length !== 0 && <>
+          <div className='trending_title' ><Count value={cast?.length} />Favourite Cast</div>
+          <div className='trending_scroll' >
+            {cast && cast.map((c) => {
+              return <Cast c={c} key={c?.id} />
+            })}
+          </div><br /></>}
+        {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
+          <img src={empty} className='empty' alt="" />
+          <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+      </div> : <div className="loading">
+        <CircularProgress color='warning' />
+      </div>}
+    </>
   )
-    : <div className="loading">
-      <CircularProgress color='warning' />
-    </div>
 }

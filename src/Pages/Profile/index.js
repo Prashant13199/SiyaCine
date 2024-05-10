@@ -15,6 +15,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchDB from '../../hooks/useFetchDB'
 import Count from '../../Components/Count';
 import Premium from '../../Components/Premium';
+import { Helmet } from 'react-helmet';
 
 export default function Profile({ setBackdrop, scrollTop }) {
 
@@ -116,9 +117,12 @@ export default function Profile({ setBackdrop, scrollTop }) {
     setLoading(false)
   }, [auth?.currentUser?.uid])
 
-  return !loading ? (
+  return (
     <>
-      <div className='profile'>
+      <Helmet>
+        <title>SiyaCine{currentUsername ? ` - ${currentUsername}` : ''}</title>
+      </Helmet>
+      {!loading ? <div className='profile'>
         <div className='profile_header'>
           <div className='pic_container'>
             <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image' />
@@ -184,10 +188,10 @@ export default function Profile({ setBackdrop, scrollTop }) {
         {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && <center><br />
           <img src={empty} className='empty' alt="" />
           <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-      </div>
+      </div> : <div className="loading">
+        <CircularProgress color='warning' />
+      </div>}
 
     </>
-  ) : <div className="loading">
-    <CircularProgress color='warning' />
-  </div>
+  )
 }

@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import SearchPagination from '../../Components/Pagination/SearchPagination';
+import { Helmet } from 'react-helmet';
 
 function useQuery() {
     const { search } = useLocation();
@@ -60,43 +61,48 @@ export default function Search({ scrollTop }) {
     }
 
     return (
-        <div className="search">
-            <Paper component="form" sx={{ p: '8px 4px', display: 'flex', alignItems: 'center', width: '98%', borderRadius: '10px', margin: 'auto' }}>
-                <InputBase
-                    sx={{ ml: 1, flex: 1 }}
-                    className='input_search'
-                    placeholder="Search for a Movies or TV Shows"
-                    inputProps={{ 'aria-label': 'search google maps' }}
-                    value={search}
-                    autoFocus
-                    onChange={(e) => setSearch(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.keyCode === 13) {
-                            e.preventDefault()
-                        }
-                    }}
-                />
-                {query?.length > 0 &&
-                    <IconButton type="button" sx={{ p: '4px' }} aria-label="search" onClick={() => clear()} >
-                        <CloseIcon />
-                    </IconButton>
-                }
-            </Paper>
-            <br />
-            {query && <>
-                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                    {contentM && contentM.map((data) => {
-                        return <SingleContentSearch data={data} key={data.id} />
-                    })}
-                </Grid>
+        <>
+            <Helmet>
+                <title>SiyaCine - Search</title>
+            </Helmet>
+            <div className="search">
+                <Paper component="form" sx={{ p: '8px 4px', display: 'flex', alignItems: 'center', width: '98%', borderRadius: '10px', margin: 'auto' }}>
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        className='input_search'
+                        placeholder="Search for a Movies or TV Shows"
+                        inputProps={{ 'aria-label': 'search google maps' }}
+                        value={search}
+                        autoFocus
+                        onChange={(e) => setSearch(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.keyCode === 13) {
+                                e.preventDefault()
+                            }
+                        }}
+                    />
+                    {query?.length > 0 &&
+                        <IconButton type="button" sx={{ p: '4px' }} aria-label="search" onClick={() => clear()} >
+                            <CloseIcon />
+                        </IconButton>
+                    }
+                </Paper>
+                <br />
+                {query && <>
+                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                        {contentM && contentM.map((data) => {
+                            return <SingleContentSearch data={data} key={data.id} />
+                        })}
+                    </Grid>
 
-                {numOfPagesM > 1 && (
-                    <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
-                )}
-            </>}
-            {contentM?.length === 0 && query && <center>
-                <img src={empty} className='empty' />
-                <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-        </div>
+                    {numOfPagesM > 1 && (
+                        <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
+                    )}
+                </>}
+                {contentM?.length === 0 && query && <center>
+                    <img src={empty} className='empty' />
+                    <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+            </div>
+        </>
     )
 }
