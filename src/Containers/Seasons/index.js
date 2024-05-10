@@ -79,20 +79,14 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     };
 
     const handleNext = () => {
-        if (episodeNumber < totalEpisodes) {
-            setEpisodeNumber(episodeNumber + 1)
-            handleResume(episodeNumber + 1)
-        }
+        setEpisodeNumber(episodeNumber + 1)
+        handleResume(episodeNumber + 1)
     }
 
     const handlePrevious = () => {
-        if (episodeNumber > setTotalEpisodes) {
-            setEpisodeNumber(episodeNumber - 1)
-            handleResume(episodeNumber - 1)
-        }
+        setEpisodeNumber(episodeNumber - 1)
+        handleResume(episodeNumber - 1)
     }
-
-    console.log(episodeNumber)
 
     return (
         <>
@@ -106,27 +100,30 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>
                     </div>
                     <div className='player_bottom'>
-                        <Button color='warning' disabled={episodeNumber < 2} onClick={() => handlePrevious()}>Previous</Button>
+                        <Button color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
                         <Button color='warning' disabled={episodeNumber === totalEpisodes} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
-            <DropdownButton
-                variant="warning"
-                title={`Season ${seasonNumber}`}
-                className="seasons_button"
-            >
-                {value.seasons?.map((dat, index) => {
-                    return (
-                        <Dropdown.Item key={index} onClick={(e) => setSeasonNumber(e.target.text)} eventKey={index} className='dropdown_item'>
-                            {index + 1}
-                        </Dropdown.Item>
-                    )
-                })}
-            </DropdownButton>
+            <div className='play_buttons'>
+                <DropdownButton
+                    variant="warning"
+                    title={`Season ${seasonNumber}`}
+                    className="seasons_button"
+                >
+                    {value.seasons?.map((dat, index) => {
+                        return (
+                            <Dropdown.Item key={index} onClick={(e) => setSeasonNumber(e.target.text)} eventKey={index} className='dropdown_item'>
+                                {index + 1}
+                            </Dropdown.Item>
+                        )
+                    })}
+                </DropdownButton>
+                {lastPlayed?.episode && <Button style={{ color: 'rgb(255, 167, 38)', marginLeft: '5px' }} onClick={() => handleShow4(lastPlayed?.episode)}>Resume Playing S{lastPlayed?.season}E{lastPlayed?.episode}</Button>}
+            </div>
             <div className="episode_list">
                 {content?.episodes?.map((datas) => {
-                    return <div key={datas?.id} id="single_episode" className='single_episode' onClick={() => {
+                    return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className='single_episode' onClick={() => {
                         if (auth?.currentUser?.uid) {
                             handleShow4(datas?.episode_number)
                         }

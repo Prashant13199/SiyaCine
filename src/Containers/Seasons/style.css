@@ -33,6 +33,11 @@
     justify-content: space-between;
 }
 
+.play_buttons {
+    display: flex;
+    align-items: center;
+}
+
 .player {
     width: 100%;
     margin: 20px 0px;
