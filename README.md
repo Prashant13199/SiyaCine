@@ -7,19 +7,15 @@ https://siyacine.netlify.app
 
 # Screenshots
 
-<img width="1440" alt="Screenshot 2023-04-25 at 1 53 31 PM" src="https://user-images.githubusercontent.com/63857410/234218659-3349eb10-9334-49b5-9bb1-612f2cee56ee.png">
+<img width="1440" alt="1" src="https://github.com/Prashant13199/SiyaCine/assets/63857410/2eaa1394-73b7-4f91-b29c-9484f7b69ed4">
 
-<img width="1440" alt="Screenshot 2023-04-25 at 1 53 37 PM" src="https://user-images.githubusercontent.com/63857410/234218676-e88efbe3-4192-4c66-8dc4-b61c90d45212.png">
+<img width="1440" alt="2" src="https://github.com/Prashant13199/SiyaCine/assets/63857410/c45d20df-693d-4693-8af6-75e8ad4b4cfe">
 
-<img width="1440" alt="Screenshot 2023-04-25 at 1 53 49 PM" src="https://user-images.githubusercontent.com/63857410/234218693-0d77043e-a399-4262-a032-d34d8d343be5.png">
+<img width="1440" alt="3" src="https://github.com/Prashant13199/SiyaCine/assets/63857410/eb558422-8cfb-4ec2-b7d7-409f5fff5fd5">
 
-<img width="1440" alt="Screenshot 2023-04-25 at 1 53 56 PM" src="https://user-images.githubusercontent.com/63857410/234218702-4471e735-40f5-4cf1-8f1d-66a9b170e836.png">
+<img width="1440" alt="4" src="https://github.com/Prashant13199/SiyaCine/assets/63857410/10389af3-6891-4902-9c7f-32bd3cb7a5af">
 
-<img width="1440" alt="Screenshot 2023-04-25 at 1 53 44 PM" src="https://user-images.githubusercontent.com/63857410/234218687-8dd42224-9166-4d4d-bb52-f83a7e36e010.png">
-
-<img width="1440" alt="Screenshot 2023-04-25 at 1 54 01 PM" src="https://user-images.githubusercontent.com/63857410/234218709-e2be3b97-1bc1-4bb9-a9ee-c3f445ec0eb1.png">
-
-<img width="1440" alt="Screenshot 2023-04-25 at 1 54 05 PM" src="https://user-images.githubusercontent.com/63857410/234218712-62d9cd52-1a48-4ef3-9536-28e4f942f7c4.png">
+<img width="1440" alt="5" src="https://github.com/Prashant13199/SiyaCine/assets/63857410/a4e4eae6-5007-4d37-a4be-56c0762ce81a">
 
 # Getting Started with Create React App
 
