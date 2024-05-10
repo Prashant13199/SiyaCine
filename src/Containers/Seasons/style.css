@@ -3,7 +3,7 @@
     align-items: flex-start;
     overflow-x: auto;
     width: 100%;
-    padding-left: 40px;
+    padding: 0 40px;
 }
 
 .single_episode {
@@ -106,7 +106,7 @@
     }
 
     .episode_list {
-        padding-left: 5px;
+        padding: 0 5px;
     }
 
     .seasons_button {

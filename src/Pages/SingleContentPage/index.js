@@ -534,7 +534,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     color='warning'
                     style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                   >
-                    Available Now
+                    Now Streaming
                   </Button>}
                   {(type === 'tv' && premium) &&
                     <Button
@@ -569,7 +569,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 Last Aired Date: {data?.last_air_date}
               </div>}
 
-              {type === 'movie' && premium && data.status === 'Released' && <div className='server_buttons'><ButtonGroup variant="outlined" size="large" color="warning">
+              {type === 'movie' && premium && data.status === 'Released' && <div className='server_buttons'><ButtonGroup variant="outlined" size="medium" color="warning">
                 <Button onClick={() => handleShow4(1)}>Server 1</Button>
                 <Button onClick={() => handleShow4(2)}>Server 2</Button>
                 <Button onClick={() => handleShow4(3)}>Server 3</Button>
