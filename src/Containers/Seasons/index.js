@@ -6,7 +6,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { auth, database } from '../../firebase'
 import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, IconButton } from '@mui/material';
+import { Button, ButtonGroup, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import empty from '../../assets/empty.png'
@@ -20,6 +20,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     const [episodeNumber, setEpisodeNumber] = useState()
     const [lastPlayed, setLastPlayed] = useState({})
     const [totalEpisodes, setTotalEpisodes] = useState(0)
+    const [server, setServer] = useState(1)
 
     const [show4, setShow4] = useState(false);
     const handleClose4 = () => {
@@ -97,10 +98,15 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         <IconButton onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
                     </div>
                     <div className='player' style={{ height: window.innerHeight - 180 }}>
-                        <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>
+                        {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://embed.smashystream.com/playere.php?tmdb=${value?.id}&season=${seasonNumber}&episode=${episodeNumber}`}></iframe>}
+                        {server === 2 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     </div>
                     <div className='player_bottom'>
                         <Button color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
+                        <ButtonGroup variant="outlined" size="small" color="warning">
+                            <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
+                            <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
+                        </ButtonGroup>
                         <Button color='warning' disabled={episodeNumber === totalEpisodes} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>

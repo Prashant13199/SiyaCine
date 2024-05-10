@@ -34,6 +34,14 @@
     padding: 0 40px;
 }
 
+.icon_small {
+    height: auto;
+    width: 30px;
+    backdrop-filter: unset;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
 .actions {
     margin: 10px 0px;
     display: flex;

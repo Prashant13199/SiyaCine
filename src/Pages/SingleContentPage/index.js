@@ -32,6 +32,7 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import useFetchDB from '../../hooks/useFetchDB';
 import { Helmet } from 'react-helmet';
+import icon from '../../assets/icon.png'
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -43,7 +44,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [similar, setSimilar] = useState([])
   const [video, setVideo] = useState();
   const [videoPlay, setVideoPlay] = useState();
-  const [server, setServer] = useState();
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
   const [watched, setWatched] = useState(false)
@@ -71,9 +71,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     setShow4(false)
     setServer()
   }
-  const handleShow4 = (id) => {
+  const handleShow4 = () => {
     setShow4(true)
-    setServer(id)
     handleWatching2()
   }
   const [readMore, setReadMore] = useState(false)
@@ -84,6 +83,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [review, setReview] = useState('')
   const [loading, setLoading] = useState(true)
   const [premium, setPremium] = useState(false)
+  const [server, setServer] = useState(1)
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : data?.poster_path)
@@ -283,6 +283,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             setWatched(false)
           })
         }
+        if (watching) {
+          database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
+            setWatching(false)
+          })
+        }
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
@@ -448,11 +453,20 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <div className='player' style={{ height: window.innerHeight - 150 }}>
             {type === 'movie' &&
               <>
-                {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
-                {server === 2 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
-                {server === 3 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://embed.smashystream.com/playere.php?tmdb=${id}`}></iframe>}
+                {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://embed.smashystream.com/playere.php?tmdb=${id}`}></iframe>}
+                {server === 2 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
+                {server === 3 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
               </>}
             {type === 'tv' && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtvfull/${id}`}></iframe>}
+            <div className='player_bottom'>
+              <div></div>
+              <ButtonGroup variant="outlined" size="small" color="warning">
+                <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
+                <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
+                <Button variant={server === 3 && 'contained'} onClick={() => setServer(3)}>Server 3</Button>
+              </ButtonGroup>
+              <div></div>
+            </div>
           </div>
         </Modal.Body>
       </Modal>
@@ -556,15 +570,23 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   </Button>}
                   {(type === 'tv' && premium) &&
                     <Button
-                      startIcon={<HdIcon style={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} />}
+                      startIcon={<img src={icon} className='icon_small' />}
                       className='button'
                       onClick={() => handleShow4()}
                       variant='contained'
                       style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                     >
                       Binge Watch
-                    </Button>
-                  }
+                    </Button>}
+                  {type === 'movie' && premium && data.status === 'Released' && <Button
+                    startIcon={<img src={icon} className='icon_small' />}
+                    className='button'
+                    onClick={() => handleShow4()}
+                    variant='contained'
+                    style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                  >
+                    Play Movie
+                  </Button>}
                 </div>}
               </div>
 
@@ -582,13 +604,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
                 <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more' : 'less')}</span>
               </div>}
-
-              {type === 'movie' && premium && data.status === 'Released' && <div className='server_buttons'><ButtonGroup variant="outlined" size="medium" color="warning">
-                <Button onClick={() => handleShow4(1)}>Server 1</Button>
-                <Button onClick={() => handleShow4(2)}>Server 2</Button>
-                <Button onClick={() => handleShow4(3)}>Server 3</Button>
-              </ButtonGroup></div>}
-
             </div>
           </div>
 
