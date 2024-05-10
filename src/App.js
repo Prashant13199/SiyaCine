@@ -29,20 +29,25 @@ function App() {
   const [top, setTop] = useState(true)
   let user = localStorage.getItem('uid')
 
+  const logOut = () => {
+    auth.signOut().then(() => {
+      setLoading(false)
+      localStorage.clear()
+    }).catch((e) => console.log(e))
+  }
+
   useEffect(() => {
     if (user) {
       database.ref(`/Users/${user}`).on('value', snapshot => {
         if (snapshot.val()?.username) {
           setLoading(false)
         } else {
-          auth.signOut().then(() => {
-            setLoading(false)
-            localStorage.clear()
-          })
+          logOut()
         }
       })
     } else {
       setLoading(false)
+      logOut()
     }
   }, [])
 

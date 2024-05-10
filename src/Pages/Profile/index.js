@@ -51,7 +51,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
     auth.signOut().then(() => {
       localStorage.clear()
       history.push('/')
-    })
+    }).catch((e) => console.log(e))
   }
 
   const handlePublic = () => {
@@ -140,10 +140,9 @@ export default function Profile({ setBackdrop, scrollTop }) {
             <Button
               startIcon={<LogoutIcon style={{ fontSize: '30px' }} />}
               className='button'
-              target="__blank"
               onClick={() => signOut()}
               variant='contained'
-              style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+              style={{ backgroundColor: theme.palette.background.default, color: theme.palette.error.main }}
             >
               Sign Out
             </Button>
