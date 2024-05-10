@@ -583,10 +583,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more' : 'less')}</span>
               </div>}
 
-              {data?.last_air_date && <div className='overview'>
-                Last Aired Date: {data?.last_air_date}
-              </div>}
-
               {type === 'movie' && premium && data.status === 'Released' && <div className='server_buttons'><ButtonGroup variant="outlined" size="medium" color="warning">
                 <Button onClick={() => handleShow4(1)}>Server 1</Button>
                 <Button onClick={() => handleShow4(2)}>Server 2</Button>

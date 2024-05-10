@@ -128,7 +128,10 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                             handleShow4(datas?.episode_number)
                         }
                     }}>
-                        <span className='episode_number'>S{datas.season_number} E{datas.episode_number}</span>
+                        <div className='episode_header'>
+                            <div className='episode_number'>S{datas.season_number} E{datas.episode_number}</div>
+                            <div className='air_date'>{datas?.air_date}</div>
+                        </div>
                         <div className='relative'>
                             <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
                             {auth?.currentUser?.uid && <div className="play_icon"><PlayArrowIcon sx={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} /></div>}
