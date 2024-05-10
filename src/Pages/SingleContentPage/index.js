@@ -74,7 +74,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const handleShow4 = (id) => {
     setShow4(true)
     setServer(id)
-    handleWatching()
+    handleWatching2()
   }
   const [readMore, setReadMore] = useState(false)
   const [users, setUsers] = useState([])
@@ -337,6 +337,24 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setWatching(false)
       })
     }
+  }
+
+  const handleWatching2 = () => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
+      id: id, data: data, type: type, timestamp: Date.now()
+    }).then(() => {
+      setWatching(true)
+      if (watchlist) {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
+          setWatchlist(false)
+        })
+      }
+      if (watched) {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
+          setWatched(false)
+        })
+      }
+    })
   }
 
   const handleSend = (user) => {
