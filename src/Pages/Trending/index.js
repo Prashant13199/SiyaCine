@@ -54,7 +54,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
     setNumberCast(Math.floor(Math.random() * favouriteCast.length))
   }
 
-  useEffect(() => {
+  const fetchData = () => {
     database.ref(`/Users/${auth?.currentUser?.uid}/watching`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -79,6 +79,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
       setFavouriteCast(arr)
     })
 
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [auth?.currentUser?.uid])
 
   const fetchRecommendation = async () => {

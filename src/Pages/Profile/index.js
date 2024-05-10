@@ -49,6 +49,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
 
   const signOut = () => {
     auth.signOut().then(() => {
+      localStorage.clear()
       history.push('/')
     })
   }

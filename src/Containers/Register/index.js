@@ -22,7 +22,7 @@ export default function Register({ handleClose2 }) {
     const [error, setError] = useState("")
     const register = async () => {
         setLoading(true);
-        auth.createUserWithEmailAndPassword(email, password).then((user) => {
+        const user = auth.createUserWithEmailAndPassword(email, password).then((user) => {
             setLoading(false);
             database.ref(`Users/${user.user.uid}`).update({
                 uid: user.user.uid,
@@ -33,19 +33,19 @@ export default function Register({ handleClose2 }) {
                 timestamp: Date.now(),
             }).then(() => {
                 setLoading(false);
+                localStorage.setItem('uid', user.user.uid)
                 handleClose2()
             }).catch((e) => {
                 setLoading(false);
                 setError(e.toString())
                 setShow(true)
             });
-        })
-            .catch((e) => {
-                console.log(e);
-                setLoading(false);
-                setError(e.toString())
-                setShow(true)
-            });
+        }).catch((e) => {
+            console.log(e);
+            setLoading(false);
+            setError(e.toString())
+            setShow(true)
+        });
     };
     return (
         <>

@@ -32,14 +32,15 @@ export default function Login({ handleClose }) {
         setLoading(true);
         const user = await auth.signInWithEmailAndPassword(email, password).then((user) => {
             setLoading(false);
+            localStorage.setItem('uid', user.user.uid)
             handleClose()
-        })
-            .catch((e) => {
-                console.log(e);
-                setLoading(false);
-                setError(e.toString())
-                setShow(true)
-            });
+            window.location.reload()
+        }).catch((e) => {
+            console.log(e);
+            setLoading(false);
+            setError(e.toString())
+            setShow(true)
+        });
     };
 
     return (

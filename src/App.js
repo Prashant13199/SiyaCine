@@ -19,6 +19,7 @@ import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useTheme } from '@mui/material';
+import { auth, database } from './firebase';
 
 function App() {
 
@@ -26,11 +27,23 @@ function App() {
   const theme = useTheme()
   const [backdrop, setBackdrop] = useState('')
   const [top, setTop] = useState(true)
+  let user = localStorage.getItem('uid')
 
   useEffect(() => {
-    setTimeout(() => {
+    if (user) {
+      database.ref(`/Users/${user}`).on('value', snapshot => {
+        if (snapshot.val()?.username) {
+          setLoading(false)
+        } else {
+          auth.signOut().then(() => {
+            setLoading(false)
+            localStorage.clear()
+          })
+        }
+      })
+    } else {
       setLoading(false)
-    }, 600);
+    }
   }, [])
 
   useEffect(() => {

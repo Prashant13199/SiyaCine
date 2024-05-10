@@ -16,7 +16,9 @@ export default function GoogleSignin({ close }) {
       database.ref(`/Users/${userBySignIn.uid}`).on("value", (snapshot) => {
         if (snapshot.val()) {
           setLoading(false);
+          localStorage.setItem('uid', userBySignIn.uid)
           close()
+          window.location.reload()
         } else {
           database
             .ref(`/Users/${userBySignIn.uid}`)
