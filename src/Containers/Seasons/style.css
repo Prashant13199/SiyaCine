@@ -21,14 +21,25 @@
     transition: all .3s ease-in-out;
 }
 
-.close_icon_button {
-    position: absolute !important;
-    right: 0px !important;
-    top: 0px !important;
+.player_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player_bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player {
+    width: 100%;
+    margin: 20px 0px;
 }
 
 .close_icon {
-    font-size: 40px !important;
+    font-size: 30px !important;
     color: red !important;
 }
 

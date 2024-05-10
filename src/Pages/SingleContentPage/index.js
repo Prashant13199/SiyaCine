@@ -367,8 +367,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     <>
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-          <IconButton onClick={() => handleClose()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
-          <div className='padding40'>
+          <div className='player_header'>
+            <div>{data.name || data.title || data.original_name} Trailer</div>
+            <IconButton onClick={() => handleClose()}><CloseIcon className="close_icon" /></IconButton>
+          </div>
+          <div className='player' style={{ height: window.innerHeight - 150 }}>
             <ReactPlayer url={`https://www.youtube.com/watch?v=${videoPlay}`} width={'100%'} height={'100%'} controls />
           </div>
         </Modal.Body>
@@ -416,8 +419,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       </Modal>
       <Modal show={show4} onHide={handleClose4} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-          <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
-          <div className='padding40'>
+          <div className='player_header'>
+            <div>{data?.name || data?.title || data?.original_name}</div>
+            <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
+          </div>
+          <div className='player' style={{ height: window.innerHeight - 150 }}>
             {type === 'movie' &&
               <>
                 {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}

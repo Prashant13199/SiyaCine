@@ -6,7 +6,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { auth, database } from '../../firebase'
 import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import empty from '../../assets/empty.png'
@@ -19,6 +19,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     const [seasonNumber, setSeasonNumber] = useState(1)
     const [episodeNumber, setEpisodeNumber] = useState()
     const [lastPlayed, setLastPlayed] = useState({})
+    const [totalEpisodes, setTotalEpisodes] = useState(0)
 
     const [show4, setShow4] = useState(false);
     const handleClose4 = () => {
@@ -70,19 +71,43 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                 `https://api.themoviedb.org/3/tv/${value?.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
             );
             setContent(data);
+            setTotalEpisodes(data?.episodes?.length)
         }
         catch (e) {
             console.log(e)
         }
     };
 
+    const handleNext = () => {
+        if (episodeNumber < totalEpisodes) {
+            setEpisodeNumber(episodeNumber + 1)
+            handleResume(episodeNumber + 1)
+        }
+    }
+
+    const handlePrevious = () => {
+        if (episodeNumber > setTotalEpisodes) {
+            setEpisodeNumber(episodeNumber - 1)
+            handleResume(episodeNumber - 1)
+        }
+    }
+
+    console.log(episodeNumber)
+
     return (
         <>
             <Modal show={show4} onHide={handleClose4} fullscreen>
-                <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-                    <IconButton onClick={() => handleClose4()} className='close_icon_button'><CloseIcon className="close_icon" /></IconButton>
-                    <div className='padding40'>
+                <Modal.Body style={{ backgroundColor: theme.palette.background.default, maxHeight: window.innerHeight }}>
+                    <div className='player_header'>
+                        <div className='player_name'>{value.name || value.title || value.original_name} S{seasonNumber}E{episodeNumber}</div>
+                        <IconButton onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
+                    </div>
+                    <div className='player' style={{ height: window.innerHeight - 180 }}>
                         <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>
+                    </div>
+                    <div className='player_bottom'>
+                        <Button color='warning' disabled={episodeNumber < 2} onClick={() => handlePrevious()}>Previous</Button>
+                        <Button color='warning' disabled={episodeNumber === totalEpisodes} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
