@@ -19,7 +19,7 @@ import ReactPlayer from 'react-player'
 import CloseIcon from '@mui/icons-material/Close';
 import StarIcon from '@mui/icons-material/Star';
 import Review from '../../Components/review';
-import SendIcon from '@mui/icons-material/Send';
+import IosShareIcon from '@mui/icons-material/IosShare';
 import { useTheme } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -459,7 +459,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               </>}
             {type === 'tv' && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtvfull/${id}`}></iframe>}
           </div>
-          <div className='player_bottom'>
+          {type === 'movie' && <div className='player_bottom'>
             <div></div>
             <ButtonGroup variant="outlined" size="small" color="warning">
               <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
@@ -467,7 +467,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               <Button variant={server === 3 && 'contained'} onClick={() => setServer(3)}>Server 3</Button>
             </ButtonGroup>
             <div></div>
-          </div>
+          </div>}
 
         </Modal.Body>
       </Modal>
@@ -540,7 +540,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   </Tooltip>
                   <Tooltip title="Share">
                     <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleShow2()}>
-                      <SendIcon />
+                      <IosShareIcon />
                     </IconButton>
                   </Tooltip>
                 </div>}
