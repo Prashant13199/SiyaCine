@@ -11,19 +11,18 @@ import './style.css'
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import useFetchDB from '../../hooks/useFetchDB';
+import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 
 export default function NavBarMain({ top }) {
 
+  const [routeName, setRouteName] = useState('Home')
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const location = useLocation()
   const theme = useTheme()
 
-  const [routeName, setRouteName] = useState('Home')
-
-  const currentPhoto = useFetchDB('photo')
+  const currentPhoto = useFetchUserDetails(auth?.currentUser?.uid, 'photo')
 
   useEffect(() => {
     if (location.pathname === '/movies') {

@@ -101,7 +101,9 @@ function App() {
                 <Route path="/search">
                   <Search scrollTop={scrollTop} />
                 </Route>
-                <Route path="/people" component={People} />
+                <Route path="/people">
+                  <People scrollTop={scrollTop} />
+                </Route>
                 <Route path="/singlecategory/:category/:type/:name/:uid">
                   <SingleCategory scrollTop={scrollTop} />
                 </Route>

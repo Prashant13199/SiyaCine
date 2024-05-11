@@ -36,7 +36,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
     }).catch((e) => console.log(e))
   }
 
-  return show && (
+  return show && data?.poster_path && (
     <div className='single_content_scroll' key={id}>
       <img
         src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}

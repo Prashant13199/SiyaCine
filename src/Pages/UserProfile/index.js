@@ -11,21 +11,24 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Count from '../../Components/Count'
 import Premium from '../../Components/Premium'
 import { Helmet } from 'react-helmet'
+import useFetchDBData from '../../hooks/useFetchDBData'
+import useFetchUserDetails from '../../hooks/useFetchUserDetails'
 
 export default function UserProfile({ setBackdrop, scrollTop }) {
 
   const { uid } = useParams()
-  const [username, setUsername] = useState('')
-  const [photo, setPhoto] = useState('')
-  const [watchlist, setWatchlist] = useState([])
-  const [watched, setWatched] = useState([])
-  const [favourite, setFavourite] = useState([])
-  const [watching, setWatching] = useState([])
-  const [cast, setCast] = useState([])
   const [number, setNumber] = useState(null)
   const [loading, setLoading] = useState(true)
   const [admin, setAdmin] = useState(false)
   const [premium, setPremium] = useState(false)
+
+  const watchlist = useFetchDBData(uid, 'watchlist')
+  const watched = useFetchDBData(uid, 'watched')
+  const favourite = useFetchDBData(uid, 'favourites')
+  const watching = useFetchDBData(uid, 'watching')
+  const cast = useFetchDBData(uid, 'cast')
+  const username = useFetchUserDetails(uid, 'username')
+  const photo = useFetchUserDetails(uid, 'photo')
 
   useEffect(() => {
     scrollTop()
@@ -40,52 +43,13 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   }, [favourite.length])
 
   useEffect(() => {
-    database.ref(`/Users/${uid}`).on('value', snapshot => {
-      setUsername(snapshot.val()?.username?.split('@')[0])
-      setPhoto(snapshot.val()?.photo)
-      setLoading(false)
-    })
     database.ref(`/Users/${auth?.currentUser?.uid}/admin`).on('value', snapshot => {
       setAdmin(snapshot.val())
-    })
-    database.ref(`/Users/${uid}/watchlist`).orderByChild('timestamp').on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setWatchlist(arr.reverse())
-    })
-    database.ref(`/Users/${uid}/watched`).orderByChild('timestamp').on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setWatched(arr.reverse())
-    })
-    database.ref(`/Users/${uid}/favourites`).orderByChild('timestamp').on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setFavourite(arr.reverse())
-    })
-    database.ref(`/Users/${uid}/watching`).orderByChild('timestamp').on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-      })
-      setWatching(arr.reverse())
-    })
-    database.ref(`/Users/${uid}/cast`).orderByChild('timestamp').on('value', snapshot => {
-      let arr = []
-      snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data })
-      })
-      setCast(arr.reverse())
     })
     database.ref(`/Users/${uid}/premium`).on('value', snapshot => {
       setPremium(snapshot.val())
     })
+    setLoading(false)
   }, [uid])
 
   const handlePremium = () => {
@@ -102,14 +66,15 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
         })
       }
     }
-
   }
 
   return (
     <>
+
       <Helmet>
         <title>SiyaCine{username ? ` - ${username}` : ''}</title>
       </Helmet>
+
       {!loading ? <div className='profile'>
         <div className='profile_header'>
           <div className='pic_container'>
@@ -164,6 +129,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       </div> : <div className="loading">
         <CircularProgress color='warning' />
       </div>}
+
     </>
   )
 }

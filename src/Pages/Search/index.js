@@ -31,8 +31,7 @@ export default function Search({ scrollTop }) {
     const fetchSearch = async () => {
         try {
             const { data } = await axios.get(
-                `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY
-                }&language=en-US&query=${query}&page=${page}`
+                `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${query}&page=${page}`
             );
             setContentM(data.results);
             setNumOfPagesM(data.total_pages);
@@ -62,9 +61,11 @@ export default function Search({ scrollTop }) {
 
     return (
         <>
+
             <Helmet>
                 <title>SiyaCine - Search</title>
             </Helmet>
+
             <div className="search">
                 <Paper component="form" sx={{ p: '8px 4px', display: 'flex', alignItems: 'center', width: '98%', borderRadius: '10px', margin: 'auto' }}>
                     <InputBase
@@ -103,6 +104,8 @@ export default function Search({ scrollTop }) {
                     <img src={empty} className='empty' />
                     <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
             </div>
+
         </>
+
     )
 }

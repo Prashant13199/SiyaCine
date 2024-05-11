@@ -22,7 +22,6 @@ export default function SingleCategory({ scrollTop }) {
   const genreforURL = useGenre(selectedGenres);
   const [genres, setGenres] = useState([]);
 
-
   const fetch = async () => {
     try {
       const { data } = await axios.get(

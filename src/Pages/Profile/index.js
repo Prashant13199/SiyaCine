@@ -8,11 +8,10 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
 import { useTheme } from '@mui/material';
-import Button from '@mui/material/Button';
 import { CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import useFetchDB from '../../hooks/useFetchDB'
+import useFetchUserDetails from '../../hooks/useFetchUserDetails'
 import Count from '../../Components/Count';
 import Premium from '../../Components/Premium';
 import { Helmet } from 'react-helmet';
@@ -72,8 +71,8 @@ export default function Profile({ setBackdrop, scrollTop }) {
     }
   }
 
-  const currentPhoto = useFetchDB('photo')
-  const currentUsername = useFetchDB('username')
+  const currentPhoto = useFetchUserDetails(auth?.currentUser?.uid, 'photo')
+  const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {

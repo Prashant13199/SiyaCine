@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { auth, database } from '../firebase';
+import { useState, useEffect } from 'react'
+import { database } from '../firebase';
 
-export default function useFetchDB(data) {
+export default function useFetchUserDetails(uid, data) {
 
     const [content, setContent] = useState(null)
 
     useEffect(() => {
-        database.ref(`/Users/${auth?.currentUser?.uid}`).on('value', snapshot => {
+        database.ref(`/Users/${uid}`).on('value', snapshot => {
             if (data === 'photo') {
                 setContent(snapshot.val()?.photo)
             } else if (data === 'username') {
                 setContent(snapshot.val()?.username)
             }
         })
-    }, [auth?.currentUser?.uid])
+    }, [uid, data])
 
     return content
 }

@@ -42,9 +42,11 @@ export default function TV({ scrollTop }) {
 
   return (
     <>
+
       <Helmet>
         <title>SiyaCine - Discover TV Shows</title>
       </Helmet>
+
       <div className='movies'>
         <Genres
           type="tv"
@@ -72,6 +74,8 @@ export default function TV({ scrollTop }) {
           <CustomPagination setPage={setPage} numOfPages={numOfPages} page={page} />
         )}
       </div>
+
     </>
+
   )
 }

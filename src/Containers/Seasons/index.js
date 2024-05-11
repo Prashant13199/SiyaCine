@@ -10,6 +10,7 @@ import { Button, ButtonGroup, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import empty from '../../assets/empty.png'
+import Player from '../../Components/Player';
 
 export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched }) {
 
@@ -98,8 +99,8 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         <IconButton onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
                     </div>
                     <div className='player' style={{ height: window.innerHeight - 180 }}>
-                        {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://embed.smashystream.com/playere.php?tmdb=${value?.id}&season=${seasonNumber}&episode=${episodeNumber}`}></iframe>}
-                        {server === 2 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
+                        {server === 1 && <Player title={value.name || value.title || value.original_name} url={`https://embed.smashystream.com/playere.php?tmdb=${value?.id}&season=${seasonNumber}&episode=${episodeNumber}`} />}
+                        {server === 2 && <Player title={value.name || value.title || value.original_name} url={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`} />}
                     </div>
                     <div className='player_bottom'>
                         <Button color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>

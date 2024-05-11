@@ -26,13 +26,13 @@ import Alert from '@mui/material/Alert';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FavoriteOutlined } from '@mui/icons-material';
-import HdIcon from '@mui/icons-material/Hd';
 import Seasons from '../../Containers/Seasons';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import useFetchDB from '../../hooks/useFetchDB';
+import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import { Helmet } from 'react-helmet';
 import icon from '../../assets/icon.png'
+import Player from '../../Components/Player';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -97,7 +97,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     return name;
   }
 
-  const currentUsername = useFetchDB('username')
+  const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
   useEffect(() => {
 
@@ -453,11 +453,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <div className='player' style={{ height: window.innerHeight - 150 }}>
             {type === 'movie' &&
               <>
-                {server === 1 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://embed.smashystream.com/playere.php?tmdb=${id}`}></iframe>}
-                {server === 2 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
-                {server === 3 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
+                {server === 1 && <Player title={data?.name || data?.title || data?.original_name} url={`https://embed.smashystream.com/playere.php?tmdb=${id}`} />}
+                {server === 2 && <Player title={data?.name || data?.title || data?.original_name} url={`https://www.2embed.cc/embed/${id}`} />}
+                {server === 3 && <Player title={data?.name || data?.title || data?.original_name} url={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`} />}
               </>}
-            {type === 'tv' && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtvfull/${id}`}></iframe>}
+            {type === 'tv' && <Player title={data?.name || data?.title || data?.original_name} url={`https://www.2embed.cc/embedtvfull/${id}`} />}
           </div>
           {type === 'movie' && <div className='player_bottom'>
             <div></div>

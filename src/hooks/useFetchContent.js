@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from "axios";
 
 export default function useFetchContent(value, type) {
@@ -6,14 +6,14 @@ export default function useFetchContent(value, type) {
     const [content, setContent] = useState([])
 
     useEffect(() => {
-        if (value == 'trending') {
+        if (value === 'trending') {
             fetchDataTrending()
-        } else if (value == 'discover') {
+        } else if (value === 'discover') {
             fetchDataIndian()
         } else {
             fetchData()
         }
-    }, [value, type])
+    }, [value])
 
     const fetchData = async () => {
         try {
