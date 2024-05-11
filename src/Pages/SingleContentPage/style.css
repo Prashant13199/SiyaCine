@@ -75,6 +75,7 @@
 .button:hover {
     transition: all .3s ease-in-out;
     transform: scale(0.95);
+    color: rgb(255, 167, 38) !important;
 }
 
 .genrelist {
