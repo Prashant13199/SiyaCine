@@ -458,16 +458,17 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 {server === 3 && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
               </>}
             {type === 'tv' && <iframe allowFullScreen style={{ width: "100%", height: "100%" }} src={`https://www.2embed.cc/embedtvfull/${id}`}></iframe>}
-            <div className='player_bottom'>
-              <div></div>
-              <ButtonGroup variant="outlined" size="small" color="warning">
-                <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
-                <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
-                <Button variant={server === 3 && 'contained'} onClick={() => setServer(3)}>Server 3</Button>
-              </ButtonGroup>
-              <div></div>
-            </div>
           </div>
+          <div className='player_bottom'>
+            <div></div>
+            <ButtonGroup variant="outlined" size="small" color="warning">
+              <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
+              <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
+              <Button variant={server === 3 && 'contained'} onClick={() => setServer(3)}>Server 3</Button>
+            </ButtonGroup>
+            <div></div>
+          </div>
+
         </Modal.Body>
       </Modal>
       <Snackbar
