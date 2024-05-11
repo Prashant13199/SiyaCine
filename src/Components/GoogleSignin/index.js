@@ -15,10 +15,17 @@ export default function GoogleSignin({ close }) {
     if (userBySignIn) {
       database.ref(`/Users/${userBySignIn.uid}`).on("value", (snapshot) => {
         if (snapshot.val()) {
-          setLoading(false);
-          localStorage.setItem('uid', userBySignIn.uid)
-          close()
-          window.location.reload()
+          database.ref(`Users/${userBySignIn.uid}`).update({
+            timestamp: Date.now(),
+          }).then(() => {
+            localStorage.setItem('uid', userBySignIn.uid)
+            setLoading(false);
+            close()
+            window.location.reload()
+          }).catch((e) => {
+            setLoading(false);
+            console.log(e)
+          });
         } else {
           database
             .ref(`/Users/${userBySignIn.uid}`)

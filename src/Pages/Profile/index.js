@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { database, auth } from '../../firebase';
 import './style.css';
-import { IconButton } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useHistory } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
@@ -16,6 +16,8 @@ import useFetchDB from '../../hooks/useFetchDB'
 import Count from '../../Components/Count';
 import Premium from '../../Components/Premium';
 import { Helmet } from 'react-helmet';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 export default function Profile({ setBackdrop, scrollTop }) {
 
@@ -130,22 +132,19 @@ export default function Profile({ setBackdrop, scrollTop }) {
           </div>
           <div className='profile_right'>
             <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
-            <Premium premium={premium} />
-            <div className='switchAccount'>
-              <div className='switchAcc' onClick={() => handlePublic()}>
-                <div className={publicAcc ? 'switchAcc_span_active' : 'switchAcc_span'} style={{ backgroundColor: publicAcc && theme.palette.warning.main, color: publicAcc && theme.palette.warning.contrastText }}>Public</div>
-                <div className={!publicAcc ? 'switchAcc_span_active' : 'switchAcc_span'} style={{ backgroundColor: !publicAcc && theme.palette.warning.main, color: !publicAcc && theme.palette.warning.contrastText }}>Private</div>
-              </div>
+            <div className='profile_actions'>
+              <Premium premium={premium} />
+              <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
+                <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '20px' }} onClick={() => handlePublic()}>
+                  {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={'Logout'}>
+                <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => signOut()}>
+                  <LogoutIcon />
+                </IconButton>
+              </Tooltip>
             </div>
-            <Button
-              startIcon={<LogoutIcon style={{ fontSize: '30px' }} />}
-              className='button'
-              onClick={() => signOut()}
-              variant='contained'
-              style={{ backgroundColor: theme.palette.background.default, color: theme.palette.error.main }}
-            >
-              Sign Out
-            </Button>
           </div>
         </div>
         {watchlist?.length !== 0 && <>

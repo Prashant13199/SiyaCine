@@ -63,7 +63,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                 setLastPlayed({})
             }
         })
-    }, [])
+    }, [auth?.currentUser?.uid])
 
     const fetchDetails = async () => {
         setContent([])

@@ -9,7 +9,7 @@
 }
 
 .backdrop_opacity {
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.8);
     overflow-y: auto;
     overflow-x: hidden;
     padding-bottom: 20px;

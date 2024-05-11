@@ -17,7 +17,7 @@ export default function People() {
     }, [])
 
     const fetchUsers = () => {
-        database.ref(`/Users`).orderByChild('createdAccountOn').on('value', snapshot => {
+        database.ref(`/Users`).orderByChild('timestamp').on('value', snapshot => {
             let user = []
             snapshot.forEach((snap) => {
                 if (snap.val().uid !== auth?.currentUser?.uid)

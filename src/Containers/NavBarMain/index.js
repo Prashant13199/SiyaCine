@@ -6,7 +6,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Button } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import Login from '../Login';
-import Register from '../Register';
 import { auth } from '../../firebase';
 import './style.css'
 import SearchIcon from '@mui/icons-material/Search';
@@ -19,9 +18,6 @@ export default function NavBarMain({ top }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [show2, setShow2] = useState(false);
-  const handleClose2 = () => setShow2(false);
-  const handleShow2 = () => setShow2(true);
   const location = useLocation()
   const theme = useTheme()
 
@@ -84,11 +80,6 @@ export default function NavBarMain({ top }) {
           <Login handleClose={handleClose} />
         </Modal.Body>
       </Modal>
-      <Modal show={show2} onHide={handleClose2} centered>
-        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-          <Register handleClose2={handleClose2} />
-        </Modal.Body>
-      </Modal>
       <Navbar className={top < 50 ? 'navbar_main navbar_back_image' : 'navbar_main navbar_back'} variant={theme.palette.mode} fixed='top'>
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
@@ -117,8 +108,7 @@ export default function NavBarMain({ top }) {
         </Nav>
           :
           <Nav>
-            <Button style={{ color: theme.palette.text.primary }} onClick={handleShow}>Login</Button>
-            <Button style={{ color: theme.palette.text.primary }} onClick={handleShow2}>Register</Button>
+            <Button variant='contained' color="warning" onClick={handleShow}>Login</Button>
           </Nav>
         }
       </Navbar>
