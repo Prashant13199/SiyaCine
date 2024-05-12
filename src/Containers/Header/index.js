@@ -87,7 +87,7 @@ export default function Header({ setBackdrop }) {
             <div className='welcomeDesc'>{upcoming[number]?.overview.substring(0, 200).concat('...')}</div>
             <div className='header_buttons'>
               {video && <Button
-                startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
+                startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '25px' }} />}
                 className='button'
                 target="__blank"
                 onClick={() => handleShow()}
@@ -98,7 +98,7 @@ export default function Header({ setBackdrop }) {
               </Button>}
               <Link to={`/singlecontent/${upcoming[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
                 <Button
-                  startIcon={<InfoIcon style={{ color: 'gray', fontSize: '30px' }} />}
+                  startIcon={<InfoIcon style={{ color: 'gray', fontSize: '25px' }} />}
                   className='button'
                   variant='contained'
                   style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
