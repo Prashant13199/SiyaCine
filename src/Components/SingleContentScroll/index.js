@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom';
 
-export default function SingleContentScroll({ data, type, by, byuid, id, recom, resume }) {
+export default function SingleContentScroll({ data, type, by, byuid, id, recom }) {
 
   const history = useHistory()
   const theme = useTheme()
@@ -14,26 +14,21 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
 
   useEffect(() => {
     if (recom) {
-      database.ref(`/Users/${auth?.currentUser?.uid}/watched/${data.id}`).on('value', snapshot => {
-        if (snapshot?.val()) {
+      database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).on('value', snapshot => {
+        if (snapshot?.val()?.id) {
           setShow(false)
         } else {
           setShow(true)
         }
       })
     }
-  }, [auth?.currentUser?.uid])
+  }, [auth?.currentUser?.uid, recom, id])
 
   const removeSuggestion = () => {
     if (id) {
       database.ref(`/Users/${auth?.currentUser?.uid}/suggestions/${id}`).remove().then(() => {
       }).catch((e) => console.log(e))
     }
-  }
-
-  const removeResume = () => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/resume/${data.id}`).remove().then(() => {
-    }).catch((e) => console.log(e))
   }
 
   return show && data?.poster_path && (
@@ -44,14 +39,9 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
         className="poster_scroll"
         onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
       />
-      {resume && <div className='remove_icon'>
-        <IconButton className='icon_button' style={{ backgroundColor: theme.palette.background.default }} onClick={() => removeResume()}>
-          <DeleteIcon color="error" className="close_icon_size" />
-        </IconButton>
-      </div>}
       {by && <div className='user'>
-        <IconButton style={{ backgroundColor: theme.palette.background.default }}>
-          <DeleteIcon color="error" style={{ cursor: 'pointer' }} onClick={() => removeSuggestion()} />
+        <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => removeSuggestion()}>
+          <DeleteIcon color="error" style={{ cursor: 'pointer' }} fontSize='small' />
         </IconButton>
         <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
       </div>}

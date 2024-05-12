@@ -113,7 +113,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_title' >Resume Playing</div>
           <div className='trending_scroll' >
             {watching && watching.map((data) => {
-              return <SingleContentScroll data={data.data} key={data.id} type={data.type} />
+              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
             })}
           </div></>}
         {nowplaying?.length !== 0 && <><br />
@@ -125,7 +125,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div>
           <div className='trending_scroll' >
             {nowplaying?.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="movie" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
           </div>
         </>}
@@ -137,7 +137,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div>
           <div className='trending_scroll' >
             {upcoming?.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="movie" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
           </div></>}
 
@@ -146,7 +146,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='searchresultfor' >{favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</div>
           <div className='trending_scroll' >
             {recommendation?.map((data, index) => {
-              return <SingleContentScroll data={data} key={index} type={data?.media_type} recom={true} />
+              return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} />
             })}
           </div></>}
 
@@ -157,10 +157,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div><Link to={`/singlecategory/discover/${switchIndian === 0 ? 'movie' : 'tv'}/Indian ${switchIndian === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {switchIndian === 0 && indianMovie?.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="movie" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
             {switchIndian === 1 && indianTv?.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="tv" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}
 
@@ -171,10 +171,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div><Link to={`/singlecategory/trending/${switchTrending === 0 ? 'movie' : 'tv'}/Trending ${switchTrending === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {switchTrending === 0 && trendingMovie?.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="movie" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
             {switchTrending === 1 && trendingTv?.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="tv" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}
 
@@ -183,7 +183,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='searchresultfor' >{favouriteCast[numberCast]?.data?.name}</div>
           <div className='trending_scroll' >
             {recommendationCast?.map((data, index) => {
-              return <SingleContentScroll data={data} key={index} type={data?.media_type} recom={true} />
+              return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} />
             })}
           </div></>}
 
@@ -194,10 +194,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div><Link to={`/singlecategory/top_rated/${switchTopRated === 0 ? 'movie' : 'tv'}/Top Rated ${switchTopRated === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {switchTopRated === 0 && topratedmovie?.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="movie" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
             {switchTopRated === 1 && topratedtv?.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="tv" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}
 
@@ -208,10 +208,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div><Link to={`/singlecategory/popular/${switchPopular === 0 ? 'movie' : 'tv'}/Popular ${switchPopular === 0 ? 'Movie' : 'TV'}/$$`} className="viewall" ><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {popularmovie && switchPopular === 0 && popularmovie.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="movie" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
             {populartv && switchPopular === 1 && populartv.map((data) => {
-              return <SingleContentScroll data={data} key={data?.id} type="tv" />
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}
 
