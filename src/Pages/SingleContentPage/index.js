@@ -548,7 +548,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   {video?.map((vid, index) => {
                     return <Button
                       key={index}
-                      startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '30px' }} />}
+                      startIcon={<YouTubeIcon style={{ color: 'red' }} />}
                       className='button'
                       target="__blank"
                       onClick={() => handleShow(vid)}
@@ -559,7 +559,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     </Button>
                   })}
                   {watchprovider?.path && <Button
-                    startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'30px'} width={'30px'} style={{ borderRadius: '8px' }} />}
+                    startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'25px'} width={'25px'} style={{ borderRadius: '8px' }} />}
                     className='button'
                     target="__blank"
                     href={watchprovider.link}
