@@ -99,16 +99,22 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         <IconButton onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
                     </div>
                     <div className='player' style={{ height: window.innerHeight - 180 }}>
-                        {server === 1 && <Player title={value.name || value.title || value.original_name} url={`https://embed.smashystream.com/playere.php?tmdb=${value?.id}&season=${seasonNumber}&episode=${episodeNumber}`} />}
-                        {server === 2 && <Player title={value.name || value.title || value.original_name} url={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`} />}
+                        {server === 1 && <Player title={value.name || value.title || value.original_name} url={`https://vidsrc.to/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`} />}
+                        {server === 2 && <Player title={value.name || value.title || value.original_name} url={`https://embed.smashystream.com/playere.php?tmdb=${value?.id}&season=${seasonNumber}&episode=${episodeNumber}`} />}
+                        {server === 3 && <Player title={value.name || value.title || value.original_name} url={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`} />}
                     </div>
                     <div className='player_bottom'>
                         <Button color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
+                        <Button color='warning' disabled={episodeNumber === totalEpisodes} onClick={() => handleNext()}>Next</Button>
+                    </div>
+                    <div className='player_bottom'>
+                        <div></div>
                         <ButtonGroup variant="outlined" size="small" color="warning">
                             <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
                             <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
+                            <Button variant={server === 3 && 'contained'} onClick={() => setServer(3)}>Server 3</Button>
                         </ButtonGroup>
-                        <Button color='warning' disabled={episodeNumber === totalEpisodes} onClick={() => handleNext()}>Next</Button>
+                        <div></div>
                     </div>
                 </Modal.Body>
             </Modal>

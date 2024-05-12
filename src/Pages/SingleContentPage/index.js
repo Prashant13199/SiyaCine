@@ -51,6 +51,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [recommendations, setRecommendations] = useState([])
   const [reviews, setReviews] = useState([])
   const [reviews2, setReviews2] = useState([])
+  const [server, setServer] = useState(1)
+  const [servertv, setServertv] = useState(1)
   const [show, setShow] = useState(false);
   const handleClose = () => {
     setShow(false)
@@ -69,7 +71,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [show4, setShow4] = useState(false);
   const handleClose4 = () => {
     setShow4(false)
-    setServer()
+    setServer(1)
+    setServertv(1)
   }
   const handleShow4 = () => {
     setShow4(true)
@@ -83,7 +86,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [review, setReview] = useState('')
   const [loading, setLoading] = useState(true)
   const [premium, setPremium] = useState(false)
-  const [server, setServer] = useState(1)
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : data?.poster_path)
@@ -450,21 +452,38 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div>{data?.name || data?.title || data?.original_name}</div>
             <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
           </div>
+
           <div className='player' style={{ height: window.innerHeight - 150 }}>
             {type === 'movie' &&
               <>
-                {server === 1 && <Player title={data?.name || data?.title || data?.original_name} url={`https://embed.smashystream.com/playere.php?tmdb=${id}`} />}
-                {server === 2 && <Player title={data?.name || data?.title || data?.original_name} url={`https://www.2embed.cc/embed/${id}`} />}
-                {server === 3 && <Player title={data?.name || data?.title || data?.original_name} url={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`} />}
+                {server === 1 && <Player title={data?.name || data?.title || data?.original_name} url={`https://vidsrc.to/embed/movie/${id}`} />}
+                {server === 2 && <Player title={data?.name || data?.title || data?.original_name} url={`https://embed.smashystream.com/playere.php?tmdb=${id}`} />}
+                {server === 3 && <Player title={data?.name || data?.title || data?.original_name} url={`https://www.2embed.cc/embed/${id}`} />}
+                {server === 4 && <Player title={data?.name || data?.title || data?.original_name} url={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`} />}
               </>}
-            {type === 'tv' && <Player title={data?.name || data?.title || data?.original_name} url={`https://www.2embed.cc/embedtvfull/${id}`} />}
+            {type === 'tv' &&
+              <>
+                {servertv === 1 && <Player title={data?.name || data?.title || data?.original_name} url={`https://vidsrc.to/embed/tv/${id}`} />}
+                {servertv === 2 && <Player title={data?.name || data?.title || data?.original_name} url={`https://www.2embed.cc/embedtvfull/${id}`} />}
+              </>}
           </div>
+
           {type === 'movie' && <div className='player_bottom'>
             <div></div>
             <ButtonGroup variant="outlined" size="small" color="warning">
               <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
               <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
               <Button variant={server === 3 && 'contained'} onClick={() => setServer(3)}>Server 3</Button>
+              <Button variant={server === 4 && 'contained'} onClick={() => setServer(4)}>Server 4</Button>
+            </ButtonGroup>
+            <div></div>
+          </div>}
+
+          {type === 'tv' && <div className='player_bottom'>
+            <div></div>
+            <ButtonGroup variant="outlined" size="small" color="warning">
+              <Button variant={servertv === 1 && 'contained'} onClick={() => setServertv(1)}>Server 1</Button>
+              <Button variant={servertv === 2 && 'contained'} onClick={() => setServertv(2)}>Server 2</Button>
             </ButtonGroup>
             <div></div>
           </div>}
