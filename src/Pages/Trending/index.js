@@ -110,7 +110,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
         <Header setBackdrop={setBackdrop} />
 
         {watching?.length !== 0 && <><br />
-          <div className='trending_title' >Resume Playing</div>
+          <div className='trending_title' >Resume Watching</div>
           <div className='trending_scroll' >
             {watching && watching.map((data) => {
               return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
