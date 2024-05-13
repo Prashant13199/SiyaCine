@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import './style.css'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import './style.css';
 import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { CircularProgress, IconButton, TextField } from '@mui/material';
+import { CircularProgress, IconButton, TextField, ButtonGroup } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
-import { auth, database } from '../../firebase'
+import { auth, database } from '../../firebase';
 import Tooltip from '@mui/material/Tooltip';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
@@ -30,11 +30,12 @@ import Seasons from '../../Containers/Seasons';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import { Helmet } from 'react-helmet';
-import icon from '../../assets/icon.png'
+import icon from '../../assets/icon.png';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const { id, type } = useParams()
+  const [server, setServer] = useState(1)
   const [data, setData] = useState([])
   const [watchprovider, setWatchProvider] = useState({})
   const [credit, setCredit] = useState([])
@@ -81,6 +82,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [loading, setLoading] = useState(true)
   const [premium, setPremium] = useState(false)
 
+  const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
+
   useEffect(() => {
     setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : data?.poster_path)
   }, [data, window.innerWidth, window.innerWidth])
@@ -92,8 +95,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     })
     return name;
   }
-
-  const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
   useEffect(() => {
 
@@ -444,7 +445,16 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div>{data?.name || data?.title || data?.original_name}</div>
             <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
           </div>
-          <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 100 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>
+          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
+          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://vidsrc.to/embed/movie/${id}`}></iframe>}
+          <div className='player_bottom'>
+            <div></div>
+            <ButtonGroup variant="outlined" size="small" color="warning">
+              <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>MultiEmbed</Button>
+              <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>VidSrc</Button>
+            </ButtonGroup>
+            <div></div>
+          </div>
         </Modal.Body>
       </Modal >
       <Snackbar

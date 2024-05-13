@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import './style.css'
+import './style.css';
 import axios from 'axios';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-import { auth, database } from '../../firebase'
+import { auth, database } from '../../firebase';
 import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, IconButton } from '@mui/material';
+import { Button, ButtonGroup, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import empty from '../../assets/empty.png'
+import empty from '../../assets/empty.png';
 
 export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched }) {
 
@@ -20,6 +20,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     const [episodeNumber, setEpisodeNumber] = useState()
     const [lastPlayed, setLastPlayed] = useState({})
     const [totalEpisodes, setTotalEpisodes] = useState(0)
+    const [server, setServer] = useState(1)
 
     const [show4, setShow4] = useState(false);
     const handleClose4 = () => {
@@ -96,9 +97,14 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         <div className='player_name'>{value.name || value.title || value.original_name} S{seasonNumber}E{episodeNumber}</div>
                         <IconButton onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
                     </div>
-                    <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>
+                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://multiembed.mov/directstream.php?video_id=${value?.id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
+                    {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://vidsrc.to/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
                         <Button color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
+                        <ButtonGroup variant="outlined" size="small" color="warning">
+                            <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>MultiEmbed</Button>
+                            <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>VidSrc</Button>
+                        </ButtonGroup>
                         <Button color='warning' disabled={episodeNumber === totalEpisodes} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>
