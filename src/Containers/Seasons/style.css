@@ -25,22 +25,19 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .player_bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 10px;
 }
 
 .play_buttons {
     display: flex;
     align-items: center;
-}
-
-.player {
-    width: 100%;
-    margin: 10px 0px;
 }
 
 .close_icon {

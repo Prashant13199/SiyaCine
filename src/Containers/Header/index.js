@@ -74,9 +74,7 @@ export default function Header({ setBackdrop }) {
             <div>{upcoming[number]?.title} Trailer</div>
             <IconButton onClick={() => handleClose()}><CloseIcon className="close_icon" /></IconButton>
           </div>
-          <div className='player' style={{ height: window.innerHeight - 150 }}>
-            <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={'100%'} controls />
-          </div>
+          <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={window.innerHeight - 100} controls />
         </Modal.Body>
       </Modal>
 
