@@ -450,8 +450,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <div className='player_bottom'>
             <div></div>
             <ButtonGroup variant="outlined" size="small" color="warning">
-              <Button variant={server === 1 && 'contained'} onClick={() => setServer(2)}>VidSrc</Button>
-              <Button variant={server === 2 && 'contained'} onClick={() => setServer(1)}>MultiEmbed</Button>
+              <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>VidSrc</Button>
+              <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>MultiEmbed</Button>
             </ButtonGroup>
             <div></div>
           </div>
