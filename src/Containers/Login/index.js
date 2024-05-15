@@ -66,7 +66,7 @@ export default function Login({ handleClose }) {
                 email: email,
                 createdAccountOn: Date.now(),
                 timestamp: Date.now(),
-                public: true,
+                public: false,
                 premium: false,
                 admin: false
             }).then(() => {

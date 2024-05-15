@@ -36,7 +36,7 @@ export default function GoogleSignin({ close }) {
               photo: `https://api.dicebear.com/8.x/fun-emoji/svg?seed=${userBySignIn.email.split('@')[0]}?size=96`,
               username: userBySignIn.email.split('@')[0],
               timestamp: Date.now(),
-              public: true,
+              public: false,
               premium: false,
               admin: false
             })
