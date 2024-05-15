@@ -11,7 +11,7 @@ import useGenre from '../../hooks/useGenre';
 import Genres from '../../Components/Genres';
 import { Helmet } from 'react-helmet';
 
-export default function SingleCategory({ scrollTop }) {
+export default function SingleCategory({ scrollTop, setBackdrop }) {
 
   const [page, setPage] = useState(1);
   const [content, setContent] = useState([]);
@@ -128,6 +128,7 @@ export default function SingleCategory({ scrollTop }) {
       fetch2()
     }
     scrollTop()
+    setBackdrop()
   }, [page, genreforURL]);
 
   return (

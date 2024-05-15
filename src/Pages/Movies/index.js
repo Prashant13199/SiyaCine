@@ -10,7 +10,7 @@ import { CircularProgress } from '@mui/material';
 import empty from '../../assets/empty.png'
 import { Helmet } from 'react-helmet';
 
-export default function Movies({ scrollTop }) {
+export default function Movies({ scrollTop, setBackdrop }) {
 
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -38,6 +38,7 @@ export default function Movies({ scrollTop }) {
   useEffect(() => {
     scrollTop();
     fetchMovies();
+    setBackdrop()
   }, [genreforURL, page]);
 
   return (

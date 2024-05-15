@@ -93,19 +93,19 @@ function App() {
                   <Profile setBackdrop={setBackdrop} scrollTop={scrollTop} />
                 </Route>
                 <Route path="/movies">
-                  <Movies scrollTop={scrollTop} />
+                  <Movies scrollTop={scrollTop} setBackdrop={setBackdrop} />
                 </Route>
                 <Route path="/tv">
-                  <TV scrollTop={scrollTop} />
+                  <TV scrollTop={scrollTop} setBackdrop={setBackdrop} />
                 </Route>
                 <Route path="/search">
-                  <Search scrollTop={scrollTop} />
+                  <Search scrollTop={scrollTop} setBackdrop={setBackdrop} />
                 </Route>
                 <Route path="/people">
-                  <People scrollTop={scrollTop} />
+                  <People scrollTop={scrollTop} setBackdrop={setBackdrop} />
                 </Route>
                 <Route path="/singlecategory/:category/:type/:name/:uid">
-                  <SingleCategory scrollTop={scrollTop} />
+                  <SingleCategory scrollTop={scrollTop} setBackdrop={setBackdrop} />
                 </Route>
                 <Route path="/singlecast/:id">
                   <SingleCastPage scrollTop={scrollTop} setBackdrop={setBackdrop} />

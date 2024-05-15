@@ -5,7 +5,7 @@ export default function Footer() {
     return (
         <div className='footer'>
             <div className='disclaimer'>Disclaimer: We does not store any files on our servers, all the videos are hosted on 3rd party services and details are fetched from The Movie Database.</div>
-            <div className='copyright'>SiyaCine&copy;2024&nbsp;&nbsp;</div>
+            <div className='copyright'>SiyaCine&copy;2024.&nbsp;All rights reserved.</div>
         </div>
     )
 }

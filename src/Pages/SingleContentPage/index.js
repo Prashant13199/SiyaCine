@@ -445,13 +445,13 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div>{data?.name || data?.title || data?.original_name}</div>
             <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
           </div>
-          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
-          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://vidsrc.to/embed/movie/${id}`}></iframe>}
+          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://vidsrc.to/embed/movie/${id}`}></iframe>}
+          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
           <div className='player_bottom'>
             <div></div>
             <ButtonGroup variant="outlined" size="small" color="warning">
-              <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>MultiEmbed</Button>
-              <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>VidSrc</Button>
+              <Button variant={server === 1 && 'contained'} onClick={() => setServer(2)}>VidSrc</Button>
+              <Button variant={server === 2 && 'contained'} onClick={() => setServer(1)}>MultiEmbed</Button>
             </ButtonGroup>
             <div></div>
           </div>
@@ -606,7 +606,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 <div className='trending_title' >Similar</div>
                 <div className='trending_scroll' >
                   {similar?.map((data) => {
-                    return <SingleContentScroll data={data} key={data.id} type={type} recom={true} />
+                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
                   })}
                 </div>
               </>}
@@ -614,7 +614,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 <div className='trending_title' >Recommendations</div>
                 <div className='trending_scroll' >
                   {recommendations?.map((data) => {
-                    return <SingleContentScroll data={data} key={data.id} type={type} recom={true} />
+                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
                   })}
                 </div>
               </>}

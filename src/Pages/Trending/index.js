@@ -34,7 +34,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const populartv = useFetchContent('popular', 'tv')
   const topratedmovie = useFetchContent('top_rated', 'movie')
   const topratedtv = useFetchContent('top_rated', 'tv')
-  const upcoming = useFetchContent('upcoming', 'movie')
   const trendingMovie = useFetchContent('trending', 'movie')
   const trendingTv = useFetchContent('trending', 'tv')
   const indianMovie = useFetchContent('discover', 'movie')
@@ -42,6 +41,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     scrollTop()
+    setBackdrop()
   }, []);
 
   useEffect(() => {
@@ -107,7 +107,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
       <div className='trending'>
 
-        <Header setBackdrop={setBackdrop} />
+        <Header />
 
         {watching?.length !== 0 && <><br />
           <div className='trending_title' >Resume Watching</div>
@@ -129,17 +129,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
             })}
           </div>
         </>}
-        {upcoming?.length !== 0 && <><br />
-          <div className='trending_title' >Upcoming
-            <Link to={`/singlecategory/upcoming/movie/Upcoming/$$`} className="viewall" >
-              <IconButton><ChevronRightIcon /></IconButton>
-            </Link>
-          </div>
-          <div className='trending_scroll' >
-            {upcoming?.map((data) => {
-              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
-            })}
-          </div></>}
 
         {recommendation?.length !== 0 && <><br />
           <div className='trending_title' >Because You Watched</div>

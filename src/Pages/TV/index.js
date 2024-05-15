@@ -10,7 +10,7 @@ import { CircularProgress } from '@mui/material';
 import empty from '../../assets/empty.png'
 import { Helmet } from 'react-helmet';
 
-export default function TV({ scrollTop }) {
+export default function TV({ scrollTop, setBackdrop }) {
 
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -38,6 +38,7 @@ export default function TV({ scrollTop }) {
   useEffect(() => {
     scrollTop()
     fetchTV();
+    setBackdrop()
   }, [genreforURL, page]);
 
   return (

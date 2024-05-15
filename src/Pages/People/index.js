@@ -6,7 +6,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { CircularProgress } from '@mui/material';
 import { Helmet } from 'react-helmet';
 
-export default function People({ scrollTop }) {
+export default function People({ scrollTop, setBackdrop }) {
 
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(true)
@@ -14,6 +14,7 @@ export default function People({ scrollTop }) {
     useEffect(() => {
         scrollTop()
         fetchUsers()
+        setBackdrop()
     }, [])
 
     const fetchUsers = () => {

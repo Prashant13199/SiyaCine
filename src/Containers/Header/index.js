@@ -10,11 +10,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material';
 import { IconButton, Button } from '@mui/material';
 
-export default function Header({ setBackdrop }) {
+export default function Header() {
 
   const theme = useTheme()
 
-  const [upcoming, setUpcoming] = useState([])
+  const [nowPlaying, setNowPlaying] = useState([])
   const [number, setNumber] = useState(null)
   const [background, setBackground] = useState(null)
   const [video, setVideo] = useState();
@@ -24,16 +24,15 @@ export default function Header({ setBackdrop }) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    setBackdrop(window.innerWidth > 900 ? upcoming[number]?.backdrop_path : upcoming[number]?.poster_path)
-    setBackground(window.innerWidth > 900 ? upcoming[number]?.backdrop_path : upcoming[number]?.poster_path)
-  }, [upcoming, number, window.innerWidth])
+    setBackground(window.innerWidth > 900 ? nowPlaying[number]?.backdrop_path : nowPlaying[number]?.poster_path)
+  }, [nowPlaying, number, window.innerWidth])
 
-  const fetchUpcoming = async () => {
+  const fetchnowPlaying = async () => {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.REACT_APP_API_KEY}`
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`
       );
-      setUpcoming(data.results);
+      setNowPlaying(data.results);
     }
     catch (e) {
       console.log(e)
@@ -41,22 +40,22 @@ export default function Header({ setBackdrop }) {
   };
 
   useEffect(() => {
-    fetchUpcoming();
+    fetchnowPlaying();
   }, [])
 
   useEffect(() => {
-    if (upcoming[number]?.id)
+    if (nowPlaying[number]?.id)
       fetchVideo()
-  }, [upcoming[number]?.id])
+  }, [nowPlaying[number]?.id])
 
   useEffect(() => {
-    setNumber(Math.floor(Math.random() * upcoming.length))
-  }, [upcoming])
+    setNumber(Math.floor(Math.random() * nowPlaying.length))
+  }, [nowPlaying])
 
   const fetchVideo = async () => {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${upcoming[number]?.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+        `https://api.themoviedb.org/3/movie/${nowPlaying[number]?.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       const values = data.results.filter((value) => value.type === 'Trailer')
       setVideo(values[0]?.key);
@@ -71,18 +70,18 @@ export default function Header({ setBackdrop }) {
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
-            <div>{upcoming[number]?.title} Trailer</div>
+            <div>{nowPlaying[number]?.title} Trailer</div>
             <IconButton onClick={() => handleClose()}><CloseIcon className="close_icon" /></IconButton>
           </div>
           <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={window.innerHeight - 100} controls />
         </Modal.Body>
       </Modal>
 
-      <div className='welcome' style={{ backgroundImage: upcoming?.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
+      <div className='welcome' style={{ backgroundImage: nowPlaying?.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>
-            <div className='welcomeText'>{upcoming[number]?.title}</div>
-            <div className='welcomeDesc'>{upcoming[number]?.overview.substring(0, 200).concat('...')}</div>
+            <div className='welcomeText'>{nowPlaying[number]?.title}</div>
+            <div className='welcomeDesc'>{nowPlaying[number]?.overview.substring(0, 200).concat('...')}</div>
             <div className='header_buttons'>
               {video && <Button
                 startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '25px' }} />}
@@ -94,7 +93,7 @@ export default function Header({ setBackdrop }) {
               >
                 Play Trailer
               </Button>}
-              <Link to={`/singlecontent/${upcoming[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
+              <Link to={`/singlecontent/${nowPlaying[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
                 <Button
                   startIcon={<InfoIcon style={{ color: 'gray', fontSize: '25px' }} />}
                   className='button'

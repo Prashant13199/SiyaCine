@@ -17,7 +17,7 @@ function useQuery() {
     return React.useMemo(() => new URLSearchParams(search), [search]);
 }
 
-export default function Search({ scrollTop }) {
+export default function Search({ scrollTop, setBackdrop }) {
 
     let data = useQuery();
     const query = data.get('query')
@@ -43,6 +43,7 @@ export default function Search({ scrollTop }) {
     useEffect(() => {
         scrollTop()
         fetchSearch();
+        setBackdrop()
     }, [page, query])
 
     useEffect(() => {

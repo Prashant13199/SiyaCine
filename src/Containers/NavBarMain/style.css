@@ -10,14 +10,29 @@
     border-style: solid;
 }
 
+.navbar__img:hover {
+    transform: scale(0.95);
+    transition: all .3s;
+}
+
+.navbar__img_active:hover {
+    transform: scale(0.95);
+    transition: all .3s;
+}
+
+.navbar_icon:hover {
+    transform: scale(0.95);
+    transition: all .3s;
+}
+
 .navbar_back_image {
     background-image: linear-gradient(rgba(0, 0, 0, 0.7) 10%, rgba(0, 0, 0, 0));
-    transition: all .6s ease-in-out;
+    transition: all .5s ease-in;
 }
 
 .navbar_back {
     background-color: rgb(18, 18, 18);
-    transition: all .6s ease-in-out;
+    transition: all .5s ease-in;
 }
 
 .MuiButtonBase-root {
