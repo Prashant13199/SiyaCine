@@ -36,10 +36,15 @@ export default function GoogleSignin({ close }) {
               photo: `https://api.dicebear.com/8.x/fun-emoji/svg?seed=${userBySignIn.email.split('@')[0]}?size=96`,
               username: userBySignIn.email.split('@')[0],
               timestamp: Date.now(),
+              public: true,
+              premium: false,
+              admin: false
             })
             .then(() => {
+              localStorage.setItem('uid', userBySignIn.uid)
               setLoading(false);
               close()
+              window.location.reload()
             })
             .catch((e) => {
               console.log(e);

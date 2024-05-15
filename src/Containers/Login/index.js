@@ -66,6 +66,9 @@ export default function Login({ handleClose }) {
                 email: email,
                 createdAccountOn: Date.now(),
                 timestamp: Date.now(),
+                public: true,
+                premium: false,
+                admin: false
             }).then(() => {
                 setLoading(false);
                 localStorage.setItem('uid', user.user.uid)
