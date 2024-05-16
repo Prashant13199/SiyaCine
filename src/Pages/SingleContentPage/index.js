@@ -134,14 +134,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       setPremium(snapshot.val())
     })
 
-    database.ref(`/Users`).on('value', snapshot => {
+    database.ref(`/Users`).orderByChild('timestamp').on('value', snapshot => {
       let user = []
       snapshot.forEach((snap) => {
         if (snap.key !== auth?.currentUser?.uid) {
           user.push(snap.val())
         }
       })
-      setUsers(user)
+      setUsers(user.reverse())
     })
 
     database.ref(`/Reviews/${id}`).orderByChild('timestamp').on('value', snapshot => {
@@ -400,9 +400,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       </Modal>
       <Modal size='md' show={show2} onHide={handleClose2} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-          <IconButton onClick={() => handleClose2()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
-          <h2>Share To</h2>
-          <div style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+          <div className='player_header'>
+            <h2>Share To</h2>
+            <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          </div>
+          <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
             {users && users.map((user, index) => {
               return <div key={index} className='share_user' onClick={() => {
                 handleSend(user.uid)
