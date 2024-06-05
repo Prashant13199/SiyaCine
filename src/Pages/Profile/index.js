@@ -13,7 +13,6 @@ import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails'
 import Count from '../../Components/Count';
-import Premium from '../../Components/Premium';
 import { Helmet } from 'react-helmet';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
@@ -29,7 +28,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const theme = useTheme()
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
-  const [premium, setPremium] = useState(false)
   const [publicAcc, setPublicAcc] = useState(true)
 
   useEffect(() => {
@@ -75,9 +73,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
   useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
-      setPremium(snapshot.val())
-    })
     database.ref(`/Users/${auth?.currentUser?.uid}/public`).on('value', snapshot => {
       setPublicAcc(snapshot.val())
     })
@@ -132,7 +127,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
           <div className='profile_right'>
             <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
             <div className='profile_actions'>
-              <Premium premium={premium} />
               <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
                 <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '20px' }} onClick={() => handlePublic()}>
                   {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}

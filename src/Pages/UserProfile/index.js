@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { auth, database } from '../../firebase'
 import './style.css'
 import { useParams } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
@@ -9,7 +8,6 @@ import { CircularProgress, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Count from '../../Components/Count'
-import Premium from '../../Components/Premium'
 import { Helmet } from 'react-helmet'
 import useFetchDBData from '../../hooks/useFetchDBData'
 import useFetchUserDetails from '../../hooks/useFetchUserDetails'
@@ -19,8 +17,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const { uid } = useParams()
   const [number, setNumber] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [admin, setAdmin] = useState(false)
-  const [premium, setPremium] = useState(false)
 
   const watchlist = useFetchDBData(uid, 'watchlist')
   const watched = useFetchDBData(uid, 'watched')
@@ -31,10 +27,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const photo = useFetchUserDetails(uid, 'photo')
 
   useEffect(() => {
-    scrollTop()
-  }, [])
-
-  useEffect(() => {
     setBackdrop(window.innerWidth > 900 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
   }, [favourite, number, window.innerWidth])
 
@@ -43,30 +35,9 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   }, [favourite.length])
 
   useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/admin`).on('value', snapshot => {
-      setAdmin(snapshot.val())
-    })
-    database.ref(`/Users/${uid}/premium`).on('value', snapshot => {
-      setPremium(snapshot.val())
-    })
+    scrollTop()
     setLoading(false)
   }, [uid])
-
-  const handlePremium = () => {
-    if (admin) {
-      if (!premium) {
-        database.ref(`/Users/${uid}`).update({
-          premium: true
-        }).then(() => {
-          setPremium(true)
-        })
-      } else {
-        database.ref(`/Users/${uid}/premium`).remove().then(() => {
-          setPremium(false)
-        })
-      }
-    }
-  }
 
   return (
     <>
@@ -82,9 +53,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
           </div>
           <div className='profile_right'>
             <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-            <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
-              <Premium premium={premium} />
-            </div>
           </div>
         </div>
 

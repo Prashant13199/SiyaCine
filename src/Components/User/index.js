@@ -8,7 +8,6 @@ import LockIcon from '@mui/icons-material/Lock';
 export default function User({ user }) {
 
   const [publicAcc, setPublicAcc] = useState(true)
-  const [admin, setAdmin] = useState(false)
 
   useEffect(() => {
     database.ref(`/Users/${user?.uid}/public`).on('value', snapshot => {
@@ -16,15 +15,9 @@ export default function User({ user }) {
     })
   }, [user])
 
-  useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/admin`).on('value', snapshot => {
-      setAdmin(snapshot.val())
-    })
-  }, [auth?.currentUser?.uid])
-
   return (
     <Grid xs={2} sm={4} md={4} key={user.uid}>
-      {(publicAcc || admin) ? <Link to={`/user/${user.uid}`} style={{ textDecoration: 'none' }}>
+      {publicAcc ? <Link to={`/user/${user.uid}`} style={{ textDecoration: 'none' }}>
         <div className='single_user'>
           <img src={`${user?.photo}`} className="users_image" />
           <div className='user_username'>
