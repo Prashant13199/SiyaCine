@@ -26,7 +26,7 @@
 }
 
 .navbar_back_image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7) 10%, rgba(0, 0, 0, 0));
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3) 10%, rgba(0, 0, 0, 0));
     transition: all .5s ease-in;
 }
 
