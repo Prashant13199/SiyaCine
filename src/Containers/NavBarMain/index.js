@@ -107,7 +107,7 @@ export default function NavBarMain({ top }) {
         </Nav>
           :
           <Nav>
-            <Button variant='contained' color="warning" onClick={handleShow}>Login</Button>
+            <Button variant='contained' size='small' color="warning" style={{ marginLeft: '5px' }} onClick={handleShow}>Login</Button>
           </Nav>
         }
       </Navbar>
