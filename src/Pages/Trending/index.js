@@ -6,7 +6,7 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import { IconButton, useTheme } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchContent from '../../hooks/useFetchContent';
-import { auth } from '../../firebase'
+import { auth, database } from '../../firebase'
 import axios from "axios";
 import Footer from '../../Containers/Footer'
 import { Helmet } from 'react-helmet';
@@ -24,6 +24,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const [number, setNumber] = useState(null)
   const [recommendationCast, setRecommendationCast] = useState([])
   const [numberCast, setNumberCast] = useState(null)
+  const [premium, setPremium] = useState(false)
 
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
@@ -43,6 +44,12 @@ export default function Trending({ setBackdrop, scrollTop }) {
     scrollTop()
     setBackdrop()
   }, []);
+
+  useEffect(() => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
+      setPremium(snapshot.val())
+    })
+  }, [auth?.currentUser?.uid])
 
   useEffect(() => {
     fetchRecommendation();
@@ -204,7 +211,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
             })}
           </div></>}
 
-        <Footer />
+        {premium && <Footer />}
 
       </div>
     </>
