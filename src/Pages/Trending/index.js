@@ -8,6 +8,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchContent from '../../hooks/useFetchContent';
 import { auth } from '../../firebase'
 import axios from "axios";
+import Footer from '../../Containers/Footer'
 import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
 
@@ -202,6 +203,9 @@ export default function Trending({ setBackdrop, scrollTop }) {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}
+
+        <Footer />
+
       </div>
     </>
   )
