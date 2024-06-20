@@ -134,7 +134,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             <div className='profile_actions'>
               <Premium premium={premium} />
               <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
-                <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handlePublic()}>
+                <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handlePublic()}>
                   {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
                 </IconButton>
               </Tooltip>
