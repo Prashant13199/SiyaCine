@@ -5,7 +5,7 @@ import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { CircularProgress, IconButton, TextField } from '@mui/material';
+import { CircularProgress, IconButton, TextField, ButtonGroup } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -30,10 +30,12 @@ import Seasons from '../../Containers/Seasons';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import { Helmet } from 'react-helmet';
+import icon from '../../assets/icon.png';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const { id, type } = useParams()
+  const [server, setServer] = useState(1)
   const [data, setData] = useState([])
   const [watchprovider, setWatchProvider] = useState({})
   const [credit, setCredit] = useState([])
@@ -63,6 +65,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [show3, setShow3] = useState(false);
   const handleClose3 = () => setShow3(false);
   const handleShow3 = () => setShow3(true);
+  const [show4, setShow4] = useState(false);
+  const handleClose4 = () => {
+    setShow4(false)
+  }
+  const handleShow4 = () => {
+    setShow4(true)
+    handleWatching2()
+  }
   const [readMore, setReadMore] = useState(false)
   const [users, setUsers] = useState([])
   const theme = useTheme()
@@ -70,6 +80,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [name, setName] = useState('')
   const [review, setReview] = useState('')
   const [loading, setLoading] = useState(true)
+  const [premium, setPremium] = useState(false)
 
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
@@ -117,6 +128,10 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       } else {
         setWatching(false)
       }
+    })
+
+    database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
+      setPremium(snapshot.val())
     })
 
     database.ref(`/Users`).orderByChild('timestamp').on('value', snapshot => {
@@ -326,6 +341,24 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     }
   }
 
+  const handleWatching2 = () => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
+      id: id, data: data, type: type, timestamp: Date.now()
+    }).then(() => {
+      setWatching(true)
+      if (watchlist) {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
+          setWatchlist(false)
+        })
+      }
+      if (watched) {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
+          setWatched(false)
+        })
+      }
+    })
+  }
+
   const handleSend = (user) => {
     database.ref(`/Users/${user}/suggestions/${id}`).update({
       type: type, data: data, id: id, by: currentUsername, byuid: auth?.currentUser?.uid, timestamp: Date.now()
@@ -408,6 +441,24 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <Button fullWidth color='warning' variant="contained" onClick={() => handleAddReview()}>Review</Button>
         </Modal.Body>
       </Modal>
+      <Modal show={show4} onHide={handleClose4} fullscreen>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+          <div className='player_header'>
+            <div>{data?.name || data?.title || data?.original_name}</div>
+            <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
+          </div>
+          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://vidsrc.to/embed/movie/${id}`}></iframe>}
+          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
+          <div className='player_bottom'>
+            <div></div>
+            <ButtonGroup variant="outlined" size="small" color="warning">
+              <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>VidSrc</Button>
+              <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>MultiEmbed</Button>
+            </ButtonGroup>
+            <div></div>
+          </div>
+        </Modal.Body>
+      </Modal >
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={snackBar}
@@ -506,6 +557,15 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                       style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                     >
                       Now Streaming
+                    </Button>}
+                    {type === 'movie' && premium && data.status === 'Released' && <Button
+                      startIcon={<img src={icon} className='icon_small' />}
+                      className='button'
+                      onClick={() => handleShow4()}
+                      variant='contained'
+                      style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                    >
+                      Play Movie
                     </Button>}
                   </div>}
                 </div>
