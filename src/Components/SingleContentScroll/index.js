@@ -5,6 +5,7 @@ import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom';
+import TvIcon from '@mui/icons-material/Tv';
 
 export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showtv }) {
 
@@ -61,7 +62,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
       {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
         S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
       </div>}
-      {showtv && type === 'tv' && <div className='searchtv'>TV</div>}
+      {showtv && type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px' }} /></div>}
     </div>
   )
 }

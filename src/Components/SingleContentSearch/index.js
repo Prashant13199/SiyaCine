@@ -2,6 +2,7 @@ import React from 'react'
 import './style.css'
 import { useHistory } from 'react-router-dom'
 import Grid from '@mui/material/Unstable_Grid2';
+import TvIcon from '@mui/icons-material/Tv';
 
 export default function SingleContent({ data }) {
 
@@ -16,7 +17,7 @@ export default function SingleContent({ data }) {
                     className="search_img"
                     onClick={() => history.push(`/singlecontent/${data.id}/${data.media_type}`)}
                 />
-                {data.media_type === 'tv' && <div className='searchtv'>TV</div>}
+                {data.media_type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px' }} /></div>}
             </div>
         </Grid>
     )
