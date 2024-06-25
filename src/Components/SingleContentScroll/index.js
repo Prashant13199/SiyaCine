@@ -6,11 +6,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom';
 
-export default function SingleContentScroll({ data, type, by, byuid, id, recom }) {
+export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showtv }) {
 
   const history = useHistory()
   const theme = useTheme()
   const [show, setShow] = useState(true)
+  const [lastPlayed, setLastPlayed] = useState()
 
   useEffect(() => {
     if (recom) {
@@ -23,6 +24,18 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom }
       })
     }
   }, [auth?.currentUser?.uid, recom, id])
+
+  useEffect(() => {
+    if (userid) {
+      database.ref(`/Users/${userid}/watching/${id}`).on('value', snapshot => {
+        if (snapshot.val()?.season && snapshot.val()?.episode) {
+          setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
+        } else {
+          setLastPlayed()
+        }
+      })
+    }
+  }, [userid, id])
 
   const removeSuggestion = () => {
     if (id) {
@@ -45,6 +58,10 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom }
         </IconButton>
         <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
       </div>}
+      {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
+        S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
+      </div>}
+      {showtv && type === 'tv' && <div className='searchtv'>TV</div>}
     </div>
   )
 }

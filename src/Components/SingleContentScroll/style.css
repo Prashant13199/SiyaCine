@@ -1,16 +1,21 @@
-.poster_scroll {
-    object-fit: cover;
-    height: 280px;
-    border-radius: 6px;
-    cursor: pointer;
+.single_content_scroll {
+    position: relative;
     transition: all .3s ease-in-out;
     margin-top: 5px;
     margin-right: 10px;
 }
 
-.poster_scroll:hover {
+.single_content_scroll:hover {
     transform: scale(0.95);
     transition: all .3s ease-in-out;
+}
+
+.poster_scroll {
+    object-fit: cover;
+    height: 280px;
+    border-radius: 6px;
+    cursor: pointer;
+
 }
 
 .user {
@@ -28,6 +33,10 @@
     color: lightgray;
     justify-content: center;
     cursor: pointer;
+}
+
+.userlastplayed {
+    color: rgb(255, 167, 38);
 }
 
 @media only screen and (max-width: 660px) {

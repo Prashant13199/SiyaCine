@@ -1,0 +1,27 @@
+.postersearch {
+    transition: transform .3s ease-in-out;
+    position: relative;
+}
+
+.postersearch:hover {
+    transform: scale(0.95);
+    transition: transform .3s ease-in-out;
+}
+
+.search_img {
+    border-radius: 6px;
+    height: auto;
+    width: 100%;
+    cursor: pointer;
+}
+
+.searchtv {
+    background-color: rgb(54, 54, 54);
+    color: white;
+    font-size: 10px;
+    padding: 4px;
+    border-radius: 4px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}

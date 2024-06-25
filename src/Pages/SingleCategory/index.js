@@ -21,6 +21,7 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const genreforURL = useGenre(selectedGenres);
   const [genres, setGenres] = useState([]);
+  const [tv, setTv] = useState(false)
 
   const fetch = async () => {
     try {
@@ -119,10 +120,13 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
       fetchDiscover()
     } else if (category === 'watchlist') {
       fetchWatchlist()
+      setTv(true)
     } else if (category === 'watched') {
       fetchWatched()
+      setTv(true)
     } else if (category === 'favourites') {
       fetchFavourite()
+      setTv(true)
     }
     else {
       fetch2()
@@ -149,7 +153,7 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
         <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
           {content &&
             content.map((data) => {
-              return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} /> : <SingleContent data={data} key={data.id} type={type} />
+              return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} showtv={tv} /> : <SingleContent data={data} key={data.id} type={type} showtv={tv} />
             })}
         </Grid>
         {numOfPages > 1 && (

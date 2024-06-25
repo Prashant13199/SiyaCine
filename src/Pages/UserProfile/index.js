@@ -92,28 +92,28 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
           <div className='trending_title' ><Count value={watching?.length} />Watching Now</div>
           <div className='trending_scroll' >
             {watching?.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
+              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} showtv={true} />
             })}
           </div><br /></>}
         {watchlist?.length !== 0 && <>
           <div className='trending_title' ><Count value={watchlist?.length} />Watchlist<Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watchlist?.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
+              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
             })}
           </div><br /></>}
         {watched?.length !== 0 && <>
           <div className='trending_title' ><Count value={watched?.length} />Watched<Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watched?.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
+              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
             })}
           </div><br /></>}
         {favourite?.length !== 0 && <>
           <div className='trending_title' ><Count value={favourite?.length} />Favourites<Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {favourite?.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
+              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
             })}
           </div><br /></>}
         {cast?.length !== 0 && <>

@@ -109,7 +109,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
     <>
 
       <Helmet>
-        <title>SiayCine</title>
+        <title>SiyaCine</title>
       </Helmet>
 
       <div className='trending'>
@@ -179,7 +179,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='searchresultfor' >{favouriteCast[numberCast]?.data?.name}</div>
           <div className='trending_scroll' >
             {recommendationCast?.map((data, index) => {
-              return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} />
+              return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} showtv={true} />
             })}
           </div></>}
 

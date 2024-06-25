@@ -68,7 +68,7 @@ export default function Search({ scrollTop, setBackdrop }) {
             </Helmet>
 
             <div className="search">
-                <Paper component="form" sx={{ p: '8px 4px', display: 'flex', alignItems: 'center', width: '98%', borderRadius: '10px', margin: 'auto' }}>
+                <Paper component="form" sx={{ p: '8px 4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '10px', margin: 'auto' }}>
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
                         className='input_search'
