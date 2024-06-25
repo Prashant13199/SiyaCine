@@ -5,5 +5,9 @@
     border-width: 2px;
     border-color: rgb(255, 167, 38) !important;
     font-size: 12px;
-    margin-right: 5px;
+    margin-left: 5px;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
 }

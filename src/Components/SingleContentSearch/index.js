@@ -17,7 +17,7 @@ export default function SingleContent({ data }) {
                     className="search_img"
                     onClick={() => history.push(`/singlecontent/${data.id}/${data.media_type}`)}
                 />
-                {data.media_type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px' }} /></div>}
+                {data.media_type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '16px', color: 'rgb(255, 167, 38)' }} /></div>}
             </div>
         </Grid>
     )

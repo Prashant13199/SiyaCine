@@ -62,7 +62,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
       {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
         S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
       </div>}
-      {showtv && type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px' }} /></div>}
+      {showtv && type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '16px', color: 'rgb(255, 167, 38)' }} /></div>}
     </div>
   )
 }
