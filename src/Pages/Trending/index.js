@@ -16,10 +16,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
   const theme = useTheme()
 
-  const [switchTrending, setSwitchTrending] = useState(0)
-  const [switchTopRated, setSwitchTopRated] = useState(0)
-  const [switchPopular, setSwitchPopular] = useState(0)
-  const [switchIndian, setSwitchIndian] = useState(0)
   const [recommendation, setRecommendation] = useState([])
   const [number, setNumber] = useState(null)
   const [recommendationCast, setRecommendationCast] = useState([])
@@ -31,8 +27,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const favouriteCast = useFetchDBData(auth?.currentUser?.uid, 'cast')
 
   const nowplaying = useFetchContent('now_playing', 'movie')
-  const popularmovie = useFetchContent('popular', 'movie')
-  const populartv = useFetchContent('popular', 'tv')
   const topratedmovie = useFetchContent('top_rated', 'movie')
   const topratedtv = useFetchContent('top_rated', 'tv')
   const trendingMovie = useFetchContent('trending', 'movie')
@@ -146,30 +140,38 @@ export default function Trending({ setBackdrop, scrollTop }) {
             })}
           </div></>}
 
-        {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
-          <div className='trending_title' >Indian Origin&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchIndian(switchIndian === 0 ? 1 : 0)}>
-            <div className={switchIndian === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchIndian === 0 && theme.palette.warning.main, color: switchIndian === 0 && theme.palette.warning.contrastText }}>Movie</div>
-            <div className={switchIndian === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchIndian === 1 && theme.palette.warning.main, color: switchIndian === 1 && theme.palette.warning.contrastText }}>TV</div>
-          </div><Link to={`/singlecategory/discover/${switchIndian === 0 ? 'movie' : 'tv'}/Indian ${switchIndian === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+        {indianMovie?.length !== 0 && <><br />
+          <div className='trending_title' >Indian Origin Movie
+            <Link to={`/singlecategory/discover/movie/Indian Origin Movie/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
-            {switchIndian === 0 && indianMovie?.map((data) => {
+            {indianMovie?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
-            {switchIndian === 1 && indianTv?.map((data) => {
+          </div></>}
+
+        {indianTv?.length !== 0 && <><br />
+          <div className='trending_title' >Indian Origin TV
+            <Link to={`/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_scroll' >
+            {indianTv?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}
 
-        {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
-          <div className='trending_title' >Trending&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchTrending(switchTrending === 0 ? 1 : 0)}>
-            <div className={switchTrending === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTrending === 0 && theme.palette.warning.main, color: switchTrending === 0 && theme.palette.warning.contrastText }}>Movie</div>
-            <div className={switchTrending === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTrending === 1 && theme.palette.warning.main, color: switchTrending === 1 && theme.palette.warning.contrastText }}>TV</div>
-          </div><Link to={`/singlecategory/trending/${switchTrending === 0 ? 'movie' : 'tv'}/Trending ${switchTrending === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+        {trendingMovie?.length !== 0 && <><br />
+          <div className='trending_title' >Trending Movie
+            <Link to={`/singlecategory/trending/movie/Trending Movie/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
-            {switchTrending === 0 && trendingMovie?.map((data) => {
+            {trendingMovie?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
-            {switchTrending === 1 && trendingTv?.map((data) => {
+          </div></>}
+
+        {trendingTv?.length !== 0 && <><br />
+          <div className='trending_title' >Trending TV
+            <Link to={`/singlecategory/trending/tv/Trending TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_scroll' >
+            {trendingTv?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}
@@ -183,30 +185,20 @@ export default function Trending({ setBackdrop, scrollTop }) {
             })}
           </div></>}
 
-        {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
-          <div className='trending_title' >Top Rated&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchTopRated(switchTopRated === 0 ? 1 : 0)}>
-            <div className={switchTopRated === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTopRated === 0 && theme.palette.warning.main, color: switchTopRated === 0 && theme.palette.warning.contrastText }}>Movie</div>
-            <div className={switchTopRated === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchTopRated === 1 && theme.palette.warning.main, color: switchTopRated === 1 && theme.palette.warning.contrastText }}>TV</div>
-          </div><Link to={`/singlecategory/top_rated/${switchTopRated === 0 ? 'movie' : 'tv'}/Top Rated ${switchTopRated === 0 ? 'Movie' : 'TV'}/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+        {topratedmovie?.length !== 0 && <><br />
+          <div className='trending_title' >Top Rated Movie
+            <Link to={`/singlecategory/top_rated/movie/Top Rated Movie/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
-            {switchTopRated === 0 && topratedmovie?.map((data) => {
+            {topratedmovie?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
-            })}
-            {switchTopRated === 1 && topratedtv?.map((data) => {
-              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}
 
-        {(popularmovie?.length !== 0 || populartv?.length !== 0) && <><br />
-          <div className='trending_title' >Popular&nbsp;&nbsp;<div className='switch' onClick={() => setSwitchPopular(switchPopular === 0 ? 1 : 0)}>
-            <div className={switchPopular === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchPopular === 0 && theme.palette.warning.main, color: switchPopular === 0 && theme.palette.warning.contrastText }}>Movie</div>
-            <div className={switchPopular === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchPopular === 1 && theme.palette.warning.main, color: switchPopular === 1 && theme.palette.warning.contrastText }}>TV</div>
-          </div><Link to={`/singlecategory/popular/${switchPopular === 0 ? 'movie' : 'tv'}/Popular ${switchPopular === 0 ? 'Movie' : 'TV'}/$$`} className="viewall" ><IconButton><ChevronRightIcon /></IconButton></Link></div>
+        {topratedtv?.length !== 0 && <><br />
+          <div className='trending_title' >Top Rated TV
+            <Link to={`/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
-            {popularmovie && switchPopular === 0 && popularmovie.map((data) => {
-              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
-            })}
-            {populartv && switchPopular === 1 && populartv.map((data) => {
+            {topratedtv?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}

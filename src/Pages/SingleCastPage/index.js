@@ -9,7 +9,6 @@ import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
 import { CircularProgress } from '@mui/material';
-import empty from '../../assets/empty.png'
 import { Helmet } from 'react-helmet';
 
 export default function SingleCastPage({ scrollTop, setBackdrop }) {
@@ -20,7 +19,6 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
   const [movie, setMovie] = useState([])
   const [tv, setTv] = useState([])
   const [readMore, setReadMore] = useState(false)
-  const [switchC, setSwitchC] = useState(0)
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
   const [number, setNumber] = useState(null)
@@ -143,28 +141,32 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
             </div>}
           </div>
         </div>
-        <br />
-        <div className='trending_title' ><div className='switch' onClick={() => setSwitchC(switchC === 0 ? 1 : 0)}>
-          <div className={switchC === 0 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 0 && theme.palette.warning.main, color: switchC === 0 && theme.palette.warning.contrastText }}>Movie</div>
-          <div className={switchC === 1 ? 'switch_span_active' : 'switch_span'} style={{ backgroundColor: switchC === 1 && theme.palette.warning.main, color: switchC === 1 && theme.palette.warning.contrastText }}>TV</div>
-        </div>
-        </div>
-        <div style={{ marginTop: '10px' }}></div>
-        <div className='trending_scroll' >
-          {switchC === 0 && movie?.map((data) => {
-            return <SingleContentScroll data={data} key={data.id} type="movie" />
-          })}
-          {switchC === 1 && tv?.map((data) => {
-            return <SingleContentScroll data={data} key={data.id} type="tv" />
-          })}
-        </div>
-        {movie?.length === 0 && switchC === 0 && <center>
-          <img src={empty} className='empty' alt="" />
-          <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-        {tv?.length === 0 && switchC === 1 && <center>
-          <img src={empty} className='empty' alt="" />
-          <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-      </div> : <div className="loading">
+
+        {movie?.length !== 0 && <>
+          <br />
+          <div className='trending_title' >Movie
+          </div>
+          <div style={{ marginTop: '10px' }}></div>
+          <div className='trending_scroll' >
+            {movie?.map((data) => {
+              return <SingleContentScroll data={data} key={data.id} type="movie" />
+            })}
+          </div>
+        </>}
+
+        {tv?.length !== 0 && <>
+          <br />
+          <div className='trending_title' >TV
+          </div>
+          <div style={{ marginTop: '10px' }}></div>
+          <div className='trending_scroll' >
+            {tv?.map((data) => {
+              return <SingleContentScroll data={data} key={data.id} type="tv" />
+            })}
+          </div>
+        </>}
+
+      </div > : <div className="loading">
         <CircularProgress color='warning' />
       </div>
       }

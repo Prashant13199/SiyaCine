@@ -6,8 +6,7 @@
     border-color: rgb(255, 167, 38) !important;
     font-size: 12px;
     margin-left: 5px;
-    width: 30px;
-    height: 30px;
+    min-width: 30px;
     display: grid;
     place-items: center;
 }

@@ -546,7 +546,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                         variant='contained'
                         style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                       >
-                        Trailer {video?.length === 1 ? '' : index + 1}
+                        Watch Trailer {video?.length === 1 ? '' : index + 1}
                       </Button>
                     })}
                     {watchprovider?.path && <Button
@@ -567,7 +567,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                       variant='contained'
                       style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                     >
-                      Play Movie
+                      Watch Now
                     </Button>}
                   </div>}
                 </div>

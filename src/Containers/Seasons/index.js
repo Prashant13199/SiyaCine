@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import './style.css';
 import axios from 'axios';
 import Dropdown from 'react-bootstrap/Dropdown';
