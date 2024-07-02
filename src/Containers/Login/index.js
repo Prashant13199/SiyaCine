@@ -62,7 +62,7 @@ export default function Login({ handleClose }) {
             database.ref(`Users/${user.user.uid}`).update({
                 uid: user.user.uid,
                 username: email.split('@')[0],
-                photo: `https://api.dicebear.com/8.x/fun-emoji/svg?seed=${email.split('@')[0]}?size=96`,
+                photo: `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${email.split('@')[0]}?size=96`,
                 email: email,
                 createdAccountOn: Date.now(),
                 timestamp: Date.now(),
