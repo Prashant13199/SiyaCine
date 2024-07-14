@@ -31,6 +31,8 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const [loading, setLoading] = useState(true)
   const [premium, setPremium] = useState(false)
   const [publicAcc, setPublicAcc] = useState(true)
+  const [watchedCount, setWatchedCount] = useState(0)
+  const [favouriteCount, setFavouriteCount] = useState(0)
 
   useEffect(() => {
     scrollTop()
@@ -88,19 +90,25 @@ export default function Profile({ setBackdrop, scrollTop }) {
       })
       setWatchlist(arr.reverse())
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/watched`).orderByChild('timestamp').on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watched`).limitToLast(20).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
       setWatched(arr.reverse())
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).orderByChild('timestamp').on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watched`).on('value', snapshot => {
+      setWatchedCount(snapshot.numChildren())
+    })
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).limitToLast(20).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
       })
       setFavourite(arr.reverse())
+    })
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).on('value', snapshot => {
+      setFavouriteCount(snapshot.numChildren())
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/cast`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
@@ -154,7 +162,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             })}
           </div><br /></>}
         {watched?.length !== 0 && <>
-          <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_title' >Watched<Count value={watchedCount} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watched && watched.map((data) => {
               return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
@@ -170,7 +178,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
             })}
           </div><br /></>}
         {favourite?.length !== 0 && <>
-          <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_title' >Favourites<Count value={favouriteCount} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {favourite?.map((data) => {
               return <SingleContentScroll data={data?.data} key={data?.id} id={data?.id} type={data?.type} showtv={true} />
