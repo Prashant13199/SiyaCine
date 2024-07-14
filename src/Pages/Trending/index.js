@@ -132,7 +132,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
         </>}
 
         {recommendation?.length !== 0 && <><br />
-          <div className='trending_title' >Because You Watched</div>
+          <div className='trending_title gray' >Because You Watched</div>
           <div className='searchresultfor' >{favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</div>
           <div className='trending_scroll' >
             {recommendation?.map((data, index) => {
@@ -177,7 +177,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {recommendationCast?.length !== 0 && <><br />
-          <div className='trending_title' >Because You Liked</div>
+          <div className='trending_title gray' >Because You Liked</div>
           <div className='searchresultfor' >{favouriteCast[numberCast]?.data?.name}</div>
           <div className='trending_scroll' >
             {recommendationCast?.map((data, index) => {

@@ -11,6 +11,11 @@
     align-items: center;
 }
 
+.gray {
+    color: rgb(165, 165, 165);
+    font-size: 20px;
+}
+
 ::-webkit-scrollbar {
     display: none;
 }
