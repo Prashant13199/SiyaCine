@@ -7,7 +7,7 @@ import { IconButton, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom';
 import TvIcon from '@mui/icons-material/Tv';
 
-export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showtv }) {
+export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showtv, trending, index }) {
 
   const history = useHistory()
   const theme = useTheme()
@@ -47,12 +47,17 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
 
   return show && data?.poster_path && (
     <div className='single_content_scroll' key={id}>
-      <img
-        src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
-        alt={data?.title || data?.name}
-        className="poster_scroll"
-        onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
-      />
+      <div className={trending && 'trending_flex_count'}>
+        {trending && <div className='trending_count'>
+          {index}
+        </div>}
+        <img
+          src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
+          alt={data?.title || data?.name}
+          className="poster_scroll"
+          onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
+        />
+      </div>
       {by && <div className='user'>
         <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => removeSuggestion()}>
           <DeleteIcon color="error" style={{ cursor: 'pointer' }} fontSize='small' />

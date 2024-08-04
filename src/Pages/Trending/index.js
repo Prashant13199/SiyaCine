@@ -162,8 +162,8 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_title' >Trending Movie
             <Link to={`/singlecategory/trending/movie/Trending Movie/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
-            {trendingMovie?.map((data) => {
-              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
+            {trendingMovie?.map((data, index) => {
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" trending={true} index={index + 1} />
             })}
           </div></>}
 
@@ -171,8 +171,8 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_title' >Trending TV
             <Link to={`/singlecategory/trending/tv/Trending TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
-            {trendingTv?.map((data) => {
-              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
+            {trendingTv?.map((data, index) => {
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" trending={true} index={index + 1} />
             })}
           </div></>}
 

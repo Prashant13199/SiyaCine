@@ -15,7 +15,6 @@
     height: 280px;
     border-radius: 6px;
     cursor: pointer;
-
 }
 
 .user {
@@ -39,6 +38,23 @@
     color: rgb(255, 167, 38);
 }
 
+.trending_flex_count {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 40px;
+    position: relative;
+    overflow-y: hidden;
+}
+
+.trending_count {
+    font-size: 180px;
+    color: rgb(76, 76, 76);
+    margin-right: -20px;
+    margin-top: 80px;
+    margin-bottom: -80px;
+    font-weight: bold;
+}
+
 @media only screen and (max-width: 660px) {
     .poster_scroll {
         height: 180px;
@@ -46,5 +62,14 @@
 
     .user {
         width: 130px;
+    }
+
+    .trending_count {
+        font-size: 80px;
+        margin-right: -12px;
+    }
+
+    .trending_flex_count {
+        margin-left: 30px;
     }
 }

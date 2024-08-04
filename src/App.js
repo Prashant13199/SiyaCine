@@ -38,18 +38,22 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      database.ref(`/Users/${user}`).on('value', snapshot => {
-        if (snapshot.val()?.username) {
+      database.ref(`/Users/${user}`).once('value', snapshot => {
+        if (snapshot.val()) {
           setLoading(false)
         } else {
           logOut()
         }
+      }).catch((e) => {
+        console.log(e)
+        logOut()
       })
-    } else {
+    }
+    else {
       setLoading(false)
       logOut()
     }
-  }, [])
+  }, [user])
 
   useEffect(() => {
     document.getElementById('back')?.addEventListener('scroll', handleScroll, { passive: true });

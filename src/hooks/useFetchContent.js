@@ -33,7 +33,7 @@ export default function useFetchContent(value, type) {
                 `https://api.themoviedb.org/3/${value}/${type}/day?api_key=${process.env.REACT_APP_API_KEY}`
             );
 
-            setContent(data?.results);
+            setContent((data?.results).splice(0, 10));
         }
         catch (e) {
             console.log(e)
