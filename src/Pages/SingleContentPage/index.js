@@ -542,7 +542,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                           data={{
                             url: `https://siyacine.netlify.app/singlecontent/${id}/${type}`,
                             title: `${data.name || data.title || data.original_name}`,
-                            text: `Siyacine: ${data?.tagline}`,
+                            text: `Siyacine: ${data.name || data.title || data.original_name}`,
                           }}
                           onClick={() => console.log("shared successfully!")}
                         >
