@@ -31,6 +31,8 @@ import DoneAllIcon from '@mui/icons-material/DoneAll';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import { Helmet } from 'react-helmet';
 import icon from '../../assets/icon.png';
+import { RWebShare } from "react-web-share";
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -534,6 +536,21 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                         <IosShareIcon />
                       </IconButton>
                     </Tooltip>
+                    <Tooltip title="External Share">
+                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }}>
+                        <RWebShare
+                          data={{
+                            url: `https://siyacine.netlify.app/singlecontent/${id}/${type}`,
+                            title: `${data.name || data.title || data.original_name}`,
+                            text: `Siyacine: ${data?.tagline}`,
+                          }}
+                          onClick={() => console.log("shared successfully!")}
+                        >
+                          <ShareOutlinedIcon />
+                        </RWebShare>
+                      </IconButton>
+                    </Tooltip>
+
                   </div>}
                   {(video || watchprovider?.path || type === 'tv') && <div className='watchprovider'>
                     {video?.map((vid, index) => {
