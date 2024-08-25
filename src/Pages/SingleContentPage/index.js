@@ -372,7 +372,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleAddReview = () => {
     database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).update({
-      review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid, timestamp: Date.now()
+      review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid
     }).then(() => {
       setReview('')
       handleClose3()

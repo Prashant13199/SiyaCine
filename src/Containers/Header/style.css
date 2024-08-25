@@ -39,6 +39,12 @@
     }
 
     .welcome_backdrop {
-        padding: 10px;
+        padding: 8px;
+    }
+
+    .welcome {
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 60px;
     }
 }
