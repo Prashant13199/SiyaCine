@@ -17,6 +17,7 @@ import Premium from '../../Components/Premium';
 import { Helmet } from 'react-helmet';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import useFetchDBData from '../../hooks/useFetchDBData';
 
 export default function Profile({ setBackdrop, scrollTop }) {
 
@@ -33,6 +34,8 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const [publicAcc, setPublicAcc] = useState(true)
   const [watchedCount, setWatchedCount] = useState(0)
   const [favouriteCount, setFavouriteCount] = useState(0)
+
+  const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
 
   useEffect(() => {
     scrollTop()
@@ -154,6 +157,13 @@ export default function Profile({ setBackdrop, scrollTop }) {
             </div>
           </div>
         </div>
+        {watching?.length !== 0 && <>
+          <div className='trending_title' >Resume Watching</div>
+          <div className='trending_scroll' >
+            {watching && watching.map((data) => {
+              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
+            })}
+          </div><br /></>}
         {watchlist?.length !== 0 && <>
           <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
