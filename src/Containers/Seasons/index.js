@@ -97,7 +97,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         <div className='player_name'>{value.name || value.title || value.original_name} S{seasonNumber}E{episodeNumber}</div>
                         <IconButton onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
                     </div>
-                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 190 }} scrolling="no" src={`https://vidsrc.to/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
+                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 190 }} scrolling="no" src={`https://vidsrc.cc/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 190 }} scrolling="no" src={`https://multiembed.mov/directstream.php?video_id=${value?.id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 190 }} scrolling="no" src={`https://vidsrc.in/embed/tv/${value?.id}/${seasonNumber}-${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
