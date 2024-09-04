@@ -34,6 +34,11 @@
     color: rgb(255, 167, 38) !important;
 }
 
+.link_to {
+    color: rgb(255, 167, 38) !important;
+    text-decoration: none;
+}
+
 .recom_flex {
     display: flex;
     align-items: center;
