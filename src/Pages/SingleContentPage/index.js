@@ -33,6 +33,7 @@ import { Helmet } from 'react-helmet';
 import icon from '../../assets/icon.png';
 import { RWebShare } from "react-web-share";
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
+import { timeConvert } from '../../Services/time';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -492,7 +493,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               <div className='details'>
                 <h1>{data.name || data.title || data.original_name}</h1>
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                  {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{Math.ceil(data?.runtime / 60)}h</>}
+                  {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{timeConvert(data?.runtime)}</>}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', margin: '10px 0px' }}>
                   {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
