@@ -449,7 +449,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div>{data?.name || data?.title || data?.original_name}</div>
             <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
           </div>
-          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://vidsrc.cc/v2/embed/movie/${id}`}></iframe>}
+          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
           <div className='player_bottom'>
             <div></div>
