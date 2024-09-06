@@ -38,7 +38,6 @@ import { timeConvert } from '../../Services/time';
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const { id, type } = useParams()
-  const [server, setServer] = useState(1)
   const [data, setData] = useState([])
   const [watchprovider, setWatchProvider] = useState({})
   const [credit, setCredit] = useState([])
@@ -227,7 +226,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       const values = data.results.filter((value) => value.type === 'Trailer')
-      setVideo(values.splice(0, 2))
+      setVideo(values.splice(0, 1))
     }
     catch (e) {
       console.log(e)
@@ -450,16 +449,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div>{data?.name || data?.title || data?.original_name}</div>
             <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
           </div>
-          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
-          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 150 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
-          <div className='player_bottom'>
-            <div></div>
-            <ButtonGroup variant="outlined" size="small" color="warning">
-              <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
-              <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
-            </ButtonGroup>
-            <div></div>
-          </div>
+          <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>
         </Modal.Body>
       </Modal >
       <Snackbar
@@ -489,6 +479,17 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div className='singlecontent_responsive'>
               <div className='pic_container'>
                 <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+                {premium && data.status === 'Released' && <div className='play_button_container'>
+                  <Button
+                    startIcon={<img src={icon} className='icon_small' />}
+                    className='play_button'
+                    onClick={() => handleShow4()}
+                    variant='contained'
+                    style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
+                  >
+                    Watch Now
+                  </Button>
+                </div>}
               </div>
               <div className='details'>
                 <h1>{data.name || data.title || data.original_name}</h1>
@@ -551,7 +552,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     </Tooltip>
 
                   </div>}
-                  {(video || watchprovider?.path || type === 'tv') && <div className='watchprovider'>
+                  <div className='watchprovider'>
                     {video?.map((vid, index) => {
                       return <Button
                         key={index}
@@ -576,16 +577,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     >
                       Now Streaming
                     </Button>}
-                    {type === 'movie' && premium && data.status === 'Released' && <Button
-                      startIcon={<img src={icon} className='icon_small' />}
-                      className='button'
-                      onClick={() => handleShow4()}
-                      variant='contained'
-                      style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                    >
-                      Watch Now
-                    </Button>}
-                  </div>}
+                  </div>
                 </div>
 
                 {director?.length > 0 && <div className='overview' >

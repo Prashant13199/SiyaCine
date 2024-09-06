@@ -25,14 +25,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
 }
 
 .player_bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
 }
 
 .play_buttons {
