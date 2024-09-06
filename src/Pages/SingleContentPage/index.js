@@ -567,7 +567,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                       </Button>
                     })}
                     {watchprovider?.path && <Button
-                      startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'25px'} width={'25px'} style={{ borderRadius: '8px' }} />}
+                      startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
                       className='button'
                       target="__blank"
                       href={watchprovider.link}
