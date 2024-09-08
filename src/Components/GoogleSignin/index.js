@@ -33,7 +33,7 @@ export default function GoogleSignin({ close }) {
               uid: userBySignIn.uid,
               email: userBySignIn.email,
               createdAccountOn: Date.now(),
-              photo: `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${userBySignIn.email.split('@')[0]}?size=96`,
+              photo: `https://api.dicebear.com/9.x/dylan/svg?seed=${userBySignIn.email.split('@')[0]}?size=96`,
               username: userBySignIn.email.split('@')[0],
               timestamp: Date.now(),
               public: false,
