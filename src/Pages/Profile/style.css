@@ -5,13 +5,13 @@
 .profile_image {
     height: 300px;
     width: 300px;
-    border-radius: 6px;
+    border-radius: 50%;
     object-fit: cover;
 }
 
 .profile_header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     padding: 20px 40px;
 }
 
@@ -53,6 +53,7 @@
     .profile_header {
         display: grid;
         padding: 0;
+        place-items: center;
     }
 
     .profile_right {

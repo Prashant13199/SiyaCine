@@ -24,11 +24,11 @@ export default function User({ user }) {
 
   return (
     <Grid xs={2} sm={4} md={4} key={user.uid}>
-      {(publicAcc || admin) ? <Link to={`/user/${user.uid}`} style={{ textDecoration: 'none' }}>
+      {(admin || publicAcc) ? <Link to={`/user/${user.uid}`} style={{ textDecoration: 'none' }}>
         <div className='single_user'>
           <img src={`${user?.photo}`} className="users_image" />
           <div className='user_username'>
-            {user.username.split('.')[0]?.length < 4 ? user.username?.split('@')[0] : user.username?.split('.')[0]}
+            {!publicAcc && <><LockIcon color='warning' fontSize='small' />&nbsp;</>}{user.username.split('.')[0]?.length < 4 ? user.username?.split('@')[0] : user.username?.split('.')[0]}
           </div>
         </div>
       </Link>
@@ -36,7 +36,7 @@ export default function User({ user }) {
         <div className='single_user'>
           <img src={`${user?.photo}`} className="users_image" />
           <div className='user_username'>
-            <LockIcon color='warning' fontSize='small' />&nbsp;{user.username.split('.')[0]?.length < 4 ? user.username?.split('@')[0] : user.username?.split('.')[0]}
+            {!publicAcc && <><LockIcon color='warning' fontSize='small' />&nbsp;</>}{user.username.split('.')[0]?.length < 4 ? user.username?.split('@')[0] : user.username?.split('.')[0]}
           </div>
         </div>
       }

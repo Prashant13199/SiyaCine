@@ -5,7 +5,7 @@ import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { CircularProgress, IconButton, TextField, ButtonGroup } from '@mui/material';
+import { CircularProgress, IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -34,6 +34,7 @@ import icon from '../../assets/icon.png';
 import { RWebShare } from "react-web-share";
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import { timeConvert } from '../../Services/time';
+import Trailers from '../../Containers/Trailers/Trailers';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -225,8 +226,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
-      const values = data.results.filter((value) => value.type === 'Trailer')
-      setVideo(values.splice(0, 1))
+      // const values = data.results.filter((value) => value.type === 'Trailer')
+      setVideo(data?.results?.reverse())
     }
     catch (e) {
       console.log(e)
@@ -479,24 +480,33 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div className='singlecontent_responsive'>
               <div className='pic_container'>
                 <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
-                {premium && data.status === 'Released' && <div className='play_button_container'>
-                  <Button
-                    startIcon={<img src={icon} className='icon_small' />}
+                <div className='play_buttons'>
+                  {premium && data.status === 'Released' &&
+                    <Button
+                      endIcon={<img src={icon} className='icon_small' />}
+                      className='play_button'
+                      onClick={() => handleShow4()}
+                      variant='contained'
+                    >
+                      Play Now
+                    </Button>}
+                  {watchprovider?.path && <Button
+                    endIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
                     className='play_button'
-                    onClick={() => handleShow4()}
+                    target="__blank"
+                    href={watchprovider.link}
                     variant='contained'
-                    style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
                   >
-                    Watch Now
-                  </Button>
-                </div>}
+                    Watch on
+                  </Button>}
+                </div>
               </div>
               <div className='details'>
                 <h1>{data.name || data.title || data.original_name}</h1>
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                   {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{timeConvert(data?.runtime)}</>}
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', margin: '10px 0px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', margin: '15px 0px' }}>
                   {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
                 </div>
                 {data.vote_average !== 0 && <div className='overview'>
@@ -510,7 +520,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 </div>}
 
                 <div className='actions'>
-                  {auth?.currentUser?.uid && <div style={{ marginRight: '20px' }}>
+                  {auth?.currentUser?.uid && <>
                     <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
                       <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
                         {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
@@ -550,34 +560,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                         </RWebShare>
                       </IconButton>
                     </Tooltip>
-
-                  </div>}
-                  <div className='watchprovider'>
-                    {video?.map((vid, index) => {
-                      return <Button
-                        key={index}
-                        startIcon={<YouTubeIcon style={{ color: 'red' }} />}
-                        className='button'
-                        target="__blank"
-                        onClick={() => handleShow(vid)}
-                        variant='contained'
-                        style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
-                      >
-                        Watch Trailer {video?.length === 1 ? '' : index + 1}
-                      </Button>
-                    })}
-                    {watchprovider?.path && <Button
-                      startIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
-                      className='button'
-                      target="__blank"
-                      href={watchprovider.link}
-                      variant='contained'
-                      color='warning'
-                      style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
-                    >
-                      Now Streaming
-                    </Button>}
-                  </div>
+                  </>}
                 </div>
 
                 {director?.length > 0 && <div className='overview' >
@@ -591,30 +574,22 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
                 {data?.overview && <div className='overview'>
                   <h4>Overview</h4>
-                  {data.overview?.length > 100 && !readMore ? data.overview.substring(0, 100).concat('...') : data.overview}
-                  <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 100 && (!readMore ? 'read more' : 'less')}</span>
+                  {data.overview?.length > 300 && !readMore ? data.overview.substring(0, 300).concat('...') : data.overview}
+                  <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 300 && (!readMore ? 'read more' : 'less')}</span>
                 </div>}
               </div>
             </div>
 
             {type === 'tv' && <Seasons value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
 
-            <div className='singlecontent' >
-              {credit.cast && credit.cast.length !== 0 && <><div className='trending_title'>Cast</div>
-                <div className='cast'>
-                  {credit && credit.cast.map((c) => {
-                    return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
-                      <div className='cast_single' key={c.id}>
-                        <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
-                        <div style={{ marginTop: '5px' }}>
-                          <div className='cast_name' style={{ color: theme.palette.warning.main }}>{c.original_name}</div>
-                          <div className='cast_char'>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
-                        </div>
-                      </div>
-                    </Link>
-                  })}
-                </div></>}
-              {similar?.length !== 0 && <>
+            <div className='singlecontent'>
+              {video?.length !== 0 && <>
+                <div className='trending_title' >Trailers & Mores</div>
+                <div className='trending_scroll' >
+                  <Trailers data={video} />
+                </div>
+              </>}
+              {similar?.length !== 0 && <><br />
                 <div className='trending_title' >Similar</div>
                 <div className='trending_scroll' >
                   {similar?.map((data) => {
@@ -630,7 +605,22 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   })}
                 </div>
               </>}
-              <br />
+
+              {credit.cast && credit.cast.length !== 0 && <><br /><div className='trending_title'>Cast</div>
+                <div className='cast'>
+                  {credit && credit.cast.map((c) => {
+                    return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
+                      <div className='cast_single' key={c.id}>
+                        <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
+                        <div style={{ marginTop: '5px' }}>
+                          <div className='cast_name' style={{ color: theme.palette.warning.main }}>{c.original_name}</div>
+                          <div className='cast_char'>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
+                        </div>
+                      </div>
+                    </Link>
+                  })}
+                </div></>}
+
               <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
                 <div >
                   Reviews

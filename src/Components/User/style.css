@@ -12,20 +12,21 @@
     height: 200px;
     width: 100%;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 50%;
 }
 
 .user_username {
     color: rgb(255, 167, 38);
     word-wrap: break-word;
     font-size: 18px;
+    text-align: center;
 }
 
 @media screen and (max-width: 660px) {
     .users_image {
-        height: 180px;
+        height: 100%;
         width: 100%;
         object-fit: cover;
-        border-radius: 6px;
+        border-radius: 50%;
     }
 }

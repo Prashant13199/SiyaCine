@@ -157,28 +157,28 @@ export default function Profile({ setBackdrop, scrollTop }) {
             </div>
           </div>
         </div>
-        {watching?.length !== 0 && <>
+        {watching?.length !== 0 && <><br />
           <div className='trending_title' >Resume Watching</div>
           <div className='trending_scroll' >
             {watching && watching.map((data) => {
               return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
             })}
-          </div><br /></>}
-        {watchlist?.length !== 0 && <>
+          </div></>}
+        {watchlist?.length !== 0 && <><br />
           <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watchlist && watchlist.map((data) => {
               return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
             })}
-          </div><br /></>}
-        {watched?.length !== 0 && <>
+          </div></>}
+        {watched?.length !== 0 && <><br />
           <div className='trending_title' >Watched<Count value={watchedCount} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watched && watched.map((data) => {
               return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
             })}
-          </div><br /></>}
-        {suggestions?.length !== 0 && <>
+          </div></>}
+        {suggestions?.length !== 0 && <><br />
           <div className='trending_title' >Suggestions<Count value={suggestions?.length} /></div>
           <div className='trending_scroll' >
             {suggestions?.map((data) => {
@@ -186,22 +186,22 @@ export default function Profile({ setBackdrop, scrollTop }) {
                 <SingleContentScroll data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} showtv={true} />
               </div>
             })}
-          </div><br /></>}
-        {favourite?.length !== 0 && <>
+          </div></>}
+        {favourite?.length !== 0 && <><br />
           <div className='trending_title' >Favourites<Count value={favouriteCount} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {favourite?.map((data) => {
               return <SingleContentScroll data={data?.data} key={data?.id} id={data?.id} type={data?.type} showtv={true} />
             })}
-          </div><br /></>}
-        {cast?.length !== 0 && <>
+          </div></>}
+        {cast?.length !== 0 && <><br />
           <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
           <div className='trending_scroll' >
             {cast?.map((c) => {
               return <Cast c={c} key={c.id} />
             })}
-          </div><br /></>}
-        {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && <center><br />
+          </div></>}
+        {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
           <img src={empty} className='empty' alt="" />
           <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
       </div> : <div className="loading">

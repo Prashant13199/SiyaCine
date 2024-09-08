@@ -6,6 +6,11 @@
     padding: 0 40px;
 }
 
+.season_button {
+    display: flex;
+    align-items: center;
+}
+
 .single_episode {
     margin: 5px;
     cursor: pointer;
@@ -67,6 +72,7 @@
 }
 
 .episode_name {
+    max-width: 280px;
     font-size: 15px;
     word-wrap: break-word;
 }
@@ -109,6 +115,10 @@
 @media only screen and (max-width: 660px) {
     .single_episode_image {
         height: 120px;
+        width: 220px;
+    }
+
+    .episode_name {
         width: 220px;
     }
 

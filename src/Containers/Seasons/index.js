@@ -6,9 +6,8 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import { auth, database } from '../../firebase';
 import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, ButtonGroup, IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import empty from '../../assets/empty.png';
 
 export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched }) {
@@ -20,6 +19,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     const [episodeNumber, setEpisodeNumber] = useState()
     const [lastPlayed, setLastPlayed] = useState({})
     const [totalEpisodes, setTotalEpisodes] = useState(0)
+    const [premium, setPremium] = useState(false)
 
     const [show4, setShow4] = useState(false);
     const handleClose4 = () => {
@@ -61,6 +61,9 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
             } else {
                 setLastPlayed({})
             }
+        })
+        database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
+            setPremium(snapshot.val())
         })
     }, [auth?.currentUser?.uid])
 
@@ -104,7 +107,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                     </div>
                 </Modal.Body>
             </Modal>
-            <div className='play_buttons'>
+            <div className='season_button'>
                 <DropdownButton
                     variant="warning"
                     title={`Season ${seasonNumber}`}
@@ -123,7 +126,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
             <div className="episode_list">
                 {content?.episodes?.map((datas) => {
                     return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className='single_episode' onClick={() => {
-                        if (auth?.currentUser?.uid) {
+                        if (auth?.currentUser?.uid && premium) {
                             handleShow4(datas?.episode_number)
                         }
                     }}>
@@ -133,10 +136,9 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         </div>
                         <div className='relative'>
                             <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
-                            {auth?.currentUser?.uid && <div className="play_icon"><PlayArrowIcon sx={{ fontSize: '30px', color: 'rgb(255, 167, 38)' }} /></div>}
                         </div>
                         <div className="episode_name">
-                            {datas?.name?.length > 55 ? datas?.name?.substring(0, 55)?.concat('...') : datas?.name}
+                            {datas?.name?.length > 100 ? datas?.name?.substring(0, 100)?.concat('...') : datas?.name}
                         </div>
                         {lastPlayed?.season === seasonNumber && lastPlayed?.episode === datas?.episode_number && <div className='playing'>Last Played</div>}
                     </div>

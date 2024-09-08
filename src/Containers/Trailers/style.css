@@ -1,0 +1,12 @@
+.trailer_list {
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto;
+    width: 100%;
+}
+
+@media only screen and (max-width: 660px) {
+    .trailer_list {
+        padding: 0 5px;
+    }
+}
