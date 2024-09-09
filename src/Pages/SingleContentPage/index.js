@@ -502,65 +502,67 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 </div>
               </div>
               <div className='details'>
-                <h1>{data.name || data.title || data.original_name}</h1>
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                  {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{timeConvert(data?.runtime)}</>}
-                </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', margin: '15px 0px' }}>
-                  {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
-                </div>
-                {data.vote_average !== 0 && <div className='overview'>
-                  <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
-                </div>}
-                {data.tagline && (
-                  <div className="tagline"><i>{data.tagline}</i></div>
-                )}
-                {data.number_of_seasons && <div className='overview'>
-                  {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
-                </div>}
+                <div className='mobile_center'>
+                  <h1>{data.name || data.title || data.original_name}</h1>
+                  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{timeConvert(data?.runtime)}</>}
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', margin: '15px 0px' }}>
+                    {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
+                  </div>
+                  {data.vote_average !== 0 && <div className='overview'>
+                    <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
+                  </div>}
+                  {data.tagline && (
+                    <div className="tagline"><i>{data.tagline}</i></div>
+                  )}
+                  {data.number_of_seasons && <div className='overview'>
+                    {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
+                  </div>}
 
-                <div className='actions'>
-                  {auth?.currentUser?.uid && <>
-                    <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
-                      <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
-                        {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={watchlist ? "Remove from Watchlist" : 'Add to Watchlist'}>
-                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatchlist()}>
-                        {watchlist ? <DoneIcon color="warning" /> : <AddIcon />}
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={watching ? "Remove from Watching" : "Add to Watching"}>
-                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatching()}>
-                        {watching ? <PlayCircleFilledWhiteIcon color="warning" /> : <PlayCircleOutlineIcon />}
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={watched ? "Remove from Watched" : 'Add to Watched'}>
-                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatched()}>
-                        {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Share">
-                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleShow2()}>
-                        <IosShareIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="External Share">
-                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }}>
-                        <RWebShare
-                          data={{
-                            url: `https://siyacine.netlify.app/singlecontent/${id}/${type}`,
-                            title: `${data.name || data.title || data.original_name}`,
-                            text: `Siyacine: ${data.name || data.title || data.original_name}`,
-                          }}
-                          onClick={() => console.log("shared successfully!")}
-                        >
-                          <ShareOutlinedIcon />
-                        </RWebShare>
-                      </IconButton>
-                    </Tooltip>
-                  </>}
+                  <div className='actions'>
+                    {auth?.currentUser?.uid && <>
+                      <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
+                        <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
+                          {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={watchlist ? "Remove from Watchlist" : 'Add to Watchlist'}>
+                        <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatchlist()}>
+                          {watchlist ? <DoneIcon color="warning" /> : <AddIcon />}
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={watching ? "Remove from Watching" : "Add to Watching"}>
+                        <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatching()}>
+                          {watching ? <PlayCircleFilledWhiteIcon color="warning" /> : <PlayCircleOutlineIcon />}
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={watched ? "Remove from Watched" : 'Add to Watched'}>
+                        <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatched()}>
+                          {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Share">
+                        <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleShow2()}>
+                          <IosShareIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="External Share">
+                        <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }}>
+                          <RWebShare
+                            data={{
+                              url: `https://siyacine.netlify.app/singlecontent/${id}/${type}`,
+                              title: `${data.name || data.title || data.original_name}`,
+                              text: `Siyacine: ${data.name || data.title || data.original_name}`,
+                            }}
+                            onClick={() => console.log("shared successfully!")}
+                          >
+                            <ShareOutlinedIcon />
+                          </RWebShare>
+                        </IconButton>
+                      </Tooltip>
+                    </>}
+                  </div>
                 </div>
 
                 {director?.length > 0 && <div className='overview' >
@@ -584,7 +586,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
             <div className='singlecontent'>
               {video?.length !== 0 && <>
-                <div className='trending_title' >Trailers & Mores</div>
+                <div className='trending_title' >Trailers & More</div>
                 <div className='trending_scroll' >
                   <Trailers data={video} />
                 </div>
