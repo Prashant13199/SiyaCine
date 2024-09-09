@@ -5,7 +5,7 @@ import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import { CircularProgress, IconButton, TextField } from '@mui/material';
+import { ButtonGroup, CircularProgress, IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -53,15 +53,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [recommendations, setRecommendations] = useState([])
   const [reviews, setReviews] = useState([])
   const [reviews2, setReviews2] = useState([])
-  const [show, setShow] = useState(false);
-  const handleClose = () => {
-    setShow(false)
-    setVideoPlay()
-  }
-  const handleShow = (vid) => {
-    setShow(true);
-    setVideoPlay(vid.key)
-  }
+  const [server, setServer] = useState(1)
   const [show2, setShow2] = useState(false);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -392,15 +384,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       <Helmet>
         <title>SiyaCine{data?.name ? ` - ${data?.name}` : '' || data?.title ? ` - ${data?.title}` : '' || data?.original_name ? ` - ${data?.original_name}` : ''}</title>
       </Helmet>
-      <Modal show={show} onHide={handleClose} fullscreen>
-        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-          <div className='player_header'>
-            <div>{data.name || data.title || data.original_name} Trailer</div>
-            <IconButton onClick={() => handleClose()}><CloseIcon className="close_icon" /></IconButton>
-          </div>
-          <ReactPlayer url={`https://www.youtube.com/watch?v=${videoPlay}`} width={'100%'} height={window.innerHeight - 100} controls />
-        </Modal.Body>
-      </Modal>
       <Modal size='md' show={show2} onHide={handleClose2} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
@@ -450,7 +433,16 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <div>{data?.name || data?.title || data?.original_name}</div>
             <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
           </div>
-          <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>
+          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
+          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
+          <div className='player_bottom'>
+            <div></div>
+            <ButtonGroup variant="outlined" size="small" color="warning">
+              <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
+              <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
+            </ButtonGroup>
+            <div></div>
+          </div>
         </Modal.Body>
       </Modal >
       <Snackbar
@@ -467,7 +459,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <CloseIcon fontSize="small" />
         </IconButton>}
       ><Alert onClose={() => {
-        handleClose()
         setName('')
       }
       } severity="success" sx={{ width: '100%' }}>
