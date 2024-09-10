@@ -26,7 +26,7 @@ export default function User({ user }) {
     <Grid xs={2} sm={4} md={4} key={user.uid}>
       {(admin || publicAcc) ? <Link to={`/user/${user.uid}`} style={{ textDecoration: 'none' }}>
         <div className='single_user'>
-          <img src={`${user?.photo}`} className="users_image" />
+          <img src={user?.photo ? user?.photo : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4n4D5jth4fm4GE7ut7lWW-04lnDO2OkD-sg&s'} className="users_image" />
           <div className='user_username'>
             {!publicAcc && <><LockIcon color='warning' fontSize='small' />&nbsp;</>}{user.username.split('.')[0]?.length < 4 ? user.username?.split('@')[0] : user.username?.split('.')[0]}
           </div>

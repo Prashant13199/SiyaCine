@@ -40,5 +40,6 @@
 
     .welcome_backdrop {
         padding: 8px;
+        text-align: center;
     }
 }

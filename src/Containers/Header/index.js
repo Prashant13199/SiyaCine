@@ -81,7 +81,7 @@ export default function Header() {
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>
             <div className='welcomeText'>{nowPlaying[number]?.title}</div>
-            {nowPlaying[number]?.overview && <div className='welcomeDesc'>{nowPlaying[number]?.overview.substring(0, 200).concat('...')}</div>}
+            {nowPlaying[number]?.overview && <div className='welcomeDesc'>{nowPlaying[number]?.overview.substring(0, 100).concat('...')}</div>}
             <div className='header_buttons'>
               {video && <Button
                 startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '25px' }} />}

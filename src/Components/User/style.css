@@ -9,8 +9,8 @@
 }
 
 .users_image {
-    height: 200px;
-    width: 100%;
+    height: auto;
+    width: auto;
     object-fit: cover;
     border-radius: 50%;
 }
@@ -20,13 +20,4 @@
     word-wrap: break-word;
     font-size: 18px;
     text-align: center;
-}
-
-@media screen and (max-width: 660px) {
-    .users_image {
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-    }
 }
