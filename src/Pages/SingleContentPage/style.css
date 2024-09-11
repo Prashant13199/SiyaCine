@@ -129,14 +129,13 @@
 .play_button {
     width: 100%;
     transition: all .3s ease-in-out !important;
-    background-color: white !important;
     margin: 0 2px !important;
 }
 
 .play_button:hover {
     transition: all .3s ease-in-out;
     transform: scale(0.95);
-    background-color: rgb(255, 167, 38) !important;
+    color: rgb(255, 167, 38) !important;
     color: black;
 }
 

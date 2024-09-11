@@ -89,6 +89,7 @@ export default function Header() {
                 target="__blank"
                 onClick={() => handleShow()}
                 variant='contained'
+                size='large'
                 style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
               >
                 Play Trailer
@@ -98,6 +99,7 @@ export default function Header() {
                   startIcon={<InfoIcon style={{ color: 'gray', fontSize: '25px' }} />}
                   className='button'
                   variant='contained'
+                  size='large'
                   style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                 >
                   More Info
