@@ -4,7 +4,6 @@ import './style.css';
 import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
-import YouTubeIcon from '@mui/icons-material/YouTube';
 import { ButtonGroup, CircularProgress, IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
@@ -15,7 +14,6 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
-import ReactPlayer from 'react-player'
 import CloseIcon from '@mui/icons-material/Close';
 import StarIcon from '@mui/icons-material/Star';
 import Review from '../../Components/review';
@@ -35,6 +33,7 @@ import { RWebShare } from "react-web-share";
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import { timeConvert } from '../../Services/time';
 import Trailers from '../../Containers/Trailers/Trailers';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -474,14 +473,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 <div className='play_buttons'>
                   {premium && data.status === 'Released' &&
                     <Button
-                      endIcon={<img src={icon} className='icon_small' />}
+                      startIcon={<PlayArrowIcon />}
                       className='play_button'
                       onClick={() => handleShow4()}
                       variant='contained'
                       size='large'
                       style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                     >
-                      Play Now
+                      Play now
                     </Button>}
                   {watchprovider?.path && <Button
                     endIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
@@ -586,14 +585,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   <Trailers data={video} />
                 </div>
               </>}
-              {similar?.length !== 0 && <><br />
-                <div className='trending_title' >Similar</div>
-                <div className='trending_scroll' >
-                  {similar?.map((data) => {
-                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
-                  })}
-                </div>
-              </>}
               {recommendations?.length !== 0 && <><br />
                 <div className='trending_title' >Recommendations</div>
                 <div className='trending_scroll' >
@@ -602,7 +593,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   })}
                 </div>
               </>}
-
+              {similar?.length !== 0 && <><br />
+                <div className='trending_title' >Similar</div>
+                <div className='trending_scroll' >
+                  {similar?.map((data) => {
+                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
+                  })}
+                </div>
+              </>}
               {credit.cast && credit.cast.length !== 0 && <><br /><div className='trending_title'>Cast</div>
                 <div className='cast'>
                   {credit && credit.cast.map((c) => {
