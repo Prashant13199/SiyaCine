@@ -112,7 +112,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_title' >Resume Watching</div>
           <div className='trending_scroll' >
             {watching && watching.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} />
+              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
             })}
           </div></>}
         {nowplaying?.length !== 0 && <><br />
