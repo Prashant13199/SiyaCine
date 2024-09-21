@@ -44,7 +44,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [director, setDirector] = useState([])
   const [similar, setSimilar] = useState([])
   const [video, setVideo] = useState();
-  const [videoPlay, setVideoPlay] = useState();
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
   const [watched, setWatched] = useState(false)
@@ -71,7 +70,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [users, setUsers] = useState([])
   const theme = useTheme()
   const [snackBar, setSnackBar] = useState(false)
-  const [name, setName] = useState('')
   const [review, setReview] = useState('')
   const [loading, setLoading] = useState(true)
   const [premium, setPremium] = useState(false)
@@ -269,6 +267,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
         setWatchlist(true)
+        setMessage('Added to watchlist')
+        setSnackBar(true)
         if (watched) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
             setWatched(false)
@@ -293,6 +293,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
         setWatched(true)
+        setMessage('Added to watched')
+        setSnackBar(true)
         if (watchlist) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
             setWatchlist(false)
@@ -317,6 +319,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         id: id, data: data, type: type, timestamp: Date.now()
       }).then(() => {
         setWatching(true)
+        setMessage('Added to watching')
+        setSnackBar(true)
         if (watchlist) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
             setWatchlist(false)
@@ -353,11 +357,12 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     })
   }
 
-  const handleSend = (user) => {
+  const handleSend = (user, name) => {
     database.ref(`/Users/${user}/suggestions/${id}`).update({
       type: type, data: data, id: id, by: currentUsername, byuid: auth?.currentUser?.uid, timestamp: Date.now()
     }).then(() => {
       handleClose2()
+      setMessage(`Suggested to ${name?.split('@')[0]}`)
       setSnackBar(true)
     }).catch((e) => { console.log(e) })
   }
@@ -378,6 +383,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       .catch((e) => console.log(e))
   }
 
+  const [message, setMessage] = useState('')
+
   return (
     <>
       <Helmet>
@@ -392,8 +399,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
             {users && users.map((user, index) => {
               return <div key={index} className='share_user' onClick={() => {
-                handleSend(user.uid)
-                setName(user.username)
+                handleSend(user.uid, user.username)
               }
               }>
                 <div>
@@ -445,7 +451,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         </Modal.Body>
       </Modal >
       <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         open={snackBar}
         onClose={() => setSnackBar(false)}
         autoHideDuration={2000}
@@ -458,10 +464,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           <CloseIcon fontSize="small" />
         </IconButton>}
       ><Alert onClose={() => {
-        setName('')
+        setMessage('')
       }
       } severity="success" sx={{ width: '100%' }}>
-          Suggested to {name?.split('@')[0]}!
+          {/* Suggested to {name?.split('@')[0]}! */}
+          {message}
         </Alert>
       </Snackbar>
       {
@@ -480,7 +487,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                       size='large'
                       style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                     >
-                      Play now
+                      {watching ? 'Resume' : 'Play now'}
                     </Button>}
                   {watchprovider?.path && <Button
                     endIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
@@ -615,7 +622,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     </Link>
                   })}
                 </div></>}
-
+              <br />
               <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
                 <div >
                   Reviews
@@ -636,7 +643,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 })}
                 {reviews && reviews.map((data) => {
                   return <div className='single_review' key={data.id}>
-                    <div style={{ fontSize: '18px' }} >{data.author_details.username}</div>
+                    <div className='review_author_username'>{data.author_details.username}</div>
                     <Review review={data.content} />
                   </div>
                 })}

@@ -28,6 +28,11 @@
     margin: 15px 0px;
 }
 
+.review_author_username {
+    font-size: 18px;
+    color: rgb(255, 167, 38);
+}
+
 .cast {
     display: flex;
     overflow-y: auto;
@@ -99,7 +104,7 @@
 .share_user_image {
     height: 50px;
     width: 50px;
-    border-radius: 10px;
+    border-radius: 50%;
     object-fit: cover;
 }
 

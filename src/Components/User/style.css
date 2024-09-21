@@ -15,9 +15,22 @@
     border-radius: 50%;
 }
 
+.users_image_faded {
+    height: auto;
+    width: auto;
+    object-fit: cover;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
 .user_username {
     color: rgb(255, 167, 38);
     word-wrap: break-word;
     font-size: 18px;
     text-align: center;
+}
+
+.lock_icon {
+    position: absolute;
+    left: 10px;
 }

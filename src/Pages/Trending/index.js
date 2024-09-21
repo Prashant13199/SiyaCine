@@ -23,6 +23,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const [premium, setPremium] = useState(false)
 
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
+  const watchlist = useFetchDBData(auth?.currentUser?.uid, 'watchlist')
   const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
   const favouriteCast = useFetchDBData(auth?.currentUser?.uid, 'cast')
 
@@ -115,6 +116,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
               return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
             })}
           </div></>}
+
         {nowplaying?.length !== 0 && <><br />
           <div className='trending_title' >
             Now Playing in Theatres
@@ -128,6 +130,14 @@ export default function Trending({ setBackdrop, scrollTop }) {
             })}
           </div>
         </>}
+
+        {watchlist?.length !== 0 && <><br />
+          <div className='trending_title' >Watchlist</div>
+          <div className='trending_scroll' >
+            {watchlist && watchlist.map((data) => {
+              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
+            })}
+          </div></>}
 
         {recommendation?.length !== 0 && <><br />
           <div className='trending_title gray' >Because You Watched</div>
