@@ -28,7 +28,6 @@ import Seasons from '../../Containers/Seasons';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import { Helmet } from 'react-helmet';
-import icon from '../../assets/icon.png';
 import { RWebShare } from "react-web-share";
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import { timeConvert } from '../../Services/time';
@@ -215,7 +214,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
-      // const values = data.results.filter((value) => value.type === 'Trailer')
       setVideo(data?.results?.reverse())
     }
     catch (e) {
@@ -465,9 +463,9 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         </IconButton>}
       ><Alert onClose={() => {
         setMessage('')
+        setSnackBar(false)
       }
       } severity="success" sx={{ width: '100%' }}>
-          {/* Suggested to {name?.split('@')[0]}! */}
           {message}
         </Alert>
       </Snackbar>
