@@ -1,0 +1,47 @@
+.notification {
+    display: flex;
+    align-items: center;
+    margin: 20px 10px;
+}
+
+.notification_image {
+    height: auto;
+    width: 45px;
+    border-radius: 50%;
+}
+
+.notification_right {
+    margin-left: 10px;
+}
+
+.notification_poster {
+    width: 50px;
+    height: auto;
+    border-radius: 4px;
+    margin-left: 4px;
+}
+
+.notification_delete {
+    font-size: 14px;
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.notification_delete:hover {
+    opacity: 1;
+    color: red;
+}
+
+@media only screen and (max-width: 660px) {
+    .notification_image {
+        width: 35px;
+    }
+
+    .notification_poster {
+        width: 40px;
+    }
+
+    .notification_right {
+        font-size: 14px;
+    }
+}

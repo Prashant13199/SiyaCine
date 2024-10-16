@@ -3,15 +3,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import logo from '../../assets/logo.png'
 import { NavLink, useLocation } from "react-router-dom";
-import { Button } from '@mui/material';
+import { Badge, Button, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { Modal } from 'react-bootstrap';
 import Login from '../Login';
-import { auth } from '../../firebase';
+import { auth, database } from '../../firebase';
 import './style.css'
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Notification from '../../Components/Notification/Notification';
 
 export default function NavBarMain({ top }) {
 
@@ -19,10 +22,25 @@ export default function NavBarMain({ top }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [show2, setShow2] = useState(false);
+  const handleClose2 = () => setShow2(false);
+  const handleShow2 = () => setShow2(true);
+
   const location = useLocation()
   const theme = useTheme()
-
+  const [notifications, setNotifications] = useState([])
   const currentPhoto = useFetchUserDetails(auth?.currentUser?.uid, 'photo')
+
+  useEffect(() => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/notifications`).orderByChild('timestamp').on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        arr.push(snap.val())
+      })
+      setNotifications(arr.reverse())
+    })
+  }, [auth?.currentUser?.uid])
 
   useEffect(() => {
     if (location.pathname === '/movies') {
@@ -79,6 +97,17 @@ export default function NavBarMain({ top }) {
           <Login handleClose={handleClose} />
         </Modal.Body>
       </Modal>
+      <Modal show={show2} onHide={handleClose2} centered>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+          <div className='player_header'>
+            <h2>Notifications</h2>
+            <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          </div>
+          {notifications?.map((noti) => {
+            return <Notification noti={noti} handleClose={handleClose2} />
+          })}
+        </Modal.Body>
+      </Modal>
       <Navbar className={top < 50 ? 'navbar_main navbar_back_image' : 'navbar_main navbar_back'} variant={theme.palette.mode} fixed='top'>
         <Navbar.Brand className="navlink">
           <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
@@ -101,10 +130,22 @@ export default function NavBarMain({ top }) {
             exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>People</NavLink></Nav></>}
         <Nav className="me-auto"></Nav>
         <Nav><NavLink to='/search' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}><SearchIcon /></NavLink></Nav>
-        {auth?.currentUser?.uid ? <Nav>
-          <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: theme.palette.warning.main }} className="navlink" activeStyle={{ opacity: 1 }}
-            exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
-        </Nav>
+        {auth?.currentUser?.uid ?
+          <>
+            <Nav><NavLink onClick={() => {
+              if (notifications?.length) {
+                handleShow2()
+              }
+            }} to='#' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: show2 ? theme.palette.warning.main : theme.palette.text.primary }}>
+              <Badge badgeContent={notifications?.length} color="warning">
+                <NotificationsIcon />
+              </Badge>
+            </NavLink></Nav>
+            <Nav>
+              <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: theme.palette.warning.main }} className="navlink" activeStyle={{ opacity: 1 }}
+                exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
+            </Nav>
+          </>
           :
           <Nav>
             <Button variant='contained' size='small' color="warning" style={{ marginLeft: '5px' }} onClick={handleShow}>Login</Button>

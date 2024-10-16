@@ -359,6 +359,15 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     database.ref(`/Users/${user}/suggestions/${id}`).update({
       type: type, data: data, id: id, by: currentUsername, byuid: auth?.currentUser?.uid, timestamp: Date.now()
     }).then(() => {
+      database.ref(`/Users/${user}/notifications/${id}`).update({
+        timestamp: Date.now(),
+        by: currentUsername,
+        byuid: auth?.currentUser?.uid,
+        id: id,
+        text: `${currentUsername} suggested you to watch ${data.name || data.title || data.original_name}`,
+        type: type,
+        poster: data.poster_path
+      })
       handleClose2()
       setMessage(`Suggested to ${name?.split('@')[0]}`)
       setSnackBar(true)
