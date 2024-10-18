@@ -112,15 +112,17 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
             <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
           </div>
           <div className='details'>
-            <h1>{data.name}</h1>
-            <div className='actions'>
-              {auth?.currentUser?.uid && <div>
-                <Tooltip title="Favourite">
-                  <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
-                    {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
-                  </IconButton>
-                </Tooltip>
-              </div>}
+            <div className='mobile_center'>
+              <h1>{data.name}</h1>
+              <div className='actions'>
+                {auth?.currentUser?.uid && <div>
+                  <Tooltip title="Favourite">
+                    <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
+                      {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
+                    </IconButton>
+                  </Tooltip>
+                </div>}
+              </div>
             </div>
             {data.birthday && <div className='overview'>
               <h4>Birthday</h4>

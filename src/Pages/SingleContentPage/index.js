@@ -485,7 +485,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               <div className='pic_container'>
                 <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
                 <div className='play_buttons'>
-                  {premium && data.status === 'Released' &&
+                  {premium && data?.status === 'Released' &&
                     <Button
                       startIcon={<PlayArrowIcon />}
                       className='play_button'
