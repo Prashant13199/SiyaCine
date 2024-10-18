@@ -92,7 +92,7 @@ export default function Header() {
                 size='large'
                 style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
               >
-                Play Trailer
+                Watch Trailer
               </Button>}
               <Link to={`/singlecontent/${nowPlaying[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
                 <Button
