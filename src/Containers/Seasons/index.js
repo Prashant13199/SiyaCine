@@ -118,7 +118,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                             <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
                             <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
                         </ButtonGroup>
-                        <Button color='warning' disabled={episodeNumber === totalEpisodes} onClick={() => handleNext()}>Next</Button>
+                        <Button color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date > currentDate)} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
