@@ -17,6 +17,11 @@
     transition: all .3s ease-in-out;
 }
 
+.single_episode_fade {
+    margin: 5px;
+    opacity: .6;
+}
+
 .relative {
     position: relative;
 }

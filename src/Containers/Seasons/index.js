@@ -92,6 +92,16 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
         handleResume(episodeNumber - 1)
     }
 
+    const [currentDate, setCurrentDate] = useState('');
+    useEffect(() => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero if needed
+        const day = String(today.getDate()).padStart(2, '0'); // Add leading zero if needed
+
+        setCurrentDate(`${year}-${month}-${day}`);
+    }, []);
+
     return (
         <>
             <Modal show={show4} onHide={handleClose4} fullscreen>
@@ -130,8 +140,8 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
             </div>
             <div className="episode_list">
                 {content?.episodes?.map((datas) => {
-                    return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className='single_episode' onClick={() => {
-                        if (auth?.currentUser?.uid && premium) {
+                    return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className={datas?.air_date < currentDate ? 'single_episode' : 'single_episode_fade'} onClick={() => {
+                        if (auth?.currentUser?.uid && premium && datas?.air_date < currentDate) {
                             handleShow4(datas?.episode_number)
                         }
                     }}>
