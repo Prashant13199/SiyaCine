@@ -72,10 +72,36 @@
     flex-wrap: wrap;
 }
 
+.button {
+    border-radius: 20px !important;
+    transition: all .3s ease-in-out !important;
+    margin: 0 2px !important;
+    border-radius: 20px !important;
+    background-color: antiquewhite !important;
+    color: black !important;
+}
+
 .button:hover {
     transition: all .3s ease-in-out;
     transform: scale(0.95);
-    color: rgb(255, 167, 38) !important;
+    background-color: rgb(255, 167, 38) !important;
+    color: black !important;
+}
+
+.play_button {
+    width: 100%;
+    transition: all .3s ease-in-out !important;
+    margin: 0 2px !important;
+    border-radius: 20px !important;
+    background-color: antiquewhite !important;
+    color: black !important;
+}
+
+.play_button:hover {
+    transition: all .3s ease-in-out;
+    transform: scale(0.95);
+    background-color: rgb(255, 167, 38) !important;
+    color: black !important;
 }
 
 .genrelist {
@@ -129,19 +155,6 @@
 
 .addreview:hover {
     opacity: 1;
-}
-
-.play_button {
-    width: 100%;
-    transition: all .3s ease-in-out !important;
-    margin: 0 2px !important;
-}
-
-.play_button:hover {
-    transition: all .3s ease-in-out;
-    transform: scale(0.95);
-    color: rgb(255, 167, 38) !important;
-    color: black;
 }
 
 .play_buttons {

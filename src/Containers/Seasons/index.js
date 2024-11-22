@@ -9,8 +9,9 @@ import { Button, ButtonGroup, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { getCurrentDate } from '../../Services/time';
 
-export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched }) {
+export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched, resumeSeries, setResumeSeries }) {
 
     const theme = useTheme()
 
@@ -21,21 +22,29 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     const [totalEpisodes, setTotalEpisodes] = useState(0)
     const [premium, setPremium] = useState(false)
     const [server, setServer] = useState(1)
+    const [played, setPlayed] = useState(false)
 
     const [show4, setShow4] = useState(false);
     const handleClose4 = () => {
         setShow4(false)
         setEpisodeNumber()
+        setResumeSeries(false)
+        setPlayed(false)
+        handleEpisodeScroll()
     }
-    const handleShow4 = (number) => {
+    const handleShow4 = (episode, season) => {
         setShow4(true)
-        setEpisodeNumber(number)
-        handleResume(number)
+        setEpisodeNumber(episode)
+        handleResume(episode, season)
     }
 
-    const handleResume = (number) => {
+    const handleEpisodeScroll = () => {
+        document.getElementById(`${lastPlayed?.season}${lastPlayed?.episode}`)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" })
+    }
+
+    const handleResume = (episode, season) => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).set({
-            id: value?.id, data: value, type: 'tv', season: seasonNumber, episode: number, timestamp: Date.now()
+            id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now()
         }).then(() => {
             if (watchlist) {
                 database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${value?.id}`).remove().then(() => {
@@ -92,15 +101,17 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
         handleResume(episodeNumber - 1)
     }
 
-    const [currentDate, setCurrentDate] = useState('');
     useEffect(() => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero if needed
-        const day = String(today.getDate()).padStart(2, '0'); // Add leading zero if needed
+        if (lastPlayed && resumeSeries && !played) {
+            handleEpisodeScroll()
+            setTimeout(() => {
+                setSeasonNumber(lastPlayed?.season)
+                handleShow4(lastPlayed?.episode, lastPlayed?.season)
+                setPlayed(true)
+            }, [500])
 
-        setCurrentDate(`${year}-${month}-${day}`);
-    }, []);
+        }
+    }, [lastPlayed, resumeSeries])
 
     return (
         <>
@@ -118,7 +129,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                             <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
                             <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
                         </ButtonGroup>
-                        <Button color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date > currentDate)} onClick={() => handleNext()}>Next</Button>
+                        <Button color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date > getCurrentDate())} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
@@ -136,13 +147,12 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         )
                     })}
                 </DropdownButton>
-                {lastPlayed?.episode && <Button style={{ color: 'rgb(255, 167, 38)', marginLeft: '5px' }} onClick={() => handleShow4(lastPlayed?.episode)}>Resume Playing S{lastPlayed?.season}E{lastPlayed?.episode}</Button>}
             </div>
             <div className="episode_list">
                 {content?.episodes?.map((datas) => {
-                    return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className={datas?.air_date < currentDate ? 'single_episode' : 'single_episode_fade'} onClick={() => {
-                        if (auth?.currentUser?.uid && premium && datas?.air_date < currentDate) {
-                            handleShow4(datas?.episode_number)
+                    return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className={datas?.air_date < getCurrentDate() ? 'single_episode' : 'single_episode_fade'} onClick={() => {
+                        if (auth?.currentUser?.uid && premium && datas?.air_date < getCurrentDate()) {
+                            handleShow4(datas?.episode_number, seasonNumber)
                         }
                     }}>
                         <div className='episode_header'>

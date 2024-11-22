@@ -6,3 +6,11 @@ export function timeConvert(n) {
     var rminutes = Math.round(minutes);
     return rhours + "h " + rminutes + "m";
 }
+
+export function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero if needed
+    const day = String(today.getDate()).padStart(2, '0'); // Add leading zero if needed
+    return `${year}-${month}-${day}`;
+}

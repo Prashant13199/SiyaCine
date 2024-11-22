@@ -31,7 +31,7 @@ import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import { Helmet } from 'react-helmet';
 import { RWebShare } from "react-web-share";
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
-import { timeConvert } from '../../Services/time';
+import { getCurrentDate, timeConvert } from '../../Services/time';
 import Trailers from '../../Containers/Trailers/Trailers';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
@@ -393,6 +393,13 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const [message, setMessage] = useState('')
 
+  const [resumeSeries, setResumeSeries] = useState(false)
+
+  const handleTvShowScroll = () => {
+    setResumeSeries(true)
+    document.getElementById('tv_series')?.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
+  }
+
   return (
     <>
       <Helmet>
@@ -486,14 +493,13 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               <div className='pic_container'>
                 <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
                 <div className='play_buttons'>
-                  {premium && data?.status === 'Released' &&
+                  {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) &&
                     <Button
                       startIcon={<PlayArrowIcon />}
                       className='play_button'
-                      onClick={() => handleShow4()}
+                      onClick={() => type === 'movie' ? handleShow4() : handleTvShowScroll()}
                       variant='contained'
                       size='large'
-                      style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                     >
                       {watching ? 'Resume' : 'Play now'}
                     </Button>}
@@ -504,7 +510,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     href={watchprovider.link}
                     variant='contained'
                     size='large'
-                    style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                   >
                     Watch on
                   </Button>}
@@ -591,13 +596,13 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               </div>
             </div>
 
-            {type === 'tv' && <Seasons value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
+            {type === 'tv' && <div id="tv_series"><Seasons setResumeSeries={setResumeSeries} resumeSeries={resumeSeries} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} /></div>}
 
             <div className='singlecontent'>
               {video?.length !== 0 && <>
                 <div className='trending_title' >Trailers & More</div>
                 <div className='trending_scroll' >
-                  <Trailers data={video} />
+                  <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
                 </div>
               </>}
               {recommendations?.length !== 0 && <><br />

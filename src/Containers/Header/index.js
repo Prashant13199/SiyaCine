@@ -71,7 +71,7 @@ export default function Header() {
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
             <IconButton onClick={() => handleClose()}><ArrowBackIcon className="back_icon" /></IconButton>
-            <div>{nowPlaying[number]?.title} Trailer</div>
+            <div>{nowPlaying[number]?.title} trailer</div>
           </div>
           <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={window.innerHeight - 100} controls />
         </Modal.Body>
@@ -90,7 +90,6 @@ export default function Header() {
                 onClick={() => handleShow()}
                 variant='contained'
                 size='large'
-                style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary, marginRight: '10px' }}
               >
                 Watch Trailer
               </Button>}
@@ -100,7 +99,6 @@ export default function Header() {
                   className='button'
                   variant='contained'
                   size='large'
-                  style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }}
                 >
                   More Info
                 </Button>
