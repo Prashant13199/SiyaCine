@@ -400,7 +400,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       </Helmet>
       <Modal size='md' show={show2} onHide={handleClose2} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-          <div className='player_header'>
+          <div className='modal_header'>
             <h2>Suggest To</h2>
             <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
           </div>

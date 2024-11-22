@@ -105,7 +105,7 @@ export default function NavBarMain({ top }) {
       </Modal>
       <Modal show={show2} onHide={handleClose2} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-          <div className='player_header'>
+          <div className='modal_header'>
             <h2>Notifications</h2>
             <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
           </div>

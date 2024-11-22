@@ -36,6 +36,12 @@
     align-items: center;
 }
 
+.modal_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .player_bottom {
     display: flex;
     align-items: center;
