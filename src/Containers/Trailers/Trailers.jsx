@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import './style.css';
-import { auth } from '../../firebase';
 import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import ReactPlayer from 'react-player';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function Trailers({ data }) {
 
@@ -24,14 +23,12 @@ export default function Trailers({ data }) {
     return (
         <>
             <Modal show={show4} onHide={handleClose4} fullscreen>
-                <Modal.Body style={{ backgroundColor: theme.palette.background.default, maxHeight: window.innerHeight }}>
-                    <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
-                        <div className='player_header'>
-                            <div>{data?.name || data?.title || data?.original_name} Trailer</div>
-                            <IconButton onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
-                        </div>
-                        <ReactPlayer url={`https://www.youtube.com/watch?v=${vid}`} width={'100%'} height={window.innerHeight - 100} controls />
-                    </Modal.Body>
+                <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+                    <div className='player_header'>
+                        <IconButton onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
+                        <div>{data?.name || data?.title || data?.original_name} Trailer</div>
+                    </div>
+                    <ReactPlayer url={`https://www.youtube.com/watch?v=${vid}`} width={'100%'} height={window.innerHeight - 100} controls />
                 </Modal.Body>
             </Modal>
             <div className="trailer_list">

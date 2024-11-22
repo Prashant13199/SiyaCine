@@ -34,7 +34,6 @@
 .player_header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .player_bottom {
@@ -51,6 +50,10 @@
 .close_icon {
     font-size: 30px !important;
     color: red !important;
+}
+
+.back_icon {
+    font-size: 30px !important;
 }
 
 .play_icon {

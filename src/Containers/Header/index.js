@@ -6,9 +6,9 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import InfoIcon from '@mui/icons-material/Info';
 import { Modal } from 'react-bootstrap';
 import ReactPlayer from 'react-player'
-import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material';
 import { IconButton, Button } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function Header() {
 
@@ -70,8 +70,8 @@ export default function Header() {
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
+            <IconButton onClick={() => handleClose()}><ArrowBackIcon className="back_icon" /></IconButton>
             <div>{nowPlaying[number]?.title} Trailer</div>
-            <IconButton onClick={() => handleClose()}><CloseIcon className="close_icon" /></IconButton>
           </div>
           <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={window.innerHeight - 100} controls />
         </Modal.Body>

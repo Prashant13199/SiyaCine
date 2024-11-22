@@ -5,10 +5,10 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { auth, database } from '../../firebase';
 import { Modal } from 'react-bootstrap';
-import CloseIcon from '@mui/icons-material/Close';
 import { Button, ButtonGroup, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import empty from '../../assets/empty.png';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched }) {
 
@@ -107,8 +107,8 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
             <Modal show={show4} onHide={handleClose4} fullscreen>
                 <Modal.Body style={{ backgroundColor: theme.palette.background.default, maxHeight: window.innerHeight }}>
                     <div className='player_header'>
+                        <IconButton onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
                         <div className='player_name'>{value.name || value.title || value.original_name} S{seasonNumber}-E{episodeNumber}</div>
-                        <IconButton onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
                     </div>
                     {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.cc/v3/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://multiembed.mov/directstream.php?video_id=${value?.id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}

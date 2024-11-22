@@ -15,6 +15,7 @@ import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import StarIcon from '@mui/icons-material/Star';
 import Review from '../../Components/review';
 import IosShareIcon from '@mui/icons-material/IosShare';
@@ -400,7 +401,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       <Modal size='md' show={show2} onHide={handleClose2} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
-            <h2>Share To</h2>
+            <h2>Suggest To</h2>
             <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
           </div>
           <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
@@ -442,8 +443,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       <Modal show={show4} onHide={handleClose4} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
+            <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
             <div>{data?.name || data?.title || data?.original_name}</div>
-            <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><CloseIcon className="close_icon" /></IconButton>
           </div>
           {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidsrc.cc/v2/embed/movie/${id}`}></iframe>}
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
