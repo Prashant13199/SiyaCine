@@ -73,12 +73,12 @@
 }
 
 .button {
-    border-radius: 20px !important;
     transition: all .3s ease-in-out !important;
-    margin: 0 2px !important;
+    margin: 2px !important;
     border-radius: 20px !important;
     background-color: antiquewhite !important;
     color: black !important;
+    width: 178px !important;
 }
 
 .button:hover {
