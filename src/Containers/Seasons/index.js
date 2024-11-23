@@ -24,6 +24,12 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     const [server, setServer] = useState(1)
     const [played, setPlayed] = useState(false)
 
+    const handleEpisodeScroll = () => {
+        setTimeout(() => {
+            document.getElementById(`${lastPlayed?.season}${lastPlayed?.episode}`)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" })
+        }, 250)
+    }
+
     const [show4, setShow4] = useState(false);
     const handleClose4 = () => {
         setShow4(false)
@@ -31,15 +37,12 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
         setResumeSeries(false)
         setPlayed(false)
         handleEpisodeScroll()
+
     }
     const handleShow4 = (episode, season) => {
         setShow4(true)
         setEpisodeNumber(episode)
         handleResume(episode, season)
-    }
-
-    const handleEpisodeScroll = () => {
-        document.getElementById(`${lastPlayed?.season}${lastPlayed?.episode}`)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" })
     }
 
     const handleResume = (episode, season) => {
@@ -104,12 +107,9 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     useEffect(() => {
         if (lastPlayed && resumeSeries && !played) {
             handleEpisodeScroll()
-            setTimeout(() => {
-                setSeasonNumber(lastPlayed?.season)
-                handleShow4(lastPlayed?.episode, lastPlayed?.season)
-                setPlayed(true)
-            }, [500])
-
+            setSeasonNumber(lastPlayed?.season ? lastPlayed?.season : seasonNumber)
+            handleShow4(lastPlayed?.episode ? lastPlayed?.episode : 1, lastPlayed?.season ? lastPlayed?.season : seasonNumber)
+            setPlayed(true)
         }
     }, [lastPlayed, resumeSeries])
 

@@ -397,7 +397,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const handleTvShowScroll = () => {
     setResumeSeries(true)
-    document.getElementById('tv_series')?.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" })
   }
 
   return (
@@ -596,7 +595,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               </div>
             </div>
 
-            {type === 'tv' && <div id="tv_series"><Seasons setResumeSeries={setResumeSeries} resumeSeries={resumeSeries} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} /></div>}
+            {type === 'tv' && <Seasons setResumeSeries={setResumeSeries} resumeSeries={resumeSeries} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
 
             <div className='singlecontent'>
               {video?.length !== 0 && <>
