@@ -456,9 +456,9 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://multiembed.mov/directstream.php?video_id=${id}&tmdb=1`}></iframe>}
           <div className='player_bottom'>
             <div></div>
-            <ButtonGroup variant="outlined" size="small" color="warning">
-              <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
-              <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
+            <ButtonGroup size="small">
+              <Button className={server !== 1 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(1)}>Server 1</Button>
+              <Button className={server !== 2 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(2)}>Server 2</Button>
             </ButtonGroup>
             <div></div>
           </div>

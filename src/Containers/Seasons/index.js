@@ -125,9 +125,9 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://multiembed.mov/directstream.php?video_id=${value?.id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
                         <Button color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
-                        <ButtonGroup variant="outlined" size="small" color="warning">
-                            <Button variant={server === 1 && 'contained'} onClick={() => setServer(1)}>Server 1</Button>
-                            <Button variant={server === 2 && 'contained'} onClick={() => setServer(2)}>Server 2</Button>
+                        <ButtonGroup size="small">
+                            <Button className={server !== 1 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(1)}>Server 1</Button>
+                            <Button className={server !== 2 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(2)}>Server 2</Button>
                         </ButtonGroup>
                         <Button color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date > getCurrentDate())} onClick={() => handleNext()}>Next</Button>
                     </div>
