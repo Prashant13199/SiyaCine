@@ -465,7 +465,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         </Modal.Body>
       </Modal >
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         open={snackBar}
         onClose={() => setSnackBar(false)}
         autoHideDuration={2000}

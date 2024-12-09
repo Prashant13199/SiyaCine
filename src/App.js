@@ -41,6 +41,10 @@ function App() {
       database.ref(`/Users/${user}`).once('value', snapshot => {
         if (snapshot.val()) {
           setLoading(false)
+          database.ref(`/Users/${user}`).update({
+            timestamp: Date.now()
+          }).then(() => console.log('Updated time'))
+            .catch((e) => console.log(e))
         } else {
           logOut()
         }

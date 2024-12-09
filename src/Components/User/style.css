@@ -34,3 +34,9 @@
     position: absolute;
     left: 10px;
 }
+
+.user_lastactive {
+    font-size: 12px;
+    color: gray;
+    text-align: center;
+}
