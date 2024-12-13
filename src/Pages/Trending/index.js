@@ -82,7 +82,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const handleTrackingData = () => {
     trackingData?.map((data) => {
       database.ref(`/Users/${auth?.currentUser?.uid}/watched/${data?.id}`).on('value', snapshot => {
-        if (snapshot.val()) {
+        if (snapshot.val() && getCurrentDate(snapshot.val()?.data?.timestamp) !== getCurrentDate(Date.now())) {
           if (snapshot.val()?.data?.next_episode_to_air?.air_date >= getCurrentDate(Date.now())) {
             database.ref(`/Users/${auth?.currentUser?.uid}/watching/${data?.id}`).set({
               id: data?.id, data: snapshot.val()?.data, type: 'tv', timestamp: Date.now(), season: snapshot.val()?.data?.next_episode_to_air?.season_number, episode: snapshot.val()?.data?.next_episode_to_air?.episode_number

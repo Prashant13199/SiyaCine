@@ -129,7 +129,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                             <Button className={server !== 1 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(1)}>Server 1</Button>
                             <Button className={server !== 2 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(2)}>Server 2</Button>
                         </ButtonGroup>
-                        <Button color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date > getCurrentDate())} onClick={() => handleNext()}>Next</Button>
+                        <Button color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date >= getCurrentDate())} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
@@ -150,8 +150,8 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
             </div>
             <div className="episode_list">
                 {content?.episodes?.map((datas) => {
-                    return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className={datas?.air_date < getCurrentDate() ? 'single_episode' : 'single_episode_fade'} onClick={() => {
-                        if (auth?.currentUser?.uid && premium && datas?.air_date < getCurrentDate()) {
+                    return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className={datas?.air_date <= getCurrentDate() ? 'single_episode' : 'single_episode_fade'} onClick={() => {
+                        if (auth?.currentUser?.uid && premium && datas?.air_date <= getCurrentDate()) {
                             handleShow4(datas?.episode_number, seasonNumber)
                         }
                     }}>
