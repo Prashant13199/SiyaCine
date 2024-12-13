@@ -34,6 +34,7 @@ import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import { getCurrentDate, timeConvert } from '../../Services/time';
 import Trailers from '../../Containers/Trailers/Trailers';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import TimelineIcon from '@mui/icons-material/Timeline';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -73,6 +74,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [review, setReview] = useState('')
   const [loading, setLoading] = useState(true)
   const [premium, setPremium] = useState(false)
+  const [tracking, setTracking] = useState(false)
 
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
@@ -89,6 +91,14 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   }
 
   useEffect(() => {
+
+    database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).on('value', snapshot => {
+      if (snapshot.val()?.id === id) {
+        setTracking(true)
+      } else {
+        setTracking(false)
+      }
+    })
 
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
@@ -256,6 +266,20 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).remove().then(() => {
         setFavourite(false)
+      })
+    }
+  }
+
+  const handleTracking = () => {
+    if (!tracking) {
+      database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).set({
+        id: id, timestamp: Date.now()
+      }).then(() => {
+        setTracking(true)
+      })
+    } else {
+      database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).remove().then(() => {
+        setTracking(false)
       })
     }
   }
@@ -555,6 +579,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                           {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
                         </IconButton>
                       </Tooltip>
+                      {type === 'tv' && <Tooltip title={tracking ? "Remove from Tracking" : 'Add to Tracking'}>
+                        <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleTracking()}>
+                          {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
+                        </IconButton>
+                      </Tooltip>}
                       <Tooltip title="Share">
                         <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleShow2()}>
                           <IosShareIcon />

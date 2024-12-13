@@ -165,7 +165,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         <div className="episode_name">
                             {datas?.name?.length > 100 ? datas?.name?.substring(0, 100)?.concat('...') : datas?.name}
                         </div>
-                        {lastPlayed?.season === seasonNumber && lastPlayed?.episode === datas?.episode_number && <div className='playing'>Last Played</div>}
+                        {lastPlayed?.season === seasonNumber && lastPlayed?.episode === datas?.episode_number && <div className='playing'>Playing</div>}
                     </div>
                 })}
             </div>
