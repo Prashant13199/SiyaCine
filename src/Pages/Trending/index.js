@@ -3,7 +3,7 @@ import './style.css'
 import Header from '../../Containers/Header';
 import { Link } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
-import { IconButton, useTheme } from '@mui/material';
+import { IconButton } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchContent from '../../hooks/useFetchContent';
 import { auth, database } from '../../firebase'
@@ -11,18 +11,14 @@ import axios from "axios";
 import Footer from '../../Containers/Footer'
 import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
-import { getCurrentDate } from '../../Services/time';
 
 export default function Trending({ setBackdrop, scrollTop }) {
-
-  const theme = useTheme()
 
   const [recommendation, setRecommendation] = useState([])
   const [number, setNumber] = useState(null)
   const [recommendationCast, setRecommendationCast] = useState([])
   const [numberCast, setNumberCast] = useState(null)
   const [premium, setPremium] = useState(false)
-  const [trackingData, setTrackingData] = useState([])
 
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const watchlist = useFetchDBData(auth?.currentUser?.uid, 'watchlist')
@@ -46,22 +42,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
     database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
       setPremium(snapshot.val())
     })
-
-    database.ref(`/Users/${auth?.currentUser?.uid}/tracking`).on('value', snapshot => {
-      let arr = []
-      snapshot.forEach((snap) => {
-        arr.push(snap.val())
-      })
-      setTrackingData(arr)
-    })
-
   }, [auth?.currentUser?.uid])
-
-  useEffect(() => {
-    if (trackingData?.length) {
-      handleTrackingData()
-    }
-  }, [trackingData])
 
   useEffect(() => {
     fetchRecommendation();
@@ -78,22 +59,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   useEffect(() => {
     randomNumberCast()
   }, [favouriteCast?.length])
-
-  const handleTrackingData = () => {
-    trackingData?.map((data) => {
-      database.ref(`/Users/${auth?.currentUser?.uid}/watched/${data?.id}`).on('value', snapshot => {
-        if (snapshot.val() && getCurrentDate(snapshot.val()?.data?.timestamp) !== getCurrentDate(Date.now())) {
-          if (snapshot.val()?.data?.next_episode_to_air?.air_date >= getCurrentDate(Date.now())) {
-            database.ref(`/Users/${auth?.currentUser?.uid}/watching/${data?.id}`).set({
-              id: data?.id, data: snapshot.val()?.data, type: 'tv', timestamp: Date.now(), season: snapshot.val()?.data?.next_episode_to_air?.season_number, episode: snapshot.val()?.data?.next_episode_to_air?.episode_number
-            }).then(() => {
-              database.ref(`/Users/${auth?.currentUser?.uid}/watched/${data?.id}`).remove()
-            })
-          }
-        }
-      })
-    })
-  }
 
   const randomNumber = () => {
     setNumber(Math.floor(Math.random() * favourite.length))
