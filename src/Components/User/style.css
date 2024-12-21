@@ -10,14 +10,14 @@
 
 .users_image {
     height: auto;
-    width: auto;
+    width: 100%;
     object-fit: cover;
     border-radius: 50%;
 }
 
 .users_image_faded {
     height: auto;
-    width: auto;
+    width: 100%;
     object-fit: cover;
     border-radius: 50%;
     opacity: 0.6;
