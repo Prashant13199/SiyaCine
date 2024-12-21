@@ -12,6 +12,7 @@ import { CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails'
+import useFetchPremium from '../../hooks/useFetchPremium'
 import Count from '../../Components/Count';
 import Premium from '../../Components/Premium';
 import { Helmet } from 'react-helmet';
@@ -21,6 +22,8 @@ import useFetchDBData from '../../hooks/useFetchDBData';
 import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import ModeIcon from '@mui/icons-material/Mode';
+import { images } from '../../Services/images'
+
 export default function Profile({ setBackdrop, scrollTop }) {
 
   const [watchlist, setWatchlist] = useState([])
@@ -32,46 +35,18 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const theme = useTheme()
   const [suggestions, setSuggestions] = useState([])
   const [loading, setLoading] = useState(true)
-  const [premium, setPremium] = useState(false)
   const [publicAcc, setPublicAcc] = useState(true)
   const [watchedCount, setWatchedCount] = useState(0)
   const [favouriteCount, setFavouriteCount] = useState(0)
 
   const currentPhoto = useFetchUserDetails(auth?.currentUser?.uid, 'photo')
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
+  const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
+  const premium = useFetchPremium(auth?.currentUser?.uid)
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const images = [
-    `${process.env.PUBLIC_URL}/1.jpeg`,
-    `${process.env.PUBLIC_URL}/2.jpeg`,
-    `${process.env.PUBLIC_URL}/3.jpeg`,
-    `${process.env.PUBLIC_URL}/4.jpeg`,
-    `${process.env.PUBLIC_URL}/5.jpeg`,
-    `${process.env.PUBLIC_URL}/6.jpeg`,
-    `${process.env.PUBLIC_URL}/7.jpeg`,
-    `${process.env.PUBLIC_URL}/8.jpeg`,
-    `${process.env.PUBLIC_URL}/9.jpeg`,
-    `${process.env.PUBLIC_URL}/10.jpeg`,
-    `${process.env.PUBLIC_URL}/11.jpeg`,
-    `${process.env.PUBLIC_URL}/12.jpeg`,
-    `${process.env.PUBLIC_URL}/13.jpeg`,
-    `${process.env.PUBLIC_URL}/14.jpeg`,
-    `${process.env.PUBLIC_URL}/15.jpeg`,
-    `https://api.dicebear.com/9.x/dylan/svg?seed=${currentUsername}?size=96`,
-    `https://api.dicebear.com/9.x/adventurer/svg?seed=${currentUsername}?size=96`,
-    `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${currentUsername}?size=96`,
-    `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${currentUsername}?size=96`,
-    `https://api.dicebear.com/9.x/micah/svg?seed=${currentUsername}?size=96`,
-    `https://api.dicebear.com/9.x/open-peeps/svg?seed=${currentUsername}?size=96`,
-    `https://api.dicebear.com/9.x/thumbs/svg?seed=${currentUsername}?size=96`,
-    `https://api.dicebear.com/9.x/notionists/svg?seed=${currentUsername}?size=96`,
-    `https://api.dicebear.com/9.x/initials/svg?seed=${currentUsername}?size=96`,
-  ]
-
-  const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
 
   useEffect(() => {
     scrollTop()
@@ -113,9 +88,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
   }
 
   useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
-      setPremium(snapshot.val())
-    })
     database.ref(`/Users/${auth?.currentUser?.uid}/public`).on('value', snapshot => {
       setPublicAcc(snapshot.val())
     })

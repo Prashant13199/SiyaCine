@@ -13,8 +13,6 @@ import { getCurrentDate } from '../../Services/time';
 
 export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched, resumeSeries, setResumeSeries }) {
 
-    const theme = useTheme()
-
     const [content, setContent] = useState([])
     const [seasonNumber, setSeasonNumber] = useState(1)
     const [episodeNumber, setEpisodeNumber] = useState()
@@ -23,6 +21,36 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     const [premium, setPremium] = useState(false)
     const [server, setServer] = useState(1)
     const [played, setPlayed] = useState(false)
+    const [show4, setShow4] = useState(false);
+
+    const theme = useTheme()
+
+    useEffect(() => {
+        fetchDetails()
+    }, [seasonNumber])
+
+    useEffect(() => {
+        if (lastPlayed && resumeSeries && !played) {
+            handleEpisodeScroll()
+            setSeasonNumber(lastPlayed?.season ? lastPlayed?.season : seasonNumber)
+            handleShow4(lastPlayed?.episode ? lastPlayed?.episode : 1, lastPlayed?.season ? lastPlayed?.season : seasonNumber)
+            setPlayed(true)
+        }
+    }, [lastPlayed, resumeSeries])
+
+    useEffect(() => {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).on('value', snapshot => {
+            if (snapshot.val()?.season && snapshot.val()?.episode) {
+                setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
+                setSeasonNumber(snapshot.val()?.season)
+            } else {
+                setLastPlayed({})
+            }
+        })
+        database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
+            setPremium(snapshot.val())
+        })
+    }, [auth?.currentUser?.uid])
 
     const handleEpisodeScroll = () => {
         setTimeout(() => {
@@ -30,15 +58,14 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
         }, 250)
     }
 
-    const [show4, setShow4] = useState(false);
     const handleClose4 = () => {
         setShow4(false)
         setEpisodeNumber()
         setResumeSeries(false)
         setPlayed(false)
         handleEpisodeScroll()
-
     }
+
     const handleShow4 = (episode, season) => {
         setShow4(true)
         setEpisodeNumber(episode)
@@ -61,24 +88,6 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
             }
         })
     }
-
-    useEffect(() => {
-        fetchDetails()
-    }, [seasonNumber])
-
-    useEffect(() => {
-        database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).on('value', snapshot => {
-            if (snapshot.val()?.season && snapshot.val()?.episode) {
-                setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
-                setSeasonNumber(snapshot.val()?.season)
-            } else {
-                setLastPlayed({})
-            }
-        })
-        database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
-            setPremium(snapshot.val())
-        })
-    }, [auth?.currentUser?.uid])
 
     const fetchDetails = async () => {
         setContent([])
@@ -103,15 +112,6 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
         setEpisodeNumber(episodeNumber - 1)
         handleResume(episodeNumber - 1, seasonNumber)
     }
-
-    useEffect(() => {
-        if (lastPlayed && resumeSeries && !played) {
-            handleEpisodeScroll()
-            setSeasonNumber(lastPlayed?.season ? lastPlayed?.season : seasonNumber)
-            handleShow4(lastPlayed?.episode ? lastPlayed?.episode : 1, lastPlayed?.season ? lastPlayed?.season : seasonNumber)
-            setPlayed(true)
-        }
-    }, [lastPlayed, resumeSeries])
 
     return (
         <>

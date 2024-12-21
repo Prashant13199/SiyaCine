@@ -12,6 +12,13 @@ export default function Genres({
   setPage,
 }) {
 
+  useEffect(() => {
+    fetchGenres();
+    return () => {
+      setGenres({});
+    };
+  }, []);
+
   const handleAdd = (genre) => {
     setSelectedGenres([...selectedGenres, genre]);
     setGenres(genres.filter((g) => g.id !== genre.id));
@@ -37,14 +44,6 @@ export default function Genres({
       console.log(e)
     }
   };
-
-  useEffect(() => {
-    fetchGenres();
-
-    return () => {
-      setGenres({});
-    };
-  }, []);
 
   return (
     <div style={{ margin: '20px 0px' }}>

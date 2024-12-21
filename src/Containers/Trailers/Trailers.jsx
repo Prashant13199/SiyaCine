@@ -12,6 +12,7 @@ export default function Trailers({ data, title }) {
     const [vid, setVid] = useState('')
     const [show4, setShow4] = useState(false);
     const [name, setName] = useState('')
+
     const handleShow4 = () => {
         setShow4(true)
     }
@@ -20,7 +21,6 @@ export default function Trailers({ data, title }) {
         setVid('')
         setName('')
     }
-
 
     return (
         <>
@@ -48,7 +48,7 @@ export default function Trailers({ data, title }) {
                         </div>
                     </div>
                 })}
-            </div >
+            </div>
         </>
     )
 }

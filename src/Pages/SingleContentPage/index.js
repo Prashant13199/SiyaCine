@@ -18,7 +18,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import StarIcon from '@mui/icons-material/Star';
 import Review from '../../Components/review';
-import IosShareIcon from '@mui/icons-material/IosShare';
 import { useTheme } from '@mui/material';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -34,6 +33,9 @@ import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import { getCurrentDate, timeConvert } from '../../Services/time';
 import Trailers from '../../Containers/Trailers/Trailers';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import useFetchPremium from '../../hooks/useFetchPremium';
+import { getUsername } from '../../Services/utlitities';
+import useFetchUsers from '../../hooks/useFetchUsers';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -53,12 +55,20 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [reviews2, setReviews2] = useState([])
   const [server, setServer] = useState(1)
   const [show2, setShow2] = useState(false);
+  const [message, setMessage] = useState('')
+  const [resumeSeries, setResumeSeries] = useState(false)
+  const [show3, setShow3] = useState(false);
+  const [show4, setShow4] = useState(false);
+  const [readMore, setReadMore] = useState(false)
+  const theme = useTheme()
+  const [snackBar, setSnackBar] = useState(false)
+  const [review, setReview] = useState('')
+  const [loading, setLoading] = useState(true)
+
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
-  const [show3, setShow3] = useState(false);
   const handleClose3 = () => setShow3(false);
   const handleShow3 = () => setShow3(true);
-  const [show4, setShow4] = useState(false);
   const handleClose4 = () => {
     setShow4(false)
   }
@@ -66,30 +76,28 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     setShow4(true)
     handleWatching2()
   }
-  const [readMore, setReadMore] = useState(false)
-  const [users, setUsers] = useState([])
-  const theme = useTheme()
-  const [snackBar, setSnackBar] = useState(false)
-  const [review, setReview] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [premium, setPremium] = useState(false)
 
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
+  const premium = useFetchPremium(auth?.currentUser?.uid)
+  const users = useFetchUsers()
+
+  useEffect(() => {
+    setLoading(true)
+    fetchProvider();
+    fetchDetails();
+    fetchCredit();
+    fetchSimilar();
+    fetchVideo();
+    fetchRecommendation();
+    fetchReviews();
+    scrollTop()
+  }, [id])
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : data?.poster_path)
   }, [data, window.innerWidth, window.innerWidth])
 
-  const getUsername = (id) => {
-    let name = ""
-    database.ref(`/Users/${id}`).on('value', snapshot => {
-      name = snapshot.val()?.username
-    })
-    return name;
-  }
-
   useEffect(() => {
-
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
@@ -97,7 +105,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setFavourite(false)
       }
     })
-
     database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatchlist(true)
@@ -105,7 +112,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setWatchlist(false)
       }
     })
-
     database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatched(true)
@@ -113,7 +119,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setWatched(false)
       }
     })
-
     database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id == id) {
         setWatching(true)
@@ -121,21 +126,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setWatching(false)
       }
     })
-
-    database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
-      setPremium(snapshot.val())
-    })
-
-    database.ref(`/Users`).orderByChild('timestamp').on('value', snapshot => {
-      let user = []
-      snapshot.forEach((snap) => {
-        if (snap.key !== auth?.currentUser?.uid) {
-          user.push(snap.val())
-        }
-      })
-      setUsers(user.reverse())
-    })
-
     database.ref(`/Reviews/${id}`).orderByChild('timestamp').on('value', snapshot => {
       let data = []
       snapshot.forEach((snap) => {
@@ -143,7 +133,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       })
       setReviews2(data.reverse())
     })
-
   }, [id, auth?.currentUser?.uid])
 
   const fetchDetails = async () => {
@@ -233,18 +222,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       console.log(e)
     }
   };
-
-  useEffect(() => {
-    setLoading(true)
-    fetchProvider();
-    fetchDetails();
-    fetchCredit();
-    fetchSimilar();
-    fetchVideo();
-    fetchRecommendation();
-    fetchReviews();
-    scrollTop()
-  }, [id])
 
   const handleFavourite = () => {
     if (!favourite) {
@@ -391,10 +368,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       .catch((e) => console.log(e))
   }
 
-  const [message, setMessage] = useState('')
-
-  const [resumeSeries, setResumeSeries] = useState(false)
-
   const handleTvShowScroll = () => {
     setResumeSeries(true)
   }
@@ -410,7 +383,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <h2>Suggest To</h2>
             <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
           </div>
-          <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+          <div style={{ maxHeight: '50vh', overflowY: 'auto' }}>
             {users && users.map((user, index) => {
               return <div key={index} className='share_user' onClick={() => {
                 handleSend(user.uid, user.username)
@@ -425,6 +398,17 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               </div>
             })}
           </div>
+          <RWebShare
+            data={{
+              url: `https://siyacine.netlify.app/singlecontent/${id}/${type}`,
+              title: `${data.name || data.title || data.original_name}`,
+              text: `Siyacine: ${data.name || data.title || data.original_name}`,
+            }}
+            onClick={() => console.log("shared successfully!")}
+          >
+            <Button className='share_external_btn' fullWidth color='warning' variant="contained">Share externally</Button>
+          </RWebShare>
+
         </Modal.Body>
       </Modal>
       <Modal show={show3} onHide={handleClose3} centered>
@@ -557,21 +541,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                       </Tooltip>
                       <Tooltip title="Share">
                         <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleShow2()}>
-                          <IosShareIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="External Share">
-                        <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }}>
-                          <RWebShare
-                            data={{
-                              url: `https://siyacine.netlify.app/singlecontent/${id}/${type}`,
-                              title: `${data.name || data.title || data.original_name}`,
-                              text: `Siyacine: ${data.name || data.title || data.original_name}`,
-                            }}
-                            onClick={() => console.log("shared successfully!")}
-                          >
-                            <ShareOutlinedIcon />
-                          </RWebShare>
+                          <ShareOutlinedIcon />
                         </IconButton>
                       </Tooltip>
                     </>}

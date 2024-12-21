@@ -70,11 +70,9 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
 
   return (
     <>
-
       <Helmet>
         <title>SiyaCine{username ? ` - ${username}` : ''}</title>
       </Helmet>
-
       {!loading ? <div className='profile'>
         <div className='profile_header'>
           <div className='pic_container'>
@@ -87,7 +85,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
             </div>
           </div>
         </div>
-
         {watching?.length !== 0 && <><br />
           <div className='trending_title' >Watching Now<Count value={watching?.length} /></div>
           <div className='trending_scroll' >
@@ -129,7 +126,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       </div> : <div className="loading">
         <CircularProgress color='warning' />
       </div>}
-
     </>
   )
 }

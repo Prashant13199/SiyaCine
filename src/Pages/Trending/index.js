@@ -6,11 +6,12 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import { IconButton } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchContent from '../../hooks/useFetchContent';
-import { auth, database } from '../../firebase'
+import { auth } from '../../firebase'
 import axios from "axios";
 import Footer from '../../Containers/Footer'
 import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
+import useFetchPremium from '../../hooks/useFetchPremium';
 
 export default function Trending({ setBackdrop, scrollTop }) {
 
@@ -18,12 +19,12 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const [number, setNumber] = useState(null)
   const [recommendationCast, setRecommendationCast] = useState([])
   const [numberCast, setNumberCast] = useState(null)
-  const [premium, setPremium] = useState(false)
 
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const watchlist = useFetchDBData(auth?.currentUser?.uid, 'watchlist')
   const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
   const favouriteCast = useFetchDBData(auth?.currentUser?.uid, 'cast')
+  const premium = useFetchPremium(auth?.currentUser?.uid)
 
   const nowplaying = useFetchContent('now_playing', 'movie')
   const topratedmovie = useFetchContent('top_rated', 'movie')
@@ -38,11 +39,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
     setBackdrop()
   }, []);
 
-  useEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
-      setPremium(snapshot.val())
-    })
-  }, [auth?.currentUser?.uid])
 
   useEffect(() => {
     fetchRecommendation();
@@ -130,7 +126,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
         </>}
 
         {watchlist?.length !== 0 && <><br />
-          <div className='trending_title' >Watchlist</div>
+          <div className='trending_title' >Watchlist <Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watchlist && watchlist.map((data) => {
               return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />

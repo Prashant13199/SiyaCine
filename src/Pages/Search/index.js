@@ -16,17 +16,27 @@ function useQuery() {
     const { search } = useLocation();
     return React.useMemo(() => new URLSearchParams(search), [search]);
 }
-
 export default function Search({ scrollTop, setBackdrop }) {
 
     let data = useQuery();
     const query = data.get('query')
     const page = data.get('page')
     const history = useHistory()
+
     const [contentM, setContentM] = useState([]);
     const [numOfPagesM, setNumOfPagesM] = useState();
     const [search, setSearch] = useState(query ? query : '')
     const [pageM, setPageM] = useState(page ? page : 1)
+
+    useEffect(() => {
+        scrollTop()
+        fetchSearch();
+        setBackdrop()
+    }, [page, query])
+
+    useEffect(() => {
+        history.push(`/search?query=${search}&page=${pageM}`)
+    }, [pageM, search])
 
     const fetchSearch = async () => {
         try {
@@ -40,16 +50,6 @@ export default function Search({ scrollTop, setBackdrop }) {
         }
     };
 
-    useEffect(() => {
-        scrollTop()
-        fetchSearch();
-        setBackdrop()
-    }, [page, query])
-
-    useEffect(() => {
-        history.push(`/search?query=${search}&page=${pageM}`)
-    }, [pageM, search])
-
     const handlePageChange = (event, value) => {
         setPageM(value);
         window.scroll(0, 0);
@@ -62,13 +62,11 @@ export default function Search({ scrollTop, setBackdrop }) {
 
     return (
         <>
-
             <Helmet>
                 <title>SiyaCine - Search</title>
             </Helmet>
-
             <div className="search">
-                <Paper component="form" sx={{ p: '8px 4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '10px', margin: 'auto' }}>
+                <Paper component="form" sx={{ p: '4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '10px', margin: 'auto' }}>
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
                         className='input_search'
@@ -105,7 +103,6 @@ export default function Search({ scrollTop, setBackdrop }) {
                     <img src={empty} className='empty' />
                     <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
             </div>
-
         </>
 
     )

@@ -79,6 +79,12 @@
     background-color: antiquewhite !important;
     color: black !important;
     width: 178px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.share_external_btn {
+    margin-top: 10px !important;
 }
 
 .button:hover {
@@ -122,6 +128,8 @@
     border-radius: 20px !important;
     background-color: antiquewhite !important;
     color: black !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
 }
 
 .play_button:hover {

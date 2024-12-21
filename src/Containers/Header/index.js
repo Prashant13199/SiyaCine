@@ -12,32 +12,19 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function Header() {
 
-  const theme = useTheme()
-
   const [nowPlaying, setNowPlaying] = useState([])
   const [number, setNumber] = useState(null)
   const [background, setBackground] = useState(null)
   const [video, setVideo] = useState();
-
   const [show, setShow] = useState(false);
+
+  const theme = useTheme()
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   useEffect(() => {
     setBackground(window.innerWidth > 900 ? nowPlaying[number]?.backdrop_path : nowPlaying[number]?.poster_path)
   }, [nowPlaying, number, window.innerWidth])
-
-  const fetchnowPlaying = async () => {
-    try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`
-      );
-      setNowPlaying(data.results);
-    }
-    catch (e) {
-      console.log(e)
-    }
-  };
 
   useEffect(() => {
     fetchnowPlaying();
@@ -51,6 +38,18 @@ export default function Header() {
   useEffect(() => {
     setNumber(Math.floor(Math.random() * nowPlaying.length))
   }, [nowPlaying])
+
+  const fetchnowPlaying = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`
+      );
+      setNowPlaying(data.results);
+    }
+    catch (e) {
+      console.log(e)
+    }
+  };
 
   const fetchVideo = async () => {
     try {
@@ -76,7 +75,6 @@ export default function Header() {
           <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={window.innerHeight - 100} controls />
         </Modal.Body>
       </Modal>
-
       <div className='welcome' style={{ backgroundImage: nowPlaying?.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>

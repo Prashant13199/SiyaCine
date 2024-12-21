@@ -4,7 +4,9 @@ import './style.css'
 import { useTheme } from '@mui/material'
 
 export default function Cast({ c }) {
+
     const theme = useTheme()
+
     return (
         <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }}>
             <div className='cast_single'>
