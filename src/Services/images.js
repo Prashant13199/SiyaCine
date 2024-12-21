@@ -1,7 +1,8 @@
 import { auth } from "../firebase"
+import useFetchUserDetails from "../hooks/useFetchUserDetails"
 
-export const images = [
-    `https://api.dicebear.com/9.x/initials/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
+export const images = (username) => [
+    `https://api.dicebear.com/9.x/initials/svg?seed=${username}?size=96`,
     `${process.env.PUBLIC_URL}/1.jpeg`,
     `${process.env.PUBLIC_URL}/2.jpeg`,
     `${process.env.PUBLIC_URL}/3.jpeg`,
@@ -24,12 +25,12 @@ export const images = [
     `${process.env.PUBLIC_URL}/20.jpeg`,
     `${process.env.PUBLIC_URL}/21.jpeg`,
     `${process.env.PUBLIC_URL}/22.jpeg`,
-    `https://api.dicebear.com/9.x/dylan/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
-    `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
-    `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
-    `https://api.dicebear.com/9.x/thumbs/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
-    `https://api.dicebear.com/9.x/notionists/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
-    `https://api.dicebear.com/9.x/micah/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
-    `https://api.dicebear.com/9.x/open-peeps/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
-    `https://api.dicebear.com/9.x/adventurer/svg?seed=${auth?.currentUser?.email.split('@')[0]}?size=96`,
+    `https://api.dicebear.com/9.x/dylan/svg?seed=${username}?size=96`,
+    `https://api.dicebear.com/9.x/adventurer-neutral/svg?seed=${username}?size=96`,
+    `https://api.dicebear.com/9.x/fun-emoji/svg?seed=${username}?size=96`,
+    `https://api.dicebear.com/9.x/thumbs/svg?seed=${username}?size=96`,
+    `https://api.dicebear.com/9.x/notionists/svg?seed=${username}?size=96`,
+    `https://api.dicebear.com/9.x/micah/svg?seed=${username}?size=96`,
+    `https://api.dicebear.com/9.x/open-peeps/svg?seed=${username}?size=96`,
+    `https://api.dicebear.com/9.x/adventurer/svg?seed=${username}?size=96`,
 ]

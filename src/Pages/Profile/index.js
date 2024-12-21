@@ -160,7 +160,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
           </div>
           <div>
             <div className='picture_container'>
-              {images?.map((img) => {
+              {images(currentUsername)?.map((img) => {
                 return (
                   <div>
                     <img onClick={() => handleChangePicture(img)} className='picture_single' src={img} />
