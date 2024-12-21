@@ -36,6 +36,45 @@
     align-items: center;
 }
 
+.picture_container {
+    display: flex;
+    overflow: auto;
+    margin-top: 10px;
+}
+
+.picture_single {
+    height: auto;
+    min-width: 200px;
+    width: 200px;
+    border-radius: 50%;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.modal_body {
+    padding: 20px 0;
+    height: 60vh;
+    overflow: auto;
+}
+
+.current {
+    text-align: center;
+    color: rgb(255, 167, 38);
+}
+
+.pic_container {
+    position: relative;
+}
+
+.edit_icon {
+    background-color: black !important;
+    color: rgb(255, 167, 38) !important;
+    position: absolute !important;
+    right: 8% !important;
+    bottom: 8% !important;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 900px) {
 
     .empty {
@@ -76,5 +115,11 @@
     .profile_image {
         height: 200px;
         width: 200px;
+    }
+
+    .picture_single {
+        min-width: 120px;
+        width: 120px;
+        margin: 2px;
     }
 }
