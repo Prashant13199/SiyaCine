@@ -60,7 +60,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
       </div>
       {by && <div className='user'>
         <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => removeSuggestion()}>
-          <DeleteIcon color="error" style={{ cursor: 'pointer' }} fontSize='small' />
+          <DeleteIcon color="error" style={{ cursor: 'pointer', fontSize: '12px' }} />
         </IconButton>
         <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
       </div>}

@@ -21,9 +21,8 @@
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 150px;
+    width: 160px;
     overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .res {
@@ -62,7 +61,7 @@
     }
 
     .user {
-        width: 130px;
+        width: 120px;
     }
 
     .trending_count {
