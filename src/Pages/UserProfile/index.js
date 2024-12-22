@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast'
-import { Button, CircularProgress, IconButton, Tooltip } from '@mui/material';
+import { Button, CircularProgress, Grow, IconButton, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Count from '../../Components/Count'
@@ -179,77 +179,81 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       <Helmet>
         <title>SiyaCine{username ? ` - ${username}` : ''}</title>
       </Helmet>
-      {!loading ? <div className='profile'>
-        <div className='profile_header'>
-          <div className='pic_container'>
-            <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
-          </div>
-          <div className='profile_right'>
-            {admin ? <Tooltip title={uid} placement='top'>
-              <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-            </Tooltip>
-              :
-              <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-            }
-            {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
-              <Premium premium={premium} />
-            </div>}
-            <div className='connect_btn'>
-              {requested ?
-                <>
-                  <Button onClick={handleRequest} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
-                  {auth?.currentUser?.uid !== initiated && <Button style={{ marginLeft: '10px' }} onClick={removeRequested} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
-                </>
-                :
-                <> {connected ? <Button onClick={handleRemoveConnect} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
-                  <Button onClick={handleConnect} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
-                </>}
+      {!loading ?
+        <Grow in={!loading} {...({ timeout: 800 })}>
+          <div className='profile'>
+            <div className='profile_header'>
+              <div className='pic_container'>
+                <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
+              </div>
+              <div className='profile_right'>
+                {admin ? <Tooltip title={uid} placement='top'>
+                  <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+                </Tooltip>
+                  :
+                  <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+                }
+                {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
+                  <Premium premium={premium} />
+                </div>}
+                <div className='connect_btn'>
+                  {requested ?
+                    <>
+                      <Button onClick={handleRequest} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
+                      {auth?.currentUser?.uid !== initiated && <Button style={{ marginLeft: '10px' }} onClick={removeRequested} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
+                    </>
+                    :
+                    <> {connected ? <Button onClick={handleRemoveConnect} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
+                      <Button onClick={handleConnect} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
+                    </>}
+                </div>
+              </div>
             </div>
+            {(connected || publicAcc) && <>
+              {watching?.length !== 0 && <><br />
+                <div className='trending_title' >Watching Now<Count value={watching?.length} /></div>
+                <div className='trending_scroll' >
+                  {watching?.map((data) => {
+                    return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} showtv={true} />
+                  })}
+                </div></>}
+              {watchlist?.length !== 0 && <><br />
+                <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_scroll' >
+                  {watchlist?.map((data) => {
+                    return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
+                  })}
+                </div></>}
+              {watched?.length !== 0 && <><br />
+                <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_scroll' >
+                  {watched?.map((data) => {
+                    return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
+                  })}
+                </div></>}
+              {favourite?.length !== 0 && <><br />
+                <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_scroll' >
+                  {favourite?.map((data) => {
+                    return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
+                  })}
+                </div></>}
+              {cast?.length !== 0 && <><br />
+                <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
+                <div className='trending_scroll' >
+                  {cast?.map((c) => {
+                    return <Cast c={c} key={c?.id} />
+                  })}
+                </div></>}
+            </>}
+            {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
+              <img src={empty} className='empty' alt="" />
+              <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
           </div>
-        </div>
-        {(connected || publicAcc) && <>
-          {watching?.length !== 0 && <><br />
-            <div className='trending_title' >Watching Now<Count value={watching?.length} /></div>
-            <div className='trending_scroll' >
-              {watching?.map((data) => {
-                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} showtv={true} />
-              })}
-            </div></>}
-          {watchlist?.length !== 0 && <><br />
-            <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-            <div className='trending_scroll' >
-              {watchlist?.map((data) => {
-                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
-              })}
-            </div></>}
-          {watched?.length !== 0 && <><br />
-            <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-            <div className='trending_scroll' >
-              {watched?.map((data) => {
-                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
-              })}
-            </div></>}
-          {favourite?.length !== 0 && <><br />
-            <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-            <div className='trending_scroll' >
-              {favourite?.map((data) => {
-                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
-              })}
-            </div></>}
-          {cast?.length !== 0 && <><br />
-            <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
-            <div className='trending_scroll' >
-              {cast?.map((c) => {
-                return <Cast c={c} key={c?.id} />
-              })}
-            </div></>}
-        </>}
-        {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
-          <img src={empty} className='empty' alt="" />
-          <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-      </div> : <div className="loading">
-        <CircularProgress color='warning' />
-      </div>}
+        </Grow>
+        : <div className="loading">
+          <CircularProgress color='warning' />
+        </div>}
     </>
   )
 }

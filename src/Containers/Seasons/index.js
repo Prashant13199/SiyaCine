@@ -22,6 +22,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     const [server, setServer] = useState(1)
     const [played, setPlayed] = useState(false)
     const [show4, setShow4] = useState(false);
+    const [loading, setLoading] = useState(true)
 
     const theme = useTheme()
 
@@ -97,6 +98,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
             );
             setContent(data);
             setTotalEpisodes(data?.episodes?.length)
+            setLoading(false)
         }
         catch (e) {
             console.log(e)
@@ -169,7 +171,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                     </div>
                 })}
             </div>
-            {content?.length === 0 && <center>
+            {content?.length === 0 && !loading && <center>
                 <img src={empty} className='empty_series' alt="" />
                 <h6 style={{ color: 'gray' }}>No shows available</h6></center>}
         </>

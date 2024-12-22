@@ -50,7 +50,7 @@ export default function NavBarMain({ top }) {
 
   useEffect(() => {
     if (location.pathname === '/movies') {
-      setRouteName('Movie')
+      setRouteName('Movies')
     } else if (location.pathname === '/tv') {
       setRouteName('TV Shows')
     } else if (location.pathname === '/people') {
@@ -59,8 +59,10 @@ export default function NavBarMain({ top }) {
       setRouteName('Me')
     } else if (location.pathname?.includes('/user')) {
       setRouteName('User')
-    } else if (location.pathname?.includes('/singlecontent')) {
-      setRouteName('Content')
+    } else if (location.pathname?.includes('/singlecontent') && location.pathname?.includes('/tv')) {
+      setRouteName('TV')
+    } else if (location.pathname?.includes('/singlecontent') && location.pathname?.includes('/movie')) {
+      setRouteName('Movie')
     } else if (location.pathname?.includes('/singlecast')) {
       setRouteName('Cast')
     } else if (location.pathname?.includes('/Upcoming')) {

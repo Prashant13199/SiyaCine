@@ -1,23 +1,25 @@
 .premium {
-    border-radius: 6px;
+    border-radius: 20px;
     border-width: 1px;
     color: rgb(255, 167, 38);
     border-color: rgb(255, 167, 38);
-    padding: 6px 10px;
+    padding: 6px 20px;
     border-style: solid;
     width: fit-content;
     font-size: 12px;
+    font-weight: 500;
 }
 
 .basic {
-    border-radius: 6px;
+    border-radius: 20px;
     border-width: 1px;
-    color: rgb(112, 167, 255);
-    border-color: rgb(112, 167, 255);
-    padding: 6px 10px;
+    color: rgb(65, 138, 255);
+    border-color: rgb(65, 138, 255);
+    padding: 6px 20px;
     border-style: solid;
     width: fit-content;
     font-size: 12px;
+    font-weight: 500;
 }
 
 .handlepremium {

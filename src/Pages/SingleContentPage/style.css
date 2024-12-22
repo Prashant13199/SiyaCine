@@ -83,15 +83,26 @@
     padding-bottom: 5px !important;
 }
 
-.share_external_btn {
-    margin-top: 10px !important;
-}
-
 .button:hover {
     transition: all .3s ease-in-out;
     transform: scale(0.95);
     background-color: rgb(255, 167, 38) !important;
+}
+
+.share_external_btn {
+    margin-top: 10px !important;
+    background-color: antiquewhite !important;
+    border-radius: 20px !important;
     color: black !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    transition: all .3s ease-in-out;
+}
+
+.share_external_btn:hover {
+    transition: all .3s ease-in-out;
+    transform: scale(0.95);
+    background-color: rgb(255, 167, 38) !important;
 }
 
 .server_button {
@@ -108,7 +119,6 @@
     transform: scale(0.95);
     border-radius: 20px !important;
     background-color: rgb(255, 202, 122) !important;
-    color: black !important;
 }
 
 .server_button_selected {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { database, auth } from '../../firebase';
 import './style.css';
-import { IconButton, Tooltip } from '@mui/material';
+import { Grow, IconButton, Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useHistory } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
@@ -173,81 +173,85 @@ export default function Profile({ setBackdrop, scrollTop }) {
         </Modal.Body>
       </Modal>
 
-      {!loading ? <div className='profile'>
-        <div className='profile_header'>
-          <div className='pic_container'>
-            <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
-            <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
-          </div>
-          <div className='profile_right'>
-            <Tooltip title={auth?.currentUser?.uid} placement='top'>
-              <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
-            </Tooltip>
-            <div className='profile_actions'>
-              <Premium premium={premium} />
-              <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
-                <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handlePublic()}>
-                  {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
-                </IconButton>
-              </Tooltip>
-              <Tooltip title={'Logout'}>
-                <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => signOut()}>
-                  <LogoutIcon />
-                </IconButton>
-              </Tooltip>
-            </div>
-          </div>
-        </div>
-        {watching?.length !== 0 && <><br />
-          <div className='trending_title' >Resume Watching</div>
-          <div className='trending_scroll' >
-            {watching && watching.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data?.type} showtv={true} />
-            })}
-          </div></>}
-        {watchlist?.length !== 0 && <><br />
-          <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-          <div className='trending_scroll' >
-            {watchlist && watchlist.map((data) => {
-              return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
-            })}
-          </div></>}
-        {watched?.length !== 0 && <><br />
-          <div className='trending_title' >Watched<Count value={watchedCount} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-          <div className='trending_scroll' >
-            {watched && watched.map((data) => {
-              return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
-            })}
-          </div></>}
-        {suggestions?.length !== 0 && <><br />
-          <div className='trending_title' >Suggestions<Count value={suggestions?.length} /></div>
-          <div className='trending_scroll' >
-            {suggestions?.map((data) => {
-              return <div>
-                <SingleContentScroll data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} showtv={true} />
+      {!loading ?
+        <Grow in={!loading} {...({ timeout: 800 })}>
+          <div className='profile'>
+            <div className='profile_header'>
+              <div className='pic_container'>
+                <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
+                <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
               </div>
-            })}
-          </div></>}
-        {favourite?.length !== 0 && <><br />
-          <div className='trending_title' >Favourites<Count value={favouriteCount} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-          <div className='trending_scroll' >
-            {favourite?.map((data) => {
-              return <SingleContentScroll data={data?.data} key={data?.id} id={data?.id} type={data?.type} showtv={true} />
-            })}
-          </div></>}
-        {cast?.length !== 0 && <><br />
-          <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
-          <div className='trending_scroll' >
-            {cast?.map((c) => {
-              return <Cast c={c} key={c.id} />
-            })}
-          </div></>}
-        {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
-          <img src={empty} className='empty' alt="" />
-          <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-      </div> : <div className="loading">
-        <CircularProgress color='warning' />
-      </div>}
+              <div className='profile_right'>
+                <Tooltip title={auth?.currentUser?.uid} placement='top'>
+                  <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
+                </Tooltip>
+                <div className='profile_actions'>
+                  <Premium premium={premium} />
+                  <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
+                    <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handlePublic()}>
+                      {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title={'Logout'}>
+                    <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => signOut()}>
+                      <LogoutIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+            {watching?.length !== 0 && <><br />
+              <div className='trending_title' >Resume Watching</div>
+              <div className='trending_scroll' >
+                {watching && watching.map((data) => {
+                  return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data?.type} showtv={true} />
+                })}
+              </div></>}
+            {watchlist?.length !== 0 && <><br />
+              <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <div className='trending_scroll' >
+                {watchlist && watchlist.map((data) => {
+                  return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
+                })}
+              </div></>}
+            {watched?.length !== 0 && <><br />
+              <div className='trending_title' >Watched<Count value={watchedCount} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <div className='trending_scroll' >
+                {watched && watched.map((data) => {
+                  return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
+                })}
+              </div></>}
+            {suggestions?.length !== 0 && <><br />
+              <div className='trending_title' >Suggestions<Count value={suggestions?.length} /></div>
+              <div className='trending_scroll' >
+                {suggestions?.map((data) => {
+                  return <div>
+                    <SingleContentScroll data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} showtv={true} />
+                  </div>
+                })}
+              </div></>}
+            {favourite?.length !== 0 && <><br />
+              <div className='trending_title' >Favourites<Count value={favouriteCount} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <div className='trending_scroll' >
+                {favourite?.map((data) => {
+                  return <SingleContentScroll data={data?.data} key={data?.id} id={data?.id} type={data?.type} showtv={true} />
+                })}
+              </div></>}
+            {cast?.length !== 0 && <><br />
+              <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
+              <div className='trending_scroll' >
+                {cast?.map((c) => {
+                  return <Cast c={c} key={c.id} />
+                })}
+              </div></>}
+            {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
+              <img src={empty} className='empty' alt="" />
+              <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+          </div>
+        </Grow>
+        : <div className="loading">
+          <CircularProgress color='warning' />
+        </div>}
 
     </>
   )

@@ -69,8 +69,8 @@ export default function People({ scrollTop, setBackdrop }) {
                 </Paper>
                 <br />
                 {users?.length ? <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 16, lg: 24 }}>
-                    {searchedUsers?.map((user) => {
-                        return <User user={user} key={user.uid} />
+                    {searchedUsers?.map((user, index) => {
+                        return <User user={user} key={user.uid} index={index} />
                     })}
                 </Grid> : <div className="loading">
                     <CircularProgress color='warning' />
