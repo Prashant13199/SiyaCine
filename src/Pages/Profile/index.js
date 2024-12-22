@@ -23,6 +23,7 @@ import { Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import ModeIcon from '@mui/icons-material/Mode';
 import { images } from '../../Services/images'
+import ConnectionUser from '../../Components/ConnectionUser';
 
 export default function Profile({ setBackdrop, scrollTop }) {
 
@@ -38,13 +39,14 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const [publicAcc, setPublicAcc] = useState(true)
   const [watchedCount, setWatchedCount] = useState(0)
   const [favouriteCount, setFavouriteCount] = useState(0)
+  const [connections, setConnections] = useState([])
+  const [show, setShow] = useState(false);
 
   const currentPhoto = useFetchUserDetails(auth?.currentUser?.uid, 'photo')
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const premium = useFetchPremium(auth?.currentUser?.uid)
 
-  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -132,6 +134,15 @@ export default function Profile({ setBackdrop, scrollTop }) {
       })
       setSuggestions(arr.reverse())
     })
+    database.ref(`/Connections`).orderByChild('timestamp').on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        if (snap.key.includes(auth?.currentUser?.uid) && snap.val()?.connected) {
+          arr.push(snap.key.replace(':', '').replace(auth?.currentUser?.uid, ''))
+        }
+      })
+      setConnections(arr.reverse())
+    })
     setLoading(false)
   }, [auth?.currentUser?.uid])
 
@@ -151,7 +162,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
       <Helmet>
         <title>SiyaCine{currentUsername ? ` - ${currentUsername}` : ''}</title>
       </Helmet>
-
       <Modal size='md' show={show} onHide={handleClose} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='modal_header'>
@@ -172,7 +182,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
           </div>
         </Modal.Body>
       </Modal>
-
       {!loading ?
         <Grow in={!loading} {...({ timeout: 800 })}>
           <div className='profile'>
@@ -242,6 +251,13 @@ export default function Profile({ setBackdrop, scrollTop }) {
               <div className='trending_scroll' >
                 {cast?.map((c) => {
                   return <Cast c={c} key={c.id} />
+                })}
+              </div></>}
+            {connections?.length !== 0 && <><br />
+              <div className='trending_title' >Connections<Count value={connections?.length} /></div>
+              <div className='trending_scroll' >
+                {connections?.map((user, index) => {
+                  return <ConnectionUser user={user} index={index} />
                 })}
               </div></>}
             {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />

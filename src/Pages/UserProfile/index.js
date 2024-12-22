@@ -15,6 +15,7 @@ import useFetchDBData from '../../hooks/useFetchDBData'
 import useFetchUserDetails from '../../hooks/useFetchUserDetails'
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
+import ConnectionUser from '../../Components/ConnectionUser'
 
 export default function UserProfile({ setBackdrop, scrollTop }) {
 
@@ -27,6 +28,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const [requested, setRequested] = useState(false)
   const [publicAcc, setPublicAcc] = useState(true)
   const [initiated, setInitiated] = useState('')
+  const [connections, setConnections] = useState([])
 
   const connectID = [auth?.currentUser?.uid, uid].sort().join(':')
   const watchlist = useFetchDBData(uid, 'watchlist')
@@ -51,6 +53,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   }, [favourite.length])
 
   useEffect(() => {
+    scrollTop()
     database.ref(`/Users/${uid}`).on('value', snapshot => {
       setPublicAcc(snapshot.val().public)
     })
@@ -80,6 +83,15 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       } else {
         setInitiated('')
       }
+    })
+    database.ref(`/Connections`).orderByChild('timestamp').on('value', snapshot => {
+      let arr = []
+      snapshot?.forEach((snap) => {
+        if (snap.key.includes(uid) && snap.val()?.connected) {
+          arr.push(snap.key.replace(':', '').replace(uid, ''))
+        }
+      })
+      setConnections(arr.reverse())
     })
     setLoading(false)
   }, [uid])
@@ -243,6 +255,13 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
                 <div className='trending_scroll' >
                   {cast?.map((c) => {
                     return <Cast c={c} key={c?.id} />
+                  })}
+                </div></>}
+              {connections?.length !== 0 && <><br />
+                <div className='trending_title' >Connections<Count value={connections?.length} /></div>
+                <div className='trending_scroll' >
+                  {connections?.map((user, index) => {
+                    return <ConnectionUser user={user} index={index} />
                   })}
                 </div></>}
             </>}
