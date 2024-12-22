@@ -60,8 +60,8 @@ export default function TV({ scrollTop, setBackdrop }) {
         {!loading ?
           <> <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
             {content &&
-              content.map((data) => {
-                return <SingleContent data={data} key={data.id} type={'tv'} />
+              content.map((data, index) => {
+                return <SingleContent data={data} key={data.id} type={'tv'} index={index} />
               })}
           </Grid>
             {content?.length === 0 && <center><br />

@@ -90,8 +90,8 @@ export default function Search({ scrollTop, setBackdrop }) {
                 <br />
                 {query && <>
                     <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                        {contentM && contentM.map((data) => {
-                            return <SingleContentSearch data={data} key={data.id} />
+                        {contentM && contentM.map((data, index) => {
+                            return <SingleContentSearch data={data} key={data.id} index={index} />
                         })}
                     </Grid>
 

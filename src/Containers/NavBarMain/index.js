@@ -16,7 +16,7 @@ import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Notification from '../../Components/Notification/Notification';
 
-export default function NavBarMain({ top }) {
+export default function NavBarMain({ top, scrollTop }) {
 
   const [routeName, setRouteName] = useState('Home')
   const [show, setShow] = useState(false);
@@ -118,10 +118,8 @@ export default function NavBarMain({ top }) {
       </Modal>
       <Navbar className={top < 50 ? 'navbar_main navbar_back_image' : 'navbar_main navbar_back'} variant={theme.palette.mode} fixed='top'>
         <Navbar.Brand className="navlink">
-          <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }}>
-            <div style={{ display: 'flex' }}>
-              <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
-            </div>
+          <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }} onClick={scrollTop}>
+            <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
           </NavLink>
         </Navbar.Brand>
         <NavDropdown title={routeName} id="basic-nav-dropdown" className='mobile'>
