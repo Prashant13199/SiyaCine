@@ -67,7 +67,7 @@
 }
 
 .edit_icon {
-    background-color: black !important;
+    background-color: rgb(18, 18, 18) !important;
     color: rgb(255, 167, 38) !important;
     position: absolute !important;
     right: 8% !important;

@@ -11,7 +11,6 @@ export default function Notification({ noti, handleClose }) {
     const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
     const removeNotification = () => {
-        console.log(noti.id)
         database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${noti.id}`)
             .remove().then(() => {
                 console.log('Notification removed')
@@ -53,7 +52,7 @@ export default function Notification({ noti, handleClose }) {
                 {noti.text}
                 <div className='notification_btns'>
                     {noti?.connection && <div onClick={acceptConnection} className='notification_accept'>accept</div>}
-                    <div onClick={removeNotification} className='notification_delete'>clear</div>
+                    <div onClick={removeNotification} className='notification_delete'>{noti?.connection ? 'decline' : 'clear'}</div>
                 </div>
             </div>
             {noti?.poster && <Link onClick={handleClose} to={`/singlecontent/${noti.id}/${noti.type}`}>

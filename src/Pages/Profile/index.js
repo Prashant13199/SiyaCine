@@ -180,7 +180,9 @@ export default function Profile({ setBackdrop, scrollTop }) {
             <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
           </div>
           <div className='profile_right'>
-            <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
+            <Tooltip title={auth?.currentUser?.uid} placement='top'>
+              <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
+            </Tooltip>
             <div className='profile_actions'>
               <Premium premium={premium} />
               <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>

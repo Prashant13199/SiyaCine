@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast'
-import { Button, CircularProgress, IconButton } from '@mui/material';
+import { Button, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Count from '../../Components/Count'
@@ -101,35 +101,35 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   }
 
   const handleConnect = () => {
-    if (connected) {
-      database.ref(`/Connections/${connectID}`).remove().then(() => {
-        console.log('connection removed')
-        database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).remove().then(() => {
-          console.log('Notification removed')
-        }).catch((e) => console.log(e))
-      }).catch((e) => {
-        console.log(e)
-      })
-    } else {
-      database.ref(`Connections/${connectID}`).set({
-        connected: false,
-        requested: true,
-        initiated: auth?.currentUser?.uid,
-        timestamp: Date.now()
+    database.ref(`Connections/${connectID}`).set({
+      connected: false,
+      requested: true,
+      initiated: auth?.currentUser?.uid,
+      timestamp: Date.now()
+    }).then(() => {
+      console.log('Connected Requested')
+      database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).update({
+        timestamp: Date.now(),
+        by: currentUsername,
+        byuid: auth?.currentUser?.uid,
+        id: auth?.currentUser?.uid,
+        text: `${currentUsername} requested to connect with you`,
+        connection: true
       }).then(() => {
-        console.log('Connected Requested')
-        database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).update({
-          timestamp: Date.now(),
-          by: currentUsername,
-          byuid: auth?.currentUser?.uid,
-          id: auth?.currentUser?.uid,
-          text: `${currentUsername} requested to connect with you`,
-          connection: true
-        }).then(() => {
-          console.log('Notification Sent')
-        }).catch((e) => console.log(e))
+        console.log('Notification Sent')
       }).catch((e) => console.log(e))
-    }
+    }).catch((e) => console.log(e))
+  }
+
+  const handleRemoveConnect = () => {
+    database.ref(`/Connections/${connectID}`).remove().then(() => {
+      console.log('connection removed')
+      database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).remove().then(() => {
+        console.log('Notification removed')
+      }).catch((e) => console.log(e))
+    }).catch((e) => {
+      console.log(e)
+    })
   }
 
   const handleRequest = () => {
@@ -154,13 +154,24 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
     } else {
       database.ref(`/Connections/${connectID}`).remove().then(() => {
         console.log('connection removed')
-        database.ref(`/Users/${uid}/notifications/${uid}`).remove().then(() => {
+        database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).remove().then(() => {
           console.log('Notification removed')
         }).catch((e) => console.log(e))
       }).catch((e) => {
         console.log(e)
       })
     }
+  }
+
+  const removeRequested = () => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${uid}`)
+      .remove().then(() => {
+        console.log('Notification removed')
+        database.ref(`Connections/${connectID}`).remove().then(() => console.log('Connection declined'))
+          .catch((e) => console.log(e))
+      }).catch((e) => {
+        console.log(e)
+      })
   }
 
   return (
@@ -174,12 +185,25 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
             <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
           </div>
           <div className='profile_right'>
-            <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+            {admin ? <Tooltip title={uid} placement='top'>
+              <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+            </Tooltip>
+              :
+              <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+            }
             {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
               <Premium premium={premium} />
             </div>}
             <div className='connect_btn'>
-              <Button onClick={requested ? handleRequest : handleConnect} variant='outlined' color='warning' startIcon={connected ? <PersonRemoveAlt1Icon /> : <PersonAddAlt1Icon />}>{requested ? 'Requested' : connected ? 'Connected' : 'Connect'}</Button>
+              {requested ?
+                <>
+                  <Button onClick={handleRequest} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
+                  {auth?.currentUser?.uid !== initiated && <Button style={{ marginLeft: '10px' }} onClick={removeRequested} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
+                </>
+                :
+                <> {connected ? <Button onClick={handleRemoveConnect} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
+                  <Button onClick={handleConnect} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
+                </>}
             </div>
           </div>
         </div>
