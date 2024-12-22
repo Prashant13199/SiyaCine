@@ -15,14 +15,6 @@
     border-radius: 50%;
 }
 
-.users_image_faded {
-    height: auto;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    opacity: 0.6;
-}
-
 .user_username {
     color: rgb(255, 167, 38);
     word-wrap: break-word;

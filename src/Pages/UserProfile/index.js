@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast'
-import { CircularProgress, IconButton } from '@mui/material';
+import { Button, CircularProgress, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Count from '../../Components/Count'
@@ -13,6 +13,8 @@ import Premium from '../../Components/Premium'
 import { Helmet } from 'react-helmet'
 import useFetchDBData from '../../hooks/useFetchDBData'
 import useFetchUserDetails from '../../hooks/useFetchUserDetails'
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
 
 export default function UserProfile({ setBackdrop, scrollTop }) {
 
@@ -21,7 +23,12 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const [loading, setLoading] = useState(true)
   const [admin, setAdmin] = useState(false)
   const [premium, setPremium] = useState(false)
+  const [connected, setConnected] = useState(false)
+  const [requested, setRequested] = useState(false)
+  const [publicAcc, setPublicAcc] = useState(true)
+  const [initiated, setInitiated] = useState('')
 
+  const connectID = [auth?.currentUser?.uid, uid].sort().join(':')
   const watchlist = useFetchDBData(uid, 'watchlist')
   const watched = useFetchDBData(uid, 'watched')
   const favourite = useFetchDBData(uid, 'favourites')
@@ -29,6 +36,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const cast = useFetchDBData(uid, 'cast')
   const username = useFetchUserDetails(uid, 'username')
   const photo = useFetchUserDetails(uid, 'photo')
+  const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
   useEffect(() => {
     scrollTop()
@@ -43,11 +51,35 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   }, [favourite.length])
 
   useEffect(() => {
+    database.ref(`/Users/${uid}`).on('value', snapshot => {
+      setPublicAcc(snapshot.val().public)
+    })
     database.ref(`/Users/${auth?.currentUser?.uid}/admin`).on('value', snapshot => {
       setAdmin(snapshot.val())
     })
     database.ref(`/Users/${uid}/premium`).on('value', snapshot => {
       setPremium(snapshot.val())
+    })
+    database.ref(`/Connections/${connectID}/connected`).on('value', snapshot => {
+      if (snapshot.val()) {
+        setConnected(true)
+      } else {
+        setConnected(false)
+      }
+    })
+    database.ref(`/Connections/${connectID}/requested`).on('value', snapshot => {
+      if (snapshot.val()) {
+        setRequested(true)
+      } else {
+        setRequested(false)
+      }
+    })
+    database.ref(`/Connections/${connectID}/initiated`).on('value', snapshot => {
+      if (snapshot.val()) {
+        setInitiated(snapshot.val())
+      } else {
+        setInitiated('')
+      }
     })
     setLoading(false)
   }, [uid])
@@ -68,6 +100,69 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
     }
   }
 
+  const handleConnect = () => {
+    if (connected) {
+      database.ref(`/Connections/${connectID}`).remove().then(() => {
+        console.log('connection removed')
+        database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).remove().then(() => {
+          console.log('Notification removed')
+        }).catch((e) => console.log(e))
+      }).catch((e) => {
+        console.log(e)
+      })
+    } else {
+      database.ref(`Connections/${connectID}`).set({
+        connected: false,
+        requested: true,
+        initiated: auth?.currentUser?.uid,
+        timestamp: Date.now()
+      }).then(() => {
+        console.log('Connected Requested')
+        database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).update({
+          timestamp: Date.now(),
+          by: currentUsername,
+          byuid: auth?.currentUser?.uid,
+          id: auth?.currentUser?.uid,
+          text: `${currentUsername} requested to connect with you`,
+          connection: true
+        }).then(() => {
+          console.log('Notification Sent')
+        }).catch((e) => console.log(e))
+      }).catch((e) => console.log(e))
+    }
+  }
+
+  const handleRequest = () => {
+    if (auth?.currentUser?.uid !== initiated) {
+      database.ref(`Connections/${connectID}`).update({
+        connected: true,
+        requested: false
+      }).then(() => {
+        console.log('Connection accepted')
+        database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).update({
+          timestamp: Date.now(),
+          by: currentUsername,
+          byuid: auth?.currentUser?.uid,
+          id: auth?.currentUser?.uid,
+          text: `${currentUsername} accepted your connection request`,
+        }).then(() => {
+          console.log('Notification Sent')
+          database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${uid}`).remove()
+            .then(() => console.log('Self Notification removed')).catch((e) => console.log(e))
+        }).catch((e) => console.log(e))
+      }).catch((e) => console.log(e))
+    } else {
+      database.ref(`/Connections/${connectID}`).remove().then(() => {
+        console.log('connection removed')
+        database.ref(`/Users/${uid}/notifications/${uid}`).remove().then(() => {
+          console.log('Notification removed')
+        }).catch((e) => console.log(e))
+      }).catch((e) => {
+        console.log(e)
+      })
+    }
+  }
+
   return (
     <>
       <Helmet>
@@ -80,46 +175,51 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
           </div>
           <div className='profile_right'>
             <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-            <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
+            {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
               <Premium premium={premium} />
+            </div>}
+            <div className='connect_btn'>
+              <Button onClick={requested ? handleRequest : handleConnect} variant='outlined' color='warning' startIcon={connected ? <PersonRemoveAlt1Icon /> : <PersonAddAlt1Icon />}>{requested ? 'Requested' : connected ? 'Connected' : 'Connect'}</Button>
             </div>
           </div>
         </div>
-        {watching?.length !== 0 && <><br />
-          <div className='trending_title' >Watching Now<Count value={watching?.length} /></div>
-          <div className='trending_scroll' >
-            {watching?.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} showtv={true} />
-            })}
-          </div></>}
-        {watchlist?.length !== 0 && <><br />
-          <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-          <div className='trending_scroll' >
-            {watchlist?.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
-            })}
-          </div></>}
-        {watched?.length !== 0 && <><br />
-          <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-          <div className='trending_scroll' >
-            {watched?.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
-            })}
-          </div></>}
-        {favourite?.length !== 0 && <><br />
-          <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-          <div className='trending_scroll' >
-            {favourite?.map((data) => {
-              return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
-            })}
-          </div></>}
-        {cast?.length !== 0 && <><br />
-          <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
-          <div className='trending_scroll' >
-            {cast?.map((c) => {
-              return <Cast c={c} key={c?.id} />
-            })}
-          </div></>}
+        {(connected || publicAcc) && <>
+          {watching?.length !== 0 && <><br />
+            <div className='trending_title' >Watching Now<Count value={watching?.length} /></div>
+            <div className='trending_scroll' >
+              {watching?.map((data) => {
+                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} showtv={true} />
+              })}
+            </div></>}
+          {watchlist?.length !== 0 && <><br />
+            <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+            <div className='trending_scroll' >
+              {watchlist?.map((data) => {
+                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
+              })}
+            </div></>}
+          {watched?.length !== 0 && <><br />
+            <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+            <div className='trending_scroll' >
+              {watched?.map((data) => {
+                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
+              })}
+            </div></>}
+          {favourite?.length !== 0 && <><br />
+            <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+            <div className='trending_scroll' >
+              {favourite?.map((data) => {
+                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
+              })}
+            </div></>}
+          {cast?.length !== 0 && <><br />
+            <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
+            <div className='trending_scroll' >
+              {cast?.map((c) => {
+                return <Cast c={c} key={c?.id} />
+              })}
+            </div></>}
+        </>}
         {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
           <img src={empty} className='empty' alt="" />
           <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}

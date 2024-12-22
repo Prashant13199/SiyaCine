@@ -36,6 +36,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import useFetchPremium from '../../hooks/useFetchPremium';
 import { getUsername } from '../../Services/utlitities';
 import useFetchUsers from '../../hooks/useFetchUsers';
+import ShareUser from '../../Components/ShareUser';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -77,7 +78,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     handleWatching2()
   }
 
-  const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
   const premium = useFetchPremium(auth?.currentUser?.uid)
   const users = useFetchUsers()
 
@@ -333,25 +333,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     })
   }
 
-  const handleSend = (user, name) => {
-    database.ref(`/Users/${user}/suggestions/${id}`).update({
-      type: type, data: data, id: id, by: currentUsername, byuid: auth?.currentUser?.uid, timestamp: Date.now()
-    }).then(() => {
-      database.ref(`/Users/${user}/notifications/${id}`).update({
-        timestamp: Date.now(),
-        by: currentUsername,
-        byuid: auth?.currentUser?.uid,
-        id: id,
-        text: `${currentUsername} suggested you to watch ${data.name || data.title || data.original_name}`,
-        type: type,
-        poster: data.poster_path
-      })
-      handleClose2()
-      setMessage(`Suggested to ${name?.split('@')[0]}`)
-      setSnackBar(true)
-    }).catch((e) => { console.log(e) })
-  }
-
   const handleAddReview = () => {
     database.ref(`/Reviews/${id}/${auth?.currentUser?.uid}`).update({
       review: review, timestamp: Date.now(), uid: auth?.currentUser?.uid
@@ -383,19 +364,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <h2>Suggest To</h2>
             <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
           </div>
-          <div style={{ maxHeight: '50vh', overflowY: 'auto' }}>
-            {users && users.map((user, index) => {
-              return <div key={index} className='share_user' onClick={() => {
-                handleSend(user.uid, user.username)
-              }
-              }>
-                <div>
-                  <img src={user.photo} className="share_user_image" />
-                </div>
-                <div className='share_user_username'>
-                  {user.username.split('@')[0]}
-                </div>
-              </div>
+          <div style={{ height: '50vh', overflowY: 'auto' }}>
+            {users?.map((user, index) => {
+              return (
+                <ShareUser user={user} index={index} setMessage={setMessage} setSnackBar={setSnackBar} handleClose2={handleClose2} id={id} data={data} type={type} />
+              )
             })}
           </div>
           <RWebShare
