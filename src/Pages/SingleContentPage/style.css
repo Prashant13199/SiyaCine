@@ -105,32 +105,6 @@
     background-color: rgb(255, 167, 38) !important;
 }
 
-.server_button {
-    transition: all .3s ease-in-out !important;
-    border-radius: 20px !important;
-    background-color: antiquewhite !important;
-    color: black !important;
-    margin: 2px !important;
-    width: 100px !important;
-}
-
-.server_button:hover {
-    transition: all .3s ease-in-out;
-    transform: scale(0.95);
-    border-radius: 20px !important;
-    background-color: rgb(255, 202, 122) !important;
-}
-
-.server_button_selected {
-    transition: all .3s ease-in-out;
-    transform: scale(0.95);
-    border-radius: 20px !important;
-    background-color: rgb(255, 167, 38) !important;
-    color: black !important;
-    margin: 2px !important;
-    width: 100px !important;
-}
-
 .play_button {
     width: 100%;
     transition: all .3s ease-in-out !important;

@@ -113,6 +113,29 @@
     background-color: rgb(255, 167, 38);
 }
 
+.server_btn {
+    color: white;
+}
+
+.server_btn:hover {
+    color: rgb(255, 167, 38);
+}
+
+.server_btn_selected {
+    color: rgb(255, 167, 38);
+}
+
+.server_btn_selected:hover {
+    color: rgb(255, 167, 38);
+}
+
+.servers_dropdown {
+    width: 130px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 20px !important;
+}
+
 .episode_number {
     color: rgb(255, 167, 38);
 }

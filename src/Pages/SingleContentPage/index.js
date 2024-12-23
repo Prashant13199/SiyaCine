@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import { Link } from 'react-router-dom';
-import { Modal } from 'react-bootstrap';
+import { Dropdown, Modal } from 'react-bootstrap';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import StarIcon from '@mui/icons-material/Star';
@@ -413,10 +413,15 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
           <div className='player_bottom'>
             <div></div>
-            <ButtonGroup size="small">
-              <Button className={server !== 1 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(1)}>Server 1</Button>
-              <Button className={server !== 2 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(2)}>Server 2</Button>
-            </ButtonGroup>
+            <Dropdown>
+              <Dropdown.Toggle variant="warning" className='servers_dropdown'>
+                Servers
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>Vid Binge</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>VidSrc</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
             <div></div>
           </div>
         </Modal.Body>

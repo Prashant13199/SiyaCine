@@ -2,6 +2,10 @@
     display: flex;
 }
 
-.connect_btn {
+.connect_btns {
     margin-top: 10px;
+}
+
+.connect_btn {
+    border-radius: 20px !important;
 }

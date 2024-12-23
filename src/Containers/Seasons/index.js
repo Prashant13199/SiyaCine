@@ -127,10 +127,15 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.cc/v3/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
                         <Button color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
-                        <ButtonGroup size="small">
-                            <Button className={server !== 1 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(1)}>Server 1</Button>
-                            <Button className={server !== 2 ? 'server_button' : 'server_button_selected'} onClick={() => setServer(2)}>Server 2</Button>
-                        </ButtonGroup>
+                        <Dropdown>
+                            <Dropdown.Toggle variant="warning" className='servers_dropdown'>
+                                Servers
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>Vid Binge</Dropdown.Item>
+                                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>VidSrc</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                         <Button color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date >= getCurrentDate())} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>

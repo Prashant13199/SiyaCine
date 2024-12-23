@@ -208,15 +208,15 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
                 {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
                   <Premium premium={premium} />
                 </div>}
-                <div className='connect_btn'>
+                <div className='connect_btns'>
                   {requested ?
                     <>
-                      <Button onClick={handleRequest} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
-                      {auth?.currentUser?.uid !== initiated && <Button style={{ marginLeft: '10px' }} onClick={removeRequested} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
+                      <Button className='connect_btn' onClick={handleRequest} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
+                      {auth?.currentUser?.uid !== initiated && <Button className='connect_btn' style={{ marginLeft: '10px' }} onClick={removeRequested} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
                     </>
                     :
-                    <> {connected ? <Button onClick={handleRemoveConnect} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
-                      <Button onClick={handleConnect} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
+                    <> {connected ? <Button className='connect_btn' onClick={handleRemoveConnect} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
+                      <Button className='connect_btn' onClick={handleConnect} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
                     </>}
                 </div>
               </div>
