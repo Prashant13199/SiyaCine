@@ -4,7 +4,7 @@ import './style.css';
 import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
-import { ButtonGroup, CircularProgress, Grow, IconButton, TextField } from '@mui/material';
+import { CircularProgress, Grow, IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -26,7 +26,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { FavoriteOutlined } from '@mui/icons-material';
 import Seasons from '../../Containers/Seasons';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import { Helmet } from 'react-helmet';
 import { RWebShare } from "react-web-share";
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
@@ -80,6 +79,10 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const premium = useFetchPremium(auth?.currentUser?.uid)
   const users = useFetchUsers()
+
+  useEffect(() => {
+    scrollTop()
+  }, [])
 
   useEffect(() => {
     setLoading(true)
@@ -543,9 +546,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   </div>}
                 </div>
               </div>
-
               {type === 'tv' && <Seasons setResumeSeries={setResumeSeries} resumeSeries={resumeSeries} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
-
               <div className='singlecontent'>
                 {video?.length !== 0 && <>
                   <div className='trending_title' >Trailers & More</div>
@@ -611,7 +612,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   {(reviews.length !== 0 || reviews2.length !== 0) && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
                   {reviews.length === 0 && reviews2.length === 0 && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
                 </div>
-              </div >
+              </div>
             </div>
           </Grow>
         </>
