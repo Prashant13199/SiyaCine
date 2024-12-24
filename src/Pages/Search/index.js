@@ -11,6 +11,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import SearchPagination from '../../Components/Pagination/SearchPagination';
 import { Helmet } from 'react-helmet';
+import useFetchUsers from '../../hooks/useFetchUsers';
+import User from '../../Components/User';
 
 function useQuery() {
     const { search } = useLocation();
@@ -22,31 +24,49 @@ export default function Search({ scrollTop, setBackdrop }) {
     const query = data.get('query')
     const page = data.get('page')
     const history = useHistory()
+    const users = useFetchUsers()
 
     const [contentM, setContentM] = useState([]);
     const [numOfPagesM, setNumOfPagesM] = useState();
     const [search, setSearch] = useState(query ? query : '')
     const [pageM, setPageM] = useState(page ? page : 1)
+    const [searchedUsers, setSearchedUsers] = useState([])
 
     useEffect(() => {
         scrollTop()
         fetchSearch();
         setBackdrop()
-    }, [page, query])
+    }, [page, query, users])
 
     useEffect(() => {
         history.push(`/search?query=${search}&page=${pageM}`)
     }, [pageM, search])
 
     const fetchSearch = async () => {
-        try {
-            const { data } = await axios.get(
-                `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${query}&page=${page}`
-            );
-            setContentM(data.results);
-            setNumOfPagesM(data.total_pages);
-        } catch (error) {
-            console.error(error);
+        if (query?.length) {
+            try {
+                const { data } = await axios.get(
+                    `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${query}&page=${page}`
+                );
+                setContentM(data.results.filter((value) => value.media_type !== 'person'));
+                setNumOfPagesM(data.total_pages);
+            } catch (error) {
+                console.error(error);
+            }
+            if (query?.length > 2) {
+                let arr = []
+                users?.map((user) => {
+                    if (user?.username?.includes(query)) {
+                        arr.push(user)
+                    }
+                })
+                setSearchedUsers(arr)
+            } else {
+                setSearchedUsers([])
+            }
+        } else {
+            setPageM(1)
+            setSearchedUsers([])
         }
     };
 
@@ -70,8 +90,8 @@ export default function Search({ scrollTop, setBackdrop }) {
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
                         className='input_search'
-                        placeholder="Search for a Movies or TV Shows"
-                        inputProps={{ 'aria-label': 'search google maps' }}
+                        placeholder="Search for a Movies, TV Shows or Users"
+                        inputProps={{ 'aria-label': 'Search for a Movies, TV Shows or Users' }}
                         value={search}
                         autoFocus
                         onChange={(e) => setSearch(e.target.value)}
@@ -84,22 +104,26 @@ export default function Search({ scrollTop, setBackdrop }) {
                     {query?.length > 0 &&
                         <IconButton type="button" sx={{ p: '4px' }} aria-label="search" onClick={() => clear()} >
                             <CloseIcon />
-                        </IconButton>
-                    }
+                        </IconButton>}
                 </Paper>
                 <br />
-                {query && <>
-                    <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                        {contentM && contentM.map((data, index) => {
-                            return <SingleContentSearch data={data} key={data.id} index={index} />
-                        })}
-                    </Grid>
-
-                    {numOfPagesM > 1 && (
-                        <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
-                    )}
-                </>}
-                {contentM?.length === 0 && query && <center>
+                {page == 1 && searchedUsers?.length > 0 && <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 16, lg: 24 }}>
+                    {searchedUsers?.map((user, index) => {
+                        return <User user={user} key={user.uid} index={index} />
+                    })}
+                </Grid>}
+                {query &&
+                    <>
+                        <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                            {contentM?.map((data, index) => {
+                                return <SingleContentSearch data={data} key={data.id} index={index} />
+                            })}
+                        </Grid>
+                        {numOfPagesM > 1 && contentM?.length > 0 && (
+                            <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
+                        )}
+                    </>}
+                {contentM?.length === 0 && query && searchedUsers?.length === 0 && <center>
                     <img src={empty} className='empty' />
                     <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
             </div>

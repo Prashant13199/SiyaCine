@@ -42,7 +42,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     scrollTop()
-  }, [])
+  }, [uid])
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 900 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
@@ -53,7 +53,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   }, [favourite.length])
 
   useEffect(() => {
-    scrollTop()
     database.ref(`/Users/${uid}`).on('value', snapshot => {
       setPublicAcc(snapshot.val().public)
     })
@@ -239,7 +238,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
               {watched?.length !== 0 && <><br />
                 <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
                 <div className='trending_scroll' >
-                  {watched?.map((data) => {
+                  {watched?.slice(0, 20)?.map((data) => {
                     return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
                   })}
                 </div></>}

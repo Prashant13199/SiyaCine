@@ -53,8 +53,6 @@ export default function NavBarMain({ top, scrollTop }) {
       setRouteName('Movies')
     } else if (location.pathname === '/tv') {
       setRouteName('TV Shows')
-    } else if (location.pathname === '/people') {
-      setRouteName('People')
     } else if (location.pathname === '/profile') {
       setRouteName('Me')
     } else if (location.pathname?.includes('/user')) {
@@ -126,14 +124,10 @@ export default function NavBarMain({ top, scrollTop }) {
           <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>Home</NavLink></NavDropdown.Item>
           <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/movies' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>Movies</NavLink></NavDropdown.Item>
           <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/tv' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>TV Shows</NavLink></NavDropdown.Item>
-          {auth?.currentUser?.uid && <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/people' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>People</NavLink></NavDropdown.Item>}
         </NavDropdown>
         <Nav><NavLink to='/' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>Home</NavLink></Nav>
         <Nav><NavLink to='/movies' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>Movies</NavLink></Nav>
         <Nav><NavLink to='/tv' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>TV Shows</NavLink></Nav>
-        {auth?.currentUser?.uid && <>
-          <Nav><NavLink to='/people' activeClassName="is-active" className="navlink pc"
-            exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>People</NavLink></Nav></>}
         <Nav className="me-auto"></Nav>
         <Nav><NavLink to='/search' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}><SearchIcon /></NavLink></Nav>
         {auth?.currentUser?.uid ?

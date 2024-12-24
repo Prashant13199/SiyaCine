@@ -11,7 +11,6 @@ import SingleContentPage from './Pages/SingleContentPage';
 import Search from './Pages/Search';
 import Profile from './Pages/Profile';
 import UserProfile from './Pages/UserProfile';
-import People from './Pages/People';
 import LoadingScreen from 'react-loading-screen';
 import { useEffect, useState } from 'react';
 import logo from '../src/assets/logo.png'
@@ -112,9 +111,6 @@ function App() {
                 </Route>
                 <Route path="/search">
                   <Search scrollTop={scrollTop} setBackdrop={setBackdrop} />
-                </Route>
-                <Route path="/people">
-                  <People scrollTop={scrollTop} setBackdrop={setBackdrop} />
                 </Route>
                 <Route path="/singlecategory/:category/:type/:name/:uid">
                   <SingleCategory scrollTop={scrollTop} setBackdrop={setBackdrop} />

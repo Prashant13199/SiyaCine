@@ -247,22 +247,17 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       }).then(() => {
         setWatchlist(true)
         setMessage('Added to watchlist')
-        setSnackBar(true)
         if (watched) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
             setWatched(false)
           })
         }
-        if (watching) {
-          database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
-            setWatching(false)
-          })
-        }
-      })
+        setSnackBar(true)
+      }).catch((e) => console.log(e))
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
         setWatchlist(false)
-      })
+      }).catch((e) => console.log(e))
     }
   }
 
@@ -277,18 +272,18 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         if (watchlist) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
             setWatchlist(false)
-          })
+          }).catch((e) => console.log(e))
         }
         if (watching) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
             setWatching(false)
-          })
+          }).catch((e) => console.log(e))
         }
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
         setWatched(false)
-      })
+      }).catch((e) => console.log(e))
     }
   }
 
@@ -300,21 +295,16 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setWatching(true)
         setMessage('Added to watching')
         setSnackBar(true)
-        if (watchlist) {
-          database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
-            setWatchlist(false)
-          })
-        }
         if (watched) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
             setWatched(false)
-          })
+          }).catch((e) => console.log(e))
         }
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
         setWatching(false)
-      })
+      }).catch((e) => console.log(e))
     }
   }
 
@@ -323,11 +313,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       id: id, data: data, type: type, timestamp: Date.now()
     }).then(() => {
       setWatching(true)
-      if (watchlist) {
-        database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).remove().then(() => {
-          setWatchlist(false)
-        })
-      }
       if (watched) {
         database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).remove().then(() => {
           setWatched(false)

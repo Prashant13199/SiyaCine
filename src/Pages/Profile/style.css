@@ -44,8 +44,8 @@
 
 .picture_single {
     height: auto;
-    min-width: 200px;
-    width: 200px;
+    min-width: 120px;
+    width: 120px;
     border-radius: 50%;
     margin: 5px;
     cursor: pointer;
@@ -73,6 +73,11 @@
     right: 8% !important;
     bottom: 8% !important;
     cursor: pointer;
+}
+
+.picture_title {
+    color: gray !important;
+    margin-top: 20px;
 }
 
 @media only screen and (max-width: 900px) {
@@ -118,8 +123,8 @@
     }
 
     .picture_single {
-        min-width: 120px;
-        width: 120px;
+        min-width: 100px;
+        width: 100px;
         margin: 2px;
     }
 
