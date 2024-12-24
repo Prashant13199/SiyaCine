@@ -90,7 +90,7 @@ export default function Search({ scrollTop, setBackdrop }) {
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
                         className='input_search'
-                        placeholder="Search for a Movies, TV Shows or Users"
+                        placeholder="Search for movies, shows or users"
                         inputProps={{ 'aria-label': 'Search for a Movies, TV Shows or Users' }}
                         value={search}
                         autoFocus
