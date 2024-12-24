@@ -53,17 +53,13 @@ export default function Search({ scrollTop, setBackdrop }) {
             } catch (error) {
                 console.error(error);
             }
-            if (query?.length > 2) {
-                let arr = []
-                users?.map((user) => {
-                    if (user?.username?.includes(query)) {
-                        arr.push(user)
-                    }
-                })
-                setSearchedUsers(arr)
-            } else {
-                setSearchedUsers([])
-            }
+            let arr = []
+            users?.map((user) => {
+                if (user?.username?.includes(query.toLowerCase())) {
+                    arr.push(user)
+                }
+            })
+            setSearchedUsers(arr)
         } else {
             setPageM(1)
             setSearchedUsers([])
@@ -107,7 +103,7 @@ export default function Search({ scrollTop, setBackdrop }) {
                         </IconButton>}
                 </Paper>
                 <br />
-                {page == 1 && searchedUsers?.length > 0 && <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 4, sm: 12, md: 16, lg: 24 }}>
+                {page == 1 && searchedUsers?.length > 0 && <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {searchedUsers?.map((user, index) => {
                         return <User user={user} key={user.uid} index={index} />
                     })}
