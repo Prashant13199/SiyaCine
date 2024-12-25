@@ -91,6 +91,8 @@ export default function NavBarMain({ top, scrollTop }) {
       setRouteName('Indian Movies')
     } else if (location.pathname?.includes('/discover/tv')) {
       setRouteName('Indian TV')
+    } else if (location.pathname?.includes('/airing_today')) {
+      setRouteName('Airing Today')
     } else {
       setRouteName('Home')
     }

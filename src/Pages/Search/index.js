@@ -13,6 +13,7 @@ import SearchPagination from '../../Components/Pagination/SearchPagination';
 import { Helmet } from 'react-helmet';
 import useFetchUsers from '../../hooks/useFetchUsers';
 import User from '../../Components/User';
+import { auth } from '../../firebase';
 
 function useQuery() {
     const { search } = useLocation();
@@ -88,8 +89,8 @@ export default function Search({ scrollTop, setBackdrop }) {
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
                         className='input_search'
-                        placeholder="Search for movies, shows or users"
-                        inputProps={{ 'aria-label': 'Search for a Movies, TV Shows or Users' }}
+                        placeholder={auth?.currentUser?.uid ? "Search for movies, shows or users" : "Search for movies, shows"}
+                        inputProps={{ 'aria-label': 'Search for movies or shows' }}
                         value={search}
                         autoFocus
                         onChange={(e) => setSearch(e.target.value)}
@@ -122,7 +123,7 @@ export default function Search({ scrollTop, setBackdrop }) {
                 {contentM?.length === 0 && query && searchedUsers?.length === 0 && <center>
                     <img src={empty} className='empty' />
                     <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-                {numOfPagesM > 1 && query && (
+                {numOfPagesM > 1 && contentM?.length > 0 && query && (
                     <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
                 )}
             </div>
