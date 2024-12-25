@@ -114,7 +114,7 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   }
 
   useEffect(() => {
-    if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated')) {
+    if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated' || category === 'airing_today')) {
       fetch();
     } else if (category === 'discover') {
       fetchDiscover()

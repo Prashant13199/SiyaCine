@@ -33,6 +33,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const trendingTv = useFetchContent('trending', 'tv')
   const indianMovie = useFetchContent('discover', 'movie')
   const indianTv = useFetchContent('discover', 'tv')
+  const airingToday = useFetchContent('airing_today', 'tv')
 
   useEffect(() => {
     scrollTop()
@@ -121,6 +122,20 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_scroll' >
             {nowplaying?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
+            })}
+          </div>
+        </>}
+
+        {airingToday?.length !== 0 && <><br />
+          <div className='trending_title' >
+            TV Shows Airing Today
+            <Link to={`/singlecategory/airing_today/tv/Airing Today/$$`} className="viewall">
+              <IconButton><ChevronRightIcon /></IconButton>
+            </Link>
+          </div>
+          <div className='trending_scroll' >
+            {airingToday?.map((data) => {
+              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div>
         </>}
