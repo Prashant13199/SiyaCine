@@ -17,6 +17,12 @@
     padding-right: 2px;
 }
 
+.loading {
+    display: grid;
+    place-items: center;
+    min-height: 75vh;
+}
+
 * {
     font-family: "Varela Round", serif !important;
     font-weight: 400;

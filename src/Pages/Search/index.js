@@ -53,13 +53,15 @@ export default function Search({ scrollTop, setBackdrop }) {
             } catch (error) {
                 console.error(error);
             }
-            let arr = []
-            users?.map((user) => {
-                if (user?.username?.includes(query.toLowerCase())) {
-                    arr.push(user)
-                }
-            })
-            setSearchedUsers(arr)
+            if (query?.length > 2) {
+                let arr = []
+                users?.map((user) => {
+                    if (user?.username?.includes(query.toLowerCase())) {
+                        arr.push(user)
+                    }
+                })
+                setSearchedUsers(arr)
+            }
         } else {
             setPageM(1)
             setSearchedUsers([])
@@ -103,25 +105,26 @@ export default function Search({ scrollTop, setBackdrop }) {
                         </IconButton>}
                 </Paper>
                 <br />
-                {page == 1 && searchedUsers?.length > 0 && <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                    {searchedUsers?.map((user, index) => {
-                        return <User user={user} key={user.uid} index={index} />
-                    })}
-                </Grid>}
-                {query &&
-                    <>
-                        <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                    {page == 1 && searchedUsers?.length > 0 &&
+                        <>
+                            {searchedUsers?.map((user, index) => {
+                                return <User user={user} key={user.uid} index={index} />
+                            })}
+                        </>}
+                    {query &&
+                        <>
                             {contentM?.map((data, index) => {
                                 return <SingleContentSearch data={data} key={data.id} index={index} />
                             })}
-                        </Grid>
-                        {numOfPagesM > 1 && contentM?.length > 0 && (
-                            <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
-                        )}
-                    </>}
+                        </>}
+                </Grid>
                 {contentM?.length === 0 && query && searchedUsers?.length === 0 && <center>
                     <img src={empty} className='empty' />
                     <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+                {numOfPagesM > 1 && query && (
+                    <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
+                )}
             </div>
         </>
 
