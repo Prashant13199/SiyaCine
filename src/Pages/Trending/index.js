@@ -127,9 +127,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
         {showsYouWatch?.length !== 0 && <><br />
           <div className='trending_title' >
             New Episode Available Now
-            <Link to={`/singlecategory/airing_today/tv/Airing Today/$$`} className="viewall">
-              <IconButton><ChevronRightIcon /></IconButton>
-            </Link>
           </div>
           <div className='trending_scroll' >
             {showsYouWatch?.map((data) => {
