@@ -42,16 +42,18 @@ export default function Trending({ setBackdrop, scrollTop }) {
   }, []);
 
   useEffect(() => {
-    let arr = []
-    airingToday?.map((data) => {
-      database.ref(`/Users/${auth?.currentUser?.uid}/watched/${data?.id}`).once('value', snapshot => {
-        if (snapshot.val()) {
-          arr.push(snapshot.val())
-        }
+    if (airingToday?.length > 0) {
+      let arr = []
+      airingToday?.map((data) => {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watched/${data?.id}`).once('value', snapshot => {
+          if (snapshot.val()) {
+            arr.push(snapshot.val())
+          }
+        })
       })
-    })
-    setShowsYouWatch(arr)
-  }, [airingToday])
+      setShowsYouWatch(arr)
+    }
+  }, [airingToday, auth?.currentUser?.uid])
 
   useEffect(() => {
     fetchRecommendation();
@@ -125,9 +127,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {showsYouWatch?.length !== 0 && <><br />
-          <div className='trending_title' >
-            New Episode Available Now
-          </div>
+          <div className='trending_title' >New Episode Available Now</div>
           <div className='trending_scroll' >
             {showsYouWatch?.map((data) => {
               return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type="tv" />
