@@ -149,6 +149,11 @@
     overflow-y: auto;
 }
 
+.loading_episodes {
+    display: grid;
+    place-items: center;
+}
+
 @media only screen and (max-width: 660px) {
     .single_episode_image {
         height: 120px;

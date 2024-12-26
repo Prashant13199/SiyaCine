@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { auth, database } from '../../firebase';
 import { Modal } from 'react-bootstrap';
-import { Button, ButtonGroup, IconButton } from '@mui/material';
+import { Button, ButtonGroup, CircularProgress, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -92,6 +92,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
 
     const fetchDetails = async () => {
         setContent([])
+        setLoading(true)
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/tv/${value?.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
@@ -102,6 +103,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
         }
         catch (e) {
             console.log(e)
+            setLoading(false)
         }
     };
 
@@ -155,7 +157,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                     })}
                 </DropdownButton>
             </div>
-            <div className="episode_list">
+            {!loading ? <div className="episode_list">
                 {content?.episodes?.map((datas) => {
                     return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className={datas?.air_date <= getCurrentDate() ? 'single_episode' : 'single_episode_fade'} onClick={() => {
                         if (auth?.currentUser?.uid && premium && datas?.air_date <= getCurrentDate()) {
@@ -175,10 +177,14 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                         {lastPlayed?.season === seasonNumber && lastPlayed?.episode === datas?.episode_number && <div className='playing'>Playing</div>}
                     </div>
                 })}
-            </div>
+            </div> :
+                <div className="loading_episodes">
+                    <CircularProgress color='warning' />
+                </div>
+            }
             {content?.length === 0 && !loading && <center>
                 <img src={empty} className='empty_series' alt="" />
-                <h6 style={{ color: 'gray' }}>No shows available</h6></center>}
+                <h6 style={{ color: 'gray' }}>No episode available</h6></center>}
         </>
     )
 }

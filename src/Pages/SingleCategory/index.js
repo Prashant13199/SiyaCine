@@ -22,6 +22,38 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   const genreforURL = useGenre(selectedGenres);
   const [genres, setGenres] = useState([]);
   const [tv, setTv] = useState(false)
+  const [paginatedData, setPaginatedData] = useState([])
+  const [perPage, setPerPage] = useState(24)
+  const [databaseData, setDatabaseData] = useState(false)
+
+  useEffect(() => {
+    if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated' || category === 'airing_today')) {
+      fetch();
+    } else if (category === 'discover') {
+      fetchDiscover()
+    } else if (category === 'watchlist' || category === 'watched' || category === 'favourites') {
+      fetchData(category)
+      setTv(true)
+      setDatabaseData(true)
+    }
+    else {
+      fetch2()
+      setDatabaseData(false)
+      setPaginatedData([])
+    }
+    scrollTop()
+    setBackdrop()
+  }, [page, genreforURL]);
+
+  useEffect(() => {
+    handlePagination()
+  }, [content])
+
+  const handlePagination = () => {
+    let start = (perPage * (page - 1))
+    let end = (start + perPage)
+    setPaginatedData(content?.slice(start, end))
+  }
 
   const fetch = async () => {
     try {
@@ -65,14 +97,15 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
     }
   }
 
-  const fetchWatchlist = async () => {
+  const fetchData = async (categoryName) => {
     try {
-      database.ref(`/Users/${uid}/watchlist`).orderByChild('timestamp').on('value', snapshot => {
+      database.ref(`/Users/${uid}/${categoryName}`).orderByChild('timestamp').on('value', snapshot => {
         let arr = []
         snapshot?.forEach((snap) => {
           arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
         })
         setContent(arr.reverse())
+        setNumOfPages(Math.ceil(arr?.length / perPage));
         setLoading(false)
       })
     }
@@ -80,60 +113,6 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
       console.log(e)
     }
   }
-
-  const fetchWatched = async () => {
-    try {
-      database.ref(`/Users/${uid}/watched`).orderByChild('timestamp').on('value', snapshot => {
-        let arr = []
-        snapshot?.forEach((snap) => {
-          arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-        })
-        setContent(arr.reverse())
-        setLoading(false)
-      })
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }
-
-  const fetchFavourite = async () => {
-    try {
-      database.ref(`/Users/${uid}/favourites`).orderByChild('timestamp').on('value', snapshot => {
-        let arr = []
-        snapshot?.forEach((snap) => {
-          arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
-        })
-        setContent(arr.reverse())
-        setLoading(false)
-      })
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }
-
-  useEffect(() => {
-    if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated' || category === 'airing_today')) {
-      fetch();
-    } else if (category === 'discover') {
-      fetchDiscover()
-    } else if (category === 'watchlist') {
-      fetchWatchlist()
-      setTv(true)
-    } else if (category === 'watched') {
-      fetchWatched()
-      setTv(true)
-    } else if (category === 'favourites') {
-      fetchFavourite()
-      setTv(true)
-    }
-    else {
-      fetch2()
-    }
-    scrollTop()
-    setBackdrop()
-  }, [page, genreforURL]);
 
   return (
     <>
@@ -151,10 +130,19 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
           setPage={setPage}
         />}
         <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-          {content &&
-            content.map((data) => {
-              return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} showtv={tv} /> : <SingleContent data={data} key={data.id} type={type} showtv={tv} />
-            })}
+          {databaseData ?
+            <>
+              {paginatedData?.map((data, index) => {
+                return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} showtv={tv} index={index} /> : <SingleContent data={data} key={data.id} type={type} showtv={tv} index={index} />
+              })}
+            </>
+            :
+            <>
+              {content?.map((data, index) => {
+                return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} showtv={tv} index={index} /> : <SingleContent data={data} key={data.id} type={type} showtv={tv} index={index} />
+              })}
+            </>
+          }
         </Grid>
         {numOfPages > 1 && (
           <CustomPagination setPage={setPage} page={page} numOfPages={numOfPages} />
