@@ -10,10 +10,20 @@ import { database } from '../../firebase';
 import useGenre from '../../hooks/useGenre';
 import Genres from '../../Components/Genres';
 import { Helmet } from 'react-helmet';
+import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+
+function useQuery() {
+  const { search } = useLocation();
+  return React.useMemo(() => new URLSearchParams(search), [search]);
+}
 
 export default function SingleCategory({ scrollTop, setBackdrop }) {
 
-  const [page, setPage] = useState(1);
+  let data = useQuery();
+  const pageM = data.get('pageM')
+  const history = useHistory()
+
+  const [page, setPage] = useState(pageM ? pageM : 1);
   const [content, setContent] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
   const { category, type, name, uid } = useParams()
@@ -25,6 +35,10 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   const [paginatedData, setPaginatedData] = useState([])
   const [perPage, setPerPage] = useState(24)
   const [databaseData, setDatabaseData] = useState(false)
+
+  useEffect(() => {
+    history.push(`/singlecategory/${category}/${type}/${name}/${uid}?pageM=${page}`)
+  }, [page])
 
   useEffect(() => {
     if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated' || category === 'airing_today')) {
