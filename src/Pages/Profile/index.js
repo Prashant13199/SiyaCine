@@ -114,7 +114,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
     database.ref(`/Users/${auth?.currentUser?.uid}`).update({
       photo: image
     }).then(() => {
-      console.log('Picture updated')
       handleClose()
     }).catch((e) => {
       console.log(e)

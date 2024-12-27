@@ -118,7 +118,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       initiated: auth?.currentUser?.uid,
       timestamp: Date.now()
     }).then(() => {
-      console.log('Connected Requested')
       database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).update({
         timestamp: Date.now(),
         by: currentUsername,
@@ -134,7 +133,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
 
   const handleRemoveConnect = () => {
     database.ref(`/Connections/${connectID}`).remove().then(() => {
-      console.log('connection removed')
       database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).remove().then(() => {
         console.log('Notification removed')
       }).catch((e) => console.log(e))
@@ -149,7 +147,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
         connected: true,
         requested: false
       }).then(() => {
-        console.log('Connection accepted')
         database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).update({
           timestamp: Date.now(),
           by: currentUsername,
@@ -157,7 +154,6 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
           id: auth?.currentUser?.uid,
           text: `${currentUsername} accepted your connection request`,
         }).then(() => {
-          console.log('Notification Sent')
           database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${uid}`).remove()
             .then(() => console.log('Self Notification removed')).catch((e) => console.log(e))
         }).catch((e) => console.log(e))

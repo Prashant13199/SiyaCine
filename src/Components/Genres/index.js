@@ -21,15 +21,11 @@ export default function Genres({
 
   const handleAdd = (genre) => {
     setSelectedGenres([...selectedGenres, genre]);
-    setGenres(genres.filter((g) => g.id !== genre.id));
     setPage(1);
   };
 
   const handleRemove = (genre) => {
-    setSelectedGenres(
-      selectedGenres.filter((selected) => selected.id !== genre.id)
-    );
-    setGenres([...genres, genre]);
+    setSelectedGenres(selectedGenres.filter((selected) => selected.id !== genre.id));
     setPage(1);
   };
 
@@ -46,28 +42,31 @@ export default function Genres({
   };
 
   return (
-    <div style={{ margin: '20px 0px' }}>
-      {selectedGenres?.map((genre) => (
-        <Chip
-          style={{ margin: 2, padding: 4 }}
-          label={genre.name}
-          key={genre.id}
-          clickable
-          color='primary'
-          size="small"
-          onDelete={() => handleRemove(genre)}
-        />
-      ))}
+    <div className='genres_list'>
       {genres?.map((genre) => (
-        <Chip
-          style={{ margin: 2, padding: 4 }}
-          label={genre.name}
-          key={genre.id}
-          clickable
-          size="small"
-          color='warning'
-          onClick={() => handleAdd(genre)}
-        />
+        <>
+          {selectedGenres.map((gen) => gen.id).includes(genre.id) ? <Chip
+            style={{ margin: 2, padding: 4 }}
+            label={genre.name.replace(':', '&')}
+            key={genre.id}
+            clickable
+            size="small"
+            color={'primary'}
+            onDelete={() => handleRemove(genre)}
+            onClick={() => handleRemove(genre)}
+          />
+            :
+            <Chip
+              style={{ margin: 2, padding: 4 }}
+              label={genre.name.replace(':', '&')}
+              key={genre.id}
+              clickable
+              size="small"
+              color={'warning'}
+              onClick={() => handleAdd(genre)}
+            />
+          }
+        </>
       ))}
     </div>
   )

@@ -6,7 +6,7 @@ export default function useFetchUsers() {
     const [users, setUsers] = useState([])
 
     useEffect(() => {
-        database.ref(`/Users`).orderByChild('timestamp').on('value', snapshot => {
+        database.ref(`/Users`).orderByChild('timestamp').once('value', snapshot => {
             let user = []
             snapshot.forEach((snap) => {
                 if (snap.key !== auth?.currentUser?.uid) {

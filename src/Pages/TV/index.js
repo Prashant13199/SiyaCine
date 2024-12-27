@@ -9,16 +9,31 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { CircularProgress } from '@mui/material';
 import empty from '../../assets/empty.png'
 import { Helmet } from 'react-helmet';
+import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function TV({ scrollTop, setBackdrop }) {
 
+  let data = useQuery();
+  const values = data.get('values')
+  const pageM = data.get('pageM')
+  const history = useHistory()
+
   const [genres, setGenres] = useState([]);
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [page, setPage] = useState(1);
+  const [selectedGenres, setSelectedGenres] = useState(values ? JSON.parse(values) : []);
+  const [page, setPage] = useState(pageM ? pageM : 1);
   const [content, setContent] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
   const genreforURL = useGenre(selectedGenres);
   const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    history.push(`/tv?values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}&pageM=${page}`)
+  }, [page, selectedGenres])
+
+  function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
 
   const fetchTV = async () => {
     try {

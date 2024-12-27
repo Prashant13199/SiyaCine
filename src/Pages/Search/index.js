@@ -15,10 +15,6 @@ import useFetchUsers from '../../hooks/useFetchUsers';
 import User from '../../Components/User';
 import { auth } from '../../firebase';
 
-function useQuery() {
-    const { search } = useLocation();
-    return React.useMemo(() => new URLSearchParams(search), [search]);
-}
 export default function Search({ scrollTop, setBackdrop }) {
 
     let data = useQuery();
@@ -26,6 +22,11 @@ export default function Search({ scrollTop, setBackdrop }) {
     const page = data.get('page')
     const history = useHistory()
     const users = useFetchUsers()
+
+    function useQuery() {
+        const { search } = useLocation();
+        return React.useMemo(() => new URLSearchParams(search), [search]);
+    }
 
     const [contentM, setContentM] = useState([]);
     const [numOfPagesM, setNumOfPagesM] = useState();

@@ -365,7 +365,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               title: `${data.name || data.title || data.original_name}`,
               text: `Siyacine: ${data.name || data.title || data.original_name}`,
             }}
-            onClick={() => console.log("shared successfully!")}
           >
             <Button className='share_external_btn' fullWidth color='warning' variant="contained">Share externally</Button>
           </RWebShare>

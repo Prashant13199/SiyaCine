@@ -12,14 +12,10 @@ import Genres from '../../Components/Genres';
 import { Helmet } from 'react-helmet';
 import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-function useQuery() {
-  const { search } = useLocation();
-  return React.useMemo(() => new URLSearchParams(search), [search]);
-}
-
 export default function SingleCategory({ scrollTop, setBackdrop }) {
 
   let data = useQuery();
+  const values = data.get('values')
   const pageM = data.get('pageM')
   const history = useHistory()
 
@@ -28,7 +24,7 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   const [numOfPages, setNumOfPages] = useState();
   const { category, type, name, uid } = useParams()
   const [loading, setLoading] = useState(true)
-  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState(values ? JSON.parse(values) : []);
   const genreforURL = useGenre(selectedGenres);
   const [genres, setGenres] = useState([]);
   const [tv, setTv] = useState(false)
@@ -37,8 +33,8 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   const [databaseData, setDatabaseData] = useState(false)
 
   useEffect(() => {
-    history.push(`/singlecategory/${category}/${type}/${name}/${uid}?pageM=${page}`)
-  }, [page])
+    history.push(`/singlecategory/${category}/${type}/${name}/${uid}?pageM=${page}&values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}`)
+  }, [page, selectedGenres])
 
   useEffect(() => {
     if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated' || category === 'airing_today')) {
@@ -62,6 +58,11 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   useEffect(() => {
     handlePagination()
   }, [content])
+
+  function useQuery() {
+    const { search } = useLocation();
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
 
   const handlePagination = () => {
     let start = (perPage * (page - 1))

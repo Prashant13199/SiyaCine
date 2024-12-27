@@ -13,9 +13,9 @@ export default function Notification({ noti, handleClose }) {
     const removeNotification = () => {
         database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${noti.id}`)
             .remove().then(() => {
-                console.log('Notification removed')
                 if (noti?.connection) {
-                    database.ref(`Connections/${connectID}`).remove().then(() => console.log('Connection declined'))
+                    database.ref(`Connections/${connectID}`).remove()
+                        .then(() => console.log('Connection declined'))
                         .catch((e) => console.log(e))
                 }
             }).catch((e) => {
