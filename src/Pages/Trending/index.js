@@ -6,7 +6,7 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import { IconButton } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchContent from '../../hooks/useFetchContent';
-import { auth, database } from '../../firebase'
+import { auth } from '../../firebase'
 import axios from "axios";
 import Footer from '../../Containers/Footer'
 import { Helmet } from 'react-helmet';
@@ -19,7 +19,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const [number, setNumber] = useState(null)
   const [recommendationCast, setRecommendationCast] = useState([])
   const [numberCast, setNumberCast] = useState(null)
-  const [showsYouWatch, setShowsYouWatch] = useState([])
 
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const watchlist = useFetchDBData(auth?.currentUser?.uid, 'watchlist')
@@ -40,20 +39,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
     scrollTop()
     setBackdrop()
   }, []);
-
-  useEffect(() => {
-    if (airingToday?.length > 0) {
-      let arr = []
-      airingToday?.map((data) => {
-        database.ref(`/Users/${auth?.currentUser?.uid}/watched/${data?.id}`).once('value', snapshot => {
-          if (snapshot.val()) {
-            arr.push(snapshot.val())
-          }
-        })
-      })
-      setShowsYouWatch(arr)
-    }
-  }, [airingToday, auth?.currentUser?.uid])
 
   useEffect(() => {
     fetchRecommendation();
@@ -125,15 +110,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
               return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
             })}
           </div></>}
-
-        {showsYouWatch?.length !== 0 && <><br />
-          <div className='trending_title' >New Episode Available Now</div>
-          <div className='trending_scroll' >
-            {showsYouWatch?.map((data) => {
-              return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type="tv" />
-            })}
-          </div>
-        </>}
 
         {nowplaying?.length !== 0 && <><br />
           <div className='trending_title' >
