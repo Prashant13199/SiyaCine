@@ -36,6 +36,7 @@ import useFetchPremium from '../../hooks/useFetchPremium';
 import { getUsername } from '../../Services/utlitities';
 import useFetchUsers from '../../hooks/useFetchUsers';
 import ShareUser from '../../Components/ShareUser';
+import TimelineIcon from '@mui/icons-material/Timeline';
 
 export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
@@ -64,6 +65,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [snackBar, setSnackBar] = useState(false)
   const [review, setReview] = useState('')
   const [loading, setLoading] = useState(true)
+  const [tracking, setTracking] = useState([])
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -106,6 +108,13 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
         setFavourite(true)
       } else {
         setFavourite(false)
+      }
+    })
+    database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).on('value', snapshot => {
+      if (snapshot.val()?.id === id) {
+        setTracking(true)
+      } else {
+        setTracking(false)
       }
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).on('value', snapshot => {
@@ -308,6 +317,24 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     }
   }
 
+  const handleTracking = () => {
+    if (!tracking) {
+      database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).set({
+        id: id, data: data, type: type, timestamp: Date.now()
+      }).then(() => {
+        setTracking(true)
+        setMessage('Tracking show')
+        setSnackBar(true)
+      })
+    } else {
+      database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).remove().then(() => {
+        setTracking(true)
+        setMessage('Removed from tracking')
+        setSnackBar(true)
+      }).catch((e) => console.log(e))
+    }
+  }
+
   const handleWatching2 = () => {
     database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
       id: id, data: data, type: type, timestamp: Date.now()
@@ -505,6 +532,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                             {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
                           </IconButton>
                         </Tooltip>
+                        {type === 'tv' && <Tooltip title={watching ? "Remove from tracking" : "Track show"}>
+                          <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleTracking()}>
+                            {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
+                          </IconButton>
+                        </Tooltip>}
                         <Tooltip title="Share">
                           <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleShow2()}>
                             <ShareOutlinedIcon />

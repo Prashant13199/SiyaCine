@@ -3,6 +3,7 @@ import './style.css'
 import useFetchUserDetails from '../../hooks/useFetchUserDetails'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min'
 import { auth, database } from '../../firebase'
+import { timeDifference } from '../../Services/time'
 
 export default function Notification({ noti, handleClose }) {
 
@@ -49,7 +50,7 @@ export default function Notification({ noti, handleClose }) {
                 <img src={photo} className='notification_image' />
             </Link>
             <div className='notification_right'>
-                {noti.text}
+                {noti.text} <span className='noti_time'>{timeDifference(new Date(), new Date(noti.timestamp))}</span>
                 <div className='notification_btns'>
                     {noti?.connection && <div onClick={acceptConnection} className='notification_accept'>accept</div>}
                     <div onClick={removeNotification} className='notification_delete'>{noti?.connection ? 'decline' : 'clear'}</div>

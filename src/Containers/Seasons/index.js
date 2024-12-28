@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { auth, database } from '../../firebase';
 import { Modal } from 'react-bootstrap';
-import { Button, ButtonGroup, CircularProgress, IconButton } from '@mui/material';
+import { Button, CircularProgress, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';

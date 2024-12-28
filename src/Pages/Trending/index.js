@@ -12,6 +12,7 @@ import Footer from '../../Containers/Footer'
 import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
 import useFetchPremium from '../../hooks/useFetchPremium';
+import useFetchMyShows from '../../hooks/useFetchMyShows';
 
 export default function Trending({ setBackdrop, scrollTop }) {
 
@@ -33,7 +34,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const trendingTv = useFetchContent('trending', 'tv')
   const indianMovie = useFetchContent('discover', 'movie')
   const indianTv = useFetchContent('discover', 'tv')
-  const airingToday = useFetchContent('airing_today', 'tv')
+  const myShows = useFetchMyShows()
 
   useEffect(() => {
     scrollTop()
@@ -125,16 +126,13 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div>
         </>}
 
-        {airingToday?.length !== 0 && <><br />
+        {myShows?.length !== 0 && <><br />
           <div className='trending_title' >
-            TV Shows Airing Today
-            <Link to={`/singlecategory/airing_today/tv/Airing Today/$$`} className="viewall">
-              <IconButton><ChevronRightIcon /></IconButton>
-            </Link>
+            New Episode in the next 7 days
           </div>
           <div className='trending_scroll' >
-            {airingToday?.map((data) => {
-              return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
+            {myShows?.map((data) => {
+              return <SingleContentScroll data={data} id={data?.id} key={data?.id} type="tv" />
             })}
           </div>
         </>}
@@ -142,7 +140,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
         {watchlist?.length !== 0 && <><br />
           <div className='trending_title' >Watchlist <Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
-            {watchlist && watchlist.map((data) => {
+            {watchlist?.map((data) => {
               return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
             })}
           </div></>}

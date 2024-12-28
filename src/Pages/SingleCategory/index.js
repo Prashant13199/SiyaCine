@@ -37,7 +37,7 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   }, [page, selectedGenres])
 
   useEffect(() => {
-    if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated' || category === 'airing_today')) {
+    if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated' || category === 'airing_today' || category === 'on_the_air')) {
       fetch();
     } else if (category === 'discover') {
       fetchDiscover()

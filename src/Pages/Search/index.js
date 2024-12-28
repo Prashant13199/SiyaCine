@@ -86,7 +86,7 @@ export default function Search({ scrollTop, setBackdrop }) {
                 <title>SiyaCine - Search</title>
             </Helmet>
             <div className="search">
-                <Paper component="form" sx={{ p: '4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '10px', margin: 'auto' }}>
+                <Paper component="form" sx={{ p: '4px', display: 'flex', alignItems: 'center', width: '100%', borderRadius: '20px', margin: 'auto' }}>
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
                         className='input_search'

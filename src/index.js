@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ThemeContext from './Services/ThemeContext';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -11,5 +12,5 @@ root.render(
         <App />
     </ThemeContext>
 );
-
+serviceWorkerRegistration.unregister();
 reportWebVitals();

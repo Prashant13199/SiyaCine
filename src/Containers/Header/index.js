@@ -42,7 +42,7 @@ export default function Header() {
   const fetchnowPlaying = async () => {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}`
+        `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false`
       );
       setNowPlaying(data.results);
     }
