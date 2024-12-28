@@ -28,7 +28,6 @@ export default function useFetchMyShows() {
                         tracking?.map((val2) => {
                             if (val?.id == val2?.id) {
                                 arr.push(val)
-                                console.log(val)
                             }
                         })
                     })
