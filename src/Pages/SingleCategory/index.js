@@ -33,7 +33,9 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
   const [databaseData, setDatabaseData] = useState(false)
 
   useEffect(() => {
-    history.push(`/singlecategory/${category}/${type}/${name}/${uid}?pageM=${page}&values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}`)
+    setTimeout(() => {
+      history.push(`/singlecategory/${category}/${type}/${name}/${uid}?pageM=${page}&values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}`)
+    }, 0)
   }, [page, selectedGenres])
 
   useEffect(() => {

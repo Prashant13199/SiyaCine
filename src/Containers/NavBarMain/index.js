@@ -118,7 +118,7 @@ export default function NavBarMain({ top, scrollTop }) {
       </Modal>
       <Navbar className={top < 50 ? 'navbar_main navbar_back_image' : 'navbar_main navbar_back'} variant={theme.palette.mode} fixed='top'>
         <Navbar.Brand className="navlink">
-          <NavLink to="/" style={{ color: 'white', textDecoration: 'none' }} onClick={scrollTop}>
+          <NavLink to={top < 50 && "/"} style={{ color: 'white', textDecoration: 'none' }} onClick={scrollTop}>
             <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
           </NavLink>
         </Navbar.Brand>

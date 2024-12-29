@@ -27,7 +27,9 @@ export default function Movies({ scrollTop, setBackdrop }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    history.push(`/movies?values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}&pageM=${page}`)
+    setTimeout(() => {
+      history.push(`/movies?values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}&pageM=${page}`)
+    }, 0)
   }, [page, selectedGenres])
 
   function useQuery() {

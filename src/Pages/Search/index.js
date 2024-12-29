@@ -41,7 +41,9 @@ export default function Search({ scrollTop, setBackdrop }) {
     }, [page, query, users])
 
     useEffect(() => {
-        history.push(`/search?query=${search}&page=${pageM}`)
+        setTimeout(() => {
+            history.push(`/search?query=${search}&page=${pageM}`)
+        }, 0)
     }, [pageM, search])
 
     const fetchSearch = async () => {

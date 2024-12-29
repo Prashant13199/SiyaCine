@@ -423,8 +423,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
             <div>{data?.name || data?.title || data?.original_name}</div>
           </div>
-          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidbinge.dev/embed/movie/${id}`}></iframe>}
-          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
+          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
+          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidbinge.dev/embed/movie/${id}`}></iframe>}
           <div className='player_bottom'>
             <div></div>
             <Dropdown>
@@ -432,8 +432,8 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 Servers
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>Vid Binge</Dropdown.Item>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>VidSrc</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>VidSrc</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>Vid Binge</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             <div></div>

@@ -27,7 +27,9 @@ export default function TV({ scrollTop, setBackdrop }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    history.push(`/tv?values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}&pageM=${page}`)
+    setTimeout(() => {
+      history.push(`/tv?values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}&pageM=${page}`)
+    }, 0)
   }, [page, selectedGenres])
 
   function useQuery() {
