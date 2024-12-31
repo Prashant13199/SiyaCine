@@ -88,7 +88,7 @@ export default function TV({ scrollTop, setBackdrop }) {
           : <div className="loading">
             <CircularProgress color='warning' />
           </div>}
-        {numOfPages > 1 && !loading && (
+        {numOfPages > 1 && (
           <CustomPagination setPage={setPage} numOfPages={numOfPages} page={page} />
         )}
       </div>

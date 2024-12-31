@@ -87,7 +87,7 @@ export default function Movies({ scrollTop, setBackdrop }) {
           : <div className="loading">
             <CircularProgress color='warning' />
           </div>}
-        {numOfPages > 1 && !loading && (
+        {numOfPages > 1 && (
           <CustomPagination setPage={setPage} numOfPages={numOfPages} page={page} />
         )}
       </div>

@@ -169,7 +169,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                             <div className='air_date'>{datas?.air_date}</div>
                         </div>
                         <div className='relative'>
-                            <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
+                            <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZloANkq34iji2rYsX6MRnvKxRauEujYNJ3_WlwOeWSksm7XJBTmHwOJg6pdcsDFUeG3M&usqp=CAU"} className='single_episode_image' />
                         </div>
                         <div className="episode_name">
                             {datas?.name?.length > 100 ? datas?.name?.substring(0, 100)?.concat('...') : datas?.name}

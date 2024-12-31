@@ -11,7 +11,6 @@ import axios from "axios";
 import Footer from '../../Containers/Footer'
 import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
-import useFetchPremium from '../../hooks/useFetchPremium';
 import useFetchMyShows from '../../hooks/useFetchMyShows';
 
 export default function Trending({ setBackdrop, scrollTop }) {
@@ -25,7 +24,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
   const watchlist = useFetchDBData(auth?.currentUser?.uid, 'watchlist')
   const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
   const favouriteCast = useFetchDBData(auth?.currentUser?.uid, 'cast')
-  const premium = useFetchPremium(auth?.currentUser?.uid)
 
   const nowplaying = useFetchContent('now_playing', 'movie')
   const topratedmovie = useFetchContent('top_rated', 'movie')
@@ -217,7 +215,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
             })}
           </div></>}
 
-        {premium && <Footer />}
+        <Footer />
 
       </div>
     </>

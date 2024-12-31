@@ -14,9 +14,25 @@
     text-align: center;
 }
 
+.tmdb_logo_container {
+    display: grid;
+    place-items: center;
+    margin: 20px 0;
+}
+
+.tmdb_logo {
+    width: 130px;
+    height: auto;
+}
+
 @media only screen and (max-width: 660px) {
     .footer {
         padding: 0;
         font-size: 12px;
+    }
+
+    .tmdb_logo {
+        width: 100px;
+        height: auto;
     }
 }
