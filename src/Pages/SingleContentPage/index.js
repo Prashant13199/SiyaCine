@@ -328,7 +328,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       })
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).remove().then(() => {
-        setTracking(true)
+        setTracking(false)
         setMessage('Removed from tracking')
         setSnackBar(true)
       }).catch((e) => console.log(e))
@@ -532,7 +532,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                             {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
                           </IconButton>
                         </Tooltip>
-                        {type === 'tv' && <Tooltip title={watching ? "Remove from tracking" : "Track show"}>
+                        {type === 'tv' && <Tooltip title={tracking ? "Remove from tracking" : "Track show"}>
                           <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleTracking()}>
                             {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
                           </IconButton>
