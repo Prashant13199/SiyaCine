@@ -27,7 +27,9 @@ export default function useFetchMyShows() {
                     data?.results?.map((val) => {
                         tracking?.map((val2) => {
                             if (val?.id == val2?.id) {
-                                arr.push(val)
+                                if (!arr.find((val3) => val3?.id === val?.id)) {
+                                    arr.push(val)
+                                }
                             }
                         })
                     })
