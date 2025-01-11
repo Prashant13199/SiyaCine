@@ -91,7 +91,7 @@ export default function Header() {
               >
                 Watch Trailer
               </Button>}
-              <Link to={`/singlecontent/${nowPlaying[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
+              {nowPlaying[number]?.id && <Link to={`/singlecontent/${nowPlaying[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
                 <Button
                   startIcon={<InfoIcon style={{ color: 'gray', fontSize: '25px' }} />}
                   className='button'
@@ -100,7 +100,7 @@ export default function Header() {
                 >
                   More Info
                 </Button>
-              </Link>
+              </Link>}
             </div>
           </div>
         </div>

@@ -5,14 +5,25 @@
     object-fit: cover;
 }
 
-.singlecontentPage {
-    margin-top: 70px;
+.singlecontent_responsive {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.singlecontent_responsive {
+.singlecontent_responsive_backdrop {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 1));
+    height: 80vh;
+    width: 100%;
     display: flex;
-    align-items: flex-start;
-    padding: 20px 40px;
+    align-items: flex-end;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
 }
 
 .details {
@@ -230,6 +241,7 @@
     .singlecontent_responsive {
         display: grid;
         padding: 0 40px;
+        background-image: unset !important;
     }
 
     .watchprovider {
@@ -243,5 +255,13 @@
 
     .singlecontent {
         padding-top: 10px;
+    }
+
+    .singlecontent_responsive_backdrop {
+        background-image: unset;
+        height: unset;
+        display: grid;
+        padding-left: 0px;
+        padding-right: 0px;
     }
 }

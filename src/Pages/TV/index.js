@@ -11,7 +11,7 @@ import empty from '../../assets/empty.png'
 import { Helmet } from 'react-helmet';
 import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-export default function TV({ scrollTop, setBackdrop }) {
+export default function TV({ scrollTop }) {
 
   let data = useQuery();
   const values = data.get('values')
@@ -55,7 +55,6 @@ export default function TV({ scrollTop, setBackdrop }) {
   useEffect(() => {
     scrollTop()
     fetchTV();
-    setBackdrop()
   }, [genreforURL, page]);
 
   return (

@@ -1,6 +1,6 @@
 .welcome_backdrop {
     background-image: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1));
-    height: 90vh;
+    height: 80vh;
     display: flex;
     align-items: flex-end;
     padding: 20px 40px;
@@ -16,6 +16,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    transition: all .3s ease-in-out;
 }
 
 .header_buttons {

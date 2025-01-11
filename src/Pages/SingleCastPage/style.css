@@ -1,6 +1,7 @@
 .singlecontent_responsive_cast {
-    display: flex;
-    padding: 20px 40px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .readmore {
@@ -9,13 +10,10 @@
     cursor: pointer;
 }
 
-.singlecastpage {
-    padding-top: 70px;
-}
-
 @media only screen and (max-width: 900px) {
     .singlecontent_responsive_cast {
         display: grid;
+        background-image: unset !important;
     }
 }
 
