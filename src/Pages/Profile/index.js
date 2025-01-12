@@ -28,7 +28,6 @@ import ConnectionUser from '../../Components/ConnectionUser';
 export default function Profile({ setBackdrop, scrollTop }) {
 
   const history = useHistory()
-  const [number, setNumber] = useState(null)
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
   const [publicAcc, setPublicAcc] = useState(true)
@@ -41,7 +40,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const watchlist = useFetchDBData(auth?.currentUser?.uid, 'watchlist')
   const watched = useFetchDBData(auth?.currentUser?.uid, 'watched')
-  const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourite')
+  const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
   const cast = useFetchDBData(auth?.currentUser?.uid, 'cast')
   const premium = useFetchPremium(auth?.currentUser?.uid)
 
@@ -53,12 +52,8 @@ export default function Profile({ setBackdrop, scrollTop }) {
   }, [])
 
   useEffect(() => {
-    setBackdrop(window.innerWidth > 900 ? favourite[number]?.data?.backdrop_path : favourite[number]?.data?.poster_path)
-  }, [favourite, number, window.innerWidth])
-
-  useEffect(() => {
-    randomNumber()
-  }, [favourite.length])
+    setBackdrop(window.innerWidth > 900 ? favourite[0]?.data?.backdrop_path : favourite[0]?.data?.poster_path)
+  }, [favourite])
 
   useEffect(() => {
     database.ref(`/Connections`).orderByChild('timestamp').on('value', snapshot => {
@@ -82,10 +77,6 @@ export default function Profile({ setBackdrop, scrollTop }) {
     })
     setLoading(false)
   }, [auth?.currentUser?.uid])
-
-  const randomNumber = () => {
-    setNumber(Math.floor(Math.random() * favourite.length))
-  }
 
   const signOut = () => {
     auth.signOut().then(() => {
@@ -173,8 +164,8 @@ export default function Profile({ setBackdrop, scrollTop }) {
         </Modal.Body>
       </Modal>
       {!loading ?
-        <Grow in={!loading} {...({ timeout: 800 })}>
-          <div className='profile'>
+        <div className='profile'>
+          <Grow in={!loading} {...({ timeout: 800 })}>
             <div className='profile_header'>
               <div className='pic_container'>
                 <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
@@ -199,62 +190,62 @@ export default function Profile({ setBackdrop, scrollTop }) {
                 </div>
               </div>
             </div>
-            {watching?.length !== 0 && <><br />
-              <div className='trending_title' >Resume Watching</div>
-              <div className='trending_scroll' >
-                {watching?.map((data) => {
-                  return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data?.type} showtv={true} />
-                })}
-              </div></>}
-            {watchlist?.length !== 0 && <><br />
-              <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-              <div className='trending_scroll' >
-                {watchlist?.map((data) => {
-                  return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
-                })}
-              </div></>}
-            {watched?.length !== 0 && <><br />
-              <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-              <div className='trending_scroll' >
-                {watched?.slice(0, 20)?.map((data) => {
-                  return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
-                })}
-              </div></>}
-            {suggestions?.length !== 0 && <><br />
-              <div className='trending_title' >Suggestions<Count value={suggestions?.length} /></div>
-              <div className='trending_scroll' >
-                {suggestions?.map((data) => {
-                  return <div>
-                    <SingleContentScroll data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} showtv={true} />
-                  </div>
-                })}
-              </div></>}
-            {favourite?.length !== 0 && <><br />
-              <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-              <div className='trending_scroll' >
-                {favourite?.map((data) => {
-                  return <SingleContentScroll data={data?.data} key={data?.id} id={data?.id} type={data?.type} showtv={true} />
-                })}
-              </div></>}
-            {cast?.length !== 0 && <><br />
-              <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
-              <div className='trending_scroll' >
-                {cast?.map((c) => {
-                  return <Cast c={c} key={c.id} />
-                })}
-              </div></>}
-            {connections?.length !== 0 && <><br />
-              <div className='trending_title' >Connections<Count value={connections?.length} /></div>
-              <div className='trending_scroll' >
-                {connections?.map((user, index) => {
-                  return <ConnectionUser user={user} index={index} />
-                })}
-              </div></>}
-            {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
-              <img src={empty} className='empty' alt="" />
-              <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-          </div>
-        </Grow>
+          </Grow>
+          {watching?.length !== 0 && <><br />
+            <div className='trending_title' >Resume Watching</div>
+            <div className='trending_scroll' >
+              {watching?.map((data) => {
+                return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data?.type} showtv={true} />
+              })}
+            </div></>}
+          {watchlist?.length !== 0 && <><br />
+            <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+            <div className='trending_scroll' >
+              {watchlist?.map((data) => {
+                return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
+              })}
+            </div></>}
+          {watched?.length !== 0 && <><br />
+            <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+            <div className='trending_scroll' >
+              {watched?.slice(0, 20)?.map((data) => {
+                return <SingleContentScroll data={data?.data} id={data?.id} key={data?.id} type={data?.type} showtv={true} />
+              })}
+            </div></>}
+          {suggestions?.length !== 0 && <><br />
+            <div className='trending_title' >Suggestions<Count value={suggestions?.length} /></div>
+            <div className='trending_scroll' >
+              {suggestions?.map((data) => {
+                return <div>
+                  <SingleContentScroll data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} showtv={true} />
+                </div>
+              })}
+            </div></>}
+          {favourite?.length !== 0 && <><br />
+            <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+            <div className='trending_scroll' >
+              {favourite?.map((data) => {
+                return <SingleContentScroll data={data?.data} key={data?.id} id={data?.id} type={data?.type} showtv={true} />
+              })}
+            </div></>}
+          {cast?.length !== 0 && <><br />
+            <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
+            <div className='trending_scroll' >
+              {cast?.map((c) => {
+                return <Cast c={c} key={c.id} />
+              })}
+            </div></>}
+          {connections?.length !== 0 && <><br />
+            <div className='trending_title' >Connections<Count value={connections?.length} /></div>
+            <div className='trending_scroll' >
+              {connections?.map((user, index) => {
+                return <ConnectionUser user={user} index={index} />
+              })}
+            </div></>}
+          {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
+            <img src={empty} className='empty' alt="" />
+            <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
+        </div>
         : <div className="loading">
           <CircularProgress color='warning' />
         </div>}

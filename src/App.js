@@ -42,8 +42,7 @@ function App() {
           setLoading(false)
           database.ref(`/Users/${user}`).update({
             timestamp: Date.now()
-          }).then(() => console.log('Updated time'))
-            .catch((e) => console.log(e))
+          }).catch((e) => console.log(e))
         } else {
           logOut()
         }
