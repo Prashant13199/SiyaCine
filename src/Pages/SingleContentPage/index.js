@@ -100,7 +100,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : data?.poster_path)
-  }, [data, window.innerWidth, window.innerWidth])
+  }, [data])
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {

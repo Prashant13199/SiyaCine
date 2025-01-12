@@ -13,7 +13,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 export default function Header() {
 
   const [nowPlaying, setNowPlaying] = useState([])
-  const [number, setNumber] = useState(null)
   const [background, setBackground] = useState(null)
   const [video, setVideo] = useState();
   const [show, setShow] = useState(false);
@@ -23,21 +22,17 @@ export default function Header() {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    setBackground(window.innerWidth > 900 ? nowPlaying[number]?.backdrop_path : nowPlaying[number]?.poster_path)
-  }, [nowPlaying, number, window.innerWidth])
+    setBackground(window.innerWidth > 900 ? nowPlaying[0]?.backdrop_path : nowPlaying[0]?.poster_path)
+  }, [nowPlaying])
 
   useEffect(() => {
     fetchnowPlaying();
   }, [])
 
   useEffect(() => {
-    if (nowPlaying[number]?.id)
+    if (nowPlaying[0]?.id)
       fetchVideo()
-  }, [nowPlaying[number]?.id])
-
-  useEffect(() => {
-    setNumber(Math.floor(Math.random() * nowPlaying.length))
-  }, [nowPlaying])
+  }, [nowPlaying[0]?.id])
 
   const fetchnowPlaying = async () => {
     try {
@@ -54,7 +49,7 @@ export default function Header() {
   const fetchVideo = async () => {
     try {
       const { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${nowPlaying[number]?.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+        `https://api.themoviedb.org/3/movie/${nowPlaying[0]?.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       const values = data.results.filter((value) => value.type === 'Trailer')
       setVideo(values[0]?.key);
@@ -70,7 +65,7 @@ export default function Header() {
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
             <IconButton onClick={() => handleClose()}><ArrowBackIcon className="back_icon" /></IconButton>
-            <div>{nowPlaying[number]?.title} trailer</div>
+            <div>{nowPlaying[0]?.title} trailer</div>
           </div>
           <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={window.innerHeight - 100} controls />
         </Modal.Body>
@@ -78,8 +73,8 @@ export default function Header() {
       <div className='welcome' style={{ backgroundImage: nowPlaying?.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${background})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
         <div className='welcome_backdrop'>
           <div style={{ width: '100%' }}>
-            <div className='welcomeText'>{nowPlaying[number]?.title}</div>
-            {nowPlaying[number]?.overview && <div className='welcomeDesc'>{nowPlaying[number]?.overview.substring(0, 100).concat('...')}</div>}
+            <div className='welcomeText'>{nowPlaying[0]?.title}</div>
+            {nowPlaying[0]?.overview && <div className='welcomeDesc'>{nowPlaying[0]?.overview.substring(0, 100).concat('...')}</div>}
             <div className='header_buttons'>
               {video && <Button
                 startIcon={<YouTubeIcon style={{ color: 'red', fontSize: '25px' }} />}
@@ -91,7 +86,7 @@ export default function Header() {
               >
                 Watch Trailer
               </Button>}
-              <Link to={`/singlecontent/${nowPlaying[number]?.id}/movie`} style={{ textDecoration: 'none' }}>
+              <Link to={`/singlecontent/${nowPlaying[0]?.id}/movie`} style={{ textDecoration: 'none' }}>
                 <Button
                   startIcon={<InfoIcon style={{ color: 'gray', fontSize: '25px' }} />}
                   className='button'

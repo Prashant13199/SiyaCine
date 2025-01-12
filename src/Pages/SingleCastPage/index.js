@@ -21,19 +21,10 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
   const [readMore, setReadMore] = useState(false)
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
-  const [number, setNumber] = useState(null)
 
   useEffect(() => {
-    randomNumber()
-  }, [favourite.length])
-
-  const randomNumber = () => {
-    setNumber(Math.floor(Math.random() * movie.length))
-  }
-
-  useEffect(() => {
-    setBackdrop(window.innerWidth > 600 ? movie[number]?.backdrop_path : movie[number]?.poster_path)
-  }, [movie, number, window.innerWidth])
+    setBackdrop(window.innerWidth > 600 ? movie[0]?.backdrop_path : movie[0]?.poster_path)
+  }, [movie])
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).on('value', snapshot => {
