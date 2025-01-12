@@ -4,7 +4,7 @@ import './style.css';
 import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
-import { CircularProgress, IconButton, TextField } from '@mui/material';
+import { CircularProgress, Grow, IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -38,7 +38,7 @@ import useFetchUsers from '../../hooks/useFetchUsers';
 import ShareUser from '../../Components/ShareUser';
 import TimelineIcon from '@mui/icons-material/Timeline';
 
-export default function SingleContentPage({ scrollTop }) {
+export default function SingleContentPage({ setBackdrop, scrollTop }) {
 
   const { id, type } = useParams()
   const [data, setData] = useState([])
@@ -66,7 +66,6 @@ export default function SingleContentPage({ scrollTop }) {
   const [review, setReview] = useState('')
   const [loading, setLoading] = useState(true)
   const [tracking, setTracking] = useState([])
-  const [backdrop, setBackdrop] = useState('')
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -464,9 +463,9 @@ export default function SingleContentPage({ scrollTop }) {
       </Snackbar>
       {!loading ?
         <>
-          <div className='singlecontentPage'>
-            <div className='singlecontent_responsive' style={{ backgroundImage: backdrop ? `url(https://image.tmdb.org/t/p/original/${backdrop})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
-              <div className='singlecontent_responsive_backdrop'>
+          <Grow in={!loading} {...({ timeout: 800 })}>
+            <div className='singlecontentPage'>
+              <div className='singlecontent_responsive'>
                 <div className='pic_container'>
                   <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
                   <div className='play_buttons'>
@@ -563,75 +562,75 @@ export default function SingleContentPage({ scrollTop }) {
                   </div>}
                 </div>
               </div>
-            </div>
-            {type === 'tv' && <Seasons setResumeSeries={setResumeSeries} resumeSeries={resumeSeries} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
-            <div className='singlecontent'>
-              {video?.length !== 0 && <>
-                <div className='trending_title' >Trailers & More</div>
-                <div className='trending_scroll' >
-                  <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
-                </div>
-              </>}
-              {recommendations?.length !== 0 && <><br />
-                <div className='trending_title' >Recommendations</div>
-                <div className='trending_scroll' >
-                  {recommendations?.map((data) => {
-                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
-                  })}
-                </div>
-              </>}
-              {similar?.length !== 0 && <><br />
-                <div className='trending_title' >Similar</div>
-                <div className='trending_scroll' >
-                  {similar?.map((data) => {
-                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
-                  })}
-                </div>
-              </>}
-              {credit.cast && credit.cast.length !== 0 && <><br /><div className='trending_title'>Cast</div>
-                <div className='cast'>
-                  {credit && credit.cast.map((c) => {
-                    return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
-                      <div className='cast_single' key={c.id}>
-                        <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
-                        <div style={{ marginTop: '5px' }}>
-                          <div className='cast_name' style={{ color: theme.palette.warning.main }}>{c.original_name}</div>
-                          <div className='cast_char'>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
+              {type === 'tv' && <Seasons setResumeSeries={setResumeSeries} resumeSeries={resumeSeries} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
+              <div className='singlecontent'>
+                {video?.length !== 0 && <>
+                  <div className='trending_title' >Trailers & More</div>
+                  <div className='trending_scroll' >
+                    <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
+                  </div>
+                </>}
+                {recommendations?.length !== 0 && <><br />
+                  <div className='trending_title' >Recommendations</div>
+                  <div className='trending_scroll' >
+                    {recommendations?.map((data) => {
+                      return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
+                    })}
+                  </div>
+                </>}
+                {similar?.length !== 0 && <><br />
+                  <div className='trending_title' >Similar</div>
+                  <div className='trending_scroll' >
+                    {similar?.map((data) => {
+                      return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
+                    })}
+                  </div>
+                </>}
+                {credit.cast && credit.cast.length !== 0 && <><br /><div className='trending_title'>Cast</div>
+                  <div className='cast'>
+                    {credit && credit.cast.map((c) => {
+                      return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
+                        <div className='cast_single' key={c.id}>
+                          <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
+                          <div style={{ marginTop: '5px' }}>
+                            <div className='cast_name' style={{ color: theme.palette.warning.main }}>{c.original_name}</div>
+                            <div className='cast_char'>{c.character.length > 30 ? c.character.substring(0, 30).concat('...') : c.character}</div>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  })}
-                </div></>}
-              <br />
-              <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
-                <div >
-                  Reviews
+                      </Link>
+                    })}
+                  </div></>}
+                <br />
+                <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
+                  <div >
+                    Reviews
+                  </div>
+                  {auth?.currentUser?.uid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
+                    <AddCircleOutlineIcon fontSize='medium' />
+                  </div>}
                 </div>
-                {auth?.currentUser?.uid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
-                  <AddCircleOutlineIcon fontSize='medium' />
-                </div>}
-              </div>
-              <div className='reviews'>
-                {reviews2 && auth?.currentUser?.uid && reviews2.map((data) => {
-                  return <div className='single_review' key={data.uid}>
-                    <div style={{ display: 'flex', alignItems: 'center' }} >
-                      <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', fontSize: '18px', color: 'white' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
-                      {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon sx={{ color: theme.palette.error.main }} /></IconButton></div>}
+                <div className='reviews'>
+                  {reviews2 && auth?.currentUser?.uid && reviews2.map((data) => {
+                    return <div className='single_review' key={data.uid}>
+                      <div style={{ display: 'flex', alignItems: 'center' }} >
+                        <Link to={data.uid === auth?.currentUser?.uid ? '/profile' : `/user/${data.uid}`} style={{ textDecoration: 'none', fontSize: '18px', color: 'white' }}><div style={{}}>{getUsername(data.uid)}</div></Link>
+                        {data.uid === auth?.currentUser?.uid && <div><IconButton onClick={() => removeReview()}><DeleteIcon sx={{ color: theme.palette.error.main }} /></IconButton></div>}
+                      </div>
+                      <Review review={data.review} />
                     </div>
-                    <Review review={data.review} />
-                  </div>
-                })}
-                {reviews && reviews.map((data) => {
-                  return <div className='single_review' key={data.id}>
-                    <div className='review_author_username'>{data.author_details.username}</div>
-                    <Review review={data.content} />
-                  </div>
-                })}
-                {(reviews.length !== 0 || reviews2.length !== 0) && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
-                {reviews.length === 0 && reviews2.length === 0 && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
+                  })}
+                  {reviews && reviews.map((data) => {
+                    return <div className='single_review' key={data.id}>
+                      <div className='review_author_username'>{data.author_details.username}</div>
+                      <Review review={data.content} />
+                    </div>
+                  })}
+                  {(reviews.length !== 0 || reviews2.length !== 0) && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
+                  {reviews.length === 0 && reviews2.length === 0 && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
+                </div>
               </div>
             </div>
-          </div>
+          </Grow>
         </>
         :
         <div className="loading">

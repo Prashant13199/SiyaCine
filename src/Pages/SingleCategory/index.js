@@ -12,7 +12,7 @@ import Genres from '../../Components/Genres';
 import { Helmet } from 'react-helmet';
 import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-export default function SingleCategory({ scrollTop }) {
+export default function SingleCategory({ scrollTop, setBackdrop }) {
 
   let data = useQuery();
   const values = data.get('values')
@@ -54,6 +54,7 @@ export default function SingleCategory({ scrollTop }) {
       setPaginatedData([])
     }
     scrollTop()
+    setBackdrop()
   }, [page, genreforURL]);
 
   useEffect(() => {

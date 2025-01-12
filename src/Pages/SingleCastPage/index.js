@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import './style.css'
 import axios from "axios";
-import { IconButton } from '@mui/material';
+import { Grow, IconButton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { auth, database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
@@ -11,7 +11,7 @@ import { useTheme } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import { Helmet } from 'react-helmet';
 
-export default function SingleCastPage({ scrollTop }) {
+export default function SingleCastPage({ scrollTop, setBackdrop }) {
 
   const { id } = useParams()
   const [data, setData] = useState([])
@@ -22,7 +22,6 @@ export default function SingleCastPage({ scrollTop }) {
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
   const [number, setNumber] = useState(null)
-  const [backdrop, setBackdrop] = useState('')
 
   useEffect(() => {
     randomNumber()
@@ -108,9 +107,9 @@ export default function SingleCastPage({ scrollTop }) {
         <title>SiyaCine - Cast{data?.name ? ` - ${data?.name}` : ''}</title>
       </Helmet>
       {!loading ?
-        <div className='singlecastpage'>
-          <div className='singlecontent_responsive_cast' style={{ backgroundImage: backdrop ? `url(https://image.tmdb.org/t/p/original/${backdrop})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
-            <div className='singlecontent_responsive_backdrop'>
+        <Grow in={!loading} {...({ timeout: 800 })}>
+          <div className='singlecastpage'>
+            <div className='singlecontent_responsive_cast'>
               <div className='pic_container'>
                 <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
               </div>
@@ -146,31 +145,33 @@ export default function SingleCastPage({ scrollTop }) {
                 </div>}
               </div>
             </div>
-          </div>
-          {movie?.length !== 0 && <>
-            <br />
-            <div className='trending_title' >Movie
-            </div>
-            <div style={{ marginTop: '10px' }}></div>
-            <div className='trending_scroll' >
-              {movie?.map((data) => {
-                return <SingleContentScroll data={data} key={data.id} type="movie" />
-              })}
-            </div>
-          </>}
 
-          {tv?.length !== 0 && <>
-            <br />
-            <div className='trending_title' >TV
-            </div>
-            <div style={{ marginTop: '10px' }}></div>
-            <div className='trending_scroll' >
-              {tv?.map((data) => {
-                return <SingleContentScroll data={data} key={data.id} type="tv" />
-              })}
-            </div>
-          </>}
-        </div>
+            {movie?.length !== 0 && <>
+              <br />
+              <div className='trending_title' >Movie
+              </div>
+              <div style={{ marginTop: '10px' }}></div>
+              <div className='trending_scroll' >
+                {movie?.map((data) => {
+                  return <SingleContentScroll data={data} key={data.id} type="movie" />
+                })}
+              </div>
+            </>}
+
+            {tv?.length !== 0 && <>
+              <br />
+              <div className='trending_title' >TV
+              </div>
+              <div style={{ marginTop: '10px' }}></div>
+              <div className='trending_scroll' >
+                {tv?.map((data) => {
+                  return <SingleContentScroll data={data} key={data.id} type="tv" />
+                })}
+              </div>
+            </>}
+
+          </div >
+        </Grow>
         : <div className="loading">
           <CircularProgress color='warning' />
         </div>

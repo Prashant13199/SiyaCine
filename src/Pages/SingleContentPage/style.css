@@ -5,12 +5,11 @@
     object-fit: cover;
 }
 
-.singlecontent_responsive {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
+.singlecontentPage {
+    margin-top: 70px;
 }
 
+<<<<<<< HEAD
 .singlecontent_responsive_backdrop {
     background-image: linear-gradient(rgba(0, 0, 0, 0.6) 50%, rgba(18, 18, 18, 1));
     height: 80vh;
@@ -23,6 +22,12 @@
     align-items: center;
     justify-content: flex-start;
     height: 80vh;
+=======
+.singlecontent_responsive {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px 40px;
+>>>>>>> parent of 264fe21 (removed background image)
 }
 
 .details {
@@ -240,7 +245,6 @@
     .singlecontent_responsive {
         display: grid;
         padding: 0 40px;
-        background-image: unset !important;
     }
 
     .watchprovider {
@@ -254,13 +258,5 @@
 
     .singlecontent {
         padding-top: 10px;
-    }
-
-    .singlecontent_responsive_backdrop {
-        background-image: unset;
-        height: unset;
-        display: grid;
-        padding-left: 0px;
-        padding-right: 0px;
     }
 }
