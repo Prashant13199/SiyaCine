@@ -1,11 +1,6 @@
 .welcome_backdrop {
-<<<<<<< HEAD
-    background-image: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(18, 18, 18, 1));
-    height: 80vh;
-=======
     background-image: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1));
     height: 90vh;
->>>>>>> parent of 264fe21 (removed background image)
     display: flex;
     align-items: flex-end;
     padding: 20px 40px;

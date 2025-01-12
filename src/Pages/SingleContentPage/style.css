@@ -9,25 +9,10 @@
     margin-top: 70px;
 }
 
-<<<<<<< HEAD
-.singlecontent_responsive_backdrop {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6) 50%, rgba(18, 18, 18, 1));
-    height: 80vh;
-    width: 100%;
-    display: flex;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    height: 80vh;
-=======
 .singlecontent_responsive {
     display: flex;
     align-items: flex-start;
     padding: 20px 40px;
->>>>>>> parent of 264fe21 (removed background image)
 }
 
 .details {
