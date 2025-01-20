@@ -14,7 +14,7 @@ export default function SingleContent({ data, type, showtv, index }) {
   useEffect(() => {
     setTimeout(() => {
       setChecked(true)
-    }, index * 80)
+    }, index * 50)
   }, [index])
 
   return data?.poster_path && (
