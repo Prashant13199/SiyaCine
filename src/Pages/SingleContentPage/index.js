@@ -57,7 +57,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [server, setServer] = useState(1)
   const [show2, setShow2] = useState(false);
   const [message, setMessage] = useState('')
-  const [resumeSeries, setResumeSeries] = useState(false)
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
   const [readMore, setReadMore] = useState(false)
@@ -364,10 +363,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       .catch((e) => console.log(e))
   }
 
-  const handleTvShowScroll = () => {
-    setResumeSeries(true)
-  }
-
   return (
     <>
       <Helmet>
@@ -470,11 +465,11 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               <div className='pic_container'>
                 <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
                 <div className='play_buttons'>
-                  {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) &&
+                  {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) && type === 'movie' &&
                     <Button
                       startIcon={<PlayArrowIcon />}
                       className='play_button'
-                      onClick={() => type === 'movie' ? handleShow4() : handleTvShowScroll()}
+                      onClick={handleShow4}
                       variant='contained'
                       size='large'
                     >
@@ -563,7 +558,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 </div>}
               </div>
             </div>
-            {type === 'tv' && <Seasons setResumeSeries={setResumeSeries} resumeSeries={resumeSeries} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
+            {type === 'tv' && <Seasons value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
             <div className='singlecontent'>
               {video?.length !== 0 && <>
                 <div className='trending_title' >Trailers & More</div>

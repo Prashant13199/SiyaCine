@@ -10,17 +10,16 @@ import { useTheme } from '@mui/material';
 import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { getCurrentDate } from '../../Services/time';
+import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
 
-export default function Seasons({ value, watchlist, setWatchlist, watched, setWatched, resumeSeries, setResumeSeries }) {
+export default function Seasons({ value }) {
 
     const [content, setContent] = useState([])
     const [seasonNumber, setSeasonNumber] = useState(1)
     const [episodeNumber, setEpisodeNumber] = useState()
-    const [lastPlayed, setLastPlayed] = useState({})
     const [totalEpisodes, setTotalEpisodes] = useState(0)
     const [premium, setPremium] = useState(false)
     const [server, setServer] = useState(1)
-    const [played, setPlayed] = useState(false)
     const [show4, setShow4] = useState(false);
     const [loading, setLoading] = useState(true)
 
@@ -31,21 +30,9 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
     }, [seasonNumber])
 
     useEffect(() => {
-        if (lastPlayed && resumeSeries && !played) {
-            handleEpisodeScroll()
-            setSeasonNumber(lastPlayed?.season ? lastPlayed?.season : seasonNumber)
-            handleShow4(lastPlayed?.episode ? lastPlayed?.episode : 1, lastPlayed?.season ? lastPlayed?.season : seasonNumber)
-            setPlayed(true)
-        }
-    }, [lastPlayed, resumeSeries])
-
-    useEffect(() => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).on('value', snapshot => {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
-                setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
                 setSeasonNumber(snapshot.val()?.season)
-            } else {
-                setLastPlayed({})
             }
         })
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
@@ -53,40 +40,20 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
         })
     }, [auth?.currentUser?.uid])
 
-    const handleEpisodeScroll = () => {
-        setTimeout(() => {
-            document.getElementById(`${lastPlayed?.season}${lastPlayed?.episode}`)?.scrollIntoView({ behavior: "smooth", block: "center", inline: "start" })
-        }, 250)
-    }
-
     const handleClose4 = () => {
         setShow4(false)
         setEpisodeNumber()
-        setResumeSeries(false)
-        setPlayed(false)
-        handleEpisodeScroll()
     }
 
     const handleShow4 = (episode, season) => {
         setShow4(true)
         setEpisodeNumber(episode)
-        handleResume(episode, season)
+        handleResume(season)
     }
 
-    const handleResume = (episode, season) => {
+    const handleResume = (season) => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).set({
-            id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now()
-        }).then(() => {
-            if (watchlist) {
-                database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${value?.id}`).remove().then(() => {
-                    setWatchlist(false)
-                })
-            }
-            if (watched) {
-                database.ref(`/Users/${auth?.currentUser?.uid}/watched/${value?.id}`).remove().then(() => {
-                    setWatched(false)
-                })
-            }
+            id: value?.id, data: value, type: 'tv', season: season, timestamp: Date.now()
         })
     }
 
@@ -129,7 +96,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.cc/v3/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidbinge.dev/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
-                        <Button color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
+                        <Button className='next_prev_button' variant='contained' color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
                         <Dropdown>
                             <Dropdown.Toggle variant="warning" className='servers_dropdown'>
                                 Servers
@@ -140,7 +107,7 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Vid Binge</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Button color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date >= getCurrentDate())} onClick={() => handleNext()}>Next</Button>
+                        <Button className='next_prev_button' variant='contained' color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date >= getCurrentDate())} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
@@ -159,27 +126,13 @@ export default function Seasons({ value, watchlist, setWatchlist, watched, setWa
                     })}
                 </DropdownButton>
             </div>
-            {!loading ? <div className="episode_list">
-                {content?.episodes?.map((datas) => {
-                    return <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className={datas?.air_date <= getCurrentDate() ? 'single_episode' : 'single_episode_fade'} onClick={() => {
-                        if (auth?.currentUser?.uid && premium && datas?.air_date <= getCurrentDate()) {
-                            handleShow4(datas?.episode_number, seasonNumber)
-                        }
-                    }}>
-                        <div className='episode_header'>
-                            <div className='episode_number'>S{datas.season_number}-E{datas.episode_number}</div>
-                            <div className='air_date'>{datas?.air_date}</div>
-                        </div>
-                        <div className='relative'>
-                            <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZloANkq34iji2rYsX6MRnvKxRauEujYNJ3_WlwOeWSksm7XJBTmHwOJg6pdcsDFUeG3M&usqp=CAU"} className='single_episode_image' />
-                        </div>
-                        <div className="episode_name">
-                            {datas?.name?.length > 100 ? datas?.name?.substring(0, 100)?.concat('...') : datas?.name}
-                        </div>
-                        {lastPlayed?.season === seasonNumber && lastPlayed?.episode === datas?.episode_number && <div className='playing'>Playing</div>}
-                    </div>
-                })}
-            </div> :
+            {!loading ?
+                <div className="episode_list">
+                    {content?.episodes?.map((datas) => {
+                        return <SingleEpisode datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} />
+                    })}
+                </div>
+                :
                 <div className="loading_episodes">
                     <CircularProgress color='warning' />
                 </div>
