@@ -48,12 +48,12 @@ export default function Seasons({ value }) {
     const handleShow4 = (episode, season) => {
         setShow4(true)
         setEpisodeNumber(episode)
-        handleResume(season)
+        handleResume(season, episode)
     }
 
-    const handleResume = (season) => {
+    const handleResume = (season, episode) => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).set({
-            id: value?.id, data: value, type: 'tv', season: season, timestamp: Date.now()
+            id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now()
         })
     }
 
