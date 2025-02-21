@@ -67,6 +67,9 @@ export default function Seasons({ value }) {
             setContent(data);
             setTotalEpisodes(data?.episodes?.length)
             setLoading(false)
+            setTimeout(() => {
+                document.getElementById("episode_list")?.scroll({ left: 0, behavior: "smooth" })
+            }, 100)
         }
         catch (e) {
             console.log(e)
@@ -127,7 +130,7 @@ export default function Seasons({ value }) {
                 </DropdownButton>
             </div>
             {!loading ?
-                <div className="episode_list">
+                <div className="episode_list" id="episode_list">
                     {content?.episodes?.map((datas) => {
                         return <SingleEpisode datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} />
                     })}
