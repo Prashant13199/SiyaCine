@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import Grid from '@mui/material/Unstable_Grid2';
 import TvIcon from '@mui/icons-material/Tv';
 import { Tooltip, Zoom } from '@mui/material';
+import { database } from '../../firebase';
 
 export default function SingleContent({ data, index }) {
 
@@ -17,6 +18,12 @@ export default function SingleContent({ data, index }) {
         }, index * 50)
     }, [index])
 
+    const handleStoreSearched = () => {
+        database.ref(`/Searched/${data?.id}`).update({
+            data: data, timestamp: Date.now()
+        }).catch((e) => console.log(e))
+    }
+
     return (
         <Tooltip placement='top' title={data?.title || data?.name}>
             <Zoom in={checked} {...({ timeout: 800 })}>
@@ -26,7 +33,10 @@ export default function SingleContent({ data, index }) {
                             src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
                             alt={data?.title || data?.name}
                             className="search_img"
-                            onClick={() => history.push(`/singlecontent/${data.id}/${data.media_type}`)}
+                            onClick={() => {
+                                handleStoreSearched()
+                                history.push(`/singlecontent/${data.id}/${data.media_type}`)
+                            }}
                         />
                         {data.media_type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '16px', color: 'rgb(255, 167, 38)' }} /></div>}
                     </div>

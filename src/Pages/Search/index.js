@@ -13,7 +13,7 @@ import SearchPagination from '../../Components/Pagination/SearchPagination';
 import { Helmet } from 'react-helmet';
 import useFetchUsers from '../../hooks/useFetchUsers';
 import User from '../../Components/User';
-import { auth } from '../../firebase';
+import { auth, database } from '../../firebase';
 
 export default function Search({ scrollTop, setBackdrop }) {
 
@@ -33,11 +33,13 @@ export default function Search({ scrollTop, setBackdrop }) {
     const [search, setSearch] = useState(query ? query : '')
     const [pageM, setPageM] = useState(page ? page : 1)
     const [searchedUsers, setSearchedUsers] = useState([])
+    const [recentlySearched, setRecentlySearched] = useState([])
 
     useEffect(() => {
         scrollTop()
         fetchSearch();
         setBackdrop()
+        fetchRecentlySearched()
     }, [page, query, users])
 
     useEffect(() => {
@@ -45,6 +47,16 @@ export default function Search({ scrollTop, setBackdrop }) {
             history.push(`/search?query=${search}&page=${pageM}`)
         }, 0)
     }, [pageM, search])
+
+    const fetchRecentlySearched = () => {
+        database.ref(`/Searched`).orderByChild('timestamp').on('value', snapshot => {
+            let arr = []
+            snapshot.forEach((snap) => {
+                arr.push(snap.val())
+            })
+            setRecentlySearched(arr.reverse().splice(0, 13))
+        })
+    }
 
     const fetchSearch = async () => {
         if (query?.length) {
@@ -109,6 +121,7 @@ export default function Search({ scrollTop, setBackdrop }) {
                         </IconButton>}
                 </Paper>
                 <br />
+                {!query && <div className='search_title'>Most Searched</div>}
                 <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {page == 1 && searchedUsers?.length > 0 &&
                         <>
@@ -120,6 +133,12 @@ export default function Search({ scrollTop, setBackdrop }) {
                         <>
                             {contentM?.map((data, index) => {
                                 return <SingleContentSearch data={data} key={data.id} index={index} />
+                            })}
+                        </>}
+                    {!query &&
+                        <>
+                            {recentlySearched?.map((data, index) => {
+                                return <SingleContentSearch data={data.data} key={data.data.id} index={index} />
                             })}
                         </>}
                 </Grid>

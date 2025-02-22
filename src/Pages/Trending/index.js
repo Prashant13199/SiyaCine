@@ -111,8 +111,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {nowplaying?.length !== 0 && <><br />
-          <div className='trending_title' >
-            Now Playing in Theatres
+          <div className='trending_title'>Playing in Theatres
             <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$`} className="viewall">
               <IconButton><ChevronRightIcon /></IconButton>
             </Link>
@@ -125,10 +124,8 @@ export default function Trending({ setBackdrop, scrollTop }) {
         </>}
 
         {myShows?.length !== 0 && <><br />
-          <div className='trending_title' >
-            New Episode in the next 7 days
-          </div>
-          <div className='trending_scroll' >
+          <div className='trending_title'>Upcoming Episodes</div>
+          <div className='trending_scroll'>
             {myShows?.map((data) => {
               return <SingleContentScroll data={data} id={data?.id} key={data?.id} type="tv" />
             })}
@@ -136,7 +133,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
         </>}
 
         {watchlist?.length !== 0 && <><br />
-          <div className='trending_title' >Watchlist <Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_title'>Watchlist <Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {watchlist?.map((data) => {
               return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showtv={true} />
@@ -144,7 +141,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {recommendation?.length !== 0 && <><br />
-          <div className='trending_title' >Because You Watched</div>
+          <div className='trending_title'>Because You Watched</div>
           <div className='searchresultfor'><Link className="link_to" to={`/singlecontent/${favourite[number]?.data?.id}/${favourite[number]?.type}`}>{favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</Link></div>
           <div className='trending_scroll' >
             {recommendation?.map((data, index) => {
@@ -153,7 +150,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {indianMovie?.length !== 0 && <><br />
-          <div className='trending_title' >Indian Origin Movie
+          <div className='trending_title'>Indian Origin Movie
             <Link to={`/singlecategory/discover/movie/Indian Origin Movie/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {indianMovie?.map((data) => {
@@ -162,7 +159,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {indianTv?.length !== 0 && <><br />
-          <div className='trending_title' >Indian Origin TV
+          <div className='trending_title'>Indian Origin TV
             <Link to={`/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {indianTv?.map((data) => {
@@ -171,7 +168,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {trendingMovie?.length !== 0 && <><br />
-          <div className='trending_title' >Trending Movie
+          <div className='trending_title'>Trending Movie
             <Link to={`/singlecategory/trending/movie/Trending Movie/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {trendingMovie?.map((data, index) => {
@@ -180,7 +177,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {trendingTv?.length !== 0 && <><br />
-          <div className='trending_title' >Trending TV
+          <div className='trending_title'>Trending TV
             <Link to={`/singlecategory/trending/tv/Trending TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           <div className='trending_scroll' >
             {trendingTv?.map((data, index) => {
@@ -189,27 +186,27 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {recommendationCast?.length !== 0 && <><br />
-          <div className='trending_title' >Because You Liked</div>
-          <div className='searchresultfor' ><Link className="link_to" to={`/singlecast/${favouriteCast[numberCast]?.data?.id}`}>{favouriteCast[numberCast]?.data?.name}</Link></div>
-          <div className='trending_scroll' >
+          <div className='trending_title'>Because You Liked</div>
+          <div className='searchresultfor'><Link className="link_to" to={`/singlecast/${favouriteCast[numberCast]?.data?.id}`}>{favouriteCast[numberCast]?.data?.name}</Link></div>
+          <div className='trending_scroll'>
             {recommendationCast?.map((data, index) => {
               return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} showtv={true} />
             })}
           </div></>}
 
         {topratedmovie?.length !== 0 && <><br />
-          <div className='trending_title' >Top Rated Movie
+          <div className='trending_title'>Top Rated Movie
             <Link to={`/singlecategory/top_rated/movie/Top Rated Movie/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-          <div className='trending_scroll' >
+          <div className='trending_scroll'>
             {topratedmovie?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
             })}
           </div></>}
 
         {topratedtv?.length !== 0 && <><br />
-          <div className='trending_title' >Top Rated TV
+          <div className='trending_title'>Top Rated TV
             <Link to={`/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-          <div className='trending_scroll' >
+          <div className='trending_scroll'>
             {topratedtv?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" />
             })}
