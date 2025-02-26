@@ -87,6 +87,8 @@ export default function Seasons({ value }) {
         handleResume(episodeNumber - 1, seasonNumber)
     }
 
+    console.log(episodeNumber)
+
     return (
         <>
             <Modal show={show4} onHide={handleClose4} fullscreen>
@@ -110,7 +112,7 @@ export default function Seasons({ value }) {
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Vid Binge</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Button className='next_prev_button' variant='contained' color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes[episodeNumber]?.air_date >= getCurrentDate())} onClick={() => handleNext()}>Next</Button>
+                        <Button className='next_prev_button' variant='contained' color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes && content.episodes[episodeNumber].air_date >= getCurrentDate())} onClick={() => handleNext()}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>

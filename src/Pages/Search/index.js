@@ -54,7 +54,7 @@ export default function Search({ scrollTop, setBackdrop }) {
             snapshot.forEach((snap) => {
                 arr.push(snap.val())
             })
-            setRecentlySearched(arr.reverse().splice(0, 13))
+            setRecentlySearched(arr.reverse().splice(0, 12))
         })
     }
 
@@ -121,7 +121,7 @@ export default function Search({ scrollTop, setBackdrop }) {
                         </IconButton>}
                 </Paper>
                 <br />
-                {!query && <div className='search_title'>Most Searched</div>}
+                {!query && recentlySearched && <div className='search_title'>Recently searched</div>}
                 <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {page == 1 && searchedUsers?.length > 0 &&
                         <>
