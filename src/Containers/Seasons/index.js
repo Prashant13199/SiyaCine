@@ -5,23 +5,27 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { auth, database } from '../../firebase';
 import { Modal } from 'react-bootstrap';
-import { Button, CircularProgress, IconButton } from '@mui/material';
+import { CircularProgress, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { getCurrentDate } from '../../Services/time';
 import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
+import CustomPagination from '../../Components/Pagination/CustomPagination';
 
 export default function Seasons({ value }) {
 
     const [content, setContent] = useState([])
     const [seasonNumber, setSeasonNumber] = useState(1)
     const [episodeNumber, setEpisodeNumber] = useState()
-    const [totalEpisodes, setTotalEpisodes] = useState(0)
     const [premium, setPremium] = useState(false)
     const [server, setServer] = useState(1)
     const [show4, setShow4] = useState(false);
     const [loading, setLoading] = useState(true)
+    const [page, setPage] = useState(1);
+    const [paginatedData, setPaginatedData] = useState([])
+    const [perPage, setPerPage] = useState(25)
+    const [numOfPages, setNumOfPages] = useState();
+    const [lastPlayed, setLastPlayed] = useState({})
 
     const theme = useTheme()
 
@@ -30,9 +34,16 @@ export default function Seasons({ value }) {
     }, [seasonNumber])
 
     useEffect(() => {
+        handlePagination()
+        document.getElementById("episode_list")?.scroll({ left: 0, behavior: "smooth" })
+    }, [page, content])
+
+    useEffect(() => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).on('value', snapshot => {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setSeasonNumber(snapshot.val()?.season)
+                setEpisodeNumber(snapshot.val()?.episode)
+                setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
             }
         })
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
@@ -65,11 +76,10 @@ export default function Seasons({ value }) {
                 `https://api.themoviedb.org/3/tv/${value?.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
             );
             setContent(data);
-            setTotalEpisodes(data?.episodes?.length)
-            setLoading(false)
+            setNumOfPages(Math.ceil(data?.episodes?.length / perPage));
             setTimeout(() => {
-                document.getElementById("episode_list")?.scroll({ left: 0, behavior: "smooth" })
-            }, 100)
+                setLoading(false)
+            }, 1000)
         }
         catch (e) {
             console.log(e)
@@ -77,34 +87,26 @@ export default function Seasons({ value }) {
         }
     };
 
-    const handleNext = () => {
-        setEpisodeNumber(episodeNumber + 1)
-        handleResume(episodeNumber + 1, seasonNumber)
+    const handlePagination = () => {
+        let start = (perPage * (page - 1))
+        let end = (start + perPage)
+        setPaginatedData(content?.episodes?.slice(start, end))
     }
-
-    const handlePrevious = () => {
-        setEpisodeNumber(episodeNumber - 1)
-        handleResume(episodeNumber - 1, seasonNumber)
-    }
-
-    console.log(episodeNumber)
 
     return (
         <>
             <Modal show={show4} onHide={handleClose4} fullscreen>
                 <Modal.Body style={{ backgroundColor: theme.palette.background.default, maxHeight: window.innerHeight }}>
                     <div className='player_header'>
-                        <IconButton onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
-                        <div className='player_name'>{value.name || value.title || value.original_name} S{seasonNumber}-E{episodeNumber}</div>
-                    </div>
-                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
-                    {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.cc/v3/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
-                    {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidbinge.dev/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
-                    <div className='player_bottom'>
-                        <Button className='next_prev_button' variant='contained' color='warning' disabled={episodeNumber == 1} onClick={() => handlePrevious()}>Previous</Button>
+                        <div className='flex'>
+                            <IconButton onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
+                            <div className='player_name'>{value.name || value.title || value.original_name} S{seasonNumber}-E{episodeNumber}</div>
+                        </div>
                         <Dropdown>
-                            <Dropdown.Toggle variant="warning" className='servers_dropdown'>
-                                Servers
+                            <Dropdown.Toggle variant="secondary" size="sm">
+                                {server === 1 && '2 embed'}
+                                {server === 2 && 'VidSrc'}
+                                {server === 3 && 'Vid Binge'}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>2 embed</Dropdown.Item>
@@ -112,8 +114,10 @@ export default function Seasons({ value }) {
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Vid Binge</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        <Button className='next_prev_button' variant='contained' color='warning' disabled={(episodeNumber === totalEpisodes) || (episodeNumber && content?.episodes && content.episodes[episodeNumber].air_date >= getCurrentDate())} onClick={() => handleNext()}>Next</Button>
                     </div>
+                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
+                    {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://vidsrc.cc/v3/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
+                    {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://vidbinge.dev/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                 </Modal.Body>
             </Modal>
             <div className='season_button'>
@@ -132,11 +136,18 @@ export default function Seasons({ value }) {
                 </DropdownButton>
             </div>
             {!loading ?
-                <div className="episode_list" id="episode_list">
-                    {content?.episodes?.map((datas) => {
-                        return <SingleEpisode datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} />
-                    })}
-                </div>
+                <>
+                    <div className="episode_list" id="episode_list">
+                        {paginatedData?.map((datas) => {
+                            return <SingleEpisode datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} lastPlayed={lastPlayed} />
+                        })}
+                    </div>
+                    <>
+                        {numOfPages > 1 && (
+                            <CustomPagination setPage={setPage} page={page} numOfPages={numOfPages} />
+                        )}
+                    </>
+                </>
                 :
                 <div className="loading_episodes">
                     <CircularProgress color='warning' />

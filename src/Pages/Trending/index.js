@@ -141,8 +141,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {recommendation?.length !== 0 && <><br />
-          <div className='trending_title'>Because You Watched</div>
-          <div className='searchresultfor'><Link className="link_to" to={`/singlecontent/${favourite[number]?.data?.id}/${favourite[number]?.type}`}>{favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</Link></div>
+          <div className='trending_title'>Because You Watched {favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</div>
           <div className='trending_scroll' >
             {recommendation?.map((data, index) => {
               return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} />
@@ -186,8 +185,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {recommendationCast?.length !== 0 && <><br />
-          <div className='trending_title'>Because You Liked</div>
-          <div className='searchresultfor'><Link className="link_to" to={`/singlecast/${favouriteCast[numberCast]?.data?.id}`}>{favouriteCast[numberCast]?.data?.name}</Link></div>
+          <div className='trending_title'>Because You Liked {favouriteCast[numberCast]?.data?.name}</div>
           <div className='trending_scroll'>
             {recommendationCast?.map((data, index) => {
               return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} showtv={true} />

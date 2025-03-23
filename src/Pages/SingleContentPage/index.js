@@ -46,7 +46,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [credit, setCredit] = useState([])
   const [director, setDirector] = useState([])
   const [similar, setSimilar] = useState([])
-  const [video, setVideo] = useState();
+  const [video, setVideo] = useState([]);
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
   const [watched, setWatched] = useState(false)
@@ -215,7 +215,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
-      setVideo(data?.results?.reverse())
+      setVideo(data?.results?.reverse().filter((data) => data?.type === 'Teaser' || data?.type === 'Trailer'))
     }
     catch (e) {
       console.log(e)
@@ -415,17 +415,15 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
       <Modal show={show4} onHide={handleClose4} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
-            <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
-            <div>{data?.name || data?.title || data?.original_name}</div>
-          </div>
-          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
-          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
-          {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 125 }} src={`https://vidbinge.dev/embed/movie/${id}`}></iframe>}
-          <div className='player_bottom'>
-            <div></div>
+            <div className='flex'>
+              <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
+              <div>{data?.name || data?.title || data?.original_name}</div>
+            </div>
             <Dropdown>
-              <Dropdown.Toggle variant="warning" className='servers_dropdown'>
-                Servers
+              <Dropdown.Toggle variant="secondary" size="sm">
+                {server === 1 && '2 embed'}
+                {server === 2 && 'VidSrc'}
+                {server === 3 && 'Vid Binge'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>2 embed</Dropdown.Item>
@@ -433,6 +431,13 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Vid Binge</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+          </div>
+          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
+          {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
+          {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidbinge.dev/embed/movie/${id}`}></iframe>}
+          <div className='player_bottom'>
+            <div></div>
+
             <div></div>
           </div>
         </Modal.Body>

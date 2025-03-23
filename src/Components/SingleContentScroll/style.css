@@ -47,11 +47,12 @@
 
 .trending_count {
     font-size: 120px;
-    color: rgb(235, 235, 235);
+    color: rgb(255, 167, 38);
+    opacity: 0.8;
     margin-right: -5px;
     margin-top: 145px;
     margin-bottom: -80px;
-    font-weight: bolder;
+    font-weight: bold;
     z-index: 2;
 }
 

@@ -23,12 +23,6 @@
     opacity: 0.8;
 }
 
-.searchresultfor {
-    margin-left: 40px;
-    font-size: 18px;
-    color: rgb(255, 167, 38) !important;
-}
-
 .link_to {
     color: rgb(255, 167, 38) !important;
     text-decoration: none;
@@ -58,10 +52,4 @@
     .trending_scroll {
         padding: 0 5px;
     }
-
-    .searchresultfor {
-        margin-left: 5px;
-        font-size: 18px;
-    }
-
 }
