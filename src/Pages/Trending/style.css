@@ -39,6 +39,28 @@
     object-fit: cover;
 }
 
+.switch_btn {
+    width: 60px !important;
+    font-size: 12px !important;
+    padding: 2px !important;
+    background-color: rgb(50, 50, 50) !important;
+    border-color: black !important;
+}
+
+.switch_btn_group {
+    margin-left: 10px;
+    border-radius: 20px !important;
+}
+
+.switch_btn_active {
+    width: 60px !important;
+    font-size: 12px !important;
+    padding: 2px !important;
+    background-color: rgb(255, 167, 38) !important;
+    color: black !important;
+    border-color: black !important;
+}
+
 @media only screen and (max-width: 660px) {
     .trending_title {
         font-size: 18px;

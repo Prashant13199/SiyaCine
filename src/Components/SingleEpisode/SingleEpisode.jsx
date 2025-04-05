@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import './style.css';
 
-export default function SingleEpisode({ datas, handleShow4, premium, seasonNumber, lastPlayed }) {
+export default function SingleEpisode({ datas, handleShow4, premium, seasonNumber }) {
 
     const [watchedEpisode, setWatchedEpisode] = useState(false)
 
@@ -17,7 +17,6 @@ export default function SingleEpisode({ datas, handleShow4, premium, seasonNumbe
                 setWatchedEpisode(false)
             }
         })
-        lastPlayed && document.getElementById(`${lastPlayed?.season}${lastPlayed?.episode}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
     }, [datas, seasonNumber])
 
     const handleWatchedEpisode = () => {

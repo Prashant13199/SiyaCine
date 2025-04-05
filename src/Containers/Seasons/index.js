@@ -25,7 +25,6 @@ export default function Seasons({ value }) {
     const [paginatedData, setPaginatedData] = useState([])
     const [perPage, setPerPage] = useState(25)
     const [numOfPages, setNumOfPages] = useState();
-    const [lastPlayed, setLastPlayed] = useState({})
 
     const theme = useTheme()
 
@@ -43,7 +42,6 @@ export default function Seasons({ value }) {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setSeasonNumber(snapshot.val()?.season)
                 setEpisodeNumber(snapshot.val()?.episode)
-                setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
             }
         })
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
@@ -77,9 +75,7 @@ export default function Seasons({ value }) {
             );
             setContent(data);
             setNumOfPages(Math.ceil(data?.episodes?.length / perPage));
-            setTimeout(() => {
-                setLoading(false)
-            }, 1000)
+            setLoading(false)
         }
         catch (e) {
             console.log(e)
@@ -111,13 +107,11 @@ export default function Seasons({ value }) {
                             <Dropdown.Menu>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>2 embed</Dropdown.Item>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>VidSrc</Dropdown.Item>
-                                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Vid Binge</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
                     {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://vidsrc.cc/v3/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
-                    {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://vidbinge.dev/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                 </Modal.Body>
             </Modal>
             <div className='season_button'>
@@ -139,7 +133,7 @@ export default function Seasons({ value }) {
                 <>
                     <div className="episode_list" id="episode_list">
                         {paginatedData?.map((datas) => {
-                            return <SingleEpisode datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} lastPlayed={lastPlayed} />
+                            return <SingleEpisode datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} />
                         })}
                     </div>
                     <>
