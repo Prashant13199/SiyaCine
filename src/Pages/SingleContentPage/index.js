@@ -500,7 +500,7 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
                   </div>
                   {data.vote_average !== 0 && <div className='overview'>
-                    <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average)}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
+                    <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average * 10) / 10}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
                   </div>}
                   {data.tagline && (
                     <div className="tagline"><i>{data.tagline}</i></div>

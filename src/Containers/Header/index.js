@@ -64,8 +64,10 @@ export default function Header() {
       <Modal show={show} onHide={handleClose} fullscreen>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
           <div className='player_header'>
-            <IconButton onClick={() => handleClose()}><ArrowBackIcon className="back_icon" /></IconButton>
-            <div>{nowPlaying[0]?.title} trailer</div>
+            <div className='flex'>
+              <IconButton onClick={() => handleClose()}><ArrowBackIcon className="back_icon" /></IconButton>
+              <div>{nowPlaying[0]?.title} trailer</div>
+            </div>
           </div>
           <ReactPlayer url={`https://www.youtube.com/watch?v=${video}`} width={'100%'} height={window.innerHeight - 100} controls />
         </Modal.Body>

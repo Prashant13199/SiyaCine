@@ -27,8 +27,10 @@ export default function Trailers({ data, title }) {
             <Modal show={show4} onHide={handleClose4} fullscreen>
                 <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
                     <div className='player_header'>
-                        <IconButton onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
-                        <div>{title} {name}</div>
+                        <div className='flex'>
+                            <IconButton onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
+                            <div>{title} {name}</div>
+                        </div>
                     </div>
                     <ReactPlayer url={`https://www.youtube.com/watch?v=${vid}`} width={'100%'} height={window.innerHeight - 100} controls />
                 </Modal.Body>
