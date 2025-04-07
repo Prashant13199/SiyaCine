@@ -5,6 +5,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import TvIcon from '@mui/icons-material/Tv';
 import { Tooltip, Zoom } from '@mui/material';
 import { database } from '../../firebase';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 
 export default function SingleContent({ data, index }) {
 
@@ -38,7 +39,11 @@ export default function SingleContent({ data, index }) {
                                 history.push(`/singlecontent/${data.id}/${data.media_type}`)
                             }}
                         />
-                        {data.media_type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '16px', color: 'rgb(255, 167, 38)' }} /></div>}
+                        {data.media_type === 'tv' ?
+                            <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>
+                            :
+                            <div className='searchtv'><LocalMoviesIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>
+                        }
                     </div>
                 </Grid>
             </Zoom>

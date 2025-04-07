@@ -6,8 +6,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom';
 import TvIcon from '@mui/icons-material/Tv';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 
-export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showtv, trending, index }) {
+export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showIcon, trending, index }) {
 
   const history = useHistory()
   const theme = useTheme()
@@ -67,7 +68,16 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
       {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
         S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
       </div>}
-      {showtv && type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '16px', color: 'rgb(255, 167, 38)' }} /></div>}
+      {showIcon &&
+        <>
+          {
+            type === 'tv' ?
+              <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>
+              :
+              <div className='searchtv'><LocalMoviesIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>
+          }
+        </>
+      }
     </div>
   )
 }

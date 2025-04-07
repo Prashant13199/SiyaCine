@@ -125,10 +125,10 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
                 {data.place_of_birth}
               </div>}
               {data.known_for_department && <div className='overview'>
-                <h4>Known for departmant</h4>
+                <h4>Known for department</h4>
                 {data.known_for_department}
               </div>}
-              {data.biography && <div className='overview'>
+              {data.biography && <div className='overview animateBelow'>
                 <h4>Biography</h4>
                 {data.biography?.length > 200 && !readMore ? data.biography.substring(0, 200).concat('...') : data.biography}
                 <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.biography && data.biography?.length > 200 && (!readMore ? 'read more' : 'less')}</span>

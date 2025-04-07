@@ -4,8 +4,9 @@ import Grid from '@mui/material/Unstable_Grid2';
 import TvIcon from '@mui/icons-material/Tv';
 import { useEffect, useState } from 'react';
 import { Zoom } from '@mui/material';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 
-export default function SingleContent({ data, type, showtv, index }) {
+export default function SingleContent({ data, type, showIcon, index }) {
 
   const [checked, setChecked] = useState(false)
 
@@ -27,7 +28,16 @@ export default function SingleContent({ data, type, showtv, index }) {
             className="search_img"
             onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
           />
-          {type === 'tv' && showtv && <div className='searchtv'><TvIcon sx={{ fontSize: '16px', color: 'rgb(255, 167, 38)' }} /></div>}
+          {showIcon &&
+            <>
+              {
+                type === 'tv' ?
+                  <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>
+                  :
+                  <div className='searchtv'><LocalMoviesIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>
+              }
+            </>
+          }
         </div>
       </Grid>
     </Zoom>

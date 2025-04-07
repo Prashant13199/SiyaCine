@@ -45,7 +45,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
   const [watchprovider, setWatchProvider] = useState({})
   const [credit, setCredit] = useState([])
   const [director, setDirector] = useState([])
-  const [similar, setSimilar] = useState([])
   const [video, setVideo] = useState([]);
   const [favourite, setFavourite] = useState(false)
   const [watchlist, setWatchlist] = useState(false)
@@ -90,7 +89,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     fetchProvider();
     fetchDetails();
     fetchCredit();
-    fetchSimilar();
     fetchVideo();
     fetchRecommendation();
     fetchReviews();
@@ -186,24 +184,15 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
     }
   };
 
-  const fetchSimilar = async () => {
-    try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
-      );
-      setSimilar(data.results);
-    }
-    catch (e) {
-      console.log(e)
-    }
-  };
-
   const fetchRecommendation = async () => {
     try {
-      const { data } = await axios.get(
+      const data = await axios.get(
         `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       );
-      setRecommendations(data.results);
+      const data2 = await axios.get(
+        `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
+      );
+      setRecommendations([...data?.data?.results, ...data2?.data?.results]);
     }
     catch (e) {
       console.log(e)
@@ -563,28 +552,6 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             </div>
             {type === 'tv' && <Seasons value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
             <div className='singlecontent'>
-              {video?.length !== 0 && <>
-                <div className='trending_title' >Trailers & More</div>
-                <div className='trending_scroll' >
-                  <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
-                </div>
-              </>}
-              {recommendations?.length !== 0 && <><br />
-                <div className='trending_title' >Recommendations</div>
-                <div className='trending_scroll' >
-                  {recommendations?.map((data) => {
-                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
-                  })}
-                </div>
-              </>}
-              {similar?.length !== 0 && <><br />
-                <div className='trending_title' >Similar</div>
-                <div className='trending_scroll' >
-                  {similar?.map((data) => {
-                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
-                  })}
-                </div>
-              </>}
               {credit.cast && credit.cast.length !== 0 && <><br /><div className='trending_title'>Cast</div>
                 <div className='cast'>
                   {credit && credit.cast.map((c) => {
@@ -599,6 +566,20 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                     </Link>
                   })}
                 </div></>}
+              {video?.length !== 0 && <><br />
+                <div className='trending_title' >Trailers & More</div>
+                <div className='trending_scroll' >
+                  <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
+                </div>
+              </>}
+              {recommendations?.length !== 0 && <><br />
+                <div className='trending_title' >More like this</div>
+                <div className='trending_scroll' >
+                  {recommendations?.map((data) => {
+                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
+                  })}
+                </div>
+              </>}
               <br />
               <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
                 <div >
