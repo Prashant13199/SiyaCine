@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { auth, database } from "../../firebase";
@@ -31,60 +31,87 @@ export default function Login({ handleClose }) {
 
     const handleMode = () => {
         setLoginMode(!loginMode)
+        setShow(false)
+        setError("")
     }
 
     const login = async () => {
-        setLoading(true);
-        const user = await auth.signInWithEmailAndPassword(email, password).then((user) => {
-            database.ref(`Users/${user.user.uid}`).update({
-                timestamp: Date.now(),
-            }).then(() => {
-                setLoading(false);
-                localStorage.setItem('uid', user.user.uid)
-                handleClose()
-                window.location.reload()
+        if (email && password) {
+            setShow(false)
+            setError("")
+            setLoading(true);
+            const user = await auth.signInWithEmailAndPassword(email, password).then((user) => {
+                database.ref(`Users/${user.user.uid}`).update({
+                    timestamp: Date.now(),
+                }).then(() => {
+                    setLoading(false);
+                    localStorage.setItem('uid', user.user.uid)
+                    handleClose()
+                    window.location.reload()
+                }).catch((e) => {
+                    setLoading(false);
+                    setError(e.toString())
+                    setShow(true)
+                });
             }).catch((e) => {
+                console.log(e);
                 setLoading(false);
                 setError(e.toString())
                 setShow(true)
             });
-        }).catch((e) => {
-            console.log(e);
-            setLoading(false);
-            setError(e.toString())
+        } else {
+            setError("Please enter details")
             setShow(true)
-        });
+        }
     };
 
     const register = async () => {
-        setLoading(true);
-        const user = auth.createUserWithEmailAndPassword(email, password).then((user) => {
-            database.ref(`Users/${user.user.uid}`).update({
-                uid: user.user.uid,
-                username: email.split('@')[0],
-                photo: `https://api.dicebear.com/9.x/dylan/svg?seed=${email.split('@')[0]}?size=96`,
-                email: email,
-                createdAccountOn: Date.now(),
-                timestamp: Date.now(),
-                public: false,
-                premium: false,
-                admin: false
-            }).then(() => {
-                setLoading(false);
-                localStorage.setItem('uid', user.user.uid)
-                handleClose()
+        if (email && password) {
+            setShow(false)
+            setError("")
+            setLoading(true);
+            const user = auth.createUserWithEmailAndPassword(email, password).then((user) => {
+                database.ref(`Users/${user.user.uid}`).update({
+                    uid: user.user.uid,
+                    username: email.split('@')[0],
+                    photo: `https://api.dicebear.com/9.x/dylan/svg?seed=${email.split('@')[0]}?size=96`,
+                    email: email,
+                    createdAccountOn: Date.now(),
+                    timestamp: Date.now(),
+                    public: false,
+                    premium: false,
+                    admin: false
+                }).then(() => {
+                    setLoading(false);
+                    localStorage.setItem('uid', user.user.uid)
+                    handleClose()
+                }).catch((e) => {
+                    setLoading(false);
+                    setError(e.toString())
+                    setShow(true)
+                });
             }).catch((e) => {
+                console.log(e);
                 setLoading(false);
                 setError(e.toString())
                 setShow(true)
             });
-        }).catch((e) => {
-            console.log(e);
-            setLoading(false);
-            setError(e.toString())
+        } else {
+            setError("Please enter details")
             setShow(true)
-        });
+        }
     };
+
+    useEffect(() => {
+        const pressKey = (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document?.getElementById("uploadBtn").click();
+            }
+        }
+        window.addEventListener("keypress", pressKey);
+        return () => window.removeEventListener("keypress", pressKey)
+    }, [])
 
     return (
         <>
@@ -209,6 +236,7 @@ export default function Login({ handleClose }) {
                                 variant="warning"
                                 size="md"
                                 id="uploadBtn"
+
                                 onClick={() => register()}
                             >
                                 {loading ? "Please Wait.." : "Register"}
