@@ -552,7 +552,10 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
             </div>
             {type === 'tv' && <Seasons value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
             <div className='singlecontent'>
-              {credit.cast && credit.cast.length !== 0 && <><br /><div className='trending_title'>Cast</div>
+              {credit.cast && credit.cast.length !== 0 && <><br />
+                <div className='trending_flex'>
+                  <div className='trending_title'>Cast</div>
+                </div>
                 <div className='cast'>
                   {credit && credit.cast.map((c) => {
                     return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
@@ -567,13 +570,17 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                   })}
                 </div></>}
               {video?.length !== 0 && <><br />
-                <div className='trending_title' >Trailers & More</div>
+                <div className='trending_flex'>
+                  <div className='trending_title' >Trailers & More</div>
+                </div>
                 <div className='trending_scroll' >
                   <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
                 </div>
               </>}
               {recommendations?.length !== 0 && <><br />
-                <div className='trending_title' >More like this</div>
+                <div className='trending_flex'>
+                  <div className='trending_title' >More like this</div>
+                </div>
                 <div className='trending_scroll' >
                   {recommendations?.map((data) => {
                     return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
@@ -581,13 +588,15 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
                 </div>
               </>}
               <br />
-              <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
-                <div >
-                  Reviews
+              <div className='trending_flex'>
+                <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
+                  <div >
+                    Reviews
+                  </div>
+                  {auth?.currentUser?.uid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
+                    <AddCircleOutlineIcon fontSize='medium' />
+                  </div>}
                 </div>
-                {auth?.currentUser?.uid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
-                  <AddCircleOutlineIcon fontSize='medium' />
-                </div>}
               </div>
               <div className='reviews'>
                 {reviews2 && auth?.currentUser?.uid && reviews2.map((data) => {

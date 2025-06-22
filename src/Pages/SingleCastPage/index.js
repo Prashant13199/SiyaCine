@@ -138,7 +138,8 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
 
           {movie?.length !== 0 && <>
             <br />
-            <div className='trending_title' >Movie
+            <div className='trending_flex'>
+              <div className='trending_title' >Movie</div>
             </div>
             <div style={{ marginTop: '10px' }}></div>
             <div className='trending_scroll' >
@@ -150,7 +151,8 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
 
           {tv?.length !== 0 && <>
             <br />
-            <div className='trending_title' >TV
+            <div className='trending_flex'>
+              <div className='trending_title' >TV</div>
             </div>
             <div style={{ marginTop: '10px' }}></div>
             <div className='trending_scroll' >
