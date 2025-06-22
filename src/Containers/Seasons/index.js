@@ -102,16 +102,18 @@ export default function Seasons({ value }) {
                             <Dropdown.Toggle variant="secondary" size="sm">
                                 {server === 1 && '2 embed'}
                                 {server === 2 && 'VidSrc'}
-                                {server === 3 && 'Vid Binge'}
+                                {server === 3 && 'SuperEmbed'}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>2 embed</Dropdown.Item>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>VidSrc</Dropdown.Item>
+                                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>SuperEmbed</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
                     {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
-                    {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://vidsrc.cc/v3/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
+                    {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://vidsrc.to/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
+                    {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://multiembed.mov/?video_id=${value?.id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                 </Modal.Body>
             </Modal>
             <div className='season_button'>

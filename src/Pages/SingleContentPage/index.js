@@ -412,16 +412,18 @@ export default function SingleContentPage({ setBackdrop, scrollTop }) {
               <Dropdown.Toggle variant="secondary" size="sm">
                 {server === 1 && '2 embed'}
                 {server === 2 && 'VidSrc'}
-                {server === 3 && 'Vid Binge'}
+                {server === 3 && 'SuperEmbed'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>2 embed</Dropdown.Item>
                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>VidSrc</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>SuperEmbed</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
           {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.cc/v3/embed/movie/${id}`}></iframe>}
+          {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://multiembed.mov/?video_id=${id}&tmdb=1`}></iframe>}
           <div className='player_bottom'>
             <div></div>
 
