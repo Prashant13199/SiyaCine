@@ -16,7 +16,6 @@ export default function Notification({ noti, handleClose }) {
             .remove().then(() => {
                 if (noti?.connection) {
                     database.ref(`Connections/${connectID}`).remove()
-                        .then(() => console.log('Connection declined'))
                         .catch((e) => console.log(e))
                 }
             }).catch((e) => {
@@ -37,9 +36,8 @@ export default function Notification({ noti, handleClose }) {
                 id: auth?.currentUser?.uid,
                 text: `${currentUsername} accepted your connection request`,
             }).then(() => {
-                console.log('Notification Sent')
                 database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${noti.id}`).remove()
-                    .then(() => console.log('Self notification removed')).catch((e) => console.log(e))
+                    .catch((e) => console.log(e))
             }).catch((e) => console.log(e))
         }).catch((e) => console.log(e))
     }

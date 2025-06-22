@@ -107,7 +107,9 @@ export default function Trending({ setBackdrop, scrollTop }) {
         <Header />
 
         {watching?.length !== 0 && <><br />
-          <div className='trending_title' >Resume Watching</div>
+          <div className='trending_flex'>
+            <div className='trending_title' >Resume Watching</div>
+          </div>
           <div className='trending_scroll' >
             {watching && watching.map((data) => {
               return <SingleContentScroll data={data.data} id={data.id} key={data.id} type={data.type} showIcon={true} />
@@ -115,10 +117,12 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {nowplaying?.length !== 0 && <><br />
-          <div className='trending_title'>Playing in Theatres
-            <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$`} className="viewall">
-              <IconButton><ChevronRightIcon /></IconButton>
-            </Link>
+          <div className='trending_flex'>
+            <div className='trending_title'>Playing in Theatres
+              <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$`} className="viewall">
+                <IconButton><ChevronRightIcon /></IconButton>
+              </Link>
+            </div>
           </div>
           <div className='trending_scroll' >
             {nowplaying?.map((data) => {
@@ -128,7 +132,9 @@ export default function Trending({ setBackdrop, scrollTop }) {
         </>}
 
         {myShows?.length !== 0 && <><br />
-          <div className='trending_title'>Upcoming Episodes</div>
+          <div className='trending_flex'>
+            <div className='trending_title'>Upcoming Episodes</div>
+          </div>
           <div className='trending_scroll'>
             {myShows?.map((data) => {
               return <SingleContentScroll data={data} id={data?.id} key={data?.id} type="tv" />
@@ -137,7 +143,13 @@ export default function Trending({ setBackdrop, scrollTop }) {
         </>}
 
         {recommendation?.length !== 0 && <><br />
-          <div className='trending_title'>Because You Watched {favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</div>
+          <div className='trending_flex'>
+            <img src={favourite[number]?.data?.poster_path ? `https://image.tmdb.org/t/p/w500/${favourite[number]?.data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
+            <div>
+              <div className='trending_title'>Because You Watched</div>
+              <div className='trending_title_subtitle'>{favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</div>
+            </div>
+          </div>
           <div className='trending_scroll' >
             {recommendation?.map((data, index) => {
               return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} />
@@ -145,11 +157,13 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
-          <div className='trending_title'>Indian Origin <ButtonGroup size='sm' className='switch_btn_group'>
-            <Button className={indian === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setIndian('movie')}>Movie</Button>
-            <Button className={indian === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setIndian('tv')}>TV</Button>
-          </ButtonGroup>
-            <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$` : `/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_flex'>
+            <div className='trending_title'>Indian Origin <ButtonGroup size='sm' className='switch_btn_group'>
+              <Button className={indian === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setIndian('movie')}>Movie</Button>
+              <Button className={indian === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setIndian('tv')}>TV</Button>
+            </ButtonGroup>
+              <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$` : `/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          </div>
           <div className='trending_scroll' >
             {indian === "movie" && indianMovie?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />
@@ -161,11 +175,14 @@ export default function Trending({ setBackdrop, scrollTop }) {
         </>}
 
         {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
-          <div className='trending_title'>Trending <ButtonGroup size='sm' className='switch_btn_group'>
-            <Button className={trending === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTrending('movie')}>Movie</Button>
-            <Button className={trending === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTrending('tv')}>TV</Button>
-          </ButtonGroup>
-            <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$` : `/singlecategory/trending/tv/Trending TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_flex'>
+            <div className='trending_title'>Trending <ButtonGroup size='sm' className='switch_btn_group'>
+              <Button className={trending === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTrending('movie')}>Movie</Button>
+              <Button className={trending === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTrending('tv')}>TV</Button>
+            </ButtonGroup>
+              <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$` : `/singlecategory/trending/tv/Trending TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+
+          </div>
           <div className='trending_scroll' >
             {trending === "movie" && trendingMovie?.map((data, index) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" trending={true} index={index + 1} />
@@ -176,7 +193,13 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {recommendationCast?.length !== 0 && <><br />
-          <div className='trending_title'>Because You Liked {favouriteCast[numberCast]?.data?.name}</div>
+          <div className='trending_flex'>
+            <img src={favouriteCast[numberCast]?.data?.profile_path ? `https://image.tmdb.org/t/p/w500/${favouriteCast[numberCast]?.data?.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
+            <div>
+              <div className='trending_title'>Because You Liked </div>
+              <div className='trending_title_subtitle'>{favouriteCast[numberCast]?.data?.name}</div>
+            </div>
+          </div>
           <div className='trending_scroll'>
             {recommendationCast?.map((data, index) => {
               return <SingleContentScroll data={data} id={data.id} key={index} type={data?.media_type} recom={true} showtv={true} />
@@ -184,11 +207,13 @@ export default function Trending({ setBackdrop, scrollTop }) {
           </div></>}
 
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
-          <div className='trending_title'>Top Rated <ButtonGroup size='sm' className='switch_btn_group'>
-            <Button className={topRated === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTopRated('movie')}>Movie</Button>
-            <Button className={topRated === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTopRated('tv')}>TV</Button>
-          </ButtonGroup>
-            <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$` : `/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          <div className='trending_flex'>
+            <div className='trending_title'>Top Rated <ButtonGroup size='sm' className='switch_btn_group'>
+              <Button className={topRated === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTopRated('movie')}>Movie</Button>
+              <Button className={topRated === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTopRated('tv')}>TV</Button>
+            </ButtonGroup>
+              <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$` : `/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+          </div>
           <div className='trending_scroll'>
             {topRated === "movie" && topratedmovie?.map((data) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" />

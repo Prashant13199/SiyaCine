@@ -5,8 +5,27 @@
 }
 
 .trending_title {
-    margin-left: 40px;
     font-size: 22px;
+    display: flex;
+    align-items: center;
+}
+
+.trending_title_subtitle {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    color: rgb(255, 167, 38);
+}
+
+.trending_img {
+    margin-right: 10px;
+    width: 40px;
+    height: auto;
+    border-radius: 4px;
+}
+
+.trending_flex {
+    margin-left: 40px;
     display: flex;
     align-items: center;
 }
