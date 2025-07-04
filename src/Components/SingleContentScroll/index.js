@@ -3,10 +3,9 @@ import './style.css'
 import { useHistory } from 'react-router-dom'
 import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { IconButton, useTheme } from '@mui/material'
+import { Button, ButtonBase, IconButton, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom';
 import TvIcon from '@mui/icons-material/Tv';
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 
 export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showIcon, trending, index }) {
 
@@ -59,23 +58,18 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
           onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
         />
       </div>
-      {by && <div className='user'>
-        <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => removeSuggestion()}>
-          <DeleteIcon color="error" style={{ cursor: 'pointer', fontSize: '12px' }} />
-        </IconButton>
-        <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
+      {by && <div>
+        <div className='user'>
+          <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
+        </div>
+        <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
       </div>}
       {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
         S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
       </div>}
       {showIcon &&
         <>
-          {
-            type === 'tv' ?
-              <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>
-              :
-              <div className='searchtv'><LocalMoviesIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>
-          }
+          {type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
         </>
       }
     </div>

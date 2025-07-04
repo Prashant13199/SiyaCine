@@ -35,15 +35,6 @@ export default function Header() {
       fetchVideo()
   }, [nowPlaying[number]?.id, number])
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setNumber(Math.floor((Math.random() * 10) + 1))
-    }, 5000)
-    return () => {
-      clearInterval(interval)
-    }
-  })
-
   const fetchnowPlaying = async () => {
     try {
       const { data } = await axios.get(
@@ -61,7 +52,8 @@ export default function Header() {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/movie/${nowPlaying[number]?.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
-      const values = data.results.filter((value) => value.type === 'Trailer')
+      const values = data.results.filter((value) => value.type === 'Trailer' || value.type === "Teaser")
+      console.log(data)
       setVideo(values[number]?.key);
     }
     catch (e) {

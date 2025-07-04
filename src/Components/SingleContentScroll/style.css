@@ -21,7 +21,7 @@
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
-    width: 160px;
+    width: 100%;
     overflow: hidden;
 }
 

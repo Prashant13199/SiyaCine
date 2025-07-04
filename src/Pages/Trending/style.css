@@ -10,8 +10,14 @@
     align-items: center;
 }
 
+.trending_title_small {
+    display: flex;
+    align-items: center;
+    color: lightgray;
+}
+
 .trending_title_subtitle {
-    font-size: 18px;
+    font-size: 20px;
     display: flex;
     align-items: center;
     color: rgb(255, 167, 38);
@@ -90,6 +96,10 @@
 
     .trending_title {
         font-size: 18px;
+    }
+
+    .trending_title_subtitle {
+        font-size: 16px;
     }
 
     .trending_flex {

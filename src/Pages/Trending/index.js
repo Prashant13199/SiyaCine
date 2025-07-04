@@ -146,8 +146,12 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_flex'>
             <img src={favourite[number]?.data?.poster_path ? `https://image.tmdb.org/t/p/w500/${favourite[number]?.data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
             <div>
-              <div className='trending_title'>Because You Watched</div>
-              <div className='trending_title_subtitle'>{favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}</div>
+              <div className='trending_title_small'>Because You Watched</div>
+              <Link to={`/singlecontent/${favourite[number]?.data.id}/${favourite[number]?.type}`} style={{ textDecoration: 'none' }}>
+                <div className='trending_title_subtitle'>
+                  {favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}
+                </div>
+              </Link>
             </div>
           </div>
           <div className='trending_scroll' >
@@ -196,8 +200,10 @@ export default function Trending({ setBackdrop, scrollTop }) {
           <div className='trending_flex'>
             <img src={favouriteCast[numberCast]?.data?.profile_path ? `https://image.tmdb.org/t/p/w500/${favouriteCast[numberCast]?.data?.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
             <div>
-              <div className='trending_title'>Because You Liked </div>
-              <div className='trending_title_subtitle'>{favouriteCast[numberCast]?.data?.name}</div>
+              <div className='trending_title_small'>Because You Liked </div>
+              <Link to={`/singlecast/${favouriteCast[numberCast]?.id}`} style={{ textDecoration: 'none' }}>
+                <div className='trending_title_subtitle'>{favouriteCast[numberCast]?.data?.name}</div>
+              </Link>
             </div>
           </div>
           <div className='trending_scroll'>

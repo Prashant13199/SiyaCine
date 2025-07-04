@@ -89,6 +89,21 @@
     background-color: rgb(255, 167, 38) !important;
 }
 
+.button_suggestion {
+    transition: all .3s ease-in-out !important;
+    border-radius: 20px !important;
+    background-color: antiquewhite !important;
+    color: black !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+}
+
+.button_suggestion {
+    transition: all .3s ease-in-out;
+    transform: scale(0.95);
+    background-color: rgb(255, 167, 38) !important;
+}
+
 .share_external_btn {
     margin-top: 10px !important;
     background-color: antiquewhite !important;
