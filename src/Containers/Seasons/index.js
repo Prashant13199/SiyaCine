@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { auth, database } from '../../firebase';
 import { Modal } from 'react-bootstrap';
-import { CircularProgress, IconButton } from '@mui/material';
+import { Button, CircularProgress, IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -16,7 +16,7 @@ export default function Seasons({ value }) {
 
     const [content, setContent] = useState([])
     const [seasonNumber, setSeasonNumber] = useState(1)
-    const [episodeNumber, setEpisodeNumber] = useState()
+    const [episodeNumber, setEpisodeNumber] = useState(1)
     const [premium, setPremium] = useState(false)
     const [server, setServer] = useState(1)
     const [show4, setShow4] = useState(false);
@@ -25,6 +25,7 @@ export default function Seasons({ value }) {
     const [paginatedData, setPaginatedData] = useState([])
     const [perPage, setPerPage] = useState(25)
     const [numOfPages, setNumOfPages] = useState();
+    const [resumeSeason, setResumeSeason] = useState(1)
 
     const theme = useTheme()
 
@@ -34,7 +35,11 @@ export default function Seasons({ value }) {
 
     useEffect(() => {
         handlePagination()
-        document.getElementById("episode_list")?.scroll({ left: 0, behavior: "smooth" })
+        setTimeout(() => {
+            if (episodeNumber !== 1) {
+                document.getElementById("episode_list")?.scroll({ left: resumeSeason === seasonNumber ? episodeNumber * 200 : 0, behavior: "smooth" })
+            }
+        }, 0);
     }, [page, content])
 
     useEffect(() => {
@@ -42,6 +47,7 @@ export default function Seasons({ value }) {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setSeasonNumber(snapshot.val()?.season)
                 setEpisodeNumber(snapshot.val()?.episode)
+                setResumeSeason(snapshot.val()?.season)
             }
         })
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
@@ -54,7 +60,7 @@ export default function Seasons({ value }) {
         setEpisodeNumber()
     }
 
-    const handleShow4 = (episode, season) => {
+    const handleShow4 = (episode, season, id) => {
         setShow4(true)
         setEpisodeNumber(episode)
         handleResume(season, episode)
@@ -89,6 +95,22 @@ export default function Seasons({ value }) {
         setPaginatedData(content?.episodes?.slice(start, end))
     }
 
+    const handleNext = () => {
+        setEpisodeNumber(episodeNumber + 1)
+        handleMarkComplete()
+    }
+
+    const handlePrev = () => {
+        setEpisodeNumber(episodeNumber - 1)
+    }
+
+    const handleMarkComplete = () => {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watched/series/${content?.episodes[episodeNumber - 1]?.id}`).update(({
+            id: content?.episodes[episodeNumber - 1]?.id,
+            timestamp: Date.now()
+        })).catch((e) => console.log(e))
+    }
+
     return (
         <>
             <Modal show={show4} onHide={handleClose4} fullscreen>
@@ -111,9 +133,13 @@ export default function Seasons({ value }) {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://vidsrc.me/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
-                    {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
-                    {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 85 }} scrolling="no" src={`https://multiembed.mov/?video_id=${value?.id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
+                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.me/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
+                    {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
+                    {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://multiembed.mov/?video_id=${value?.id}&tmdb=1&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
+                    <div className='player_bottom'>
+                        <Button color='warning' onClick={handlePrev} disabled={episodeNumber === 1}>Prev</Button>
+                        <Button color='warning' onClick={handleNext} disabled={episodeNumber === content?.episodes?.length}>Next</Button>
+                    </div>
                 </Modal.Body>
             </Modal>
             <div className='season_button'>
