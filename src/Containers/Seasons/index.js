@@ -31,7 +31,7 @@ export default function Seasons({ value }) {
 
     useEffect(() => {
         fetchDetails()
-    }, [seasonNumber])
+    }, [seasonNumber, episodeNumber])
 
     useEffect(() => {
         handlePagination()

@@ -3,16 +3,23 @@ import './style.css'
 import { useHistory } from 'react-router-dom'
 import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Button, ButtonBase, IconButton, useTheme } from '@mui/material'
+import { Button } from '@mui/material'
 import { Link } from 'react-router-dom';
+import { Zoom } from '@mui/material';
 import TvIcon from '@mui/icons-material/Tv';
 
 export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showIcon, trending, index }) {
 
   const history = useHistory()
-  const theme = useTheme()
+  const [checked, setChecked] = useState(false)
   const [show, setShow] = useState(true)
   const [lastPlayed, setLastPlayed] = useState()
+
+  useEffect(() => {
+    setTimeout(() => {
+      setChecked(true)
+    }, index * 50)
+  }, [index])
 
   useEffect(() => {
     if (recom) {
@@ -46,32 +53,34 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   }
 
   return show && data?.poster_path && (
-    <div className='single_content_scroll' key={id}>
-      <div className={trending && 'trending_flex_count'}>
-        {trending && <div className='trending_count'>
-          {index}
-        </div>}
-        <img
-          src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
-          alt={data?.title || data?.name}
-          className="poster_scroll"
-          onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
-        />
-      </div>
-      {by && <div>
-        <div className='user'>
-          <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
+    <Zoom in={checked} {...({ timeout: 800 })}>
+      <div className='single_content_scroll' key={id}>
+        <div className={trending && 'trending_flex_count'}>
+          {trending && <div className='trending_count'>
+            {index}
+          </div>}
+          <img
+            src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
+            alt={data?.title || data?.name}
+            className="poster_scroll"
+            onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
+          />
         </div>
-        <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
-      </div>}
-      {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
-        S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
-      </div>}
-      {showIcon &&
-        <>
-          {type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
-        </>
-      }
-    </div>
+        {by && <div>
+          <div className='user'>
+            <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
+          </div>
+          <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
+        </div>}
+        {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
+          S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
+        </div>}
+        {showIcon &&
+          <>
+            {type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
+          </>
+        }
+      </div>
+    </Zoom>
   )
 }
