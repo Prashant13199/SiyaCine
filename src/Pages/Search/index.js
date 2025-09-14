@@ -132,13 +132,13 @@ export default function Search({ scrollTop, setBackdrop }) {
                     {query &&
                         <>
                             {contentM?.map((data, index) => {
-                                return <SingleContentSearch data={data} key={data.id} index={index} />
+                                return <SingleContentSearch data={data} id={data.id} type={data.media_type} key={data.id} index={index} />
                             })}
                         </>}
                     {!query &&
                         <>
                             {recentlySearched?.map((data, index) => {
-                                return <SingleContentSearch data={data.data} key={data.data.id} index={index} />
+                                return <SingleContentSearch data={data.data} id={data.data.id} type={data.data.media_type} key={data.data.id} index={index} />
                             })}
                         </>}
                 </Grid>

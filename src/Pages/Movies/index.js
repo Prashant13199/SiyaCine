@@ -77,7 +77,7 @@ export default function Movies({ scrollTop, setBackdrop }) {
             <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
               {content &&
                 content.map((data, index) => {
-                  return <SingleContent data={data} key={data.id} type={'movie'} index={index} />
+                  return <SingleContent data={data} id={data.id} key={data.id} type={'movie'} index={index} />
                 })}
             </Grid>
             {content?.length === 0 && <center><br />

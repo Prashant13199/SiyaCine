@@ -150,13 +150,13 @@ export default function SingleCategory({ scrollTop, setBackdrop }) {
           {databaseData ?
             <>
               {paginatedData?.map((data, index) => {
-                return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} showIcon={tv} index={index} /> : <SingleContent data={data} key={data.id} type={type} showIcon={tv} index={index} />
+                return uid !== '$$' ? <SingleContent data={data.data} id={data.id} key={data.id} type={data.type} showIcon={tv} index={index} /> : <SingleContent data={data} key={data.id} id={data.id} type={type} showIcon={tv} index={index} />
               })}
             </>
             :
             <>
               {content?.map((data, index) => {
-                return uid !== '$$' ? <SingleContent data={data.data} key={data.id} type={data.type} showIcon={tv} index={index} /> : <SingleContent data={data} key={data.id} type={type} showIcon={tv} index={index} />
+                return uid !== '$$' ? <SingleContent data={data.data} id={data.id} key={data.id} type={data.type} showIcon={tv} index={index} /> : <SingleContent data={data} key={data.id} id={data.id} type={type} showIcon={tv} index={index} />
               })}
             </>
           }
