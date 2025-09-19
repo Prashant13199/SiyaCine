@@ -57,12 +57,6 @@ function App() {
   }, [user])
 
   useEffect(() => {
-    let initialWidth = window.innerWidth;
-    window.addEventListener('resize', () => {
-      if (window.innerWidth !== initialWidth) {
-        window.location.reload();
-      }
-    });
     window.addEventListener('scroll', () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       setTop(scrollTop)
