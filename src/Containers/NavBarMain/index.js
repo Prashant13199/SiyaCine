@@ -142,14 +142,14 @@ export default function NavBarMain({ top, scrollTop }) {
           </Nav>
         }
       </Navbar>
-      <div className='floating_navbar'>
+      <Navbar className='floating_navbar'>
         <div className='navbar_back'>
           <NavLink to='/search' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}><SearchIcon /></NavLink>
           <NavLink to='/' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>Home</NavLink>
           <NavLink to='/movies' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>Movies</NavLink>
           <NavLink to='/tv' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>TV Shows</NavLink>
         </div>
-      </div>
+      </Navbar>
     </>
   )
 }
