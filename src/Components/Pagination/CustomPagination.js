@@ -6,7 +6,6 @@ export default function CustomPagination({ setPage, page, numOfPages = 10 }) {
 
   const handlePageChange = (event, value) => {
     setPage(value);
-    window.scroll(0, 0);
   };
 
   return (

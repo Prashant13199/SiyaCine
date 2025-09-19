@@ -1,16 +1,16 @@
 .singlecontent_responsive_cast {
-    display: flex;
-    padding: 20px 40px;
+    overflow-x: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    margin: 0 40px;
+    border-radius: 20px;
 }
 
 .readmore {
     font-size: 12px;
     margin-left: 5px;
     cursor: pointer;
-}
-
-.singlecastpage {
-    padding-top: 70px;
 }
 
 @media only screen and (max-width: 900px) {

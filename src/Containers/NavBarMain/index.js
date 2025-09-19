@@ -15,6 +15,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Notification from '../../Components/Notification/Notification';
+import { Link } from 'react-router-dom/cjs/react-router-dom';
 
 export default function NavBarMain({ top, scrollTop }) {
 
@@ -49,11 +50,7 @@ export default function NavBarMain({ top, scrollTop }) {
   }, [notifications])
 
   useEffect(() => {
-    if (location.pathname === '/movies') {
-      setRouteName('Movies')
-    } else if (location.pathname === '/tv') {
-      setRouteName('TV Shows')
-    } else if (location.pathname === '/profile') {
+    if (location.pathname === '/profile') {
       setRouteName('Me')
     } else if (location.pathname?.includes('/user')) {
       setRouteName('User')
@@ -79,8 +76,6 @@ export default function NavBarMain({ top, scrollTop }) {
       setRouteName('Popular Movies')
     } else if (location.pathname?.includes('/popular/tv')) {
       setRouteName('Popular TV')
-    } else if (location.pathname?.includes('/search')) {
-      setRouteName('Search')
     } else if (location.pathname?.includes('/watchlist')) {
       setRouteName('Watchlist')
     } else if (location.pathname?.includes('/watched')) {
@@ -94,7 +89,7 @@ export default function NavBarMain({ top, scrollTop }) {
     } else if (location.pathname?.includes('/airing_today')) {
       setRouteName('Airing Today')
     } else {
-      setRouteName('Home')
+      setRouteName('')
     }
   }, [location])
 
@@ -116,22 +111,13 @@ export default function NavBarMain({ top, scrollTop }) {
           })}
         </Modal.Body>
       </Modal>
-      <Navbar className={top < 50 ? 'navbar_main navbar_back_image' : 'navbar_main navbar_back'} variant={theme.palette.mode} fixed='top'>
+      <Navbar className={top < 50 ? 'navbar_main' : 'navbar_main navbar_main_back'} variant={theme.palette.mode} fixed='top'>
         <Navbar.Brand className="navlink">
           <NavLink to={top < 50 && "/"} style={{ color: 'white', textDecoration: 'none' }} onClick={scrollTop}>
             <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
           </NavLink>
         </Navbar.Brand>
-        <NavDropdown title={routeName} id="basic-nav-dropdown" className='mobile'>
-          <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>Home</NavLink></NavDropdown.Item>
-          <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/movies' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>Movies</NavLink></NavDropdown.Item>
-          <NavDropdown.Item style={{ backgroundColor: theme.palette.background.default }}><NavLink to='/tv' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>TV Shows</NavLink></NavDropdown.Item>
-        </NavDropdown>
-        <Nav><NavLink to='/' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>Home</NavLink></Nav>
-        <Nav><NavLink to='/movies' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>Movies</NavLink></Nav>
-        <Nav><NavLink to='/tv' activeClassName="is-active" className="navlink pc" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}>TV Shows</NavLink></Nav>
         <Nav className="me-auto"></Nav>
-        <Nav><NavLink to='/search' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: theme.palette.warning.main }}><SearchIcon /></NavLink></Nav>
         {auth?.currentUser?.uid ?
           <>
             {notifications?.length !== 0 && <Nav>
@@ -156,6 +142,14 @@ export default function NavBarMain({ top, scrollTop }) {
           </Nav>
         }
       </Navbar>
+      <div className='floating_navbar'>
+        <div className='navbar_back'>
+          <NavLink to='/search' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}><SearchIcon /></NavLink>
+          <NavLink to='/' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>Home</NavLink>
+          <NavLink to='/movies' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>Movies</NavLink>
+          <NavLink to='/tv' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>TV Shows</NavLink>
+        </div>
+      </div>
     </>
   )
 }

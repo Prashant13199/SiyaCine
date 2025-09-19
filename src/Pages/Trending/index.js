@@ -13,8 +13,9 @@ import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
 import useFetchMyShows from '../../hooks/useFetchMyShows';
 import { Button, ButtonGroup } from 'react-bootstrap';
+import Switch from '../../Components/switch';
 
-export default function Trending({ setBackdrop, scrollTop }) {
+export default function Trending({ scrollTop }) {
 
   const [recommendation, setRecommendation] = useState([])
   const [number, setNumber] = useState(null)
@@ -40,7 +41,6 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
   useEffect(() => {
     scrollTop()
-    setBackdrop()
   }, []);
 
   useEffect(() => {
@@ -125,7 +125,7 @@ export default function Trending({ setBackdrop, scrollTop }) {
             </div>
           </div>
           <div className='trending_scroll' >
-            {nowplaying?.map((data, index) => {
+            {nowplaying?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="movie" />
             })}
           </div>
@@ -162,17 +162,14 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
         {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'>Indian Origin <ButtonGroup size='sm' className='switch_btn_group'>
-              <Button className={indian === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setIndian('movie')}>Movie</Button>
-              <Button className={indian === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setIndian('tv')}>TV</Button>
-            </ButtonGroup>
+            <div className='trending_title'>Indian Origin <Switch data={indian} setData={setIndian} />
               <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$` : `/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           </div>
           <div className='trending_scroll' >
-            {indian === "movie" && indianMovie?.map((data, index) => {
+            {indian === "movie" && indianMovie?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="movie" />
             })}
-            {indian === "tv" && indianTv?.map((data, index) => {
+            {indian === "tv" && indianTv?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div>
@@ -180,18 +177,14 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
         {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'>Trending <ButtonGroup size='sm' className='switch_btn_group'>
-              <Button className={trending === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTrending('movie')}>Movie</Button>
-              <Button className={trending === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTrending('tv')}>TV</Button>
-            </ButtonGroup>
+            <div className='trending_title'>Trending <Switch data={trending} setData={setTrending} />
               <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$` : `/singlecategory/trending/tv/Trending TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
-
           </div>
           <div className='trending_scroll' >
-            {trending === "movie" && trendingMovie?.map((data, index) => {
+            {trending === "movie" && trendingMovie?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="movie" trending={true} index={index + 1} />
             })}
-            {trending === "tv" && trendingTv?.map((data, index) => {
+            {trending === "tv" && trendingTv?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll data={data} id={data.id} key={data?.id} type="tv" trending={true} index={index + 1} />
             })}
           </div></>}
@@ -214,17 +207,14 @@ export default function Trending({ setBackdrop, scrollTop }) {
 
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'>Top Rated <ButtonGroup size='sm' className='switch_btn_group'>
-              <Button className={topRated === 'movie' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTopRated('movie')}>Movie</Button>
-              <Button className={topRated === 'tv' ? 'switch_btn_active' : 'switch_btn'} size='sm' onClick={() => setTopRated('tv')}>TV</Button>
-            </ButtonGroup>
+            <div className='trending_title'>Top Rated <Switch data={topRated} setData={setTopRated} />
               <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$` : `/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           </div>
           <div className='trending_scroll'>
-            {topRated === "movie" && topratedmovie?.map((data, index) => {
+            {topRated === "movie" && topratedmovie?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="movie" />
             })}
-            {topRated === "tv" && topratedtv?.map((data, index) => {
+            {topRated === "tv" && topratedtv?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="tv" />
             })}
           </div></>}

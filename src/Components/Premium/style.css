@@ -1,8 +1,8 @@
 .premium {
-    border-radius: 20px;
-    border-width: 1px;
-    color: rgb(255, 167, 38);
-    border-color: rgb(255, 167, 38);
+    border-radius: 10px;
+    color: black;
+    background-color: rgb(255, 77, 148);
+    border-color: rgb(255, 77, 148);
     padding: 6px 20px;
     border-style: solid;
     width: fit-content;
@@ -11,9 +11,8 @@
 }
 
 .basic {
-    border-radius: 20px;
-    border-width: 1px;
-    color: rgb(65, 138, 255);
+    border-radius: 10px;
+    background-color: rgb(65, 138, 255);
     border-color: rgb(65, 138, 255);
     padding: 6px 20px;
     border-style: solid;

@@ -5,14 +5,13 @@
     object-fit: cover;
 }
 
-.singlecontentPage {
-    margin-top: 70px;
-}
-
 .singlecontent_responsive {
-    display: flex;
-    align-items: flex-start;
-    padding: 20px 40px;
+    overflow-x: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    margin: 0 40px;
+    border-radius: 20px;
 }
 
 .details {
@@ -78,7 +77,7 @@
     border-radius: 20px !important;
     background-color: antiquewhite !important;
     color: black !important;
-    width: 178px !important;
+    width: 174px !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
 }
@@ -210,7 +209,7 @@
     }
 
     .singlecontent_responsive {
-        padding: 0px 0px !important;
+        margin: 0 10px;
     }
 
     .server_buttons {
@@ -244,7 +243,7 @@
 
     .singlecontent_responsive {
         display: grid;
-        padding: 0 40px;
+        margin: 0 10px;
     }
 
     .watchprovider {

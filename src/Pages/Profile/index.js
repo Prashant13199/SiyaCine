@@ -25,7 +25,7 @@ import ModeIcon from '@mui/icons-material/Mode';
 import { images } from '../../Services/images'
 import ConnectionUser from '../../Components/ConnectionUser';
 
-export default function Profile({ setBackdrop, scrollTop }) {
+export default function Profile({ scrollTop }) {
 
   const history = useHistory()
   const theme = useTheme()
@@ -34,6 +34,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
   const [show, setShow] = useState(false);
   const [connections, setConnections] = useState([])
   const [suggestions, setSuggestions] = useState([])
+  const [backdrop, setBackdrop] = useState('')
 
   const currentPhoto = useFetchUserDetails(auth?.currentUser?.uid, 'photo')
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
@@ -52,7 +53,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
   }, [])
 
   useEffect(() => {
-    setBackdrop(window.innerWidth > 900 ? favourite[0]?.data?.backdrop_path : favourite[0]?.data?.poster_path)
+    setBackdrop(favourite[0]?.data?.backdrop_path)
   }, [favourite])
 
   useEffect(() => {
@@ -166,27 +167,29 @@ export default function Profile({ setBackdrop, scrollTop }) {
       {!loading ?
         <div className='profile'>
           <Grow in={!loading} {...({ timeout: 800 })}>
-            <div className='profile_header'>
-              <div className='pic_container'>
-                <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
-                <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
-              </div>
-              <div className='profile_right'>
-                <Tooltip title={auth?.currentUser?.uid} placement='top'>
-                  <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
-                </Tooltip>
-                <div className='profile_actions'>
-                  <Premium premium={premium} />
-                  <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
-                    <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handlePublic()}>
-                      {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
-                    </IconButton>
+            <div className='profile_header' style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
+              <div className='profile_backdrop'>
+                <div className='pic_container'>
+                  <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
+                  <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
+                </div>
+                <div className='profile_right'>
+                  <Tooltip title={auth?.currentUser?.uid} placement='top'>
+                    <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
                   </Tooltip>
-                  <Tooltip title={'Logout'}>
-                    <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => signOut()}>
-                      <LogoutIcon />
-                    </IconButton>
-                  </Tooltip>
+                  <div className='profile_actions'>
+                    <Premium premium={premium} />
+                    <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
+                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handlePublic()}>
+                        {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title={'Logout'}>
+                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => signOut()}>
+                        <LogoutIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </div>
                 </div>
               </div>
             </div>
@@ -205,7 +208,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
               <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
             <div className='trending_scroll' >
-              {watchlist?.map((data, index) => {
+              {watchlist?.slice(0, 10)?.map((data, index) => {
                 return <SingleContentScroll index={index} data={data?.data} id={data?.id} key={data?.id} type={data?.type} showIcon={true} />
               })}
             </div></>}
@@ -225,7 +228,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
               <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
             <div className='trending_scroll' >
-              {watched?.slice(0, 20)?.map((data, index) => {
+              {watched?.slice(0, 10)?.map((data, index) => {
                 return <SingleContentScroll index={index} data={data?.data} id={data?.id} key={data?.id} type={data?.type} showIcon={true} />
               })}
             </div></>}
@@ -234,7 +237,7 @@ export default function Profile({ setBackdrop, scrollTop }) {
               <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
             <div className='trending_scroll' >
-              {favourite?.map((data, index) => {
+              {favourite?.slice(0, 10)?.map((data, index) => {
                 return <SingleContentScroll index={index} data={data?.data} key={data?.id} id={data?.id} type={data?.type} showIcon={true} />
               })}
             </div></>}

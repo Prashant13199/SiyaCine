@@ -9,7 +9,9 @@ export default function useFetchDBData(uid, data) {
         database.ref(`/Users/${uid}/${data}`).orderByChild('timestamp').once('value', snapshot => {
             let arr = []
             snapshot?.forEach((snap) => {
-                arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+                if (snap.key !== "series") {
+                    arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+                }
             })
             setContent(arr.reverse())
         })

@@ -17,7 +17,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
 import ConnectionUser from '../../Components/ConnectionUser'
 
-export default function UserProfile({ setBackdrop, scrollTop }) {
+export default function UserProfile({ scrollTop }) {
 
   const { uid } = useParams()
   const [loading, setLoading] = useState(true)
@@ -28,6 +28,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const [publicAcc, setPublicAcc] = useState(true)
   const [initiated, setInitiated] = useState('')
   const [connections, setConnections] = useState([])
+  const [backdrop, setBackdrop] = useState('')
 
   const connectID = [auth?.currentUser?.uid, uid].sort().join(':')
   const watchlist = useFetchDBData(uid, 'watchlist')
@@ -40,7 +41,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
   useEffect(() => {
-    setBackdrop(window.innerWidth > 900 ? favourite[0]?.data?.backdrop_path : favourite[0]?.data?.poster_path)
+    setBackdrop(window.innerWidth > 900 && favourite[0]?.data?.backdrop_path)
   }, [favourite])
 
   useEffect(() => {
@@ -86,7 +87,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
       setConnections(arr.reverse())
     })
     setLoading(false)
-  }, [uid])
+  }, [uid, auth?.currentUser?.uid])
 
   const handlePremium = () => {
     if (admin) {
@@ -179,30 +180,32 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
 
         <div className='profile'>
           <Grow in={!loading} {...({ timeout: 800 })}>
-            <div className='profile_header'>
-              <div className='pic_container'>
-                <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
-              </div>
-              <div className='profile_right'>
-                {admin ? <Tooltip title={uid} placement='top'>
-                  <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-                </Tooltip>
-                  :
-                  <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-                }
-                {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
-                  <Premium premium={premium} />
-                </div>}
-                <div className='connect_btns'>
-                  {requested ?
-                    <>
-                      <Button className='connect_btn' onClick={handleRequest} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
-                      {auth?.currentUser?.uid !== initiated && <Button className='connect_btn' style={{ marginLeft: '10px' }} onClick={removeRequested} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
-                    </>
+            <div className='profile_header' style={{ backgroundImage: backdrop ? `url(https://image.tmdb.org/t/p/original/${backdrop})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
+              <div className='profile_backdrop'>
+                <div className='pic_container'>
+                  <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
+                </div>
+                <div className='profile_right'>
+                  {admin ? <Tooltip title={uid} placement='top'>
+                    <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+                  </Tooltip>
                     :
-                    <> {connected ? <Button className='connect_btn' onClick={handleRemoveConnect} variant='outlined' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
-                      <Button className='connect_btn' onClick={handleConnect} variant='outlined' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
-                    </>}
+                    <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+                  }
+                  {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
+                    <Premium premium={premium} />
+                  </div>}
+                  <div className='connect_btns'>
+                    {requested ?
+                      <>
+                        <Button className='connect_btn' onClick={handleRequest} variant='contained' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
+                        {auth?.currentUser?.uid !== initiated && <Button className='connect_btn' style={{ marginLeft: '10px' }} onClick={removeRequested} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
+                      </>
+                      :
+                      <> {connected ? <Button className='connect_btn' onClick={handleRemoveConnect} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
+                        <Button className='connect_btn' onClick={handleConnect} variant='contained' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
+                      </>}
+                  </div>
                 </div>
               </div>
             </div>
@@ -217,7 +220,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} showIcon={true} />
                 })}
               </div></>}
-            {watchlist?.length !== 0 && <><br />
+            {watchlist?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
@@ -226,7 +229,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} showIcon={true} />
                 })}
               </div></>}
-            {watched?.length !== 0 && <><br />
+            {watched?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
@@ -235,7 +238,7 @@ export default function UserProfile({ setBackdrop, scrollTop }) {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} showIcon={true} />
                 })}
               </div></>}
-            {favourite?.length !== 0 && <><br />
+            {favourite?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>

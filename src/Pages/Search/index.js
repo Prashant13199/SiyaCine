@@ -15,7 +15,7 @@ import useFetchUsers from '../../hooks/useFetchUsers';
 import User from '../../Components/User';
 import { auth, database } from '../../firebase';
 
-export default function Search({ scrollTop, setBackdrop }) {
+export default function Search({ scrollTop }) {
 
     let data = useQuery();
     const query = data.get('query')
@@ -38,7 +38,6 @@ export default function Search({ scrollTop, setBackdrop }) {
     useEffect(() => {
         scrollTop()
         fetchSearch();
-        setBackdrop()
         fetchRecentlySearched()
     }, [page, query, users])
 

@@ -11,7 +11,7 @@ import empty from '../../assets/empty.png'
 import { Helmet } from 'react-helmet';
 import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
-export default function Movies({ scrollTop, setBackdrop }) {
+export default function Movies({ scrollTop }) {
 
   let data = useQuery();
   const values = data.get('values')
@@ -53,9 +53,10 @@ export default function Movies({ scrollTop, setBackdrop }) {
   };
 
   useEffect(() => {
-    scrollTop();
+    setTimeout(() => {
+      scrollTop();
+    }, 100)
     fetchMovies();
-    setBackdrop()
   }, [genreforURL, page]);
 
   return (

@@ -1,0 +1,39 @@
+.switch-container {
+    position: relative;
+    background-color: rgb(50, 50, 50);
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+.sliding-pill {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    background-color: rgb(255, 167, 38);
+    border-radius: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.slide-to-movie {
+    transform: translateX(0);
+}
+
+.slide-to-tv {
+    transform: translateX(100%);
+}
+
+.content-button {
+    position: relative;
+    transition: color 0.3s ease-in-out;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    min-width: 80px;
+}
+
+.content-button.active-button {
+    color: black;
+}

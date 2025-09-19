@@ -11,7 +11,7 @@ import { useTheme } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import { Helmet } from 'react-helmet';
 
-export default function SingleCastPage({ scrollTop, setBackdrop }) {
+export default function SingleCastPage({ scrollTop }) {
 
   const { id } = useParams()
   const [data, setData] = useState([])
@@ -21,10 +21,7 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
   const [readMore, setReadMore] = useState(false)
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    setBackdrop(window.innerWidth > 600 ? movie[0]?.backdrop_path : movie[0]?.poster_path)
-  }, [movie])
+  const [backdrop, setBackdrop] = useState('')
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).on('value', snapshot => {
@@ -40,7 +37,6 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
         `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setData(data);
-      setLoading(false)
     }
     catch (e) {
       console.log(e)
@@ -53,6 +49,8 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
         `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setMovie(data.cast);
+      setBackdrop(window.innerWidth > 900 && data.cast[0]?.backdrop_path);
+      setLoading(false)
     }
     catch (e) {
       console.log(e)
@@ -99,40 +97,42 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
       </Helmet>
       {!loading ?
         <div className='singlecastpage'>
-          <div className='singlecontent_responsive_cast'>
-            <div className='pic_container'>
-              <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
-            </div>
-            <div className='details'>
-              <div className='mobile_center'>
-                <h1>{data.name}</h1>
-                <div className='actions'>
-                  {auth?.currentUser?.uid && <div>
-                    <Tooltip title="Favourite">
-                      <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
-                        {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
-                      </IconButton>
-                    </Tooltip>
-                  </div>}
-                </div>
+          <div className='singlecontent_responsive_cast' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
+            <div className={backdrop && 'profile_backdrop'}>
+              <div className='pic_container'>
+                <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
               </div>
-              {data.birthday && <div className='overview'>
-                <h4>Birthday</h4>
-                {data.birthday}
-              </div>}
-              {data.place_of_birth && <div className='overview'>
-                <h4>Place of Birth</h4>
-                {data.place_of_birth}
-              </div>}
-              {data.known_for_department && <div className='overview'>
-                <h4>Known for department</h4>
-                {data.known_for_department}
-              </div>}
-              {data.biography && <div className='overview animateBelow'>
-                <h4>Biography</h4>
-                {data.biography?.length > 200 && !readMore ? data.biography.substring(0, 200).concat('...') : data.biography}
-                <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.biography && data.biography?.length > 200 && (!readMore ? 'read more' : 'less')}</span>
-              </div>}
+              <div className='details'>
+                <div className='mobile_center'>
+                  <h1>{data.name}</h1>
+                  <div className='actions'>
+                    {auth?.currentUser?.uid && <div>
+                      <Tooltip title="Favourite">
+                        <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
+                          {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
+                        </IconButton>
+                      </Tooltip>
+                    </div>}
+                  </div>
+                </div>
+                {data.birthday && <div className='overview'>
+                  <h4>Birthday</h4>
+                  {data.birthday}
+                </div>}
+                {data.place_of_birth && <div className='overview'>
+                  <h4>Place of Birth</h4>
+                  {data.place_of_birth}
+                </div>}
+                {data.known_for_department && <div className='overview'>
+                  <h4>Known for department</h4>
+                  {data.known_for_department}
+                </div>}
+                {data.biography && <div className='overview animateBelow'>
+                  <h4>Biography</h4>
+                  {data.biography?.length > 200 && !readMore ? data.biography.substring(0, 200).concat('...') : data.biography}
+                  <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.biography && data.biography?.length > 200 && (!readMore ? 'read more' : 'less')}</span>
+                </div>}
+              </div>
             </div>
           </div>
 
@@ -144,7 +144,7 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
             <div style={{ marginTop: '10px' }}></div>
             <div className='trending_scroll' >
               {movie?.map((data) => {
-                return <SingleContentScroll data={data} key={data.id} type="movie" />
+                return <SingleContentScroll data={data} id={data.id} key={data.id} type="movie" />
               })}
             </div>
           </>}
@@ -157,7 +157,7 @@ export default function SingleCastPage({ scrollTop, setBackdrop }) {
             <div style={{ marginTop: '10px' }}></div>
             <div className='trending_scroll' >
               {tv?.map((data) => {
-                return <SingleContentScroll data={data} key={data.id} type="tv" />
+                return <SingleContentScroll data={data} id={data.id} key={data.id} type="tv" />
               })}
             </div>
           </>}

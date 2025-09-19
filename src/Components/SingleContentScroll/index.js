@@ -18,10 +18,13 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   const [watchprovider, setWatchProvider] = useState({})
 
   useEffect(() => {
+    fetchProvider()
+  }, [id])
+
+  useEffect(() => {
     setTimeout(() => {
       setChecked(true)
-      fetchProvider()
-    }, index * 50)
+    }, index * 100)
   }, [index])
 
   useEffect(() => {
@@ -71,7 +74,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
 
   return show && data?.poster_path && (
     <Zoom in={checked} {...({ timeout: 800 })}>
-      <div className='single_content_scroll' key={id}>
+      <div className='single_content_scroll'>
         <div className={trending && 'trending_flex_count'}>
           {trending && <div className='trending_count'>
             {index}
@@ -79,7 +82,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
           <img
             src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
             alt={data?.title || data?.name}
-            className="poster_scroll"
+            className={trending ? "poster_scroll_trending" : "poster_scroll"}
             onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
           />
         </div>
@@ -92,7 +95,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
         {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
           S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
         </div>}
-        {watchprovider && <div className='platform'><img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} className='platform_icon' /></div>}
+        {watchprovider && !trending && <div className='platform'><img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} className='platform_icon' /></div>}
         {showIcon &&
           <>
             {type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
