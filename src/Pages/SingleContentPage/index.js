@@ -85,6 +85,17 @@ export default function SingleContentPage({ scrollTop }) {
     scrollTop()
   }, [])
 
+  const addBackdrop = () => {
+    setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : '')
+  }
+
+  useEffect(() => {
+    addBackdrop()
+    window.addEventListener('resize', addBackdrop)
+  }, [data])
+
+
+
   useEffect(() => {
     setLoading(true)
     fetchProvider();
@@ -94,6 +105,7 @@ export default function SingleContentPage({ scrollTop }) {
     fetchRecommendation();
     fetchReviews();
     scrollTop()
+    addBackdrop();
   }, [id])
 
   useEffect(() => {
@@ -147,7 +159,6 @@ export default function SingleContentPage({ scrollTop }) {
         `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setData(data);
-      setBackdrop(window.innerWidth > 900 && data?.backdrop_path)
       setLoading(false)
     }
     catch (e) {
@@ -454,7 +465,7 @@ export default function SingleContentPage({ scrollTop }) {
         <>
           <div className='singlecontentPage'>
             <div className='singlecontent_responsive' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
-              <div className={backdrop && 'profile_backdrop'}>
+              <div className={window?.innerWidth > 900 && 'profile_backdrop'}>
                 <div className={'pic_container'}>
                   <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
                   <div className='play_buttons'>

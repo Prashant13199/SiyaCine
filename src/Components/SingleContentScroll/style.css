@@ -44,7 +44,7 @@
     color: rgb(255, 167, 38);
     position: absolute;
     left: 5px;
-    top: 5px;
+    bottom: 5px;
 }
 
 .trending_flex_count {

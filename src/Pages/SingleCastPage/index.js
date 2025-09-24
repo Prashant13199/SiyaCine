@@ -31,6 +31,15 @@ export default function SingleCastPage({ scrollTop }) {
     })
   }, [])
 
+  const addBackdrop = () => {
+    setBackdrop(window.innerWidth > 900 ? movie[0]?.backdrop_path : '');
+  }
+
+  useEffect(() => {
+    addBackdrop()
+    window.addEventListener('resize', addBackdrop)
+  }, [movie])
+
   const fetchDetails = async () => {
     try {
       const { data } = await axios.get(
@@ -49,7 +58,6 @@ export default function SingleCastPage({ scrollTop }) {
         `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setMovie(data.cast);
-      setBackdrop(window.innerWidth > 900 && data.cast[0]?.backdrop_path);
       setLoading(false)
     }
     catch (e) {
@@ -98,7 +106,7 @@ export default function SingleCastPage({ scrollTop }) {
       {!loading ?
         <div className='singlecastpage'>
           <div className='singlecontent_responsive_cast' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
-            <div className={backdrop && 'profile_backdrop'}>
+            <div className={window?.innerWidth > 900 && 'profile_backdrop'}>
               <div className='pic_container'>
                 <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
               </div>

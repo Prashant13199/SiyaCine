@@ -52,8 +52,13 @@ export default function Profile({ scrollTop }) {
     scrollTop()
   }, [])
 
+  const addBackdrop = () => {
+    setBackdrop(window.innerWidth > 900 ? favourite[0]?.data?.backdrop_path : '')
+  }
+
   useEffect(() => {
-    setBackdrop(favourite[0]?.data?.backdrop_path)
+    addBackdrop()
+    window.addEventListener('resize', addBackdrop)
   }, [favourite])
 
   useEffect(() => {

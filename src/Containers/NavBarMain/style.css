@@ -44,6 +44,8 @@
     padding: 10px;
     align-items: center;
     border-radius: 30px;
+    display: flex;
+    position: relative;
 }
 
 .MuiButtonBase-root {
@@ -83,12 +85,63 @@
 
 .navlink {
     font-weight: bold;
+    display: grid;
+    place-items: center;
+    width: 80px;
+    font-size: 12px;
+    text-decoration: none;
+    color: white;
+}
+
+.navlink:hover {
+    color: white;
+}
+
+.navlinkActive {
+    width: 80px;
+    border-radius: 30px;
+    color: black;
+}
+
+.slider {
+    position: absolute;
+    height: 80%;
+    width: 80px;
+    background-color: rgb(255, 167, 38);
+    border-radius: 30px;
+    transition: transform 0.3s ease-in-out;
+    z-index: -1;
+}
+
+.navlinkActive:hover {
+    color: black;
+}
+
+.slide-to-search {
+    transform: translateX(0px);
+}
+
+.slide-to-home {
+    transform: translateX(80px);
+}
+
+.slide-to-movies {
+    transform: translateX(160px);
+}
+
+.slide-to-tvs {
+    transform: translateX(240px);
+}
+
+.nav_icons {
+    display: grid;
+    place-items: center;
 }
 
 @media screen and (max-width: 660px) {
 
     .floating_navbar {
-        bottom: 2px;
+        bottom: 5px;
     }
 
     .navbar_main {

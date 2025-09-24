@@ -11,11 +11,13 @@ import { auth, database } from '../../firebase';
 import './style.css'
 import SearchIcon from '@mui/icons-material/Search';
 import { useTheme } from '@mui/material/styles';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Notification from '../../Components/Notification/Notification';
-import { Link } from 'react-router-dom/cjs/react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
+import MovieIcon from '@mui/icons-material/Movie';
+import TvIcon from '@mui/icons-material/Tv';
+
 
 export default function NavBarMain({ top, scrollTop }) {
 
@@ -125,14 +127,14 @@ export default function NavBarMain({ top, scrollTop }) {
                 if (notifications?.length) {
                   handleShow2()
                 }
-              }} to='#' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: show2 ? theme.palette.warning.main : theme.palette.text.primary }}>
+              }} to='#' activeClassName="navlinkActive" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: show2 ? theme.palette.warning.main : theme.palette.text.primary }}>
                 <Badge badgeContent={notifications?.length} color="warning">
                   <NotificationsIcon />
                 </Badge>
               </NavLink>
             </Nav>}
             <Nav>
-              <NavLink to='/profile' activeClassName="is-active" style={{ textDecoration: 'none', color: theme.palette.warning.main }} className="navlink" activeStyle={{ opacity: 1 }}
+              <NavLink to='/profile' activeClassName="navlinkActive" style={{ textDecoration: 'none', color: theme.palette.warning.main }} className="navlink" activeStyle={{ opacity: 1 }}
                 exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=loading?size=96`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
             </Nav>
           </>
@@ -144,10 +146,23 @@ export default function NavBarMain({ top, scrollTop }) {
       </Navbar>
       <Navbar className='floating_navbar'>
         <div className='navbar_back'>
-          <NavLink to='/search' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}><SearchIcon /></NavLink>
-          <NavLink to='/' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>Home</NavLink>
-          <NavLink to='/movies' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>Movies</NavLink>
-          <NavLink to='/tv' activeClassName="is-active" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, padding: '8px 12px' }} activeStyle={{ opacity: 1, backgroundColor: theme.palette.warning.main, color: 'black', padding: '8px 12px', borderRadius: '20px' }}>TV Shows</NavLink>
+          <div className={`${location.pathname === '/' && 'slider slide-to-home' || location.pathname === '/search' && 'slider slide-to-search' || location.pathname === '/movies' && 'slider slide-to-movies' || location.pathname === '/tv' && 'slider slide-to-tvs'}`}></div>
+          <NavLink to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
+            <SearchIcon />
+            Search
+          </NavLink>
+          <NavLink to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
+            <HomeIcon />
+            Home
+          </NavLink>
+          <NavLink to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
+            <MovieIcon />
+            Movie
+          </NavLink>
+          <NavLink to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
+            <TvIcon />
+            TV
+          </NavLink>
         </div>
       </Navbar>
     </>

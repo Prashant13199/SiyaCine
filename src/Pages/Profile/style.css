@@ -107,8 +107,8 @@
         height: unset;
         display: grid;
         place-items: center;
-        padding: 20px 0;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.6));
+        padding: 0;
+        background-image: unset;
     }
 
     .profile_right {

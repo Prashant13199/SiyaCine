@@ -40,8 +40,13 @@ export default function UserProfile({ scrollTop }) {
   const photo = useFetchUserDetails(uid, 'photo')
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
+  const addBackdrop = () => {
+    setBackdrop(window.innerWidth > 900 ? favourite[0]?.data?.backdrop_path : '')
+  }
+
   useEffect(() => {
-    setBackdrop(window.innerWidth > 900 && favourite[0]?.data?.backdrop_path)
+    addBackdrop()
+    window.addEventListener('resize', addBackdrop)
   }, [favourite])
 
   useEffect(() => {
@@ -180,7 +185,7 @@ export default function UserProfile({ scrollTop }) {
 
         <div className='profile'>
           <Grow in={!loading} {...({ timeout: 800 })}>
-            <div className='profile_header' style={{ backgroundImage: backdrop ? `url(https://image.tmdb.org/t/p/original/${backdrop})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
+            <div className='profile_header' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
               <div className='profile_backdrop'>
                 <div className='pic_container'>
                   <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
