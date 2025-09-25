@@ -15,7 +15,7 @@
 }
 
 .profile_backdrop {
-    height: 70vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
     padding: 20px 40px;

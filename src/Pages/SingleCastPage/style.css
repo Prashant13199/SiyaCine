@@ -16,6 +16,7 @@
 @media only screen and (max-width: 900px) {
     .singlecontent_responsive_cast {
         display: grid;
+        margin: 0 10px;
     }
 }
 
