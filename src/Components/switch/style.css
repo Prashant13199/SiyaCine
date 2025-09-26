@@ -32,8 +32,16 @@
     font-size: 14px;
     text-align: center;
     min-width: 80px;
+    font-weight: bold;
 }
 
 .content-button.active-button {
     color: black;
+}
+
+@media only screen and (max-width: 660px) {
+    .content-button {
+        font-size: 12px;
+        min-width: 60px;
+    }
 }
