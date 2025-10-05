@@ -81,10 +81,6 @@ export default function SingleContentPage({ scrollTop }) {
   const premium = useFetchPremium(auth?.currentUser?.uid)
   const users = useFetchUsers()
 
-  useEffect(() => {
-    scrollTop()
-  }, [])
-
   const addBackdrop = () => {
     setBackdrop(window.innerWidth > 900 ? data?.backdrop_path : '')
   }
@@ -104,8 +100,10 @@ export default function SingleContentPage({ scrollTop }) {
     fetchVideo();
     fetchRecommendation();
     fetchReviews();
-    scrollTop()
     addBackdrop();
+    setTimeout(() => {
+      scrollTop();
+    }, 100);
   }, [id])
 
   useEffect(() => {
