@@ -3,7 +3,6 @@ import './style.css'
 import Header from '../../Containers/Header';
 import { Link } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
-import { IconButton } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchContent from '../../hooks/useFetchContent';
 import { auth } from '../../firebase'
@@ -12,7 +11,6 @@ import Footer from '../../Containers/Footer'
 import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
 import useFetchMyShows from '../../hooks/useFetchMyShows';
-import { Button, ButtonGroup } from 'react-bootstrap';
 import Switch from '../../Components/switch';
 
 export default function Trending({ scrollTop }) {
@@ -120,7 +118,7 @@ export default function Trending({ scrollTop }) {
           <div className='trending_flex'>
             <div className='trending_title'>Playing in Theatres
               <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$`} className="viewall">
-                <IconButton><ChevronRightIcon /></IconButton>
+                see all<ChevronRightIcon />
               </Link>
             </div>
           </div>
@@ -163,7 +161,7 @@ export default function Trending({ scrollTop }) {
         {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
           <div className='trending_flex'>
             <div className='trending_title'>Indian Origin <Switch data={indian} setData={setIndian} />
-              <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$` : `/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$` : `/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
           </div>
           <div className='trending_scroll' >
             {indian === "movie" && indianMovie?.slice(0, 10)?.map((data, index) => {
@@ -178,7 +176,7 @@ export default function Trending({ scrollTop }) {
         {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
           <div className='trending_flex'>
             <div className='trending_title'>Trending <Switch data={trending} setData={setTrending} />
-              <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$` : `/singlecategory/trending/tv/Trending TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$` : `/singlecategory/trending/tv/Trending TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
           </div>
           <div className='trending_scroll' >
             {trending === "movie" && trendingMovie?.slice(0, 10)?.map((data, index) => {
@@ -208,7 +206,7 @@ export default function Trending({ scrollTop }) {
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
           <div className='trending_flex'>
             <div className='trending_title'>Top Rated <Switch data={topRated} setData={setTopRated} />
-              <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$` : `/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$` : `/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
           </div>
           <div className='trending_scroll'>
             {topRated === "movie" && topratedmovie?.slice(0, 10)?.map((data, index) => {

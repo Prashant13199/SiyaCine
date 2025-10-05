@@ -53,7 +53,6 @@ export default function Header() {
         `https://api.themoviedb.org/3/movie/${nowPlaying[number]?.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       const values = data.results.filter((value) => value.type === 'Trailer' || value.type === "Teaser")
-      console.log(data)
       setVideo(values[number]?.key);
     }
     catch (e) {

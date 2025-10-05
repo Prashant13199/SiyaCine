@@ -45,10 +45,17 @@
 
 .viewall {
     opacity: 0.6;
+    font-size: 16px;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
 }
 
 .viewall:hover {
-    opacity: 0.8;
+    opacity: 1;
+    color: white !important;
 }
 
 .link_to {
