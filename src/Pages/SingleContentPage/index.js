@@ -163,13 +163,6 @@ export default function SingleContentPage({ scrollTop }) {
     }
     catch (e) {
       console.log(e)
-      if (!e.response.data.success) {
-        console.log("Deleted from all categories")
-        database.ref(`/Users/${auth?.currentUser?.uid}/watchlist`).remove()
-        database.ref(`/Users/${auth?.currentUser?.uid}/watched`).remove()
-        database.ref(`/Users/${auth?.currentUser?.uid}/favourites`).remove()
-        database.ref(`/Users/${auth?.currentUser?.uid}/watching`).remove()
-      }
     }
   };
 
