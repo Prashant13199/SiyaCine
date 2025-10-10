@@ -127,7 +127,7 @@ export default function NavBarMain({ top, scrollTop }) {
                 if (notifications?.length) {
                   handleShow2()
                 }
-              }} to='#' activeClassName="navlinkActive" className="navlink" exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, margin: '0 10px' }} activeStyle={{ opacity: 1, color: show2 ? theme.palette.warning.main : theme.palette.text.primary }}>
+              }} to='#' exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, marginRight: '10px' }} activeStyle={{ opacity: 1, color: show2 ? theme.palette.warning.main : theme.palette.text.primary }}>
                 <Badge badgeContent={notifications?.length} color="warning">
                   <NotificationsIcon />
                 </Badge>
