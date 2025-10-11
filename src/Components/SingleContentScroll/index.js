@@ -80,6 +80,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
             {index}
           </div>}
           <img
+            loading='lazy'
             src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
             alt={data?.title || data?.name}
             className={trending ? "poster_scroll_trending" : "poster_scroll"}

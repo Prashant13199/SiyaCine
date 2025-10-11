@@ -215,7 +215,7 @@ export default function UserProfile({ scrollTop }) {
               </div>
             </div>
           </Grow>
-          {(connected || publicAcc) && <>
+          {(connected || publicAcc || admin) && <>
             {watching?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Watching Now<Count value={watching?.length} /></div>

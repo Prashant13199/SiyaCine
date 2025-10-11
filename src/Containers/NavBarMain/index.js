@@ -147,21 +147,21 @@ export default function NavBarMain({ top, scrollTop }) {
       <Navbar className='floating_navbar'>
         <div className='navbar_back'>
           <div className={`${location.pathname === '/' && 'slider slide-to-home' || location.pathname === '/search' && 'slider slide-to-search' || location.pathname === '/movies' && 'slider slide-to-movies' || location.pathname === '/tv' && 'slider slide-to-tvs'}`}></div>
-          <NavLink to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
-            <SearchIcon className='nav_icon' />
-            Search
-          </NavLink>
-          <NavLink to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
+          <NavLink onClick={scrollTop} to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
             <HomeIcon className='nav_icon' />
             Home
           </NavLink>
-          <NavLink to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
+          <NavLink onClick={scrollTop} to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
             <MovieIcon className='nav_icon' />
             Movie
           </NavLink>
-          <NavLink to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
+          <NavLink onClick={scrollTop} to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
             <TvIcon className='nav_icon' />
             TV
+          </NavLink>
+          <NavLink onClick={scrollTop} to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
+            <SearchIcon className='nav_icon' />
+            Search
           </NavLink>
         </div>
       </Navbar>

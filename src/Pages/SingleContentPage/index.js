@@ -37,6 +37,7 @@ import { getUsername } from '../../Services/utlitities';
 import useFetchUsers from '../../hooks/useFetchUsers';
 import ShareUser from '../../Components/ShareUser';
 import TimelineIcon from '@mui/icons-material/Timeline';
+import { useLayoutEffect } from 'react';
 
 export default function SingleContentPage({ scrollTop }) {
 
@@ -90,9 +91,8 @@ export default function SingleContentPage({ scrollTop }) {
     window.addEventListener('resize', addBackdrop)
   }, [data])
 
-
-
-  useEffect(() => {
+  useLayoutEffect(() => {
+    scrollTop();
     setLoading(true)
     fetchProvider();
     fetchDetails();
@@ -101,9 +101,6 @@ export default function SingleContentPage({ scrollTop }) {
     fetchRecommendation();
     fetchReviews();
     addBackdrop();
-    setTimeout(() => {
-      scrollTop();
-    }, 100);
   }, [id])
 
   useEffect(() => {

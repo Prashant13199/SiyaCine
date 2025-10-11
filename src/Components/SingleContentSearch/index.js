@@ -47,6 +47,7 @@ export default function SingleContent({ data, index, id, type }) {
                 <Grid xs={2} sm={4} md={4} key={data.id}>
                     <div className='postersearch'>
                         <img
+                            loading='lazy'
                             src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
                             alt={data?.title || data?.name}
                             className="search_img"

@@ -46,7 +46,7 @@ export default function SingleEpisode({ datas, handleShow4, premium, seasonNumbe
                     handleShow4(datas?.episode_number, seasonNumber)
                 }
             }}>
-                <img alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZloANkq34iji2rYsX6MRnvKxRauEujYNJ3_WlwOeWSksm7XJBTmHwOJg6pdcsDFUeG3M&usqp=CAU"} className='single_episode_image' />
+                <img loading='lazy' alt="" src={datas.still_path ? `https://image.tmdb.org/t/p/w500/${datas.still_path}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZloANkq34iji2rYsX6MRnvKxRauEujYNJ3_WlwOeWSksm7XJBTmHwOJg6pdcsDFUeG3M&usqp=CAU"} className='single_episode_image' />
             </div>
             <div className="episode_name">
                 {datas?.name?.length > 100 ? datas?.name?.substring(0, 100)?.concat('...') : datas?.name}
