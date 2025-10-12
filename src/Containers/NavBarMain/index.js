@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png'
 import { NavLink, useLocation } from "react-router-dom";
 import { Badge, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { Modal } from 'react-bootstrap';
+import { Modal, NavbarBrand } from 'react-bootstrap';
 import Login from '../Login';
 import { auth, database } from '../../firebase';
 import './style.css'
@@ -17,7 +17,6 @@ import Notification from '../../Components/Notification/Notification';
 import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
 import TvIcon from '@mui/icons-material/Tv';
-
 
 export default function NavBarMain({ top, scrollTop }) {
 
@@ -51,17 +50,23 @@ export default function NavBarMain({ top, scrollTop }) {
     }
   }, [notifications])
 
+  const getUsername = (user) => {
+    database.ref(`/Users/${user}`).once('value', snapshot => {
+      setRouteName(snapshot?.val()?.username)
+    })
+  }
+
   useEffect(() => {
     if (location.pathname === '/profile') {
       setRouteName('Me')
     } else if (location.pathname?.includes('/user')) {
-      setRouteName('User')
+      getUsername(location.pathname.split('/')[2])
     } else if (location.pathname?.includes('/singlecontent') && location.pathname?.includes('/tv')) {
       setRouteName('TV')
     } else if (location.pathname?.includes('/singlecontent') && location.pathname?.includes('/movie')) {
       setRouteName('Movie')
     } else if (location.pathname?.includes('/singlecast')) {
-      setRouteName('Cast')
+      setRouteName(location.pathname.split('/')[3])
     } else if (location.pathname?.includes('/Upcoming')) {
       setRouteName('Upcoming')
     } else if (location.pathname?.includes('/now_playing')) {
@@ -90,6 +95,12 @@ export default function NavBarMain({ top, scrollTop }) {
       setRouteName('Indian TV')
     } else if (location.pathname?.includes('/airing_today')) {
       setRouteName('Airing Today')
+    } else if (location.pathname?.includes('/movie')) {
+      setRouteName('Discover Movie')
+    } else if (location.pathname?.includes('/tv')) {
+      setRouteName('Discover TV')
+    } else if (location.pathname?.includes('/search')) {
+      setRouteName('Search')
     } else {
       setRouteName('')
     }
@@ -115,9 +126,8 @@ export default function NavBarMain({ top, scrollTop }) {
       </Modal>
       <Navbar className={top < 50 ? 'navbar_main' : 'navbar_main navbar_main_back'} variant={theme.palette.mode} fixed='top'>
         <Navbar.Brand className="navlink">
-          <NavLink to={top < 50 && "/"} style={{ color: 'white', textDecoration: 'none' }} onClick={scrollTop}>
-            <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
-          </NavLink>
+          {location.pathname === '/' ? <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
+            : <NavbarBrand><h2>{routeName}</h2></NavbarBrand>}
         </Navbar.Brand>
         <Nav className="me-auto"></Nav>
         {auth?.currentUser?.uid ?
@@ -144,27 +154,38 @@ export default function NavBarMain({ top, scrollTop }) {
           </Nav>
         }
       </Navbar>
-      <Navbar className='floating_navbar'>
+      <div className='floating_navbar'>
         <div className='navbar_back'>
-          <div className={`${location.pathname === '/' && 'slider slide-to-home' || location.pathname === '/search' && 'slider slide-to-search' || location.pathname === '/movies' && 'slider slide-to-movies' || location.pathname === '/tv' && 'slider slide-to-tvs'}`}></div>
-          <NavLink onClick={scrollTop} to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
-            <HomeIcon className='nav_icon' />
-            Home
-          </NavLink>
-          <NavLink onClick={scrollTop} to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
-            <MovieIcon className='nav_icon' />
-            Movie
-          </NavLink>
-          <NavLink onClick={scrollTop} to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
-            <TvIcon className='nav_icon' />
-            TV
-          </NavLink>
-          <NavLink onClick={scrollTop} to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
-            <SearchIcon className='nav_icon' />
-            Search
-          </NavLink>
+          <div className={`${location.pathname === '/' && 'slider slide-to-home' ||
+            location.pathname === '/search' && 'slider slide-to-search' ||
+            location.pathname === '/movies' && 'slider slide-to-movies' ||
+            location.pathname === '/tv' && 'slider slide-to-tvs'}`}></div>
+          <Nav eventKey="1">
+            <NavLink onClick={scrollTop} to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
+              <HomeIcon className='nav_icon' />
+              Home
+            </NavLink>
+          </Nav>
+          <Nav eventKey="2">
+            <NavLink onClick={scrollTop} to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
+              <MovieIcon className='nav_icon' />
+              Movie
+            </NavLink>
+          </Nav>
+          <Nav eventKey="3">
+            <NavLink onClick={scrollTop} to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
+              <TvIcon className='nav_icon' />
+              TV
+            </NavLink>
+          </Nav>
+          <Nav eventKey="4">
+            <NavLink onClick={scrollTop} to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
+              <SearchIcon className='nav_icon' />
+              Search
+            </NavLink>
+          </Nav>
         </div>
-      </Navbar>
+      </div>
     </>
   )
 }

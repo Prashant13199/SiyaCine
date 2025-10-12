@@ -120,7 +120,7 @@ export default function Search({ scrollTop }) {
                         </IconButton>}
                 </Paper>
                 <br />
-                {!query && recentlySearched?.length > 0 && <div className='discover_movies_title'>Recently searched</div>}
+                {!query && recentlySearched?.length > 0 && <h3>Recently searched</h3>}
                 <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {page == 1 && searchedUsers?.length > 0 &&
                         <>

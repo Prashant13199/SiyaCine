@@ -136,7 +136,6 @@ export default function SingleCategory({ scrollTop }) {
         <title>SiyaCine{name ? ` - ${name}` : ''}</title>
       </Helmet>
       {!loading ? <div className='singlecategory'>
-        <div className='discover_movies_title'>{name}</div>
         {category === 'discover' && <Genres
           type={type}
           selectedGenres={selectedGenres}

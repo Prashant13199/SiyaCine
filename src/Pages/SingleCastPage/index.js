@@ -10,6 +10,7 @@ import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import { Helmet } from 'react-helmet';
+import { useLayoutEffect } from 'react';
 
 export default function SingleCastPage({ scrollTop }) {
 
@@ -31,11 +32,16 @@ export default function SingleCastPage({ scrollTop }) {
     })
   }, [])
 
+  useLayoutEffect(() => {
+    scrollTop()
+    fetchDetails();
+  }, [id])
+
   const addBackdrop = () => {
     setBackdrop(window.innerWidth > 900 ? movie[0]?.backdrop_path : '');
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     addBackdrop()
     window.addEventListener('resize', addBackdrop)
   }, [movie])
@@ -46,6 +52,9 @@ export default function SingleCastPage({ scrollTop }) {
         `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setData(data);
+      fetchMovieCredits();
+      fetchTvCredits();
+      setLoading(false);
     }
     catch (e) {
       console.log(e)
@@ -58,7 +67,6 @@ export default function SingleCastPage({ scrollTop }) {
         `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setMovie(data.cast);
-      setLoading(false)
     }
     catch (e) {
       console.log(e)
@@ -77,12 +85,7 @@ export default function SingleCastPage({ scrollTop }) {
     }
   };
 
-  useEffect(() => {
-    scrollTop()
-    fetchDetails();
-    fetchMovieCredits();
-    fetchTvCredits();
-  }, [id])
+
 
   const handleFavourite = () => {
     if (!favourite) {

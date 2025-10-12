@@ -192,7 +192,7 @@ export default function Trending({ scrollTop }) {
             <img src={favouriteCast[numberCast]?.data?.profile_path ? `https://image.tmdb.org/t/p/w500/${favouriteCast[numberCast]?.data?.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
             <div>
               <div className='trending_title_small'>Because You Liked </div>
-              <Link to={`/singlecast/${favouriteCast[numberCast]?.id}`} style={{ textDecoration: 'none' }}>
+              <Link to={`/singlecast/${favouriteCast[numberCast]?.id}/${favouriteCast[numberCast]?.data?.name}`} style={{ textDecoration: 'none' }}>
                 <div className='trending_title_subtitle'>{favouriteCast[numberCast]?.data?.name}</div>
               </Link>
             </div>

@@ -93,17 +93,12 @@ export default function SingleContentPage({ scrollTop }) {
 
   useLayoutEffect(() => {
     scrollTop();
-    setLoading(true)
-    fetchProvider();
+    setLoading(true);
     fetchDetails();
-    fetchCredit();
-    fetchVideo();
-    fetchRecommendation();
-    fetchReviews();
     addBackdrop();
   }, [id])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
@@ -154,7 +149,12 @@ export default function SingleContentPage({ scrollTop }) {
         `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setData(data);
-      setLoading(false)
+      fetchProvider();
+      fetchCredit();
+      fetchVideo();
+      fetchRecommendation();
+      fetchReviews();
+      setLoading(false);
     }
     catch (e) {
       console.log(e)
@@ -566,7 +566,7 @@ export default function SingleContentPage({ scrollTop }) {
                 </div>
                 <div className='cast'>
                   {credit && credit.cast.map((c) => {
-                    return <Link to={`/singlecast/${c.id}`} style={{ textDecoration: 'none' }} key={c.id}>
+                    return <Link to={`/singlecast/${c.id}/${c?.data?.name}`} style={{ textDecoration: 'none' }} key={c.id}>
                       <div className='cast_single' key={c.id}>
                         <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                         <div style={{ marginTop: '5px' }}>

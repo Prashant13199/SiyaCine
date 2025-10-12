@@ -104,7 +104,7 @@ function App() {
               <Route path="/singlecategory/:category/:type/:name/:uid">
                 <SingleCategory scrollTop={scrollTop} />
               </Route>
-              <Route path="/singlecast/:id">
+              <Route path="/singlecast/:id/:name">
                 <SingleCastPage scrollTop={scrollTop} />
               </Route>
             </Switch>
