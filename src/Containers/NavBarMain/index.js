@@ -154,38 +154,36 @@ export default function NavBarMain({ top, scrollTop }) {
           </Nav>
         }
       </Navbar>
-      <div className='floating_navbar'>
-        <div className='navbar_back'>
-          <div className={`${location.pathname === '/' && 'slider slide-to-home' ||
-            location.pathname === '/search' && 'slider slide-to-search' ||
-            location.pathname === '/movies' && 'slider slide-to-movies' ||
-            location.pathname === '/tv' && 'slider slide-to-tvs'}`}></div>
-          <Nav eventKey="1">
-            <NavLink onClick={scrollTop} to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
-              <HomeIcon className='nav_icon' />
-              Home
-            </NavLink>
-          </Nav>
-          <Nav eventKey="2">
-            <NavLink onClick={scrollTop} to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
-              <MovieIcon className='nav_icon' />
-              Movie
-            </NavLink>
-          </Nav>
-          <Nav eventKey="3">
-            <NavLink onClick={scrollTop} to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
-              <TvIcon className='nav_icon' />
-              TV
-            </NavLink>
-          </Nav>
-          <Nav eventKey="4">
-            <NavLink onClick={scrollTop} to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
-              <SearchIcon className='nav_icon' />
-              Search
-            </NavLink>
-          </Nav>
-        </div>
-      </div>
+      <Navbar className='navbar_back' variant={theme.palette.mode} fixed='bottom'>
+        <div className={`${location.pathname === '/' && 'slider slide-to-home' ||
+          location.pathname === '/search' && 'slider slide-to-search' ||
+          location.pathname === '/movies' && 'slider slide-to-movies' ||
+          location.pathname === '/tv' && 'slider slide-to-tvs'}`}></div>
+        <Nav eventKey="1">
+          <NavLink onClick={scrollTop} to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
+            <HomeIcon className='nav_icon' />
+            Home
+          </NavLink>
+        </Nav>
+        <Nav eventKey="2">
+          <NavLink onClick={scrollTop} to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
+            <MovieIcon className='nav_icon' />
+            Movie
+          </NavLink>
+        </Nav>
+        <Nav eventKey="3">
+          <NavLink onClick={scrollTop} to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
+            <TvIcon className='nav_icon' />
+            TV
+          </NavLink>
+        </Nav>
+        <Nav eventKey="4">
+          <NavLink onClick={scrollTop} to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
+            <SearchIcon className='nav_icon' />
+            Search
+          </NavLink>
+        </Nav>
+      </Navbar>
     </>
   )
 }

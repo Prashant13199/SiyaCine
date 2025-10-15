@@ -44,8 +44,9 @@
     padding: 10px;
     align-items: center;
     border-radius: 30px;
-    display: flex;
-    position: relative;
+    margin: auto;
+    max-width: fit-content;
+    margin-bottom: 10px;
 }
 
 .MuiButtonBase-root {
@@ -71,16 +72,6 @@
     cursor: pointer;
     height: auto;
     width: 100px;
-}
-
-.floating_navbar {
-    position: fixed;
-    bottom: 20px;
-    width: 100%;
-    margin: auto;
-    justify-content: center;
-    display: flex;
-    z-index: 3;
 }
 
 .navlink {
@@ -139,10 +130,6 @@
 }
 
 @media screen and (max-width: 660px) {
-
-    .floating_navbar {
-        bottom: 5px;
-    }
 
     .navbar_main {
         padding: 0 10px;
