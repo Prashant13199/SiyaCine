@@ -566,7 +566,7 @@ export default function SingleContentPage({ scrollTop }) {
                 </div>
                 <div className='cast'>
                   {credit && credit.cast.map((c) => {
-                    return <Link to={`/singlecast/${c.id}/${c?.data?.name}`} style={{ textDecoration: 'none' }} key={c.id}>
+                    return <Link to={`/singlecast/${c.id}/${c?.original_name}`} style={{ textDecoration: 'none' }} key={c.id}>
                       <div className='cast_single' key={c.id}>
                         <img alt="" src={c.profile_path ? `https://image.tmdb.org/t/p/w300/${c.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                         <div style={{ marginTop: '5px' }}>

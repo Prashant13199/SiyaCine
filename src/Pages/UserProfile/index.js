@@ -271,7 +271,7 @@ export default function UserProfile({ scrollTop }) {
                 })}
               </div></>}
           </>}
-          {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
+          {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && connections?.length == 0 && <center><br />
             <img src={empty} className='empty' alt="" />
             <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
         </div>

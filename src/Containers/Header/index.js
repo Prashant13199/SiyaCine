@@ -21,7 +21,7 @@ export default function Header() {
           <Link to={`/singlecontent/${data?.id}/movie`} style={{ textDecoration: 'none' }}>
             <div className='welcome' style={{ backgroundImage: data?.length !== 0 ? `url(https://image.tmdb.org/t/p/original/${window.innerWidth > 900 ? data?.backdrop_path : data?.poster_path})` : 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(231,145,10,1) 0%, rgba(255,0,187,1) 100%)' }}>
               <div className='welcome_backdrop'>
-                <Carousel.Caption>
+                <Carousel.Caption className='welcome_text'>
                   <h3>{data?.title}</h3>
                   <p>{data?.overview.substring(0, 100).concat('...')}</p>
                 </Carousel.Caption>

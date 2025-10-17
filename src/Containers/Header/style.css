@@ -12,9 +12,17 @@
     border-radius: 20px;
 }
 
+.welcome_text {
+    display: block;
+}
+
 @media only screen and (max-width: 660px) {
 
     .welcome {
         margin: 0 10px;
+    }
+
+    .welcome_text {
+        display: none;
     }
 }
