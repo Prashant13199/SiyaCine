@@ -99,7 +99,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
         {watchprovider && !trending && <div className='platform'><img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} className='platform_icon' /></div>}
         {showIcon &&
           <>
-            {type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
+            {type === 'tv' && data && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
           </>
         }
       </div>
