@@ -414,21 +414,23 @@ export default function SingleContentPage({ scrollTop }) {
             </div>
             <Dropdown>
               <Dropdown.Toggle variant="secondary" size="sm">
-                {server === 1 && 'VidSrc'}
-                {server === 2 && '2 embed'}
-                {server === 3 && 'SuperEmbed'}
+                {server === 1 && 'Server 1'}
+                {server === 2 && 'Server 2'}
+                {server === 3 && 'Server 3'}
+                {server === 4 && 'Server 4'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>VidSrc</Dropdown.Item>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>2 embed</Dropdown.Item>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>SuperEmbed</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>Server 1</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>Server 2</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Server 3</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 4 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(4)}>Server 4</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
           {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.me/embed/movie/${id}`}></iframe>}
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
           {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://multiembed.mov/?video_id=${id}&tmdb=1`}></iframe>}
-          <div className='player_bottom'>
+          {server === 4 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.win/movie.html?id=${id}`}></iframe>}<div className='player_bottom'>
             <div></div>
 
             <div></div>
