@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { database, auth } from '../../firebase';
 import './style.css';
-import { Grow, IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useHistory } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
@@ -171,34 +171,32 @@ export default function Profile({ scrollTop }) {
       </Modal>
       {!loading ?
         <div className='profile'>
-          <Grow in={!loading} {...({ timeout: 800 })}>
-            <div className='profile_header' style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
-              <div className='profile_backdrop'>
-                <div className='pic_container'>
-                  <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
-                  <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
-                </div>
-                <div className='profile_right'>
-                  <Tooltip title={auth?.currentUser?.uid} placement='top'>
-                    <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
+          <div className='profile_header' style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
+            <div className='profile_backdrop'>
+              <div className='pic_container'>
+                <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
+                <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
+              </div>
+              <div className='profile_right'>
+                <Tooltip title={auth?.currentUser?.uid} placement='top'>
+                  <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
+                </Tooltip>
+                <div className='profile_actions'>
+                  <Premium premium={premium} />
+                  <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
+                    <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handlePublic()}>
+                      {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
+                    </IconButton>
                   </Tooltip>
-                  <div className='profile_actions'>
-                    <Premium premium={premium} />
-                    <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
-                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handlePublic()}>
-                        {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={'Logout'}>
-                      <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => signOut()}>
-                        <LogoutIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
+                  <Tooltip title={'Logout'}>
+                    <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => signOut()}>
+                      <LogoutIcon />
+                    </IconButton>
+                  </Tooltip>
                 </div>
               </div>
             </div>
-          </Grow>
+          </div>
           {watching?.length !== 0 && <><br />
             <div className='trending_flex'>
               <div className='trending_title' >Resume Watching</div>

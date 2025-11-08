@@ -53,9 +53,7 @@ export default function Movies({ scrollTop }) {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      scrollTop();
-    }, 100)
+    scrollTop();
     fetchMovies();
   }, [genreforURL, page]);
 

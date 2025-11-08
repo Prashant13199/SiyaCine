@@ -31,15 +31,10 @@ export default function Seasons({ value }) {
 
     useEffect(() => {
         fetchDetails()
-    }, [seasonNumber, episodeNumber])
+    }, [seasonNumber, episodeNumber, value])
 
     useEffect(() => {
         handlePagination()
-        setTimeout(() => {
-            if (episodeNumber !== 1) {
-                document.getElementById("episode_list")?.scroll({ left: resumeSeason === seasonNumber ? episodeNumber * 200 : 0, behavior: "smooth" })
-            }
-        }, 0);
     }, [page, content])
 
     useEffect(() => {
@@ -53,7 +48,7 @@ export default function Seasons({ value }) {
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
             setPremium(snapshot.val())
         })
-    }, [auth?.currentUser?.uid])
+    }, [auth?.currentUser?.uid, value?.id])
 
     const handleClose4 = () => {
         setShow4(false)

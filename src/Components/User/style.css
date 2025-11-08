@@ -3,11 +3,6 @@
     margin-bottom: 10px;
 }
 
-.single_user:hover {
-    transform: scale(0.95);
-    transition: transform .3s ease-in-out;
-}
-
 .users_image {
     height: auto;
     width: 100%;

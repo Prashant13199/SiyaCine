@@ -21,27 +21,11 @@
     border-style: solid;
 }
 
-.navbar__img:hover {
-    transform: scale(0.95);
-    transition: all .3s;
-}
-
-.navbar__img_active:hover {
-    transform: scale(0.95);
-    transition: all .3s;
-}
-
-.navbar_icon:hover {
-    transform: scale(0.95);
-    transition: all .3s;
-}
-
 .navbar_back {
     transition: all .5s ease-in-out;
     background: rgba(119, 72, 1, 0.2);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    padding: 10px;
     align-items: center;
     border-radius: 30px;
     margin: auto;

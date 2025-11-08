@@ -9,16 +9,12 @@ import axios from "axios";
 
 export default function SingleContent({ data, index, id, type }) {
 
-    const [checked, setChecked] = useState(false)
     const [watchprovider, setWatchProvider] = useState({})
 
     const history = useHistory()
 
     useEffect(() => {
-        setTimeout(() => {
-            setChecked(true)
-            fetchProvider()
-        }, index * 50)
+        fetchProvider()
     }, [index])
 
     const fetchProvider = async () => {
@@ -43,24 +39,22 @@ export default function SingleContent({ data, index, id, type }) {
 
     return (
         <Tooltip placement='top' title={data?.title || data?.name}>
-            <Zoom in={checked} {...({ timeout: 800 })}>
-                <Grid xs={2} sm={4} md={4} key={data.id}>
-                    <div className='postersearch'>
-                        <img
-                            loading='lazy'
-                            src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
-                            alt={data?.title || data?.name}
-                            className="search_img"
-                            onClick={() => {
-                                handleStoreSearched()
-                                history.push(`/singlecontent/${data.id}/${data.media_type}`)
-                            }}
-                        />
-                        {watchprovider && <div className='platform'><img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} className='platform_icon' /></div>}
-                        {data.media_type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
-                    </div>
-                </Grid>
-            </Zoom>
+            <Grid xs={2} sm={4} md={4} key={data.id}>
+                <div className='postersearch'>
+                    <img
+                        loading='lazy'
+                        src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
+                        alt={data?.title || data?.name}
+                        className="search_img"
+                        onClick={() => {
+                            handleStoreSearched()
+                            history.push(`/singlecontent/${data.id}/${data.media_type}`)
+                        }}
+                    />
+                    {watchprovider && <div className='platform'><img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} className='platform_icon' /></div>}
+                    {data.media_type === 'tv' && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
+                </div>
+            </Grid>
         </Tooltip>
     )
 }

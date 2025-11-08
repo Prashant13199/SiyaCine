@@ -23,3 +23,10 @@
     margin-top: 70px;
     margin-bottom: 100px;
 }
+
+@media screen and (max-width: 660px) {
+    .content {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}

@@ -43,8 +43,8 @@ export default function TV({ scrollTop }) {
       const { data } = await axios.get(
         `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false&page=${page}&with_genres=${genreforURL}`
       );
-      setContent(data.results);
-      setNumOfPages(data.total_pages);
+      setContent(data?.results);
+      setNumOfPages(data?.total_pages);
       setLoading(false)
     }
     catch (e) {
@@ -53,9 +53,7 @@ export default function TV({ scrollTop }) {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      scrollTop();
-    }, 100)
+    scrollTop();
     fetchTV();
   }, [genreforURL, page]);
 

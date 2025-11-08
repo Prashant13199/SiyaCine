@@ -3,11 +3,6 @@
     position: relative;
 }
 
-.postersearch:hover {
-    transform: scale(0.95);
-    transition: transform .3s ease-in-out;
-}
-
 .search_img {
     border-radius: 6px;
     height: auto;

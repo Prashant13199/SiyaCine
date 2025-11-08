@@ -36,9 +36,12 @@ export default function Search({ scrollTop }) {
     const [recentlySearched, setRecentlySearched] = useState([])
 
     useEffect(() => {
-        scrollTop()
+        scrollTop();
+        fetchRecentlySearched();
+    }, [])
+
+    useEffect(() => {
         fetchSearch();
-        fetchRecentlySearched()
     }, [page, query, users])
 
     useEffect(() => {
@@ -53,7 +56,7 @@ export default function Search({ scrollTop }) {
             snapshot.forEach((snap) => {
                 arr.push(snap.val())
             })
-            setRecentlySearched(arr.reverse().splice(0, 18))
+            setRecentlySearched(arr.reverse().splice(0, 12))
         })
     }
 

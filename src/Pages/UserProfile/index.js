@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import SingleContentScroll from '../../Components/SingleContentScroll'
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast'
-import { Button, CircularProgress, Grow, IconButton, Tooltip } from '@mui/material';
+import { Button, CircularProgress, IconButton, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Count from '../../Components/Count'
@@ -184,37 +184,35 @@ export default function UserProfile({ scrollTop }) {
       {!loading ?
 
         <div className='profile'>
-          <Grow in={!loading} {...({ timeout: 800 })}>
-            <div className='profile_header' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
-              <div className='profile_backdrop'>
-                <div className='pic_container'>
-                  <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
-                </div>
-                <div className='profile_right'>
-                  {admin ? <Tooltip title={uid} placement='top'>
-                    <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-                  </Tooltip>
+          <div className='profile_header' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
+            <div className='profile_backdrop'>
+              <div className='pic_container'>
+                <img alt="" src={photo ? photo : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96`} className='profile_image' />
+              </div>
+              <div className='profile_right'>
+                {admin ? <Tooltip title={uid} placement='top'>
+                  <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+                </Tooltip>
+                  :
+                  <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
+                }
+                {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
+                  <Premium premium={premium} />
+                </div>}
+                <div className='connect_btns'>
+                  {requested ?
+                    <>
+                      <Button className='connect_btn' onClick={handleRequest} variant='contained' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
+                      {auth?.currentUser?.uid !== initiated && <Button className='connect_btn' style={{ marginLeft: '10px' }} onClick={removeRequested} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
+                    </>
                     :
-                    <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
-                  }
-                  {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
-                    <Premium premium={premium} />
-                  </div>}
-                  <div className='connect_btns'>
-                    {requested ?
-                      <>
-                        <Button className='connect_btn' onClick={handleRequest} variant='contained' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
-                        {auth?.currentUser?.uid !== initiated && <Button className='connect_btn' style={{ marginLeft: '10px' }} onClick={removeRequested} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
-                      </>
-                      :
-                      <> {connected ? <Button className='connect_btn' onClick={handleRemoveConnect} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
-                        <Button className='connect_btn' onClick={handleConnect} variant='contained' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
-                      </>}
-                  </div>
+                    <> {connected ? <Button className='connect_btn' onClick={handleRemoveConnect} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
+                      <Button className='connect_btn' onClick={handleConnect} variant='contained' color='warning' startIcon={<PersonAddAlt1Icon />}>Connect</Button>}
+                    </>}
                 </div>
               </div>
             </div>
-          </Grow>
+          </div>
           {(connected || publicAcc || admin) && <>
             {watching?.length !== 0 && <><br />
               <div className='trending_flex'>

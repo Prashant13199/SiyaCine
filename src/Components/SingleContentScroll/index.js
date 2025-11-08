@@ -5,14 +5,12 @@ import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom';
-import { Zoom } from '@mui/material';
 import TvIcon from '@mui/icons-material/Tv';
 import axios from "axios";
 
 export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showIcon, trending, index }) {
 
   const history = useHistory()
-  const [checked, setChecked] = useState(false)
   const [show, setShow] = useState(true)
   const [lastPlayed, setLastPlayed] = useState()
   const [watchprovider, setWatchProvider] = useState({})
@@ -20,12 +18,6 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   useEffect(() => {
     fetchProvider()
   }, [id])
-
-  useEffect(() => {
-    setTimeout(() => {
-      setChecked(true)
-    }, index * 100)
-  }, [index])
 
   useEffect(() => {
     if (recom) {
@@ -73,36 +65,34 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   };
 
   return show && data?.poster_path && (
-    <Zoom in={checked} {...({ timeout: 800 })}>
-      <div className='single_content_scroll'>
-        <div className={trending && 'trending_flex_count'}>
-          {trending && <div className='trending_count'>
-            {index}
-          </div>}
-          <img
-            loading='lazy'
-            src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
-            alt={data?.title || data?.name}
-            className={trending ? "poster_scroll_trending" : "poster_scroll"}
-            onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
-          />
-        </div>
-        {by && <div>
-          <div className='user'>
-            <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
-          </div>
-          <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
+    <div className='single_content_scroll'>
+      <div className={trending && 'trending_flex_count'}>
+        {trending && <div className='trending_count'>
+          {index}
         </div>}
-        {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
-          S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
-        </div>}
-        {watchprovider && !trending && <div className='platform'><img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} className='platform_icon' /></div>}
-        {showIcon &&
-          <>
-            {type === 'tv' && data && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
-          </>
-        }
+        <img
+          loading='lazy'
+          src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
+          alt={data?.title || data?.name}
+          className={trending ? "poster_scroll_trending" : "poster_scroll"}
+          onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
+        />
       </div>
-    </Zoom>
+      {by && <div>
+        <div className='user'>
+          <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
+        </div>
+        <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
+      </div>}
+      {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
+        S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
+      </div>}
+      {watchprovider && !trending && <div className='platform'><img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} className='platform_icon' /></div>}
+      {showIcon &&
+        <>
+          {type === 'tv' && data && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
+        </>
+      }
+    </div>
   )
 }

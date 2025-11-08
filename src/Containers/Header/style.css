@@ -25,4 +25,8 @@
     .welcome_text {
         display: none;
     }
+
+    .welcome_backdrop {
+        background-image: unset;
+    }
 }

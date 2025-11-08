@@ -4,10 +4,6 @@
     text-align: center;
 }
 
-.cast_single:hover {
-    transform: scale(0.95);
-}
-
 .cast_image {
     height: 160px;
     width: 160px;
