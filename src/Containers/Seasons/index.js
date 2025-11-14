@@ -25,13 +25,12 @@ export default function Seasons({ value }) {
     const [paginatedData, setPaginatedData] = useState([])
     const [perPage, setPerPage] = useState(25)
     const [numOfPages, setNumOfPages] = useState();
-    const [resumeSeason, setResumeSeason] = useState(1)
 
     const theme = useTheme()
 
     useEffect(() => {
         fetchDetails()
-    }, [seasonNumber, episodeNumber, value])
+    }, [seasonNumber])
 
     useEffect(() => {
         handlePagination()
@@ -42,7 +41,7 @@ export default function Seasons({ value }) {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setSeasonNumber(snapshot.val()?.season)
                 setEpisodeNumber(snapshot.val()?.episode)
-                setResumeSeason(snapshot.val()?.season)
+                fetchDetails();
             }
         })
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
