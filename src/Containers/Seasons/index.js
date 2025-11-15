@@ -15,7 +15,7 @@ import CustomPagination from '../../Components/Pagination/CustomPagination';
 export default function Seasons({ value }) {
 
     const [content, setContent] = useState([])
-    const [seasonNumber, setSeasonNumber] = useState(1)
+    const [seasonNumber, setSeasonNumber] = useState('')
     const [episodeNumber, setEpisodeNumber] = useState(1)
     const [premium, setPremium] = useState(false)
     const [server, setServer] = useState(1)
@@ -29,7 +29,7 @@ export default function Seasons({ value }) {
     const theme = useTheme()
 
     useEffect(() => {
-        fetchDetails()
+        fetchDetails();
     }, [seasonNumber])
 
     useEffect(() => {
@@ -37,17 +37,18 @@ export default function Seasons({ value }) {
     }, [page, content])
 
     useEffect(() => {
-        database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).on('value', snapshot => {
+        database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).once('value', snapshot => {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setSeasonNumber(snapshot.val()?.season)
                 setEpisodeNumber(snapshot.val()?.episode)
-                fetchDetails();
+            } else {
+                setSeasonNumber(1)
             }
         })
-        database.ref(`/Users/${auth?.currentUser?.uid}/premium`).on('value', snapshot => {
+        database.ref(`/Users/${auth?.currentUser?.uid}/premium`).once('value', snapshot => {
             setPremium(snapshot.val())
         })
-    }, [auth?.currentUser?.uid, value?.id])
+    }, [auth?.currentUser?.uid, value])
 
     const handleClose4 = () => {
         setShow4(false)
