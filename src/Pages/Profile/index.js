@@ -131,6 +131,17 @@ export default function Profile({ scrollTop }) {
           <div className='modal_body'>
             {images(currentUsername)?.map((data) => {
               return <>
+                <h4 className='picture_title'>Your Favourite Cast</h4>
+                <div className='picture_container'>
+                  {cast?.map((c) => {
+                    return (
+                      <div>
+                        <img onClick={() => handleChangePicture(`https://image.tmdb.org/t/p/w500/${c.data.profile_path}`)} className='picture_single' src={`https://image.tmdb.org/t/p/w500/${c.data.profile_path}`} />
+                        {`https://image.tmdb.org/t/p/w500/${c.data.profile_path}` === currentPhoto && <div className='current'>Current</div>}
+                      </div>
+                    )
+                  })}
+                </div>
                 <h4 className='picture_title'>Dicebear</h4>
                 <div className='picture_container'>
                   {data?.dicebear?.map((img) => {
