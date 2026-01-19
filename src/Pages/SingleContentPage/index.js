@@ -96,7 +96,7 @@ export default function SingleContentPage({ scrollTop }) {
     setLoading(true);
     fetchDetails();
     addBackdrop();
-  }, [id])
+  }, [id, type, auth?.currentUser?.uid])
 
   useLayoutEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
