@@ -62,15 +62,21 @@ export default function Profile({ scrollTop }) {
   }, [favourite])
 
   useEffect(() => {
-    database.ref(`/Connections`).orderByChild('timestamp').on('value', snapshot => {
+    database.ref(`/Connections`).on('value', snapshot => {
       let arr = []
+      let time;
       snapshot?.forEach((snap) => {
         if (snap.key.includes(auth?.currentUser?.uid) && snap.val()?.connected) {
-          arr.push(snap.key.replace(':', '').replace(auth?.currentUser?.uid, ''))
+          let uid = snap.key.replace(':', '').replace(auth?.currentUser?.uid, '')
+          if (uid) {
+            database.ref(`Users/${uid}/timestamp`).once('value', snapshot => time = snapshot.val())
+            arr.push({ uid: uid, time: time })
+          }
         }
       })
-      setConnections(arr.reverse())
+      setConnections(arr.sort((a, b) => b.time - a.time))
     })
+
     database.ref(`/Users/${auth?.currentUser?.uid}/public`).on('value', snapshot => {
       setPublicAcc(snapshot.val())
     })
@@ -272,7 +278,7 @@ export default function Profile({ scrollTop }) {
             </div>
             <div className='trending_scroll' >
               {connections?.map((user, index) => {
-                return <ConnectionUser user={user} index={index} />
+                return <ConnectionUser key={user.uid} user={user.uid} index={index} />
               })}
             </div></>}
           {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />

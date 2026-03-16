@@ -12,8 +12,8 @@ export default function ConnectionUser({ user }) {
     const theme = useTheme()
 
     return (
-        <Link to={user === auth?.currentUser?.uid ? `/profile` : `/user/${user}`} style={{ textDecoration: 'none' }}>
-            <div className='cast_single'>
+        <Link key={user.uid} to={user === auth?.currentUser?.uid ? `/profile` : `/user/${user}`} style={{ textDecoration: 'none' }}>
+            <div key={user.uid} className='cast_single'>
                 <img alt="" src={photo} className='user_image' />
                 <div style={{ marginTop: '5px' }}>
                     <div style={{ maxWidth: '150px', color: theme.palette.warning.main }}>{username}</div>
