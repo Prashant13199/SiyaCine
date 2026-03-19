@@ -58,7 +58,7 @@ export default function NavBarMain({ top, scrollTop }) {
 
   useEffect(() => {
     if (location.pathname === '/profile') {
-      setRouteName('Me')
+      setRouteName('My Profile')
     } else if (location.pathname?.includes('/user')) {
       getUsername(location.pathname.split('/')[2])
     } else if (location.pathname?.includes('/singlecontent') && location.pathname?.includes('/tv')) {

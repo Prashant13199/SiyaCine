@@ -15,7 +15,7 @@ export default function Header() {
   };
 
   return (
-    <Carousel activeIndex={index} touch={true} onSelect={handleSelect} controls={false} indicators={true}>
+    <Carousel activeIndex={index} touch={true} onSelect={handleSelect} controls={false} indicators={false}>
       {nowPlaying?.map((data) => {
         return <Carousel.Item key={data?.id}>
           <Link to={`/singlecontent/${data?.id}/movie`} style={{ textDecoration: 'none' }}>

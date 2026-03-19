@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './style.css'
 import { useHistory } from 'react-router-dom'
 import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom';
-import TvIcon from '@mui/icons-material/Tv';
-import axios from "axios";
 
-export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, showIcon, trending, index }) {
+export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, trending, index }) {
 
   const history = useHistory()
   const [show, setShow] = useState(true)
   const [lastPlayed, setLastPlayed] = useState()
-  const [watchprovider, setWatchProvider] = useState({})
-
-  useEffect(() => {
-    fetchProvider()
-  }, [id])
 
   useEffect(() => {
     if (recom) {
@@ -50,20 +43,6 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
     }
   }
 
-  const fetchProvider = async () => {
-    try {
-      const { data } = await axios.get(
-        `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-      );
-      if (data.results?.IN?.flatrate) {
-        setWatchProvider({ path: data.results?.IN?.flatrate[0] ? data.results?.IN?.flatrate[0]?.logo_path : '', link: data.results?.IN ? data.results?.IN?.link : '' });
-      }
-    }
-    catch (e) {
-      console.log(e)
-    }
-  };
-
   return show && data?.poster_path && (
     <div className='single_content_scroll'>
       <div className={trending && 'trending_flex_count'}>
@@ -87,12 +66,6 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
       {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
         S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
       </div>}
-      {watchprovider && !trending && <div className='platform'><img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} className='platform_icon' /></div>}
-      {showIcon &&
-        <>
-          {type === 'tv' && data && <div className='searchtv'><TvIcon sx={{ fontSize: '14px', color: 'rgb(255, 167, 38)' }} /></div>}
-        </>
-      }
     </div>
   )
 }
