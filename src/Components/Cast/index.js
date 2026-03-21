@@ -10,7 +10,7 @@ export default function Cast({ c }) {
     return (
         <Link to={`/singlecast/${c.id}/${c.data?.name}`} style={{ textDecoration: 'none' }}>
             <div className='cast_single'>
-                <img alt="" src={c.data?.profile_path ? `https://image.tmdb.org/t/p/w500/${c.data.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
+                <img alt="" src={c.data?.profile_path ? `https://image.tmdb.org/t/p/w342/${c.data.profile_path}` : "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"} className='cast_image' />
                 <div style={{ marginTop: '5px' }}>
                     <div style={{ maxWidth: '150px', color: theme.palette.warning.main }}>{c.data?.name}</div>
                 </div>

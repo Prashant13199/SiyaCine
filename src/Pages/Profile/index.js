@@ -62,19 +62,16 @@ export default function Profile({ scrollTop }) {
   }, [favourite])
 
   useEffect(() => {
+
     database.ref(`/Connections`).on('value', snapshot => {
       let arr = []
-      let time;
       snapshot?.forEach((snap) => {
+        let uid = snap.key.replace(':', '').replace(auth?.currentUser?.uid, '')
         if (snap.key.includes(auth?.currentUser?.uid) && snap.val()?.connected) {
-          let uid = snap.key.replace(':', '').replace(auth?.currentUser?.uid, '')
-          if (uid) {
-            database.ref(`Users/${uid}/timestamp`).once('value', snapshot => time = snapshot.val())
-            arr.push({ uid: uid, time: time })
-          }
+          arr.push(uid)
         }
       })
-      setConnections(arr.sort((a, b) => b.time - a.time))
+      setConnections(arr)
     })
 
     database.ref(`/Users/${auth?.currentUser?.uid}/public`).on('value', snapshot => {
@@ -137,19 +134,20 @@ export default function Profile({ scrollTop }) {
           <div className='modal_body'>
             {images(currentUsername)?.map((data) => {
               return <>
-                {cast?.length > 0 && <>
-                  <h4 className='picture_title'>Your Favourite Cast</h4>
-                  <div className='picture_container'>
-                    {cast?.map((c) => {
-                      return (
-                        <div>
-                          <img onClick={() => handleChangePicture(`https://image.tmdb.org/t/p/w500/${c.data.profile_path}`)} className='picture_single' src={`https://image.tmdb.org/t/p/w500/${c.data.profile_path}`} />
-                          {`https://image.tmdb.org/t/p/w500/${c.data.profile_path}` === currentPhoto && <div className='current'>Current</div>}
-                        </div>
-                      )
-                    })}
-                  </div>
-                </>}
+                {cast?.length > 0 &&
+                  <>
+                    <h4 className='picture_title'>Your Favourite Cast</h4>
+                    <div className='picture_container'>
+                      {cast?.map((c) => {
+                        return (
+                          <div>
+                            <img onClick={() => handleChangePicture(`https://image.tmdb.org/t/p/w342/${c.data.profile_path}`)} className='picture_single' src={`https://image.tmdb.org/t/p/w342/${c.data.profile_path}`} />
+                            {`https://image.tmdb.org/t/p/w342/${c.data.profile_path}` === currentPhoto && <div className='current'>Current</div>}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </>}
                 <h4 className='picture_title'>Dicebear</h4>
                 <div className='picture_container'>
                   {data?.dicebear?.map((img) => {
@@ -216,7 +214,7 @@ export default function Profile({ scrollTop }) {
               </div>
             </div>
           </div>
-          {watching?.length !== 0 && <><br />
+          {watching?.length !== 0 && <><br /><br />
             <div className='trending_flex'>
               <div className='trending_title' >Resume Watching</div>
             </div>
@@ -225,7 +223,7 @@ export default function Profile({ scrollTop }) {
                 return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data?.type} showIcon={true} />
               })}
             </div></>}
-          {watchlist?.length !== 0 && <><br />
+          {watchlist?.length !== 0 && <><br /><br />
             <div className='trending_flex'>
               <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
@@ -234,7 +232,7 @@ export default function Profile({ scrollTop }) {
                 return <SingleContentScroll index={index} data={data?.data} id={data?.id} key={data?.id} type={data?.type} showIcon={true} />
               })}
             </div></>}
-          {suggestions?.length !== 0 && <><br />
+          {suggestions?.length !== 0 && <><br /><br />
             <div className='trending_flex'>
               <div className='trending_title' >Suggestions<Count value={suggestions?.length} /></div>
             </div>
@@ -245,7 +243,7 @@ export default function Profile({ scrollTop }) {
                 </div>
               })}
             </div></>}
-          {watched?.length !== 0 && <><br />
+          {watched?.length !== 0 && <><br /><br />
             <div className='trending_flex'>
               <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
@@ -254,7 +252,7 @@ export default function Profile({ scrollTop }) {
                 return <SingleContentScroll index={index} data={data?.data} id={data?.id} key={data?.id} type={data?.type} showIcon={true} />
               })}
             </div></>}
-          {favourite?.length !== 0 && <><br />
+          {favourite?.length !== 0 && <><br /><br />
             <div className='trending_flex'>
               <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
@@ -263,7 +261,7 @@ export default function Profile({ scrollTop }) {
                 return <SingleContentScroll index={index} data={data?.data} key={data?.id} id={data?.id} type={data?.type} showIcon={true} />
               })}
             </div></>}
-          {cast?.length !== 0 && <><br />
+          {cast?.length !== 0 && <><br /><br />
             <div className='trending_flex'>
               <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
             </div>
@@ -272,13 +270,13 @@ export default function Profile({ scrollTop }) {
                 return <Cast c={c} key={c.id} />
               })}
             </div></>}
-          {connections?.length !== 0 && <><br />
+          {connections?.length !== 0 && <><br /><br />
             <div className='trending_flex'>
               <div className='trending_title' >Connections<Count value={connections?.length} /></div>
             </div>
             <div className='trending_scroll' >
               {connections?.map((user, index) => {
-                return <ConnectionUser key={user.uid} user={user.uid} index={index} />
+                return <ConnectionUser key={user} user={user} index={index} />
               })}
             </div></>}
           {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />

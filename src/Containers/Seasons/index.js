@@ -145,7 +145,7 @@ export default function Seasons({ value }) {
                 >
                     {value.seasons?.map((dat, index) => {
                         return (
-                            <Dropdown.Item key={index} onClick={(e) => setSeasonNumber(e.target.text)} eventKey={index} className='dropdown_item'>
+                            <Dropdown.Item key={index} onClick={(e) => setSeasonNumber(e.target.text)} className='dropdown_item'>
                                 {index + 1}
                             </Dropdown.Item>
                         )

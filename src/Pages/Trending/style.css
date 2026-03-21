@@ -2,6 +2,7 @@
     display: flex;
     overflow: auto;
     padding: 0 40px;
+    margin-top: 10px;
 }
 
 .trending_title {
@@ -15,7 +16,7 @@
     display: flex;
     align-items: center;
     color: lightgray;
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 .trending_title_subtitle {

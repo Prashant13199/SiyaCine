@@ -20,7 +20,7 @@ export default function SingleContent({ data }) {
                 <div className='postersearch'>
                     <img
                         loading='lazy'
-                        src={data?.poster_path ? `https://image.tmdb.org/t/p/w500/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
+                        src={data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
                         alt={data?.title || data?.name}
                         className="search_img"
                         onClick={() => {

@@ -160,19 +160,19 @@ export default function NavBarMain({ top, scrollTop }) {
           location.pathname === '/movies' && 'slider slide-to-movies' ||
           location.pathname === '/tv' && 'slider slide-to-tvs'}`}></div>
 
-        <NavLink eventKey="1" onClick={scrollTop} to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
+        <NavLink onClick={scrollTop} to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
           <HomeIcon className='nav_icon' />
           Home
         </NavLink>
-        <NavLink eventKey="2" onClick={scrollTop} to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
+        <NavLink onClick={scrollTop} to='/movies' activeClassName="navlinkActive" className="navlink" exact={true} >
           <MovieIcon className='nav_icon' />
           Movie
         </NavLink>
-        <NavLink eventKey="3" onClick={scrollTop} to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
+        <NavLink onClick={scrollTop} to='/tv' activeClassName="navlinkActive" className="navlink" exact={true} >
           <TvIcon className='nav_icon' />
           TV
         </NavLink>
-        <NavLink eventKey="4" onClick={scrollTop} to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
+        <NavLink onClick={scrollTop} to='/search' activeClassName="navlinkActive" className="navlink" exact={true}>
           <SearchIcon className='nav_icon' />
           Search
         </NavLink>

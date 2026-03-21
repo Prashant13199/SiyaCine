@@ -111,7 +111,7 @@ export default function SingleCastPage({ scrollTop }) {
           <div className='singlecontent_responsive_cast' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
             <div className={window?.innerWidth > 900 && 'profile_backdrop'}>
               <div className='pic_container'>
-                <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w500/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+                <img alt="" src={data.profile_path ? `https://image.tmdb.org/t/p/w342/${data.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
               </div>
               <div className='details'>
                 <div className='mobile_center'>

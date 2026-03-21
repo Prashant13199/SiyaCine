@@ -94,6 +94,7 @@ export default function SingleContentPage({ scrollTop }) {
   useLayoutEffect(() => {
     scrollTop();
     setLoading(true);
+    fetchProvider();
     fetchDetails();
     addBackdrop();
   }, [id, type, auth?.currentUser?.uid])
@@ -149,7 +150,6 @@ export default function SingleContentPage({ scrollTop }) {
         `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setData(data);
-      fetchProvider();
       fetchCredit();
       fetchVideo();
       fetchRecommendation();
@@ -461,7 +461,7 @@ export default function SingleContentPage({ scrollTop }) {
             <div className='singlecontent_responsive' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
               <div className={window?.innerWidth > 900 && 'profile_backdrop'}>
                 <div className={'pic_container'}>
-                  <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w500/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+                  <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
                   <div className='play_buttons'>
                     {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) && type === 'movie' &&
                       <Button
@@ -474,7 +474,7 @@ export default function SingleContentPage({ scrollTop }) {
                         {watching ? 'Resume' : 'Play now'}
                       </Button>}
                     {watchprovider?.path && <Button
-                      endIcon={<img alt="" src={`https://image.tmdb.org/t/p/w500/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
+                      endIcon={<img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
                       className='play_button'
                       target="__blank"
                       href={watchprovider.link}

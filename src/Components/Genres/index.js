@@ -44,7 +44,7 @@ export default function Genres({
   return (
     <div className='genres_list'>
       {genres?.map((genre) => (
-        <>
+        <React.Fragment key={genre.id}>
           {selectedGenres.map((gen) => gen.id).includes(genre.id) ? <Chip
             style={{ margin: 2, padding: 4 }}
             label={genre.name.replace(':', '&')}
@@ -66,7 +66,7 @@ export default function Genres({
               onClick={() => handleAdd(genre)}
             />
           }
-        </>
+        </React.Fragment>
       ))}
     </div>
   )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { auth } from '../firebase'
+import { auth, database } from '../firebase'
 import axios from 'axios'
 import useFetchDBData from './useFetchDBData'
 
@@ -29,6 +29,9 @@ export default function useFetchMyShows() {
                             if (val?.id == val2?.id) {
                                 if (!arr.find((val3) => val3?.id === val?.id)) {
                                     arr.push(val)
+                                    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${val.id}`).update({
+                                        id: val.id, data: val, type: 'tv', timestamp: Date.now(), new: true
+                                    })
                                 }
                             }
                         })

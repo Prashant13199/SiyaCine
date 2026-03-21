@@ -55,7 +55,7 @@ export default function Notification({ noti, handleClose }) {
                 </div>
             </div>
             {noti?.poster && <Link onClick={handleClose} to={`/singlecontent/${noti.id}/${noti.type}`}>
-                <img src={`https://image.tmdb.org/t/p/w500/${noti.poster}`} className='notification_poster' />
+                <img src={`https://image.tmdb.org/t/p/w342/${noti.poster}`} className='notification_poster' />
             </Link>}
         </div>
     )

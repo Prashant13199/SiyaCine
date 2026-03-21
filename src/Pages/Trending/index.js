@@ -16,9 +16,7 @@ import Switch from '../../Components/switch';
 export default function Trending({ scrollTop }) {
 
   const [recommendation, setRecommendation] = useState([])
-  const [number, setNumber] = useState(null)
   const [recommendationCast, setRecommendationCast] = useState([])
-  const [numberCast, setNumberCast] = useState(null)
 
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
@@ -43,35 +41,20 @@ export default function Trending({ scrollTop }) {
 
   useEffect(() => {
     fetchRecommendation();
-  }, [number])
-
-  useEffect(() => {
     fetchRecommendationCast();
-  }, [numberCast])
+  }, [favourite])
 
   useEffect(() => {
-    randomNumber()
-  }, [favourite?.length])
 
-  useEffect(() => {
-    randomNumberCast()
-  }, [favouriteCast?.length])
-
-  const randomNumber = () => {
-    setNumber(Math.floor(Math.random() * favourite.length))
-  }
-
-  const randomNumberCast = () => {
-    setNumberCast(Math.floor(Math.random() * favouriteCast.length))
-  }
+  }, [])
 
   const fetchRecommendation = async () => {
     try {
-      if (favourite[number]?.type) {
+      if (favourite[0]?.type) {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/${favourite[number]?.type}/${favourite[number]?.id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false`
+          `https://api.themoviedb.org/3/${favourite[0]?.type}/${favourite[0]?.id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false`
         );
-        setRecommendation(data.results);
+        setRecommendation(data.results.splice(0, 10));
       }
     }
     catch (e) {
@@ -81,11 +64,11 @@ export default function Trending({ scrollTop }) {
 
   const fetchRecommendationCast = async () => {
     try {
-      if (favourite[number]?.type) {
+      if (favourite[0]?.type) {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/person/${favouriteCast[numberCast]?.id}/combined_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+          `https://api.themoviedb.org/3/person/${favouriteCast[0]?.id}/combined_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
         );
-        setRecommendationCast(data.cast);
+        setRecommendationCast(data.cast.splice(0, 10));
       }
     }
     catch (e) {
@@ -104,7 +87,7 @@ export default function Trending({ scrollTop }) {
 
         <Header />
 
-        {watching?.length !== 0 && <><br />
+        {watching?.length !== 0 && <><br /><br />
           <div className='trending_flex'>
             <div className='trending_title' >Resume Watching</div>
           </div>
@@ -114,7 +97,7 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {nowplaying?.length !== 0 && <><br />
+        {nowplaying?.length !== 0 && <><br /><br />
           <div className='trending_flex'>
             <div className='trending_title'>Playing in Theatres
               <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$`} className="viewall">
@@ -129,7 +112,7 @@ export default function Trending({ scrollTop }) {
           </div>
         </>}
 
-        {myShows?.length !== 0 && <><br />
+        {myShows?.length !== 0 && <><br /><br />
           <div className='trending_flex'>
             <div className='trending_title'>Upcoming Episodes</div>
           </div>
@@ -140,14 +123,14 @@ export default function Trending({ scrollTop }) {
           </div>
         </>}
 
-        {recommendation?.length !== 0 && <><br />
+        {recommendation?.length !== 0 && <><br /><br />
           <div className='trending_flex'>
-            <img src={favourite[number]?.data?.poster_path ? `https://image.tmdb.org/t/p/w500/${favourite[number]?.data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
+            <img src={favourite[0]?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favourite[0]?.data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
             <div>
               <div className='trending_title_small'>Because You Watched</div>
-              <Link to={`/singlecontent/${favourite[number]?.data.id}/${favourite[number]?.type}`} style={{ textDecoration: 'none' }}>
+              <Link to={`/singlecontent/${favourite[0]?.data.id}/${favourite[0]?.type}`} style={{ textDecoration: 'none' }}>
                 <div className='trending_title_subtitle'>
-                  {favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}
+                  {favourite[0]?.data?.name || favourite[0]?.data?.title || favourite[0]?.data?.original_name}
                 </div>
               </Link>
             </div>
@@ -158,7 +141,7 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
+        {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br /><br />
           <div className='trending_flex'>
             <div className='trending_title'>Indian Origin <Switch data={indian} setData={setIndian} />
               <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$` : `/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
@@ -173,7 +156,7 @@ export default function Trending({ scrollTop }) {
           </div>
         </>}
 
-        {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
+        {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br /><br />
           <div className='trending_flex'>
             <div className='trending_title'>Trending <Switch data={trending} setData={setTrending} />
               <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$` : `/singlecategory/trending/tv/Trending TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
@@ -187,13 +170,13 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {recommendationCast?.length !== 0 && <><br />
+        {recommendationCast?.length !== 0 && <><br /><br />
           <div className='trending_flex'>
-            <img src={favouriteCast[numberCast]?.data?.profile_path ? `https://image.tmdb.org/t/p/w500/${favouriteCast[numberCast]?.data?.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
+            <img src={favouriteCast[0]?.data?.profile_path ? `https://image.tmdb.org/t/p/w342/${favouriteCast[0]?.data?.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
             <div>
               <div className='trending_title_small'>Because You Liked </div>
-              <Link to={`/singlecast/${favouriteCast[numberCast]?.id}/${favouriteCast[numberCast]?.data?.name}`} style={{ textDecoration: 'none' }}>
-                <div className='trending_title_subtitle'>{favouriteCast[numberCast]?.data?.name}</div>
+              <Link to={`/singlecast/${favouriteCast[0]?.id}/${favouriteCast[0]?.data?.name}`} style={{ textDecoration: 'none' }}>
+                <div className='trending_title_subtitle'>{favouriteCast[0]?.data?.name}</div>
               </Link>
             </div>
           </div>
@@ -203,7 +186,7 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
+        {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br /><br />
           <div className='trending_flex'>
             <div className='trending_title'>Top Rated <Switch data={topRated} setData={setTopRated} />
               <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$` : `/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>

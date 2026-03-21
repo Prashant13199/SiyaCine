@@ -14,6 +14,7 @@ import { Helmet } from 'react-helmet';
 import useFetchUsers from '../../hooks/useFetchUsers';
 import User from '../../Components/User';
 import { auth, database } from '../../firebase';
+import { CircularProgress } from '@mui/material';
 
 export default function Search({ scrollTop }) {
 
@@ -34,6 +35,7 @@ export default function Search({ scrollTop }) {
     const [pageM, setPageM] = useState(page ? page : 1)
     const [searchedUsers, setSearchedUsers] = useState([])
     const [recentlySearched, setRecentlySearched] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         scrollTop();
@@ -57,17 +59,20 @@ export default function Search({ scrollTop }) {
                 arr.push(snap.val())
             })
             setRecentlySearched(arr.reverse().splice(0, 12))
+            setLoading(false)
         })
     }
 
     const fetchSearch = async () => {
         if (query?.length) {
+            setLoading(true)
             try {
                 const { data } = await axios.get(
                     `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${query}&page=${page}`
                 );
                 setContentM(data.results.filter((value) => value.media_type !== 'person'));
                 setNumOfPagesM(data.total_pages);
+                setLoading(false)
             } catch (error) {
                 console.error(error);
             }
@@ -79,6 +84,7 @@ export default function Search({ scrollTop }) {
                     }
                 })
                 setSearchedUsers(arr)
+                setLoading(false)
             }
         } else {
             setPageM(1)
@@ -124,26 +130,31 @@ export default function Search({ scrollTop }) {
                 </Paper>
                 <br />
                 {!query && recentlySearched?.length > 0 && <h3>Recently searched</h3>}
-                <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
+                {!loading ? <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {page == 1 && searchedUsers?.length > 0 &&
                         <>
                             {searchedUsers?.map((user, index) => {
                                 return <User user={user} key={user.uid} index={index} />
                             })}
                         </>}
-                    {query &&
+                    {query ?
                         <>
                             {contentM?.map((data, index) => {
                                 return <SingleContentSearch data={data} id={data.id} type={data.media_type} key={data.id} index={index} />
                             })}
-                        </>}
-                    {!query &&
+                        </>
+                        :
                         <>
                             {recentlySearched?.map((data, index) => {
                                 return <SingleContentSearch data={data.data} id={data.data.id} type={data.data.media_type} key={data.data.id} index={index} />
                             })}
-                        </>}
+                        </>
+                    }
                 </Grid>
+                    :
+                    <div className="loading">
+                        <CircularProgress color='warning' />
+                    </div>}
                 {contentM?.length === 0 && query && searchedUsers?.length === 0 && <center>
                     <img src={empty} className='empty' />
                     <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
