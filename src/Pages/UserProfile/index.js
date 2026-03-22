@@ -50,7 +50,7 @@ export default function UserProfile({ scrollTop }) {
   }, [favourite])
 
   useEffect(() => {
-    scrollTop()
+    scrollTop();
     setLoading(true)
     database.ref(`/Users/${uid}`).on('value', snapshot => {
       setPublicAcc(snapshot.val().public)

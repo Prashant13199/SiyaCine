@@ -52,6 +52,7 @@ export default function SingleContentPage({ scrollTop }) {
   const [watched, setWatched] = useState(false)
   const [watching, setWatching] = useState(false)
   const [recommendations, setRecommendations] = useState([])
+  const [similar, setSimilar] = useState([])
   const [reviews, setReviews] = useState([])
   const [reviews2, setReviews2] = useState([])
   const [server, setServer] = useState(1)
@@ -153,6 +154,7 @@ export default function SingleContentPage({ scrollTop }) {
       fetchCredit();
       fetchVideo();
       fetchRecommendation();
+      fetchSimilar();
       fetchReviews();
       setLoading(false);
     }
@@ -193,10 +195,19 @@ export default function SingleContentPage({ scrollTop }) {
       const data = await axios.get(
         `https://api.themoviedb.org/3/${type}/${id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       );
-      const data2 = await axios.get(
+      setRecommendations(data?.data?.results);
+    }
+    catch (e) {
+      console.log(e)
+    }
+  };
+
+  const fetchSimilar = async () => {
+    try {
+      const data = await axios.get(
         `https://api.themoviedb.org/3/${type}/${id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`
       );
-      setRecommendations([...data?.data?.results, ...data2?.data?.results]);
+      setSimilar(data?.data?.results);
     }
     catch (e) {
       console.log(e)
@@ -557,9 +568,10 @@ export default function SingleContentPage({ scrollTop }) {
                 </div>
               </div>
             </div>
+            <br /><br />
             {type === 'tv' && <Seasons value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
             <div className='singlecontent'>
-              {credit.cast && credit.cast.length !== 0 && <><br />
+              {credit.cast && credit.cast.length !== 0 && <><br /><br />
                 <div className='trending_flex'>
                   <div className='trending_title'>Cast</div>
                 </div>
@@ -576,7 +588,7 @@ export default function SingleContentPage({ scrollTop }) {
                     </Link>
                   })}
                 </div></>}
-              {video?.length !== 0 && <><br />
+              {video?.length !== 0 && <><br /><br />
                 <div className='trending_flex'>
                   <div className='trending_title' >Trailers & More</div>
                 </div>
@@ -584,9 +596,9 @@ export default function SingleContentPage({ scrollTop }) {
                   <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
                 </div>
               </>}
-              {recommendations?.length !== 0 && <><br />
+              {recommendations?.length !== 0 && <><br /><br />
                 <div className='trending_flex'>
-                  <div className='trending_title' >More like this</div>
+                  <div className='trending_title' >Recommendations</div>
                 </div>
                 <div className='trending_scroll' >
                   {recommendations?.map((data) => {
@@ -594,7 +606,17 @@ export default function SingleContentPage({ scrollTop }) {
                   })}
                 </div>
               </>}
-              <br />
+              {similar?.length !== 0 && <><br /><br />
+                <div className='trending_flex'>
+                  <div className='trending_title' >Similar</div>
+                </div>
+                <div className='trending_scroll' >
+                  {similar?.map((data) => {
+                    return <SingleContentScroll data={data} id={data.id} key={data.id} type={type} recom={true} />
+                  })}
+                </div>
+              </>}
+              <br /><br />
               <div className='trending_flex'>
                 <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
                   <div >
