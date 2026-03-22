@@ -4,7 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { Tooltip } from '@mui/material';
 import { database } from '../../firebase';
 
-export default function SingleContent({ data }) {
+export default function SingleContent({ data, setURL }) {
 
     const history = useHistory()
 
@@ -24,6 +24,7 @@ export default function SingleContent({ data }) {
                         alt={data?.title || data?.name}
                         className="search_img"
                         onClick={() => {
+                            setURL()
                             handleStoreSearched()
                             history.push(`/singlecontent/${data.id}/${data.media_type}`)
                         }}

@@ -24,11 +24,6 @@ export default function Search({ scrollTop }) {
     const history = useHistory()
     const users = useFetchUsers()
 
-    function useQuery() {
-        const { search } = useLocation();
-        return React.useMemo(() => new URLSearchParams(search), [search]);
-    }
-
     const [contentM, setContentM] = useState([]);
     const [numOfPagesM, setNumOfPagesM] = useState();
     const [search, setSearch] = useState(query ? query : '')
@@ -37,20 +32,27 @@ export default function Search({ scrollTop }) {
     const [recentlySearched, setRecentlySearched] = useState([])
     const [loading, setLoading] = useState(true)
 
+    function useQuery() {
+        const { search } = useLocation();
+        return React.useMemo(() => new URLSearchParams(search), [search]);
+    }
+
     useEffect(() => {
         scrollTop();
-        fetchRecentlySearched();
+        setTimeout(() => {
+            fetchRecentlySearched();
+        }, 800)
     }, [])
 
     useEffect(() => {
         fetchSearch();
-    }, [page, query, users])
+    }, [pageM, search, users])
 
-    useEffect(() => {
-        setTimeout(() => {
+    const setURL = () => {
+        if (search.length > 0 || pageM > 1) {
             history.push(`/search?query=${search}&page=${pageM}`)
-        }, 0)
-    }, [pageM, search])
+        }
+    }
 
     const fetchRecentlySearched = () => {
         database.ref(`/Searched`).orderByChild('timestamp').on('value', snapshot => {
@@ -64,11 +66,11 @@ export default function Search({ scrollTop }) {
     }
 
     const fetchSearch = async () => {
-        if (query?.length) {
+        if (search?.length) {
             setLoading(true)
             try {
                 const { data } = await axios.get(
-                    `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${query}&page=${page}`
+                    `https://api.themoviedb.org/3/search/multi?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&query=${search}&page=${pageM}`
                 );
                 setContentM(data.results.filter((value) => value.media_type !== 'person'));
                 setNumOfPagesM(data.total_pages);
@@ -76,10 +78,10 @@ export default function Search({ scrollTop }) {
             } catch (error) {
                 console.error(error);
             }
-            if (query?.length > 2) {
+            if (search?.length > 2) {
                 let arr = []
                 users?.map((user) => {
-                    if (user?.username?.includes(query.toLowerCase())) {
+                    if (user?.username?.includes(search.toLowerCase())) {
                         arr.push(user)
                     }
                 })
@@ -102,6 +104,12 @@ export default function Search({ scrollTop }) {
         setPageM(1)
     }
 
+    useEffect(() => {
+        if (query === null) {
+            clear()
+        }
+    }, [query])
+
     return (
         <>
             <Helmet>
@@ -123,24 +131,24 @@ export default function Search({ scrollTop }) {
                             }
                         }}
                     />
-                    {query?.length > 0 &&
+                    {search?.length > 0 &&
                         <IconButton type="button" sx={{ p: '4px' }} aria-label="search" onClick={() => clear()} >
                             <CloseIcon />
                         </IconButton>}
                 </Paper>
                 <br />
-                {!query && recentlySearched?.length > 0 && <h3>Recently searched</h3>}
+                {!search && recentlySearched?.length > 0 && <h3>Recently searched</h3>}
                 {!loading ? <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
-                    {page == 1 && searchedUsers?.length > 0 &&
+                    {pageM == 1 && searchedUsers?.length > 0 &&
                         <>
                             {searchedUsers?.map((user, index) => {
                                 return <User user={user} key={user.uid} index={index} />
                             })}
                         </>}
-                    {query ?
+                    {search ?
                         <>
                             {contentM?.map((data, index) => {
-                                return <SingleContentSearch data={data} id={data.id} type={data.media_type} key={data.id} index={index} />
+                                return <SingleContentSearch setURL={setURL} data={data} id={data.id} type={data.media_type} key={data.id} index={index} />
                             })}
                         </>
                         :
@@ -155,10 +163,10 @@ export default function Search({ scrollTop }) {
                     <div className="loading">
                         <CircularProgress color='warning' />
                     </div>}
-                {contentM?.length === 0 && query && searchedUsers?.length === 0 && <center>
+                {contentM?.length === 0 && search && searchedUsers?.length === 0 && <center>
                     <img src={empty} className='empty' />
                     <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
-                {numOfPagesM > 1 && contentM?.length > 0 && query && (
+                {numOfPagesM > 1 && contentM?.length > 0 && search && (
                     <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
                 )}
             </div>
