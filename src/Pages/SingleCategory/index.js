@@ -32,11 +32,18 @@ export default function SingleCategory({ scrollTop }) {
   const [perPage, setPerPage] = useState(24)
   const [databaseData, setDatabaseData] = useState(false)
 
-  useEffect(() => {
-    setTimeout(() => {
+  const setURL = () => {
+    if (selectedGenres.length > 0 || page > 1) {
       history.push(`/singlecategory/${category}/${type}/${name}/${uid}?pageM=${page}&values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}`)
-    }, 0)
-  }, [page, selectedGenres])
+    }
+  }
+
+  useEffect(() => {
+    if (values === null) {
+      setSelectedGenres([])
+      setPage(1)
+    }
+  }, [values])
 
   useEffect(() => {
     if ((category === 'popular' || category === 'upcoming' || category === 'now_playing' || category === 'top_rated' || category === 'airing_today' || category === 'on_the_air')) {
@@ -148,13 +155,13 @@ export default function SingleCategory({ scrollTop }) {
           {databaseData ?
             <>
               {paginatedData?.map((data, index) => {
-                return uid !== '$$' ? <SingleContent data={data.data} id={data.id} key={data.id} type={data.type} showIcon={tv} index={index} /> : <SingleContent data={data} key={data.id} id={data.id} type={type} showIcon={tv} index={index} />
+                return uid !== '$$' ? <SingleContent setURL={setURL} data={data.data} id={data.id} key={data.id} type={data.type} showIcon={tv} index={index} /> : <SingleContent setURL={setURL} data={data} key={data.id} id={data.id} type={type} showIcon={tv} index={index} />
               })}
             </>
             :
             <>
               {content?.map((data, index) => {
-                return uid !== '$$' ? <SingleContent data={data.data} id={data.id} key={data.id} type={data.type} showIcon={tv} index={index} /> : <SingleContent data={data} key={data.id} id={data.id} type={type} showIcon={tv} index={index} />
+                return uid !== '$$' ? <SingleContent setURL={setURL} data={data.data} id={data.id} key={data.id} type={data.type} showIcon={tv} index={index} /> : <SingleContent setURL={setURL} data={data} key={data.id} id={data.id} type={type} showIcon={tv} index={index} />
               })}
             </>
           }

@@ -9,7 +9,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { CircularProgress } from '@mui/material';
 import empty from '../../assets/empty.png'
 import { Helmet } from 'react-helmet';
-import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useLocation, useHistory } from 'react-router-dom';
 
 export default function Movies({ scrollTop }) {
 
@@ -26,11 +26,18 @@ export default function Movies({ scrollTop }) {
   const genreforURL = useGenre(selectedGenres);
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    setTimeout(() => {
+  const setURL = () => {
+    if (selectedGenres.length > 0 || page > 1) {
       history.push(`/movies?values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}&pageM=${page}`)
-    }, 0)
-  }, [page, selectedGenres])
+    }
+  }
+
+  useEffect(() => {
+    if (values === null) {
+      setSelectedGenres([])
+      setPage(1)
+    }
+  }, [values])
 
   function useQuery() {
     const { search } = useLocation();
@@ -76,7 +83,7 @@ export default function Movies({ scrollTop }) {
             <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
               {content &&
                 content.map((data, index) => {
-                  return <SingleContent data={data} id={data.id} key={data.id} type={'movie'} index={index} />
+                  return <SingleContent setURL={setURL} data={data} id={data.id} key={data.id} type={'movie'} index={index} />
                 })}
             </Grid>
             {content?.length === 0 && <center><br />

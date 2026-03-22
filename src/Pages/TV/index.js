@@ -26,11 +26,11 @@ export default function TV({ scrollTop }) {
   const genreforURL = useGenre(selectedGenres);
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    setTimeout(() => {
+  const setURL = () => {
+    if (selectedGenres.length > 0 || page > 1) {
       history.push(`/tv?values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}&pageM=${page}`)
-    }, 0)
-  }, [page, selectedGenres])
+    }
+  }
 
   function useQuery() {
     const { search } = useLocation();
@@ -57,6 +57,13 @@ export default function TV({ scrollTop }) {
     fetchTV();
   }, [genreforURL, page]);
 
+  useEffect(() => {
+    if (values === null) {
+      setSelectedGenres([])
+      setPage(1)
+    }
+  }, [values])
+
   return (
     <>
 
@@ -77,7 +84,7 @@ export default function TV({ scrollTop }) {
           <> <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
             {content &&
               content.map((data, index) => {
-                return <SingleContent data={data} id={data.id} key={data.id} type={'tv'} index={index} />
+                return <SingleContent setURL={setURL} data={data} id={data.id} key={data.id} type={'tv'} index={index} />
               })}
           </Grid>
             {content?.length === 0 && <center><br />
