@@ -24,7 +24,7 @@ export default function SingleContent({ data, setURL }) {
                         alt={data?.title || data?.name}
                         className="search_img"
                         onClick={() => {
-                            setURL()
+                            setURL && setURL()
                             handleStoreSearched()
                             history.push(`/singlecontent/${data.id}/${data.media_type}`)
                         }}
