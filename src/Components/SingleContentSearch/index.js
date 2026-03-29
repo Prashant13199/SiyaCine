@@ -20,7 +20,11 @@ export default function SingleContent({ data, setURL }) {
                 <div className='postersearch'>
                     <img
                         loading='lazy'
-                        src={data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"}
+                        onError={({ currentTarget }) => {
+                            currentTarget.onerror = null;
+                            currentTarget.src = "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg";
+                        }}
+                        src={data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"}
                         alt={data?.title || data?.name}
                         className="search_img"
                         onClick={() => {

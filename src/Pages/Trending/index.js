@@ -125,7 +125,7 @@ export default function Trending({ scrollTop }) {
 
         {recommendation?.length !== 0 && <><br /><br />
           <div className='trending_flex'>
-            <img src={favourite[0]?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favourite[0]?.data?.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
+            <img src={favourite[0]?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favourite[0]?.data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
             <div>
               <div className='trending_title_small'>Because You Watched</div>
               <Link to={`/singlecontent/${favourite[0]?.data.id}/${favourite[0]?.type}`} style={{ textDecoration: 'none' }}>
@@ -172,7 +172,7 @@ export default function Trending({ scrollTop }) {
 
         {recommendationCast?.length !== 0 && <><br /><br />
           <div className='trending_flex'>
-            <img src={favouriteCast[0]?.data?.profile_path ? `https://image.tmdb.org/t/p/w342/${favouriteCast[0]?.data?.profile_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='trending_img' />
+            <img src={favouriteCast[0]?.data?.profile_path ? `https://image.tmdb.org/t/p/w342/${favouriteCast[0]?.data?.profile_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
             <div>
               <div className='trending_title_small'>Because You Liked </div>
               <Link to={`/singlecast/${favouriteCast[0]?.id}/${favouriteCast[0]?.data?.name}`} style={{ textDecoration: 'none' }}>

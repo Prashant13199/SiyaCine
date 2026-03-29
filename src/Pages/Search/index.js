@@ -167,7 +167,7 @@ export default function Search({ scrollTop }) {
                     <img src={empty} className='empty' />
                     <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
                 {numOfPagesM > 1 && contentM?.length > 0 && search && (
-                    <SearchPagination page={page} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
+                    <SearchPagination page={pageM} numOfPages={numOfPagesM} handlePageChange={handlePageChange} />
                 )}
             </div>
         </>

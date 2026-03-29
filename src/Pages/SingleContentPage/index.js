@@ -472,7 +472,7 @@ export default function SingleContentPage({ scrollTop }) {
             <div className='singlecontent_responsive' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
               <div className={window?.innerWidth > 900 && 'profile_backdrop'}>
                 <div className={'pic_container'}>
-                  <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='singlecontentposter' />
+                  <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='singlecontentposter' />
                   <div className='play_buttons'>
                     {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) && type === 'movie' &&
                       <Button

@@ -43,7 +43,7 @@ export default function Trailers({ data, title }) {
                         handleShow4()
                     }}>
                         <div className='relative'>
-                            <img alt="" src={datas.key ? `https://img.youtube.com/vi/${datas.key}/maxresdefault.jpg` : "https://www.movienewz.com/img/films/poster-holder.jpg"} className='single_episode_image' />
+                            <img alt="" src={datas.key ? `https://img.youtube.com/vi/${datas.key}/maxresdefault.jpg` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='single_episode_image' />
                         </div >
                         <div className="episode_name">
                             {datas?.name?.length > 60 ? datas?.name?.substring(0, 60)?.concat('...') : datas?.name}
