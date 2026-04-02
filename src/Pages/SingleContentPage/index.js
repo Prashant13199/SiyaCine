@@ -109,7 +109,6 @@ export default function SingleContentPage({ scrollTop }) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
             currentTime: data.currentTime, duration: data.duration
           }).then(() => {
-            console.log("Progress saved:", data.currentTime)
             setProgress(data.currentTime)
             setCurrentTimeFormat(`${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m`)
           })
