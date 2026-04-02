@@ -12,10 +12,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 
-export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpisodeNumber: setE, seasonNumber: s, episodeNumber: e, setOutPlay }) {
+export default function Seasons({ value }) {
 
     const [content, setContent] = useState([])
-    const [seasonNumber, setSeasonNumber] = useState('')
+    const [seasonNumber, setSeasonNumber] = useState(1)
     const [episodeNumber, setEpisodeNumber] = useState(1)
     const [premium, setPremium] = useState(false)
     const [server, setServer] = useState(1)
@@ -26,6 +26,10 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
     const [perPage, setPerPage] = useState(25)
     const [numOfPages, setNumOfPages] = useState();
     const [currentTime, setCurrentTime] = useState(0)
+    const [progress, setProgress] = useState(0)
+
+    const [dbSeason, setDbSeason] = useState(1)
+    const [dbEpisode, setDbEpisode] = useState(1)
 
     const theme = useTheme()
 
@@ -38,22 +42,12 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
     }, [page, content])
 
     useEffect(() => {
-        if (outPlay) {
-            handleShow4(e, s)
-        }
-    }, [outPlay])
-
-    useEffect(() => {
         window.addEventListener("message", (event) => {
             if (event.origin !== "https://vidcore.net" && server !== 1) return;
             const { type, data } = event?.data;
             if (type === "PLAYER_EVENT") {
-                if (Math.floor(data.currentTime) % 10 === 0) {
-                    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
-                        currentTime: data.currentTime, duration: data.duration
-                    }).then(() => {
-                        console.log("Progress saved:", data.currentTime)
-                    }).catch((e) => console.log(e));
+                if (Math.floor(data.currentTime) % 10 === 0 || data?.event === "pause") {
+                    setProgress(data.currentTime)
                 }
             }
             if (data?.event === "ended") {
@@ -68,8 +62,8 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
                 setSeasonNumber(snapshot.val()?.season)
                 setEpisodeNumber(snapshot.val()?.episode)
                 setCurrentTime(snapshot.val()?.currentTime || 0)
-            } else {
-                setSeasonNumber(1)
+                setDbSeason(snapshot.val()?.season)
+                setDbEpisode(snapshot.val()?.episode)
             }
         })
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).once('value', snapshot => {
@@ -79,22 +73,28 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
 
     const handleClose4 = () => {
         setShow4(false)
-        setEpisodeNumber()
-        setOutPlay(false)
+        updateDB(episodeNumber, seasonNumber, progress)
     }
 
-    const handleShow4 = (episode, season, id) => {
+    const handleShow4 = (episode, season) => {
+        if (dbSeason === season && dbEpisode === episode) {
+            updateDB(episode, season, progress)
+        } else {
+            updateDB(episode, season, 0)
+        }
         setShow4(true)
-        setEpisodeNumber(episode)
-        handleResume(season, episode)
-        setS(season)
-        setE(episode)
     }
 
-    const handleResume = (season, episode) => {
+    const updateDB = (episode, season, progress) => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).set({
-            id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now()
-        })
+            id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now(), currentTime: progress
+        }).then(() => {
+            setSeasonNumber(season)
+            setEpisodeNumber(episode)
+            setDbSeason(season)
+            setDbEpisode(episode)
+            setCurrentTime(progress)
+        }).catch((e) => console.log(e))
     }
 
     const fetchDetails = async () => {
@@ -122,11 +122,13 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
 
     const handleNext = () => {
         setEpisodeNumber(episodeNumber + 1)
+        updateDB(episodeNumber + 1, seasonNumber, 0)
         handleMarkComplete()
     }
 
     const handlePrev = () => {
         setEpisodeNumber(episodeNumber - 1)
+        updateDB(episodeNumber - 1, seasonNumber, 0)
     }
 
     const handleMarkComplete = () => {
@@ -181,6 +183,9 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
                         )
                     })}
                 </DropdownButton>
+                <Button color='warning' onClick={() => {
+                    handleShow4(dbEpisode, dbSeason)
+                }}>Resume S{dbSeason}E{dbEpisode}</Button>
             </div>
             {!loading ?
                 <>

@@ -69,9 +69,7 @@ export default function SingleContentPage({ scrollTop }) {
   const [backdrop, setBackdrop] = useState('')
   const [currentTime, setCurrentTime] = useState(0)
   const [currentTimeFormat, setCurrentTimeFormat] = useState()
-  const [outPlay, setOutPlay] = useState(false)
-  const [seasonNumber, setSeasonNumber] = useState(1)
-  const [episodeNumber, setEpisodeNumber] = useState(1)
+  const [progress, setProgress] = useState(0)
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -79,6 +77,11 @@ export default function SingleContentPage({ scrollTop }) {
   const handleShow3 = () => setShow3(true);
   const handleClose4 = () => {
     setShow4(false)
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
+      currentTime: progress
+    }).then(() => {
+      setCurrentTime(progress)
+    }).catch((e) => console.log(e));
   }
   const handleShow4 = () => {
     setShow4(true)
@@ -102,11 +105,12 @@ export default function SingleContentPage({ scrollTop }) {
       if (event.origin !== "https://vidcore.net" && server !== 1) return;
       const { type, data } = event?.data;
       if (type === "PLAYER_EVENT") {
-        if (Math.floor(data.currentTime) % 10 === 0) {
+        if (Math.floor(data.currentTime) % 10 === 0 || data?.event === "pause") {
           database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
             currentTime: data.currentTime, duration: data.duration
           }).then(() => {
             console.log("Progress saved:", data.currentTime)
+            setProgress(data.currentTime)
             setCurrentTimeFormat(`${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m`)
           })
             .catch((e) => console.log(e));
@@ -157,10 +161,6 @@ export default function SingleContentPage({ scrollTop }) {
         setWatching(true)
         setCurrentTime(snapshot.val()?.currentTime || 0)
         setCurrentTimeFormat(`${Math.floor(snapshot.val()?.currentTime / 3600)}h ${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m`)
-        if (snapshot.val()?.season && snapshot.val()?.episode) {
-          setSeasonNumber(snapshot.val()?.season)
-          setEpisodeNumber(snapshot.val()?.episode)
-        }
       } else {
         setWatching(false)
       }
@@ -513,16 +513,6 @@ export default function SingleContentPage({ scrollTop }) {
                       >
                         {watching ? `Resume ${currentTimeFormat}` : 'Play now'}
                       </Button>}
-                    {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) && type === 'tv' &&
-                      <Button
-                        startIcon={<PlayArrowIcon />}
-                        className='play_button'
-                        onClick={() => setOutPlay(true)}
-                        variant='contained'
-                        size='large'
-                      >
-                        Play S{seasonNumber}E{episodeNumber}
-                      </Button>}
                     {watchprovider?.path && <Button
                       endIcon={<img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
                       className='play_button'
@@ -608,7 +598,7 @@ export default function SingleContentPage({ scrollTop }) {
               </div>
             </div>
             <br /><br />
-            {type === 'tv' && <Seasons setOutPlay={setOutPlay} seasonNumber={seasonNumber} episodeNumber={episodeNumber} setSeasonNumber={setSeasonNumber} setEpisodeNumber={setEpisodeNumber} outPlay={outPlay} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
+            {type === 'tv' && <Seasons value={data} />}
             <div className='singlecontent'>
               {credit.cast && credit.cast.length !== 0 && <><br /><br />
                 <div className='trending_flex'>
