@@ -78,7 +78,7 @@ export default function Seasons({ value }) {
 
     const handleShow4 = (episode, season) => {
         if (dbSeason === season && dbEpisode === episode) {
-            updateDB(episode, season, progress)
+            updateDB(episode, season, currentTime)
         } else {
             updateDB(episode, season, 0)
         }
