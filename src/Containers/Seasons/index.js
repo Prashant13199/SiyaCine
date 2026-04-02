@@ -11,8 +11,9 @@ import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
+import { set } from 'firebase/database';
 
-export default function Seasons({ value }) {
+export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpisodeNumber: setE, seasonNumber: s, episodeNumber: e, setOutPlay }) {
 
     const [content, setContent] = useState([])
     const [seasonNumber, setSeasonNumber] = useState('')
@@ -25,6 +26,7 @@ export default function Seasons({ value }) {
     const [paginatedData, setPaginatedData] = useState([])
     const [perPage, setPerPage] = useState(25)
     const [numOfPages, setNumOfPages] = useState();
+    const [currentTime, setCurrentTime] = useState(0)
 
     const theme = useTheme()
 
@@ -37,10 +39,34 @@ export default function Seasons({ value }) {
     }, [page, content])
 
     useEffect(() => {
+        if (outPlay) {
+            handleShow4(e, s)
+        }
+    }, [outPlay])
+
+    useEffect(() => {
+        window.addEventListener("message", (event) => {
+            if (event.origin !== "https://vidcore.net" && server !== 1) return;
+            const { type, data } = event?.data;
+            if (type === "PLAYER_EVENT") {
+                if (Math.floor(data.currentTime) % 10 === 0) {
+                    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
+                        currentTime: data.currentTime, duration: data.duration
+                    }).then(() => {
+                        console.log("Progress saved:", data.currentTime)
+                    })
+                        .catch((e) => console.log(e));
+                }
+            }
+        });
+    }, [])
+
+    useEffect(() => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).once('value', snapshot => {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setSeasonNumber(snapshot.val()?.season)
                 setEpisodeNumber(snapshot.val()?.episode)
+                setCurrentTime(snapshot.val()?.currentTime || 0)
             } else {
                 setSeasonNumber(1)
             }
@@ -53,12 +79,15 @@ export default function Seasons({ value }) {
     const handleClose4 = () => {
         setShow4(false)
         setEpisodeNumber()
+        setOutPlay(false)
     }
 
     const handleShow4 = (episode, season, id) => {
         setShow4(true)
         setEpisodeNumber(episode)
         handleResume(season, episode)
+        setS(season)
+        setE(episode)
     }
 
     const handleResume = (season, episode) => {
@@ -128,7 +157,7 @@ export default function Seasons({ value }) {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/tv/${value?.id}/${seasonNumber}/${episodeNumber}?autoPlay=true`}></iframe>}
+                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/tv/${value?.id}/${seasonNumber}/${episodeNumber}?autoPlay=true&startAt=${currentTime}`}></iframe>}
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.me/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
@@ -156,7 +185,7 @@ export default function Seasons({ value }) {
                 <>
                     <div className="episode_list" id="episode_list">
                         {paginatedData?.map((datas) => {
-                            return <SingleEpisode datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} />
+                            return <SingleEpisode id={value?.id} datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} />
                         })}
                     </div>
                     <>

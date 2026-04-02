@@ -5,7 +5,7 @@ import { IconButton } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import './style.css';
 
-export default function SingleEpisode({ datas, handleShow4, premium, seasonNumber }) {
+export default function SingleEpisode({ datas, handleShow4, premium, seasonNumber, id }) {
 
     const [watchedEpisode, setWatchedEpisode] = useState(false)
 
@@ -35,7 +35,7 @@ export default function SingleEpisode({ datas, handleShow4, premium, seasonNumbe
     }
 
     return (
-        <div key={datas?.id} id={`${seasonNumber}${datas?.episode_number}`} className={datas?.air_date <= getCurrentDate() ? 'single_episode' : 'single_episode_fade'}>
+        <div key={datas?.id} id={`${id}-${seasonNumber}-${datas?.episode_number}`} className={datas?.air_date <= getCurrentDate() ? 'single_episode' : 'single_episode_fade'}>
             <div className='episode_header'>
                 <div className='episode_number'>S{datas.season_number}-E{datas.episode_number}</div>
                 <div className='air_date'>{datas?.air_date}</div>

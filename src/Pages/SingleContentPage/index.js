@@ -67,6 +67,11 @@ export default function SingleContentPage({ scrollTop }) {
   const [loading, setLoading] = useState(true)
   const [tracking, setTracking] = useState([])
   const [backdrop, setBackdrop] = useState('')
+  const [currentTime, setCurrentTime] = useState(0)
+  const [currentTimeFormat, setCurrentTimeFormat] = useState()
+  const [outPlay, setOutPlay] = useState(false)
+  const [seasonNumber, setSeasonNumber] = useState('')
+  const [episodeNumber, setEpisodeNumber] = useState(1)
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -92,6 +97,24 @@ export default function SingleContentPage({ scrollTop }) {
     window.addEventListener('resize', addBackdrop)
   }, [data])
 
+  useEffect(() => {
+    window.addEventListener("message", (event) => {
+      if (event.origin !== "https://vidcore.net" && server !== 1) return;
+      const { type, data } = event?.data;
+      if (type === "PLAYER_EVENT") {
+        if (Math.floor(data.currentTime) % 10 === 0) {
+          database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
+            currentTime: data.currentTime, duration: data.duration
+          }).then(() => {
+            console.log("Progress saved:", data.currentTime)
+            setCurrentTimeFormat(`${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m`)
+          })
+            .catch((e) => console.log(e));
+        }
+      }
+    });
+  }, [])
+
   useLayoutEffect(() => {
     scrollTop();
     setLoading(true);
@@ -100,43 +123,49 @@ export default function SingleContentPage({ scrollTop }) {
     addBackdrop();
   }, [id, type, auth?.currentUser?.uid])
 
-  useLayoutEffect(() => {
-    database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).on('value', snapshot => {
+  useEffect(() => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).once('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setFavourite(true)
       } else {
         setFavourite(false)
       }
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).once('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setTracking(true)
       } else {
         setTracking(false)
       }
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).once('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatchlist(true)
       } else {
         setWatchlist(false)
       }
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).once('value', snapshot => {
       if (snapshot.val()?.id === id) {
         setWatched(true)
       } else {
         setWatched(false)
       }
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).once('value', snapshot => {
       if (snapshot.val()?.id == id) {
         setWatching(true)
+        setCurrentTime(snapshot.val()?.currentTime || 0)
+        setCurrentTimeFormat(`${Math.floor(snapshot.val()?.currentTime / 3600)}h ${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m`)
+        if (snapshot.val()?.season && snapshot.val()?.episode) {
+          setSeasonNumber(snapshot.val()?.season)
+          setEpisodeNumber(snapshot.val()?.episode)
+        }
       } else {
         setWatching(false)
       }
     })
-    database.ref(`/Reviews/${id}`).orderByChild('timestamp').on('value', snapshot => {
+    database.ref(`/Reviews/${id}`).orderByChild('timestamp').once('value', snapshot => {
       let data = []
       snapshot.forEach((snap) => {
         data.push(snap.val())
@@ -436,7 +465,7 @@ export default function SingleContentPage({ scrollTop }) {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          {server === 1 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/movie/${id}?autoPlay=true`}></iframe>}
+          {server === 1 && <iframe allow="encrypted-media" title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/movie/${id}?autoPlay=true&startAt=${currentTime}`}></iframe>}
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.me/embed/movie/${id}`}></iframe>}
           {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
           <div className='player_bottom'>
@@ -482,7 +511,17 @@ export default function SingleContentPage({ scrollTop }) {
                         variant='contained'
                         size='large'
                       >
-                        {watching ? 'Resume' : 'Play now'}
+                        {watching ? `Resume ${currentTimeFormat}` : 'Play now'}
+                      </Button>}
+                    {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) && type === 'tv' &&
+                      <Button
+                        startIcon={<PlayArrowIcon />}
+                        className='play_button'
+                        onClick={() => setOutPlay(true)}
+                        variant='contained'
+                        size='large'
+                      >
+                        Play S{seasonNumber}E{episodeNumber}
                       </Button>}
                     {watchprovider?.path && <Button
                       endIcon={<img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
@@ -569,7 +608,7 @@ export default function SingleContentPage({ scrollTop }) {
               </div>
             </div>
             <br /><br />
-            {type === 'tv' && <Seasons value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
+            {type === 'tv' && <Seasons setOutPlay={setOutPlay} seasonNumber={seasonNumber} episodeNumber={episodeNumber} setSeasonNumber={setSeasonNumber} setEpisodeNumber={setEpisodeNumber} outPlay={outPlay} value={data} watched={watched} watchlist={watchlist} setWatched={setWatched} setWatchlist={setWatchlist} />}
             <div className='singlecontent'>
               {credit.cast && credit.cast.length !== 0 && <><br /><br />
                 <div className='trending_flex'>
