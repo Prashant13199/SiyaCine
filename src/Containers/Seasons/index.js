@@ -47,7 +47,7 @@ export default function Seasons({ value, watching }) {
             const { type, data } = event?.data;
             if (type === "PLAYER_EVENT") {
                 if (Math.floor(data.currentTime) % 10 === 0 || data?.event === "pause") {
-                    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
+                    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
                         currentTime: data.currentTime, duration: data.duration
                     }).then(() => {
                         setProgress(data.currentTime)
