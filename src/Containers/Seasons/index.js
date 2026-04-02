@@ -12,7 +12,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 
-export default function Seasons({ value }) {
+export default function Seasons({ value, watching }) {
 
     const [content, setContent] = useState([])
     const [seasonNumber, setSeasonNumber] = useState(1)
@@ -183,9 +183,9 @@ export default function Seasons({ value }) {
                         )
                     })}
                 </DropdownButton>
-                <Button color='warning' onClick={() => {
+                {watching && <Button color='warning' onClick={() => {
                     handleShow4(dbEpisode, dbSeason)
-                }}>Resume S{dbSeason}E{dbEpisode}</Button>
+                }}>Resume S{dbSeason}E{dbEpisode}</Button>}
             </div>
             {!loading ?
                 <>

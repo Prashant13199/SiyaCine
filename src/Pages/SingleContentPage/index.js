@@ -598,7 +598,7 @@ export default function SingleContentPage({ scrollTop }) {
               </div>
             </div>
             <br /><br />
-            {type === 'tv' && <Seasons value={data} />}
+            {type === 'tv' && <Seasons value={data} watching={watching} />}
             <div className='singlecontent'>
               {credit.cast && credit.cast.length !== 0 && <><br /><br />
                 <div className='trending_flex'>
