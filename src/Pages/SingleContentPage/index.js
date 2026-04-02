@@ -465,7 +465,7 @@ export default function SingleContentPage({ scrollTop }) {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          {server === 1 && <iframe allow="encrypted-media" title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/movie/${id}?autoPlay=true&startAt=${currentTime}`}></iframe>}
+          {server === 1 && <iframe allow="encrypted-media" title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/movie/${id}?autoPlay=true&startAt=${currentTime}&theme=FFA726`}></iframe>}
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.me/embed/movie/${id}`}></iframe>}
           {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
           <div className='player_bottom'>

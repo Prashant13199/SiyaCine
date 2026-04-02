@@ -11,7 +11,6 @@ import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
-import { set } from 'firebase/database';
 
 export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpisodeNumber: setE, seasonNumber: s, episodeNumber: e, setOutPlay }) {
 
@@ -54,9 +53,11 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
                         currentTime: data.currentTime, duration: data.duration
                     }).then(() => {
                         console.log("Progress saved:", data.currentTime)
-                    })
-                        .catch((e) => console.log(e));
+                    }).catch((e) => console.log(e));
                 }
+            }
+            if (data?.event === "ended") {
+                document.getElementById("next-button").click();
             }
         });
     }, [])
@@ -105,7 +106,7 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
             );
             setContent(data);
             setNumOfPages(Math.ceil(data?.episodes?.length / perPage));
-            setLoading(false)
+            setLoading(false);
         }
         catch (e) {
             console.log(e)
@@ -157,12 +158,12 @@ export default function Seasons({ value, outPlay, setSeasonNumber: setS, setEpis
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/tv/${value?.id}/${seasonNumber}/${episodeNumber}?autoPlay=true&startAt=${currentTime}`}></iframe>}
+                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/tv/${value?.id}/${seasonNumber}/${episodeNumber}?autoPlay=true&startAt=${currentTime}&autoNext=false&nextButton=false&theme=FFA726`}></iframe>}
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.me/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
                         <Button color='warning' onClick={handlePrev} disabled={episodeNumber === 1}>Prev</Button>
-                        <Button color='warning' onClick={handleNext} disabled={episodeNumber === content?.episodes?.length}>Next</Button>
+                        <Button color='warning' id="next-button" onClick={handleNext} disabled={episodeNumber === content?.episodes?.length}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
