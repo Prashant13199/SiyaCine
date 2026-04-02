@@ -86,7 +86,7 @@ export default function Seasons({ value, watching }) {
     }
 
     const updateDB = (episode, season, progress) => {
-        database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).set({
+        database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
             id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now(), currentTime: progress
         }).then(() => {
             setSeasonNumber(season)
