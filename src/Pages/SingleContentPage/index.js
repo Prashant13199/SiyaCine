@@ -70,7 +70,7 @@ export default function SingleContentPage({ scrollTop }) {
   const [currentTime, setCurrentTime] = useState(0)
   const [currentTimeFormat, setCurrentTimeFormat] = useState()
   const [outPlay, setOutPlay] = useState(false)
-  const [seasonNumber, setSeasonNumber] = useState('')
+  const [seasonNumber, setSeasonNumber] = useState(1)
   const [episodeNumber, setEpisodeNumber] = useState(1)
 
   const handleClose2 = () => setShow2(false);
