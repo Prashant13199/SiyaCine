@@ -53,6 +53,10 @@
 
 .userlastplayed {
     color: rgb(255, 167, 38);
+    background-color: rgba(0, 0, 0, 0.8);
+    font-size: 12px;
+    padding: 4px 6px;
+    border-radius: 10px;
     position: absolute;
     left: 5px;
     bottom: 5px;

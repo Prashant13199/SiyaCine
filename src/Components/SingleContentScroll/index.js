@@ -70,9 +70,11 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
           <div className='watchprogress'>
             <div className='watchprogress2' style={{ width: duration ? `${duration}%` : '0%' }}></div>
           </div>
-          <div className='userlastplayed'>
-            {type === 'tv' && `S${lastPlayed?.season}E${lastPlayed?.episode}`}
-          </div>
+          {type === 'tv' && (
+            <div className='userlastplayed'>
+              S{lastPlayed?.season}E{lastPlayed?.episode}
+            </div>
+          )}
         </>}
     </div>
   )
