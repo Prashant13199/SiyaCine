@@ -11,6 +11,10 @@
     align-items: center;
 }
 
+.seriesResumeBtn {
+    margin-left: 10px !important;
+}
+
 .single_episode {
     margin: 5px;
     cursor: pointer;

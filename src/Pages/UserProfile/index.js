@@ -29,8 +29,8 @@ export default function UserProfile({ scrollTop }) {
   const [initiated, setInitiated] = useState('')
   const [connections, setConnections] = useState([])
   const [backdrop, setBackdrop] = useState('')
+  const [connectID, setConnectID] = useState('')
 
-  const connectID = [auth?.currentUser?.uid, uid].sort().join(':')
   const watchlist = useFetchDBData(uid, 'watchlist')
   const watched = useFetchDBData(uid, 'watched')
   const favourite = useFetchDBData(uid, 'favourites')
@@ -50,39 +50,32 @@ export default function UserProfile({ scrollTop }) {
   }, [favourite])
 
   useEffect(() => {
+    setConnectID([auth?.currentUser?.uid, uid].sort().join(':'))
+  }, [auth?.currentUser?.uid, uid])
+
+  useEffect(() => {
+    database.ref(`/Connections/${connectID}`).once('value', snapshot => {
+      if (snapshot.key === [auth?.currentUser?.uid, uid].sort().join(':')) {
+        setConnected(snapshot.val()?.connected == true ? true : false)
+        setRequested(snapshot.val()?.requested == true ? true : false)
+        setInitiated(snapshot.val()?.initiated == true ? snapshot.val()?.initiated : '')
+      }
+    })
+  }, [connectID, uid])
+
+  useEffect(() => {
     scrollTop();
     setLoading(true)
-    database.ref(`/Users/${uid}`).on('value', snapshot => {
+    database.ref(`/Users/${uid}`).once('value', snapshot => {
       setPublicAcc(snapshot.val().public)
     })
-    database.ref(`/Users/${auth?.currentUser?.uid}/admin`).on('value', snapshot => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/admin`).once('value', snapshot => {
       setAdmin(snapshot.val())
     })
-    database.ref(`/Users/${uid}/premium`).on('value', snapshot => {
+    database.ref(`/Users/${uid}/premium`).once('value', snapshot => {
       setPremium(snapshot.val())
     })
-    database.ref(`/Connections/${connectID}/connected`).on('value', snapshot => {
-      if (snapshot.val()) {
-        setConnected(true)
-      } else {
-        setConnected(false)
-      }
-    })
-    database.ref(`/Connections/${connectID}/requested`).on('value', snapshot => {
-      if (snapshot.val()) {
-        setRequested(true)
-      } else {
-        setRequested(false)
-      }
-    })
-    database.ref(`/Connections/${connectID}/initiated`).on('value', snapshot => {
-      if (snapshot.val()) {
-        setInitiated(snapshot.val())
-      } else {
-        setInitiated('')
-      }
-    })
-    database.ref(`/Connections`).orderByChild('timestamp').on('value', snapshot => {
+    database.ref(`/Connections`).orderByChild('timestamp').once('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         if (snap.key.includes(uid) && snap.val()?.connected) {
@@ -220,7 +213,7 @@ export default function UserProfile({ scrollTop }) {
               </div>
               <div className='trending_scroll' >
                 {watching?.map((data, index) => {
-                  return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} showIcon={true} />
+                  return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} />
                 })}
               </div></>}
             {watchlist?.slice(0, 10)?.length !== 0 && <><br /><br />
@@ -229,7 +222,7 @@ export default function UserProfile({ scrollTop }) {
               </div>
               <div className='trending_scroll' >
                 {watchlist?.map((data, index) => {
-                  return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} showIcon={true} />
+                  return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}
             {watched?.slice(0, 10)?.length !== 0 && <><br /><br />
@@ -238,7 +231,7 @@ export default function UserProfile({ scrollTop }) {
               </div>
               <div className='trending_scroll' >
                 {watched?.slice(0, 20)?.map((data, index) => {
-                  return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} showIcon={true} />
+                  return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}
             {favourite?.slice(0, 10)?.length !== 0 && <><br /><br />
@@ -247,7 +240,7 @@ export default function UserProfile({ scrollTop }) {
               </div>
               <div className='trending_scroll' >
                 {favourite?.map((data, index) => {
-                  return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} showIcon={true} />
+                  return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}
             {cast?.length !== 0 && <><br /><br />

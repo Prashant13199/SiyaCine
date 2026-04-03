@@ -220,7 +220,7 @@ export default function Profile({ scrollTop }) {
             </div>
             <div className='trending_scroll' >
               {watching?.map((data, index) => {
-                return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data?.type} showIcon={true} />
+                return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data?.type} userid={auth?.currentUser?.uid} />
               })}
             </div></>}
           {watchlist?.length !== 0 && <><br /><br />
@@ -229,7 +229,7 @@ export default function Profile({ scrollTop }) {
             </div>
             <div className='trending_scroll' >
               {watchlist?.slice(0, 10)?.map((data, index) => {
-                return <SingleContentScroll index={index} data={data?.data} id={data?.id} key={data?.id} type={data?.type} showIcon={true} />
+                return <SingleContentScroll index={index} data={data?.data} id={data?.id} key={data?.id} type={data?.type} />
               })}
             </div></>}
           {suggestions?.length !== 0 && <><br /><br />
@@ -239,7 +239,7 @@ export default function Profile({ scrollTop }) {
             <div className='trending_scroll' >
               {suggestions?.map((data, index) => {
                 return <div>
-                  <SingleContentScroll index={index} data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} showIcon={true} />
+                  <SingleContentScroll index={index} data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} />
                 </div>
               })}
             </div></>}
@@ -249,7 +249,7 @@ export default function Profile({ scrollTop }) {
             </div>
             <div className='trending_scroll' >
               {watched?.slice(0, 10)?.map((data, index) => {
-                return <SingleContentScroll index={index} data={data?.data} id={data?.id} key={data?.id} type={data?.type} showIcon={true} />
+                return <SingleContentScroll index={index} data={data?.data} id={data?.id} key={data?.id} type={data?.type} />
               })}
             </div></>}
           {favourite?.length !== 0 && <><br /><br />
@@ -258,7 +258,7 @@ export default function Profile({ scrollTop }) {
             </div>
             <div className='trending_scroll' >
               {favourite?.slice(0, 10)?.map((data, index) => {
-                return <SingleContentScroll index={index} data={data?.data} key={data?.id} id={data?.id} type={data?.type} showIcon={true} />
+                return <SingleContentScroll index={index} data={data?.data} key={data?.id} id={data?.id} type={data?.type} />
               })}
             </div></>}
           {cast?.length !== 0 && <><br /><br />

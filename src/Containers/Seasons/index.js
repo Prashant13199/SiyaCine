@@ -12,7 +12,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 
-export default function Seasons({ value, watching }) {
+export default function Seasons({ value, watching, handleWatching }) {
 
     const [content, setContent] = useState([])
     const [seasonNumber, setSeasonNumber] = useState(1)
@@ -43,16 +43,11 @@ export default function Seasons({ value, watching }) {
 
     useEffect(() => {
         window.addEventListener("message", (event) => {
+            console.log(event.data)
             if (event.origin !== "https://vidcore.net" && server !== 1) return;
             const { type, data } = event?.data;
             if (type === "PLAYER_EVENT") {
-                if (Math.floor(data.currentTime) % 10 === 0 || data?.event === "pause") {
-                    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
-                        currentTime: data.currentTime, duration: data.duration
-                    }).then(() => {
-                        setProgress(data.currentTime)
-                    }).catch((e) => console.log(e))
-                }
+                setProgress(data.currentTime)
             }
             if (data?.event === "ended") {
                 document.getElementById("next-button").click();
@@ -81,6 +76,7 @@ export default function Seasons({ value, watching }) {
     }
 
     const handleShow4 = (episode, season) => {
+        handleWatching()
         if (dbSeason === season && dbEpisode === episode) {
             updateDB(episode, season, currentTime)
         } else {
@@ -164,7 +160,7 @@ export default function Seasons({ value, watching }) {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/tv/${value?.id}/${seasonNumber}/${episodeNumber}?autoPlay=true&startAt=${currentTime}&autoNext=false&nextButton=false&theme=FFA726`}></iframe>}
+                    {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/tv/${value?.id}/${seasonNumber}/${episodeNumber}?autoPlay=true&startAt=${currentTime}&autoNext=false&nextButton=false&theme=FFA726&sub=en`}></iframe>}
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.me/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
@@ -187,9 +183,9 @@ export default function Seasons({ value, watching }) {
                         )
                     })}
                 </DropdownButton>
-                {watching && <Button color='warning' onClick={() => {
+                {watching && <Button variant='outlined' className='seriesResumeBtn' color='warning' onClick={() => {
                     handleShow4(dbEpisode, dbSeason)
-                }}>Resume S{dbSeason}E{dbEpisode}</Button>}
+                }}>Resume S{dbSeason}E{dbEpisode} {currentTime ? `${Math.floor(currentTime / 3600)}h${Math.floor((currentTime % 3600) / 60)}m` : '0h0m'}</Button>}
             </div>
             {!loading ?
                 <>

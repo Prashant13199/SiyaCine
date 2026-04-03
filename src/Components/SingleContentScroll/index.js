@@ -11,10 +11,11 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   const history = useHistory()
   const [show, setShow] = useState(true)
   const [lastPlayed, setLastPlayed] = useState()
+  const [currentTime, setCurrentTime] = useState(0)
 
   useEffect(() => {
     if (recom) {
-      database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).on('value', snapshot => {
+      database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).once('value', snapshot => {
         if (snapshot?.val()?.id) {
           setShow(false)
         } else {
@@ -26,11 +27,10 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
 
   useEffect(() => {
     if (userid) {
-      database.ref(`/Users/${userid}/watching/${id}`).on('value', snapshot => {
-        if (snapshot.val()?.season && snapshot.val()?.episode) {
-          setLastPlayed({ season: snapshot.val()?.season, episode: snapshot.val()?.episode })
-        } else {
-          setLastPlayed()
+      database.ref(`/Users/${userid}/watching/${id}`).once('value', snapshot => {
+        if (snapshot.val()) {
+          setLastPlayed({ season: snapshot.val()?.season ? snapshot.val()?.season : 1, episode: snapshot.val()?.episode ? snapshot.val()?.episode : 1 })
+          setCurrentTime(snapshot.val()?.currentTime ? `${Math.floor(snapshot.val()?.currentTime / 3600)}h${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m` : '0h0m')
         }
       })
     }
@@ -63,8 +63,9 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
         </div>
         <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
       </div>}
-      {(userid && type === 'tv' && lastPlayed) && <div className='userlastplayed'>
-        S{lastPlayed.season}&nbsp;E{lastPlayed.episode}
+      {(userid && (lastPlayed || currentTime)) && <div className='userlastplayed'>
+        {type === 'movie' ? currentTime :
+          `S${lastPlayed?.season}E${lastPlayed?.episode} ${currentTime}`}
       </div>}
     </div>
   )

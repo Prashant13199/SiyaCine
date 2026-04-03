@@ -93,7 +93,7 @@ export default function Trending({ scrollTop }) {
           </div>
           <div className='trending_scroll' >
             {watching && watching.map((data, index) => {
-              return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} showIcon={true} />
+              return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} userid={auth?.currentUser?.uid} />
             })}
           </div></>}
 

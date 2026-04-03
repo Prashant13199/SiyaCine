@@ -38,6 +38,7 @@ import useFetchUsers from '../../hooks/useFetchUsers';
 import ShareUser from '../../Components/ShareUser';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { useLayoutEffect } from 'react';
+import { set } from 'firebase/database';
 
 export default function SingleContentPage({ scrollTop }) {
 
@@ -78,10 +79,8 @@ export default function SingleContentPage({ scrollTop }) {
   const handleClose4 = () => {
     setShow4(false)
     database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
-      currentTime: progress
-    }).then(() => {
-      setCurrentTime(progress)
-    }).catch((e) => console.log(e));
+      currentTime: progress, timestamp: Date.now(), id: id
+    }).catch((e) => console.log(e))
   }
   const handleShow4 = () => {
     setShow4(true)
@@ -105,15 +104,8 @@ export default function SingleContentPage({ scrollTop }) {
       if (event.origin !== "https://vidcore.net" && server !== 1) return;
       const { type, data } = event?.data;
       if (type === "PLAYER_EVENT") {
-        if (Math.floor(data.currentTime) % 10 === 0 || data?.event === "pause") {
-          database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
-            currentTime: data.currentTime, duration: data.duration
-          }).then(() => {
-            setProgress(data.currentTime)
-            setCurrentTimeFormat(`${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m`)
-          })
-            .catch((e) => console.log(e));
-        }
+        setProgress(data.currentTime);
+        setCurrentTimeFormat(data?.currentTime ? `${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m` : '0h 0m')
       }
     });
   }, [])
@@ -128,28 +120,28 @@ export default function SingleContentPage({ scrollTop }) {
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/favourites/${id}`).once('value', snapshot => {
-      if (snapshot.val()?.id === id) {
+      if (snapshot.val()?.id == id) {
         setFavourite(true)
       } else {
         setFavourite(false)
       }
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).once('value', snapshot => {
-      if (snapshot.val()?.id === id) {
+      if (snapshot.val()?.id == id) {
         setTracking(true)
       } else {
         setTracking(false)
       }
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/watchlist/${id}`).once('value', snapshot => {
-      if (snapshot.val()?.id === id) {
+      if (snapshot.val()?.id == id) {
         setWatchlist(true)
       } else {
         setWatchlist(false)
       }
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/watched/${id}`).once('value', snapshot => {
-      if (snapshot.val()?.id === id) {
+      if (snapshot.val()?.id == id) {
         setWatched(true)
       } else {
         setWatched(false)
@@ -159,7 +151,7 @@ export default function SingleContentPage({ scrollTop }) {
       if (snapshot.val()?.id == id) {
         setWatching(true)
         setCurrentTime(snapshot.val()?.currentTime || 0)
-        setCurrentTimeFormat(`${Math.floor(snapshot.val()?.currentTime / 3600)}h ${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m`)
+        setCurrentTimeFormat(snapshot.val()?.currentTime ? `${Math.floor(snapshot.val()?.currentTime / 3600)}h ${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m` : '0h 0m')
       } else {
         setWatching(false)
       }
@@ -464,7 +456,7 @@ export default function SingleContentPage({ scrollTop }) {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          {server === 1 && <iframe allow="encrypted-media" title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/movie/${id}?autoPlay=true&startAt=${currentTime}&theme=FFA726`}></iframe>}
+          {server === 1 && <iframe allow="encrypted-media" title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/movie/${id}?autoPlay=true&startAt=${currentTime}&theme=FFA726&sub=en`}></iframe>}
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.me/embed/movie/${id}`}></iframe>}
           {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
           <div className='player_bottom'>
@@ -597,7 +589,7 @@ export default function SingleContentPage({ scrollTop }) {
               </div>
             </div>
             <br /><br />
-            {type === 'tv' && <Seasons value={data} watching={watching} />}
+            {type === 'tv' && <Seasons value={data} watching={watching} handleWatching={handleWatching2} />}
             <div className='singlecontent'>
               {credit.cast && credit.cast.length !== 0 && <><br /><br />
                 <div className='trending_flex'>
