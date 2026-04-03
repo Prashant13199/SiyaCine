@@ -119,9 +119,11 @@ export default function NavBarMain({ top, scrollTop }) {
             <h2>Notifications</h2>
             <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
           </div>
-          {notifications?.map((noti) => {
-            return <Notification noti={noti} handleClose={handleClose2} />
-          })}
+          <div className='notification_body'>
+            {notifications?.map((noti) => {
+              return <Notification noti={noti} handleClose={handleClose2} />
+            })}
+          </div>
         </Modal.Body>
       </Modal>
       <Navbar className={top < 50 ? 'navbar_main' : 'navbar_main navbar_main_back'} variant={theme.palette.mode} fixed='top'>
@@ -143,10 +145,6 @@ export default function NavBarMain({ top, scrollTop }) {
                 </Badge>
               </NavLink>
             </Nav>}
-            <Nav>
-              <NavLink to='/profile' activeClassName="navlinkActive" style={{ textDecoration: 'none', color: theme.palette.warning.main }} className="navlink" activeStyle={{ opacity: 1 }}
-                exact={true}><img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=loading?size=96`} className={location && location.pathname === '/profile' ? 'navbar__img_active' : 'navbar__img'} /></NavLink>
-            </Nav>
           </>
           :
           <Nav>
@@ -158,7 +156,9 @@ export default function NavBarMain({ top, scrollTop }) {
         <div className={`${location.pathname === '/' && 'slider slide-to-home' ||
           location.pathname === '/search' && 'slider slide-to-search' ||
           location.pathname === '/movies' && 'slider slide-to-movies' ||
-          location.pathname === '/tv' && 'slider slide-to-tvs'}`}></div>
+          location.pathname === '/tv' && 'slider slide-to-tvs' ||
+          location.pathname === '/profile' && 'slider slide-to-profile'}`
+        }></div>
 
         <NavLink onClick={scrollTop} to='/' activeClassName="navlinkActive" className="navlink" exact={true} >
           <HomeIcon className='nav_icon' />
@@ -176,6 +176,10 @@ export default function NavBarMain({ top, scrollTop }) {
           <SearchIcon className='nav_icon' />
           Search
         </NavLink>
+        {auth?.currentUser?.uid && <NavLink className="navlink" exact={true} onClick={scrollTop} to='/profile' activeClassName="navlinkActive">
+          <img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=loading?size=96`} className={'navbar__img'} />
+          You
+        </NavLink>}
       </Navbar>
     </>
   )

@@ -13,7 +13,7 @@
 
 .embla {
     margin: auto;
-    --slide-height: 30rem;
+    --slide-height: 35rem;
     --slide-spacing: 1rem;
     --slide-size: 80%;
 }
@@ -48,5 +48,9 @@
 @media only screen and (max-width: 660px) {
     .welcome_text {
         display: none;
+    }
+
+    .embla {
+        --slide-height: 30rem;
     }
 }

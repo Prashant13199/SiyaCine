@@ -1,29 +1,13 @@
 .navbar__img {
-    height: 45px;
-    width: 45px;
+    height: 25px;
+    width: 25px;
     object-fit: cover;
-    margin-left: 10px;
     border-radius: 50%;
-    border-color: transparent;
-    border-width: 1.2px;
-    padding: 1.2px;
-    border-style: solid;
-}
-
-.navbar__img_active {
-    height: 45px;
-    width: 45px;
-    object-fit: cover;
-    margin-left: 10px;
-    border-radius: 50%;
-    border-width: 1.2px;
-    padding: 1.2px;
-    border-style: solid;
 }
 
 .navbar_back {
     transition: all .5s ease-in-out;
-    background: rgba(119, 72, 1, 0.5);
+    background: rgba(119, 72, 1, 0.6);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     align-items: center;
@@ -43,7 +27,7 @@
 }
 
 .navbar_main_back {
-    background: rgba(119, 72, 1, 0.5);
+    background: rgba(119, 72, 1, 0.6);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
 }
@@ -62,7 +46,7 @@
     font-weight: bold;
     display: grid;
     place-items: center;
-    width: 80px;
+    width: 100px;
     font-size: 12px;
     text-decoration: none;
     color: white;
@@ -73,15 +57,15 @@
 }
 
 .navlinkActive {
-    width: 80px;
+    width: 100px;
     border-radius: 30px;
     color: black;
 }
 
 .slider {
     position: absolute;
-    height: 80%;
-    width: 80px;
+    height: 100%;
+    width: 100px;
     background-color: rgb(255, 167, 38);
     border-radius: 30px;
     transition: transform 0.3s ease-in-out;
@@ -97,20 +81,29 @@
 }
 
 .slide-to-movies {
-    transform: translateX(80px);
+    transform: translateX(100px);
 }
 
 .slide-to-tvs {
-    transform: translateX(160px);
+    transform: translateX(200px);
 }
 
 .slide-to-search {
-    transform: translateX(240px);
+    transform: translateX(300px);
+}
+
+.slide-to-profile {
+    transform: translateX(400px);
 }
 
 .nav_icons {
     display: grid;
     place-items: center;
+}
+
+.notification_body {
+    max-height: 70vh;
+    overflow: auto;
 }
 
 @media screen and (max-width: 660px) {
@@ -120,25 +113,48 @@
     }
 
     .navbar__img {
-        height: 50px;
-        width: 50px;
-    }
-
-    .navbar__img_active {
-        height: 50px;
-        width: 50px;
+        height: 20px;
+        width: 20px;
     }
 
     .navbar_icon {
-        width: 80px;
-    }
-
-    .navbar_back {
-        padding: 8px;
+        width: 90px;
     }
 
     .nav_icon {
         font-size: 20px !important;
+    }
+
+    .slide-to-home {
+        transform: translateX(0px);
+    }
+
+    .slide-to-movies {
+        transform: translateX(70px);
+    }
+
+    .slide-to-tvs {
+        transform: translateX(140px);
+    }
+
+    .slide-to-search {
+        transform: translateX(210px);
+    }
+
+    .slide-to-profile {
+        transform: translateX(280px);
+    }
+
+    .navlink {
+        width: 70px;
+    }
+
+    .navlinkActive {
+        width: 70px;
+    }
+
+    .slider {
+        width: 70px;
     }
 
 }
