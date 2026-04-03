@@ -38,7 +38,6 @@ import useFetchUsers from '../../hooks/useFetchUsers';
 import ShareUser from '../../Components/ShareUser';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { useLayoutEffect } from 'react';
-import { set } from 'firebase/database';
 
 export default function SingleContentPage({ scrollTop }) {
 
@@ -71,6 +70,7 @@ export default function SingleContentPage({ scrollTop }) {
   const [currentTime, setCurrentTime] = useState(0)
   const [currentTimeFormat, setCurrentTimeFormat] = useState()
   const [progress, setProgress] = useState(0)
+  const [duration, setDuration] = useState(0)
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -79,7 +79,7 @@ export default function SingleContentPage({ scrollTop }) {
   const handleClose4 = () => {
     setShow4(false)
     database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
-      currentTime: progress, timestamp: Date.now(), id: id
+      currentTime: progress, timestamp: Date.now(), id: id, duration: duration
     }).catch((e) => console.log(e))
   }
   const handleShow4 = () => {
@@ -105,6 +105,7 @@ export default function SingleContentPage({ scrollTop }) {
       const { type, data } = event?.data;
       if (type === "PLAYER_EVENT") {
         setProgress(data.currentTime);
+        setDuration(data.duration);
         setCurrentTimeFormat(data?.currentTime ? `${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m` : '0h 0m')
       }
     });
@@ -189,7 +190,7 @@ export default function SingleContentPage({ scrollTop }) {
         `https://api.themoviedb.org/3/${type}/${id}/watch/providers?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       if (data.results?.IN?.flatrate) {
-        setWatchProvider({ path: data.results?.IN?.flatrate[0] ? data.results?.IN?.flatrate[0]?.logo_path : '', link: data.results?.IN ? data.results?.IN?.link : '' });
+        setWatchProvider({ path: data.results?.IN?.flatrate[0] ? data.results?.IN?.flatrate[0]?.logo_path : '', link: data.results?.IN ? data.results?.IN?.link : '', name: data.results?.IN?.flatrate[0] ? data.results?.IN?.flatrate[0]?.provider_name : '' });
       }
     }
     catch (e) {
@@ -504,16 +505,6 @@ export default function SingleContentPage({ scrollTop }) {
                       >
                         {watching ? `Resume ${currentTimeFormat}` : 'Play now'}
                       </Button>}
-                    {watchprovider?.path && <Button
-                      endIcon={<img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />}
-                      className='play_button'
-                      target="__blank"
-                      href={watchprovider.link}
-                      variant='contained'
-                      size='large'
-                    >
-                      Watch on
-                    </Button>}
                   </div>
                 </div>
                 <div className='details'>
@@ -567,6 +558,11 @@ export default function SingleContentPage({ scrollTop }) {
                             <ShareOutlinedIcon />
                           </IconButton>
                         </Tooltip>
+                        {watchprovider?.path && <Tooltip title={watchprovider.name}>
+                          <IconButton target='_blank' href={watchprovider.link} style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }}>
+                            <img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />
+                          </IconButton>
+                        </Tooltip>}
                       </>}
                     </div>
                   </div>

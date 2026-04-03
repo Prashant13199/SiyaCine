@@ -11,7 +11,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   const history = useHistory()
   const [show, setShow] = useState(true)
   const [lastPlayed, setLastPlayed] = useState()
-  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
 
   useEffect(() => {
     if (recom) {
@@ -25,12 +25,14 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
     }
   }, [auth?.currentUser?.uid, recom, id])
 
+  console.log(duration)
+
   useEffect(() => {
     if (userid) {
       database.ref(`/Users/${userid}/watching/${id}`).once('value', snapshot => {
         if (snapshot.val()) {
           setLastPlayed({ season: snapshot.val()?.season ? snapshot.val()?.season : 1, episode: snapshot.val()?.episode ? snapshot.val()?.episode : 1 })
-          setCurrentTime(snapshot.val()?.currentTime ? `${Math.floor(snapshot.val()?.currentTime / 3600)}h${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m` : '0h0m')
+          setDuration((snapshot.val()?.currentTime / snapshot.val()?.duration) * 100)
         }
       })
     }
@@ -63,10 +65,15 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
         </div>
         <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
       </div>}
-      {(userid && (lastPlayed || currentTime)) && <div className='userlastplayed'>
-        {type === 'movie' ? currentTime :
-          `S${lastPlayed?.season}E${lastPlayed?.episode} ${currentTime}`}
-      </div>}
+      {(userid && (lastPlayed || duration)) &&
+        <>
+          <div className='watchprogress'>
+            <div className='watchprogress2' style={{ width: duration ? `${duration}%` : '0%' }}></div>
+          </div>
+          <div className='userlastplayed'>
+            {type === 'tv' && `S${lastPlayed?.season}E${lastPlayed?.episode}`}
+          </div>
+        </>}
     </div>
   )
 }

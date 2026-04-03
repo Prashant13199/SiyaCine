@@ -27,6 +27,7 @@ export default function Seasons({ value, watching, handleWatching }) {
     const [numOfPages, setNumOfPages] = useState();
     const [currentTime, setCurrentTime] = useState(0)
     const [progress, setProgress] = useState(0)
+    const [duration, setDuration] = useState(0)
 
     const [dbSeason, setDbSeason] = useState(1)
     const [dbEpisode, setDbEpisode] = useState(1)
@@ -48,6 +49,7 @@ export default function Seasons({ value, watching, handleWatching }) {
             const { type, data } = event?.data;
             if (type === "PLAYER_EVENT") {
                 setProgress(data.currentTime)
+                setDuration(data.duration)
             }
             if (data?.event === "ended") {
                 document.getElementById("next-button").click();
@@ -61,6 +63,7 @@ export default function Seasons({ value, watching, handleWatching }) {
                 setSeasonNumber(snapshot.val()?.season)
                 setEpisodeNumber(snapshot.val()?.episode)
                 setCurrentTime(snapshot.val()?.currentTime || 0)
+                setDuration(snapshot.val()?.duration || 0)
                 setDbSeason(snapshot.val()?.season)
                 setDbEpisode(snapshot.val()?.episode)
             }
@@ -87,7 +90,7 @@ export default function Seasons({ value, watching, handleWatching }) {
 
     const updateDB = (episode, season, progress) => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
-            id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now(), currentTime: progress
+            id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now(), currentTime: progress, duration: duration
         }).then(() => {
             setSeasonNumber(season)
             setEpisodeNumber(episode)
@@ -185,7 +188,7 @@ export default function Seasons({ value, watching, handleWatching }) {
                 </DropdownButton>
                 {watching && <Button variant='outlined' className='seriesResumeBtn' color='warning' onClick={() => {
                     handleShow4(dbEpisode, dbSeason)
-                }}>Resume S{dbSeason}E{dbEpisode} {currentTime ? `${Math.floor(currentTime / 3600)}h${Math.floor((currentTime % 3600) / 60)}m` : '0h0m'}</Button>}
+                }}>Resume S{dbSeason}E{dbEpisode} {currentTime !== 0 && `${Math.floor(currentTime / 3600)}h${Math.floor((currentTime % 3600) / 60)}m`}</Button>}
             </div>
             {!loading ?
                 <>
