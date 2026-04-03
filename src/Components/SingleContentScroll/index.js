@@ -25,8 +25,6 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
     }
   }, [auth?.currentUser?.uid, recom, id])
 
-  console.log(duration)
-
   useEffect(() => {
     if (userid) {
       database.ref(`/Users/${userid}/watching/${id}`).once('value', snapshot => {

@@ -28,6 +28,7 @@ export default function Seasons({ value, watching, handleWatching }) {
     const [currentTime, setCurrentTime] = useState(0)
     const [progress, setProgress] = useState(0)
     const [duration, setDuration] = useState(0)
+    const [ended, setEnded] = useState(false)
 
     const [dbSeason, setDbSeason] = useState(1)
     const [dbEpisode, setDbEpisode] = useState(1)
@@ -44,15 +45,17 @@ export default function Seasons({ value, watching, handleWatching }) {
 
     useEffect(() => {
         window.addEventListener("message", (event) => {
-            console.log(event.data)
             if (event.origin !== "https://vidcore.net" && server !== 1) return;
             const { type, data } = event?.data;
             if (type === "PLAYER_EVENT") {
                 setProgress(data.currentTime)
                 setDuration(data.duration)
             }
-            if (data?.event === "ended") {
+            if (data?.event === "ended" && !ended) {
+                setEnded(true)
                 document.getElementById("next-button").click();
+            } else {
+                setEnded(false)
             }
         });
     }, [])
@@ -124,6 +127,7 @@ export default function Seasons({ value, watching, handleWatching }) {
     }
 
     const handleNext = () => {
+        console.log("next clicked")
         setEpisodeNumber(episodeNumber + 1)
         updateDB(episodeNumber + 1, seasonNumber, 0)
         handleMarkComplete()
