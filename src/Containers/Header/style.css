@@ -1,32 +1,52 @@
-.welcome_backdrop {
-    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(1, 1, 1, 0.8));
-    height: 70vh;
-}
-
-.welcome {
-    overflow-x: hidden;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    margin: 0 40px;
-    border-radius: 20px;
-}
-
 .welcome_text {
     display: block;
+    position: absolute;
+    bottom: 0;
+}
+
+.title_image {
+    height: auto;
+    width: 200px;
+    object-fit: contain;
+    margin: 20px;
+}
+
+.embla {
+    margin: auto;
+    --slide-height: 30rem;
+    --slide-spacing: 1rem;
+    --slide-size: 80%;
+}
+
+.embla__viewport {
+    overflow: hidden;
+}
+
+.embla__slide__img {
+    display: block;
+    height: var(--slide-height);
+    width: 100%;
+    object-fit: cover;
+    border-radius: 1.8rem;
+    object-fit: cover;
+    position: relative;
+    object-position: top;
+}
+
+.embla__container {
+    display: flex;
+    touch-action: pan-y pinch-zoom;
+    margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__slide {
+    flex: 0 0 var(--slide-size);
+    min-width: 0;
+    padding-left: var(--slide-spacing);
 }
 
 @media only screen and (max-width: 660px) {
-
-    .welcome {
-        margin: 0 10px;
-    }
-
     .welcome_text {
         display: none;
-    }
-
-    .welcome_backdrop {
-        background-image: unset;
     }
 }
