@@ -1,8 +1,13 @@
 .single_content_scroll {
     position: relative;
-    transition: all .3s ease-in-out !important;
     margin-top: 5px;
     margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.single_content_scroll:hover {
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
 }
 
 .poster_scroll {

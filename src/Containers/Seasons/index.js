@@ -37,7 +37,7 @@ export default function Seasons({ value, watching, handleWatching }) {
 
     useEffect(() => {
         fetchDetails();
-    }, [seasonNumber])
+    }, [seasonNumber, setDbSeason])
 
     useEffect(() => {
         handlePagination()

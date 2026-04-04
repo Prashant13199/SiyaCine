@@ -1,21 +1,20 @@
 .premium {
     border-radius: 10px;
     color: black;
-    background-color: rgb(255, 77, 148);
-    border-color: rgb(255, 77, 148);
-    padding: 6px 20px;
-    border-style: solid;
+    padding: 8px 20px;
     width: fit-content;
     font-size: 12px;
     font-weight: 500;
+    background: linear-gradient(-45deg, rgb(255, 77, 148) 40%, rgb(255, 141, 187) 50%, rgb(255, 77, 148) 60%);
+    background-size: 300%;
+    background-position-x: 100%;
+    animation: shimmer 2s infinite linear;
 }
 
 .basic {
     border-radius: 10px;
     background-color: rgb(65, 138, 255);
-    border-color: rgb(65, 138, 255);
-    padding: 6px 20px;
-    border-style: solid;
+    padding: 8px 20px;
     width: fit-content;
     font-size: 12px;
     font-weight: 500;
@@ -23,4 +22,10 @@
 
 .handlepremium {
     cursor: pointer;
+}
+
+@keyframes shimmer {
+    to {
+        background-position-x: 0%
+    }
 }

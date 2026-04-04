@@ -87,7 +87,7 @@ export default function Trending({ scrollTop }) {
 
         <Header />
 
-        {watching?.length !== 0 && <><br /><br />
+        {watching?.length !== 0 && auth?.currentUser?.uid && <><br /><br />
           <div className='trending_flex'>
             <div className='trending_title' >Resume Watching</div>
           </div>

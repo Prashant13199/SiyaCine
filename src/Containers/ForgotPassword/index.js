@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { auth } from "../../firebase";
 import TextField from "@mui/material/TextField";
 import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
+import { Button } from "@mui/material";
 
 export default function ForgotPassword({ handleClose2 }) {
 
@@ -68,13 +68,15 @@ export default function ForgotPassword({ handleClose2 }) {
                     </div>
                     <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                         <Button
-                            variant="warning"
+                            color="warning"
+                            variant="contained"
                             size="md"
                             id="uploadBtn"
                             onClick={() => forgot()}
                         >
                             {loading ? "Please Wait.." : "Send Reset Link"}
                         </Button>
+                        <Button onClick={handleClose2} color="warning" variant="outlined">Cancel</Button>
                     </div>
                 </div>
             </div>

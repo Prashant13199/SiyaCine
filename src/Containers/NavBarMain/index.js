@@ -109,7 +109,7 @@ export default function NavBarMain({ top, scrollTop }) {
   return (
     <>
       <Modal show={show} onHide={handleClose} centered>
-        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default, borderRadius: '20px' }}>
           <Login handleClose={handleClose} />
         </Modal.Body>
       </Modal>

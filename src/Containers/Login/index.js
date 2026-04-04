@@ -3,11 +3,10 @@ import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { auth, database } from "../../firebase";
 import TextField from "@mui/material/TextField";
-import { IconButton, InputAdornment } from "@mui/material";
+import { Button, IconButton, InputAdornment } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
 import { Modal } from 'react-bootstrap';
 import ForgotPassword from "../ForgotPassword";
 import GoogleSignin from "../../Components/GoogleSignin";
@@ -174,7 +173,8 @@ export default function Login({ handleClose }) {
                     <br />
                     <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                         <Button
-                            variant="warning"
+                            color="warning"
+                            variant="contained"
                             size="md"
                             id="uploadBtn"
                             onClick={() => login()}
@@ -183,7 +183,9 @@ export default function Login({ handleClose }) {
                         </Button>
                     </div>
                     <div className="d-grid gap-2" style={{ marginTop: "10px", cursor: 'pointer' }}>
-                        <a className="a_link" href="#" onClick={() => handleShow2()} style={{ textDecoration: 'none', color: theme.palette.warning.main }}>Forgot Password?</a>
+                        <a className="a_link" href="#" onClick={() => {
+                            handleShow2()
+                        }} style={{ textDecoration: 'none', color: theme.palette.warning.main }}>Forgot Password?</a>
                     </div>
                     <div className="d-grid gap-2" style={{ marginTop: "10px", cursor: 'pointer' }}>
                         <a className="a_link" href="#" onClick={() => handleMode()} style={{ textDecoration: 'none', color: theme.palette.warning.main }}>Don't have an account?</a>
@@ -233,7 +235,8 @@ export default function Login({ handleClose }) {
                         </div>
                         <div className="d-grid gap-2" style={{ marginTop: "20px" }}>
                             <Button
-                                variant="warning"
+                                color="warning"
+                                variant="contained"
                                 size="md"
                                 id="uploadBtn"
 

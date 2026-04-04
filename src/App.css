@@ -24,6 +24,11 @@
     margin-bottom: 100px;
 }
 
+.modal-content {
+    background-color: rgb(18, 18, 18) !important;
+    border-radius: 20px !important;
+}
+
 @media screen and (max-width: 660px) {
     .content {
         margin-left: 10px;

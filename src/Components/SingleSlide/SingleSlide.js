@@ -16,7 +16,7 @@ export default function SingleSlide({ data, index }) {
                 setTitle(response.data.logos[0].file_path);
             })
             .catch(error => {
-                console.error('Error fetching now playing movies:', error);
+                console.error('Error:', error);
             });
     }, [index, nowPlaying])
 

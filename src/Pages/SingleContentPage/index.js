@@ -529,39 +529,61 @@ export default function SingleContentPage({ scrollTop }) {
                     <div className='actions'>
                       {auth?.currentUser?.uid && <>
                         <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
-                          <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
-                            {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
-                          </IconButton>
+                          <div className='iconBox'>
+                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
+                              {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
+                            </IconButton>
+                            <div className='iconText'>Like</div>
+                          </div>
                         </Tooltip>
+
                         <Tooltip title={watchlist ? "Remove from Watchlist" : 'Add to Watchlist'}>
-                          <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatchlist()}>
-                            {watchlist ? <DoneIcon color="warning" /> : <AddIcon />}
-                          </IconButton>
+                          <div className='iconBox'>
+                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatchlist()}>
+                              {watchlist ? <DoneIcon color="warning" /> : <AddIcon />}
+                            </IconButton>
+                            <div className='iconText'>Watchlist</div>
+                          </div>
                         </Tooltip>
                         <Tooltip title={watching ? "Remove from Watching" : "Add to Watching"}>
-                          <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatching()}>
-                            {watching ? <PlayCircleFilledWhiteIcon color="warning" /> : <PlayCircleOutlineIcon />}
-                          </IconButton>
+                          <div className='iconBox'>
+                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatching()}>
+                              {watching ? <PlayCircleFilledWhiteIcon color="warning" /> : <PlayCircleOutlineIcon />}
+                            </IconButton>
+                            <div className='iconText'>Watching</div>
+                          </div>
                         </Tooltip>
                         <Tooltip title={watched ? "Remove from Watched" : 'Add to Watched'}>
-                          <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleWatched()}>
-                            {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
-                          </IconButton>
+                          <div className='iconBox'>
+                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatched()}>
+                              {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
+                            </IconButton>
+                            <div className='iconText'>Watched</div>
+                          </div>
                         </Tooltip>
                         {type === 'tv' && <Tooltip title={tracking ? "Remove from tracking" : "Track show"}>
-                          <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleTracking()}>
-                            {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
-                          </IconButton>
+                          <div className='iconBox'>
+                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleTracking()}>
+                              {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
+                            </IconButton>
+                            <div className='iconText'>Tracking</div>
+                          </div>
                         </Tooltip>}
                         <Tooltip title="Share">
-                          <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handleShow2()}>
-                            <ShareOutlinedIcon />
-                          </IconButton>
+                          <div className='iconBox'>
+                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleShow2()}>
+                              <ShareOutlinedIcon />
+                            </IconButton>
+                            <div className='iconText'>Share</div>
+                          </div>
                         </Tooltip>
                         {watchprovider?.path && <Tooltip title={watchprovider.name}>
-                          <IconButton target='_blank' href={watchprovider.link} style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }}>
-                            <img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />
-                          </IconButton>
+                          <div className='iconBox'>
+                            <IconButton target='_blank' href={watchprovider.link} style={{ backgroundColor: theme.palette.background.default }}>
+                              <img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />
+                            </IconButton>
+                            <div className='iconText'>Watch on</div>
+                          </div>
                         </Tooltip>}
                       </>}
                     </div>
@@ -663,7 +685,7 @@ export default function SingleContentPage({ scrollTop }) {
                 {reviews.length === 0 && reviews2.length === 0 && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
               </div>
             </div>
-          </div>
+          </div >
         </>
         :
         <div className="loading">
