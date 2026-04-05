@@ -56,6 +56,13 @@ export default function NavBarMain({ top, scrollTop }) {
     })
   }
 
+  const removeAllNotifications = () => {
+    database.ref(`/Users/${auth?.currentUser?.uid}/notifications`).remove().then(() => {
+      setNotifications([])
+      handleClose2()
+    }).catch((e) => console.log(e))
+  }
+
   useEffect(() => {
     if (location.pathname === '/profile') {
       setRouteName('My Profile')
@@ -123,6 +130,9 @@ export default function NavBarMain({ top, scrollTop }) {
             {notifications?.map((noti) => {
               return <Notification noti={noti} handleClose={handleClose2} />
             })}
+            <div className='clearAllNotification'>
+              <div onClick={removeAllNotifications} className='clearAllText'><CloseIcon fontSize='16px' />clear all</div>
+            </div>
           </div>
         </Modal.Body>
       </Modal>

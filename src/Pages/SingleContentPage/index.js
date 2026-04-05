@@ -68,7 +68,7 @@ export default function SingleContentPage({ scrollTop }) {
   const [tracking, setTracking] = useState([])
   const [backdrop, setBackdrop] = useState('')
   const [currentTime, setCurrentTime] = useState(0)
-  const [currentTimeFormat, setCurrentTimeFormat] = useState()
+  const [currentTimeFormat, setCurrentTimeFormat] = useState("0h0m")
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
 
@@ -78,13 +78,24 @@ export default function SingleContentPage({ scrollTop }) {
   const handleShow3 = () => setShow3(true);
   const handleClose4 = () => {
     setShow4(false)
-    database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
-      currentTime: progress, timestamp: Date.now(), id: id, duration: duration
-    }).catch((e) => console.log(e))
+    updateProgress(progress, duration, true)
   }
   const handleShow4 = () => {
     setShow4(true)
     handleWatching2()
+  }
+
+  const updateProgress = (progress, duration, update) => {
+    if (progress && duration) {
+      database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
+        currentTime: progress,
+        timestamp: Date.now(),
+        id: id,
+        duration: duration
+      }).then(() => {
+        update && setCurrentTime(progress)
+      }).catch((e) => console.log(e))
+    }
   }
 
   const premium = useFetchPremium(auth?.currentUser?.uid)
@@ -100,15 +111,27 @@ export default function SingleContentPage({ scrollTop }) {
   }, [data])
 
   useEffect(() => {
-    window.addEventListener("message", (event) => {
+    const fetchProgress = (event) => {
       if (event.origin !== "https://vidcore.net" && server !== 1) return;
-      const { type, data } = event?.data;
-      if (type === "PLAYER_EVENT") {
-        setProgress(data.currentTime);
-        setDuration(data.duration);
-        setCurrentTimeFormat(data?.currentTime ? `${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m` : '0h 0m')
+      const { data } = event?.data;
+      if (data?.currentTime && data?.duration) {
+        setProgress(data?.currentTime);
+        setDuration(data?.duration);
+        setCurrentTimeFormat(`${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m`)
+        if (data?.event === "pause") {
+          updateProgress(data?.currentTime, data?.duration, false)
+        }
       }
-    });
+
+    }
+    window.addEventListener("message", fetchProgress);
+    window.addEventListener("beforeunload", updateProgress(progress, duration, false))
+    window.addEventListener("blur", updateProgress(progress, duration, false))
+    return () => {
+      window.removeEventListener("message", fetchProgress);
+      window.removeEventListener("beforeunload", updateProgress)
+      window.removeEventListener("blur", updateProgress)
+    }
   }, [])
 
   useLayoutEffect(() => {
@@ -151,8 +174,11 @@ export default function SingleContentPage({ scrollTop }) {
     database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).once('value', snapshot => {
       if (snapshot.val()?.id == id) {
         setWatching(true)
-        setCurrentTime(snapshot.val()?.currentTime || 0)
-        setCurrentTimeFormat(snapshot.val()?.currentTime ? `${Math.floor(snapshot.val()?.currentTime / 3600)}h ${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m` : '0h 0m')
+        if (snapshot.val()?.currentTime && snapshot.val()?.duration) {
+          setDuration(snapshot.val()?.duration)
+          setCurrentTime(snapshot.val()?.currentTime)
+          setCurrentTimeFormat(`${Math.floor(snapshot.val()?.currentTime / 3600)}h ${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m`)
+        }
       } else {
         setWatching(false)
       }

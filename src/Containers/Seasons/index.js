@@ -44,31 +44,55 @@ export default function Seasons({ value, watching, handleWatching }) {
     }, [page, content])
 
     useEffect(() => {
-        window.addEventListener("message", (event) => {
+        const fetchProgress = (event) => {
             if (event.origin !== "https://vidcore.net" && server !== 1) return;
-            const { type, data } = event?.data;
-            if (type === "PLAYER_EVENT") {
-                setProgress(data.currentTime)
-                setDuration(data.duration)
+            const { data } = event?.data;
+            if (data?.currentTime && data?.duration) {
+                setProgress(data?.currentTime)
+                setDuration(data?.duration)
+                if (data?.event === "pause") {
+                    updateProgress(data?.currentTime, data?.duration, false)
+                }
+                if (data?.event === "ended" && !ended) {
+                    setEnded(true)
+                    document.getElementById("next-button").click();
+                } else {
+                    setEnded(false)
+                }
             }
-            if (data?.event === "ended" && !ended) {
-                setEnded(true)
-                document.getElementById("next-button").click();
-            } else {
-                setEnded(false)
-            }
-        });
+        }
+        window.addEventListener("message", fetchProgress);
+        window.addEventListener("beforeunload", updateProgress(progress, duration))
+        window.addEventListener("blur", updateProgress(progress, duration))
+        return () => {
+            window.removeEventListener("message", fetchProgress)
+            window.removeEventListener("beforeunload", updateProgress)
+            window.removeEventListener("blur", updateProgress)
+        }
     }, [])
+
+    const updateProgress = (progress, duration) => {
+        if (progress && duration) {
+            database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
+                currentTime: progress,
+                timestamp: Date.now(),
+                id: value?.id,
+                duration: duration
+            }).catch((e) => console.log(e))
+        }
+    }
 
     useEffect(() => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).once('value', snapshot => {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setSeasonNumber(snapshot.val()?.season)
                 setEpisodeNumber(snapshot.val()?.episode)
-                setCurrentTime(snapshot.val()?.currentTime || 0)
-                setDuration(snapshot.val()?.duration || 0)
                 setDbSeason(snapshot.val()?.season)
                 setDbEpisode(snapshot.val()?.episode)
+                if (snapshot.val()?.currentTime && snapshot.val()?.duration) {
+                    setCurrentTime(snapshot.val()?.currentTime)
+                    setDuration(snapshot.val()?.duration)
+                }
             }
         })
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).once('value', snapshot => {
@@ -78,22 +102,29 @@ export default function Seasons({ value, watching, handleWatching }) {
 
     const handleClose4 = () => {
         setShow4(false)
-        updateDB(episodeNumber, seasonNumber, progress)
+        updateDB(episodeNumber, seasonNumber, progress, duration)
     }
 
     const handleShow4 = (episode, season) => {
         handleWatching()
         if (dbSeason === season && dbEpisode === episode) {
-            updateDB(episode, season, currentTime)
+            updateDB(episode, season, currentTime, duration)
         } else {
-            updateDB(episode, season, 0)
+            updateDB(episode, season, 0, duration)
         }
         setShow4(true)
     }
 
-    const updateDB = (episode, season, progress) => {
+    const updateDB = (episode, season, progress, duration) => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
-            id: value?.id, data: value, type: 'tv', season: season, episode: episode, timestamp: Date.now(), currentTime: progress, duration: duration
+            id: value?.id,
+            data: value,
+            type: 'tv',
+            season: season,
+            episode: episode,
+            timestamp: Date.now(),
+            currentTime: progress,
+            duration: duration
         }).then(() => {
             setSeasonNumber(season)
             setEpisodeNumber(episode)
@@ -127,15 +158,14 @@ export default function Seasons({ value, watching, handleWatching }) {
     }
 
     const handleNext = () => {
-        console.log("next clicked")
         setEpisodeNumber(episodeNumber + 1)
-        updateDB(episodeNumber + 1, seasonNumber, 0)
+        updateDB(episodeNumber + 1, seasonNumber, 0, 0)
         handleMarkComplete()
     }
 
     const handlePrev = () => {
         setEpisodeNumber(episodeNumber - 1)
-        updateDB(episodeNumber - 1, seasonNumber, 0)
+        updateDB(episodeNumber - 1, seasonNumber, 0, 0)
     }
 
     const handleMarkComplete = () => {
