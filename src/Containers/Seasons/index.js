@@ -11,6 +11,7 @@ import empty from '../../assets/empty.png';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
+import { getCurrentDate } from '../../Services/time';
 
 export default function Seasons({ value, watching, handleWatching }) {
 
@@ -98,7 +99,7 @@ export default function Seasons({ value, watching, handleWatching }) {
         database.ref(`/Users/${auth?.currentUser?.uid}/premium`).once('value', snapshot => {
             setPremium(snapshot.val())
         })
-    }, [auth?.currentUser?.uid, value])
+    }, [auth?.currentUser?.uid, value?.id])
 
     const handleClose4 = () => {
         setShow4(false)
@@ -107,15 +108,22 @@ export default function Seasons({ value, watching, handleWatching }) {
 
     const handleShow4 = (episode, season) => {
         handleWatching()
-        if (dbSeason === season && dbEpisode === episode) {
+        if (dbSeason == season && dbEpisode == episode) {
             updateDB(episode, season, currentTime, duration)
         } else {
-            updateDB(episode, season, 0, duration)
+            updateDB(episode, season, 0, 0)
+            setProgress(0)
         }
         setShow4(true)
     }
 
     const updateDB = (episode, season, progress, duration) => {
+        console.log(progress)
+        setSeasonNumber(season)
+        setEpisodeNumber(episode)
+        setDbSeason(season)
+        setDbEpisode(episode)
+        setCurrentTime(progress)
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).update({
             id: value?.id,
             data: value,
@@ -125,12 +133,6 @@ export default function Seasons({ value, watching, handleWatching }) {
             timestamp: Date.now(),
             currentTime: progress,
             duration: duration
-        }).then(() => {
-            setSeasonNumber(season)
-            setEpisodeNumber(episode)
-            setDbSeason(season)
-            setDbEpisode(episode)
-            setCurrentTime(progress)
         }).catch((e) => console.log(e))
     }
 
@@ -202,7 +204,7 @@ export default function Seasons({ value, watching, handleWatching }) {
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
                         <Button color='warning' onClick={handlePrev} disabled={episodeNumber === 1}>Prev</Button>
-                        <Button color='warning' id="next-button" onClick={handleNext} disabled={episodeNumber === content?.episodes?.length}>Next</Button>
+                        <Button color='warning' id="next-button" onClick={handleNext} disabled={(episodeNumber === content?.episodes?.length) || (content?.episodes && (content?.episodes[episodeNumber]?.air_date > getCurrentDate()))}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
