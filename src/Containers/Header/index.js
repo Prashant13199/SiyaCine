@@ -16,7 +16,7 @@ export default function Header() {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {nowPlaying?.map((data, index) => (
-            <SingleSlide data={data} index={index} />
+            <SingleSlide key={data?.id} data={data} index={index} />
           ))}
         </div>
       </div>

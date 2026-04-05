@@ -428,7 +428,7 @@ export default function SingleContentPage({ scrollTop }) {
           <div style={{ height: '50vh', overflowY: 'auto' }}>
             {users?.map((user, index) => {
               return (
-                <ShareUser user={user} index={index} setMessage={setMessage} setSnackBar={setSnackBar} handleClose2={handleClose2} id={id} data={data} type={type} />
+                <ShareUser key={id} user={user} index={index} setMessage={setMessage} setSnackBar={setSnackBar} handleClose2={handleClose2} id={id} data={data} type={type} />
               )
             })}
           </div>

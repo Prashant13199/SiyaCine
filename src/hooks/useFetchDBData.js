@@ -9,7 +9,7 @@ export default function useFetchDBData(uid, data) {
         database.ref(`/Users/${uid}/${data}`).orderByChild('timestamp').once('value', snapshot => {
             let arr = []
             snapshot?.forEach((snap) => {
-                if (snap.key !== "series") {
+                if (snap.key !== "series" && snap.val()?.id) {
                     arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
                 }
             })

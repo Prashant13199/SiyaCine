@@ -230,7 +230,7 @@ export default function Seasons({ value, watching, handleWatching }) {
                 <>
                     <div className="episode_list" id="episode_list">
                         {paginatedData?.map((datas) => {
-                            return <SingleEpisode id={value?.id} datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} />
+                            return <SingleEpisode key={datas?.id} id={value?.id} datas={datas} handleShow4={handleShow4} seasonNumber={seasonNumber} premium={premium} />
                         })}
                     </div>
                     <>

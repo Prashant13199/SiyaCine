@@ -1,24 +1,23 @@
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import useFetchContent from '../../hooks/useFetchContent';
 import './style.css';
 
 export default function SingleSlide({ data, index }) {
 
-    const nowPlaying = useFetchContent('now_playing', 'movie')
-
     const [title, setTitle] = useState('')
 
     useEffect(() => {
-        axios.get(`https://api.themoviedb.org/3/movie/${nowPlaying?.[index]?.id}/images?api_key=${process.env.REACT_APP_API_KEY}&include_image_language=en`)
-            .then(response => {
-                setTitle(response.data.logos[0].file_path);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, [index, nowPlaying])
+        if (data?.id) {
+            axios.get(`https://api.themoviedb.org/3/movie/${data?.id}/images?api_key=${process.env.REACT_APP_API_KEY}&include_image_language=en`)
+                .then(response => {
+                    setTitle(response.data?.logos[0]?.file_path);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }, [index, data?.id])
 
     return (
         <div className="embla__slide" key={index}>
