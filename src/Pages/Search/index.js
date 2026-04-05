@@ -39,9 +39,7 @@ export default function Search({ scrollTop }) {
 
     useEffect(() => {
         scrollTop();
-        setTimeout(() => {
-            fetchRecentlySearched();
-        }, 800)
+        fetchRecentlySearched();
     }, [])
 
     useEffect(() => {

@@ -36,13 +36,12 @@
 .embla__container {
     display: flex;
     touch-action: pan-y pinch-zoom;
-    margin-left: calc(var(--slide-spacing) * -1);
 }
 
 .embla__slide {
     flex: 0 0 var(--slide-size);
     min-width: 0;
-    padding-left: var(--slide-spacing);
+    padding: 0 0.5rem;
 }
 
 @media only screen and (max-width: 660px) {
