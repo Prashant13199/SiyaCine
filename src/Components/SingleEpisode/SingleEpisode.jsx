@@ -25,12 +25,14 @@ export default function SingleEpisode({ datas, handleShow4, premium, seasonNumbe
                 setWatchedEpisode(false)
             }).catch((e) => console.log(e))
         } else {
-            database.ref(`/Users/${auth?.currentUser?.uid}/watched/series/${datas?.id}`).update(({
-                id: datas?.id,
-                timestamp: Date.now()
-            })).then(() => {
-                setWatchedEpisode(true)
-            }).catch((e) => console.log(e))
+            if (datas?.air_date <= getCurrentDate()) {
+                database.ref(`/Users/${auth?.currentUser?.uid}/watched/series/${datas?.id}`).update(({
+                    id: datas?.id,
+                    timestamp: Date.now()
+                })).then(() => {
+                    setWatchedEpisode(true)
+                }).catch((e) => console.log(e))
+            }
         }
     }
 
