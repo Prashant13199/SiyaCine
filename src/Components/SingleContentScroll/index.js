@@ -5,6 +5,8 @@ import { auth, database } from '../../firebase';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { getCurrentDate } from '../../Services/time';
 
 export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, trending, index }) {
 
@@ -12,6 +14,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   const [show, setShow] = useState(true)
   const [lastPlayed, setLastPlayed] = useState()
   const [duration, setDuration] = useState(0)
+  const [upcoming, setUpcoming] = useState(false)
 
   useEffect(() => {
     if (recom) {
@@ -35,6 +38,23 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
       })
     }
   }, [userid, id])
+
+  useEffect(() => {
+    type == "tv" && fetchReleaseDate()
+  }, [type, id, userid, lastPlayed])
+
+  const fetchReleaseDate = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.REACT_APP_API_KEY}`
+      );
+      if (data?.next_episode_to_air?.air_date > getCurrentDate() && data?.next_episode_to_air?.episode_number == lastPlayed?.episode && data?.next_episode_to_air?.season_number == lastPlayed?.season) {
+        setUpcoming(true)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const removeSuggestion = () => {
     if (id) {
@@ -69,9 +89,13 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
             <div className='watchprogress2' style={{ width: duration ? `${duration}%` : '0%' }}></div>
           </div>
           {type === 'tv' && (
-            <div className='userlastplayed'>
-              S{lastPlayed?.season}E{lastPlayed?.episode}
-            </div>
+            <>
+              <div className='userlastplayed'>
+                S{lastPlayed?.season}E{lastPlayed?.episode}
+                <br />
+                {upcoming ? "Upcoming" : ""}
+              </div>
+            </>
           )}
         </>}
     </div>

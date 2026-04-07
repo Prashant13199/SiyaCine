@@ -13,11 +13,9 @@ import SingleEpisode from '../../Components/SingleEpisode/SingleEpisode';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import { getCurrentDate } from '../../Services/time';
 
-export default function Seasons({ value, watching, handleWatching }) {
+export default function Seasons({ value, watching, handleWatching, seasonNumber, setSeasonNumber, episodeNumber, setEpisodeNumber }) {
 
     const [content, setContent] = useState([])
-    const [seasonNumber, setSeasonNumber] = useState(1)
-    const [episodeNumber, setEpisodeNumber] = useState(1)
     const [premium, setPremium] = useState(false)
     const [server, setServer] = useState(1)
     const [show4, setShow4] = useState(false);
@@ -37,8 +35,9 @@ export default function Seasons({ value, watching, handleWatching }) {
     const theme = useTheme()
 
     useEffect(() => {
+        setContent([])
         fetchDetails();
-    }, [seasonNumber, dbSeason])
+    }, [seasonNumber])
 
     useEffect(() => {
         handlePagination()
@@ -118,7 +117,6 @@ export default function Seasons({ value, watching, handleWatching }) {
     }
 
     const updateDB = (episode, season, progress, duration) => {
-        console.log(progress)
         setSeasonNumber(season)
         setEpisodeNumber(episode)
         setDbSeason(season)
@@ -137,7 +135,6 @@ export default function Seasons({ value, watching, handleWatching }) {
     }
 
     const fetchDetails = async () => {
-        setContent([])
         setLoading(true)
         try {
             const { data } = await axios.get(
@@ -163,6 +160,13 @@ export default function Seasons({ value, watching, handleWatching }) {
         setEpisodeNumber(episodeNumber + 1)
         updateDB(episodeNumber + 1, seasonNumber, 0, 0)
         handleMarkComplete()
+
+    }
+
+    const handleNextComplete = () => {
+        if (content[episodeNumber]?.air_date > getCurrentDate()) {
+            setShow4(false)
+        }
     }
 
     const handlePrev = () => {
@@ -174,7 +178,9 @@ export default function Seasons({ value, watching, handleWatching }) {
         database.ref(`/Users/${auth?.currentUser?.uid}/watched/series/${content[episodeNumber - 1]?.id}`).update(({
             id: content[episodeNumber - 1]?.id,
             timestamp: Date.now()
-        })).catch((e) => console.log(e))
+        })).then(() => {
+            handleNextComplete()
+        }).catch((e) => console.log(e))
     }
 
     return (
@@ -222,9 +228,11 @@ export default function Seasons({ value, watching, handleWatching }) {
                         )
                     })}
                 </DropdownButton>
-                {watching && <Button variant='outlined' className='seriesResumeBtn' color='warning' onClick={() => {
-                    handleShow4(dbEpisode, dbSeason)
-                }}>Resume S{dbSeason}E{dbEpisode} {currentTime !== 0 && `${Math.floor(currentTime / 3600)}h${Math.floor((currentTime % 3600) / 60)}m`}</Button>}
+                {watching &&
+                    <Button disabled={content[dbEpisode - 1]?.air_date > getCurrentDate()} variant='outlined' className='seriesResumeBtn' color='warning' onClick={() => {
+                        handleShow4(dbEpisode, dbSeason)
+                    }}>Resume S{dbSeason}E{dbEpisode} {currentTime !== 0 && `${Math.floor(currentTime / 3600)}h${Math.floor((currentTime % 3600) / 60)}m`}
+                    </Button>}
             </div>
             {!loading ?
                 <>

@@ -71,6 +71,8 @@ export default function SingleContentPage({ scrollTop }) {
   const [currentTimeFormat, setCurrentTimeFormat] = useState("0h0m")
   const [progress, setProgress] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [seasonNumber, setSeasonNumber] = useState(1)
+  const [episodeNumber, setEpisodeNumber] = useState(1)
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -178,6 +180,10 @@ export default function SingleContentPage({ scrollTop }) {
           setDuration(snapshot.val()?.duration)
           setCurrentTime(snapshot.val()?.currentTime)
           setCurrentTimeFormat(`${Math.floor(snapshot.val()?.currentTime / 3600)}h ${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m`)
+        }
+        if (snapshot.val()?.season && snapshot.val()?.episode) {
+          setSeasonNumber(snapshot.val()?.season)
+          setEpisodeNumber(snapshot.val()?.episode)
         }
       } else {
         setWatching(false)
@@ -336,6 +342,11 @@ export default function SingleContentPage({ scrollTop }) {
         if (watching) {
           database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
             setWatching(false)
+          }).catch((e) => console.log(e))
+        }
+        if (tracking) {
+          database.ref(`/Users/${auth?.currentUser?.uid}/tracking/${id}`).set({
+            id: id, data: data, type: type, timestamp: Date.now(), season: seasonNumber, episode: episodeNumber
           }).catch((e) => console.log(e))
         }
       })
@@ -633,7 +644,7 @@ export default function SingleContentPage({ scrollTop }) {
               </div>
             </div>
             <br /><br />
-            {type === 'tv' && <Seasons value={data} watching={watching} handleWatching={handleWatching2} />}
+            {type === 'tv' && <Seasons value={data} watching={watching} handleWatching={handleWatching2} seasonNumber={seasonNumber} setSeasonNumber={setSeasonNumber} episodeNumber={episodeNumber} setEpisodeNumber={setEpisodeNumber} />}
             <div className='singlecontent'>
               {credit.cast && credit.cast.length !== 0 && <><br /><br />
                 <div className='trending_flex'>

@@ -10,7 +10,7 @@ export default function useFetchDBData(uid, data) {
             let arr = []
             snapshot?.forEach((snap) => {
                 if (snap.key !== "series" && snap.val()?.id) {
-                    arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+                    arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, season: snap.val()?.season, episode: snap.val()?.episode })
                 }
             })
             setContent(arr.reverse())
