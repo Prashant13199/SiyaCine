@@ -38,7 +38,7 @@ export default function Seasons({ value, watching, handleWatching }) {
 
     useEffect(() => {
         fetchDetails();
-    }, [seasonNumber, setDbSeason])
+    }, [seasonNumber, dbSeason])
 
     useEffect(() => {
         handlePagination()
@@ -143,7 +143,7 @@ export default function Seasons({ value, watching, handleWatching }) {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/tv/${value?.id}/season/${seasonNumber}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
             );
-            setContent(data);
+            setContent(data?.episodes);
             setNumOfPages(Math.ceil(data?.episodes?.length / perPage));
             setLoading(false);
         }
@@ -156,7 +156,7 @@ export default function Seasons({ value, watching, handleWatching }) {
     const handlePagination = () => {
         let start = (perPage * (page - 1))
         let end = (start + perPage)
-        setPaginatedData(content?.episodes?.slice(start, end))
+        setPaginatedData(content?.slice(start, end))
     }
 
     const handleNext = () => {
@@ -171,8 +171,8 @@ export default function Seasons({ value, watching, handleWatching }) {
     }
 
     const handleMarkComplete = () => {
-        database.ref(`/Users/${auth?.currentUser?.uid}/watched/series/${content?.episodes[episodeNumber - 1]?.id}`).update(({
-            id: content?.episodes[episodeNumber - 1]?.id,
+        database.ref(`/Users/${auth?.currentUser?.uid}/watched/series/${content[episodeNumber - 1]?.id}`).update(({
+            id: content[episodeNumber - 1]?.id,
             timestamp: Date.now()
         })).catch((e) => console.log(e))
     }
@@ -204,7 +204,7 @@ export default function Seasons({ value, watching, handleWatching }) {
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
                         <Button color='warning' onClick={handlePrev} disabled={episodeNumber === 1}>Prev</Button>
-                        <Button color='warning' id="next-button" onClick={handleNext} disabled={(episodeNumber === content?.episodes?.length) || (content?.episodes && (content?.episodes[episodeNumber]?.air_date > getCurrentDate()))}>Next</Button>
+                        <Button color='warning' id="next-button" onClick={handleNext} disabled={episodeNumber === content?.length}>Next</Button>
                     </div>
                 </Modal.Body>
             </Modal>
