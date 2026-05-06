@@ -7,15 +7,21 @@ import { Button } from '@mui/material'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { getCurrentDate } from '../../Services/time';
+import { Modal } from 'react-bootstrap';
+import { IconButton } from '@mui/material';
+import { useTheme } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
-export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, trending, index }) {
+export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, trending, index, comment }) {
 
   const history = useHistory()
+  const theme = useTheme()
   const [show, setShow] = useState(true)
   const [lastPlayed, setLastPlayed] = useState()
   const [duration, setDuration] = useState(0)
   const [left, setLeft] = useState(0)
   const [upcoming, setUpcoming] = useState(false)
+  const [show2, setShow2] = useState(false)
 
   useEffect(() => {
     if (recom) {
@@ -66,41 +72,54 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   }
 
   return show && data?.poster_path && (
-    <div className='single_content_scroll'>
-      <div className={trending && 'trending_flex_count'}>
-        {trending && <div className='trending_count'>
-          {index}
-        </div>}
-        <img
-          loading='lazy'
-          src={data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"}
-          alt={data?.title || data?.name}
-          className={trending ? "poster_scroll_trending" : "poster_scroll"}
-          onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
-        />
-      </div>
-      {by && <div>
-        <div className='user'>
-          <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
-        </div>
-        <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
-      </div>}
-      {(userid && (lastPlayed || duration)) &&
-        <>
-          <div className='watchprogress'>
-            <div className='watchprogress2' style={{ width: duration ? `${duration}%` : '0%' }}></div>
+    <>
+      <Modal size='md' show={show2} onHide={() => setShow2(false)} centered>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+          <div className='modal_header'>
+            {comment}
+            <IconButton onClick={() => setShow2(false)}><CloseIcon style={{ color: 'red' }} /></IconButton>
           </div>
-          {type === 'tv' && (
-            <>
-              <div className='userlastplayed'>
-                S{lastPlayed?.season}E{lastPlayed?.episode}
-              </div>
-            </>
-          )}
-          {left > 0 ? <div className='left'>{`${Math.floor(left / 3600)}h${Math.floor((left % 3600) / 60)}m`} Left</div>
-            : !upcoming && <div className='left'>Next Episode</div>}
-          {upcoming ? <div className='left'>Upcoming</div> : ""}
-        </>}
-    </div>
+        </Modal.Body>
+      </Modal>
+      <div className='single_content_scroll'>
+        <div className={trending && 'trending_flex_count'}>
+          {trending && <div className='trending_count'>
+            {index}
+          </div>}
+          <img
+            loading='lazy'
+            src={data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"}
+            alt={data?.title || data?.name}
+            className={trending ? "poster_scroll_trending" : "poster_scroll"}
+            onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
+          />
+        </div>
+        {by && <div>
+          <div className='user'>
+            <Link style={{ textDecoration: 'none', marginLeft: '5px', color: 'rgb(255, 167, 38)' }} to={`/user/${byuid}`}>{by?.split('@')[0]}</Link>
+          </div>
+          <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
+          {comment && <div onClick={() => setShow2(true)} className='suggestioncomment'>suggestion note</div>}
+        </div>}
+        {
+          (userid && (lastPlayed || duration)) &&
+          <>
+            <div className='watchprogress'>
+              <div className='watchprogress2' style={{ width: duration ? `${duration}%` : '0%' }}></div>
+            </div>
+            {type === 'tv' && (
+              <>
+                <div className='userlastplayed'>
+                  S{lastPlayed?.season}E{lastPlayed?.episode}
+                </div>
+              </>
+            )}
+            {left > 0 ? <div className='left'>{`${Math.floor(left / 3600)}h${Math.floor((left % 3600) / 60)}m`} Left</div>
+              : !upcoming && <div className='left'>Next Episode</div>}
+            {upcoming ? <div className='left'>Upcoming</div> : ""}
+          </>
+        }
+      </div >
+    </>
   )
 }

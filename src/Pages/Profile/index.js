@@ -80,7 +80,7 @@ export default function Profile({ scrollTop }) {
     database.ref(`/Users/${auth?.currentUser?.uid}/suggestions`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
-        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, by: snap.val().by, byuid: snap.val().byuid })
+        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, by: snap.val().by, byuid: snap.val().byuid, comment: snap.val().comment })
       })
       setSuggestions(arr.reverse())
     })
@@ -239,7 +239,7 @@ export default function Profile({ scrollTop }) {
             <div className='trending_scroll' >
               {suggestions?.map((data, index) => {
                 return <div>
-                  <SingleContentScroll index={index} data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} />
+                  <SingleContentScroll index={index} data={data?.data} key={data?.id} type={data?.type} by={data?.by} byuid={data?.byuid} id={data?.id} comment={data?.comment} />
                 </div>
               })}
             </div></>}
