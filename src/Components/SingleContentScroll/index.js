@@ -14,6 +14,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   const [show, setShow] = useState(true)
   const [lastPlayed, setLastPlayed] = useState()
   const [duration, setDuration] = useState(0)
+  const [left, setLeft] = useState(0)
   const [upcoming, setUpcoming] = useState(false)
 
   useEffect(() => {
@@ -34,6 +35,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
         if (snapshot.val()) {
           setLastPlayed({ season: snapshot.val()?.season ? snapshot.val()?.season : 1, episode: snapshot.val()?.episode ? snapshot.val()?.episode : 1 })
           setDuration((snapshot.val()?.currentTime / snapshot.val()?.duration) * 100)
+          setLeft(snapshot.val()?.duration - snapshot.val()?.currentTime)
         }
       })
     }
@@ -92,11 +94,12 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
             <>
               <div className='userlastplayed'>
                 S{lastPlayed?.season}E{lastPlayed?.episode}
-                <br />
-                {upcoming ? "Upcoming" : ""}
               </div>
             </>
           )}
+          {left > 0 ? <div className='left'>{`${Math.floor(left / 3600)}h${Math.floor((left % 3600) / 60)}m`} Left</div>
+            : !upcoming && <div className='left'>Next Episode</div>}
+          {upcoming ? <div className='left'>Upcoming</div> : ""}
         </>}
     </div>
   )
