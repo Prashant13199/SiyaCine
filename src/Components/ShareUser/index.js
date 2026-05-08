@@ -50,7 +50,8 @@ export default function ShareUser({ user, index, setMessage, setSnackBar, id, da
                 id: id,
                 text: `${currentUsername} suggested you to watch ${data.name || data.title || data.original_name}`,
                 type: type,
-                poster: data.poster_path
+                poster: data.poster_path,
+                comment: comment
             })
             setComment('')
             handleClose2()

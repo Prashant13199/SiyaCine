@@ -5,9 +5,10 @@
 }
 
 .notification_image {
-    height: auto;
+    height: 45px;
     width: 45px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .notification_right {
@@ -54,9 +55,22 @@
     white-space: nowrap;
 }
 
+.noti_comment {
+    margin-top: 5px;
+    font-size: 14px;
+    margin: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.suggestionNoteText {
+    opacity: 0.8;
+}
+
 @media only screen and (max-width: 660px) {
     .notification_image {
         width: 35px;
+        height: 35px;
     }
 
     .notification_poster {
