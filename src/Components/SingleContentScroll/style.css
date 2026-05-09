@@ -65,6 +65,9 @@
 .userlastplayed {
     font-size: 14px;
     font-weight: bolder;
+}
+
+.lastPlayDetails {
     margin-top: 10px;
 }
 
