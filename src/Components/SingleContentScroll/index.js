@@ -108,13 +108,15 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
               <div className='watchprogress2' style={{ width: duration ? `${duration}%` : '0%' }}></div>
             </div>
             <div className='lastPlayDetails'>
-              {type === 'tv' && (
-                <>
-                  <div className='userlastplayed'>
-                    S{lastPlayed?.season}E{lastPlayed?.episode}
-                  </div>
-                </>
-              )}
+              {type === 'tv' ? (
+                <div className='userlastplayed'>
+                  S{lastPlayed?.season}E{lastPlayed?.episode}
+                </div>
+              ) :
+                <div className='userlastplayedTItle'>
+                  {data.title.split(' ').slice(0, 3).join(' ')}
+                </div>
+              }
               {left > 0 ? <div className='left'>{`${Math.floor(left / 3600)}h${Math.floor((left % 3600) / 60)}m`} Left</div>
                 : !upcoming && type === 'tv' && <div className='left'>Next Episode</div>}
               {upcoming ? <div className='left'>Upcoming</div> : ""}
