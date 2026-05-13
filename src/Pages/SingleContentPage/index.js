@@ -33,7 +33,7 @@ import { getCurrentDate, timeConvert } from '../../Services/time';
 import Trailers from '../../Containers/Trailers/Trailers';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import useFetchPremium from '../../hooks/useFetchPremium';
-import { getUsername } from '../../Services/utlitities';
+import { getTimeLeft, getUsername } from '../../Services/utlitities';
 import useFetchUsers from '../../hooks/useFetchUsers';
 import ShareUser from '../../Components/ShareUser';
 import TimelineIcon from '@mui/icons-material/Timeline';
@@ -119,7 +119,7 @@ export default function SingleContentPage({ scrollTop }) {
       if (data?.currentTime && data?.duration) {
         setProgress(data?.currentTime);
         setDuration(data?.duration);
-        setCurrentTimeFormat(`${Math.floor(data?.currentTime / 3600)}h ${Math.floor((data?.currentTime % 3600) / 60)}m`)
+        setCurrentTimeFormat(`${getTimeLeft(data?.duration - data?.currentTime)} Left`)
         if (data?.event === "pause") {
           updateProgress(data?.currentTime, data?.duration, false)
         }
@@ -179,7 +179,7 @@ export default function SingleContentPage({ scrollTop }) {
         if (snapshot.val()?.currentTime && snapshot.val()?.duration) {
           setDuration(snapshot.val()?.duration)
           setCurrentTime(snapshot.val()?.currentTime)
-          setCurrentTimeFormat(`${Math.floor(snapshot.val()?.currentTime / 3600)}h ${Math.floor((snapshot.val()?.currentTime % 3600) / 60)}m`)
+          setCurrentTimeFormat(`${getTimeLeft(snapshot.val()?.duration - snapshot.val()?.currentTime)} Left`)
         }
         if (snapshot.val()?.season && snapshot.val()?.episode) {
           setSeasonNumber(snapshot.val()?.season)

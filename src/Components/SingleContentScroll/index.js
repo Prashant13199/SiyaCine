@@ -11,6 +11,7 @@ import { Modal } from 'react-bootstrap';
 import { IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { getTimeLeft } from '../../Services/utlitities';
 
 export default function SingleContentScroll({ data, type, by, byuid, id, recom, userid, trending, index, comment }) {
 
@@ -117,9 +118,9 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
                   {data.title.split(' ').slice(0, 3).join(' ')}
                 </div>
               }
-              {left > 0 ? <div className='left'>{`${Math.floor(left / 3600)}h${Math.floor((left % 3600) / 60)}m`} Left</div>
-                : !upcoming && type === 'tv' && <div className='left'>Next Episode</div>}
-              {upcoming ? <div className='left'>Upcoming</div> : ""}
+              {left > 0 ? <div className='timeleft'>{getTimeLeft(left)} Left</div>
+                : !upcoming && type === 'tv' && <div className='nextEpisode'>Next Episode</div>}
+              {upcoming ? <div className='timeleft'>Upcoming</div> : ""}
             </div>
           </>
         }

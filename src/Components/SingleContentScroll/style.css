@@ -71,7 +71,12 @@
     margin-top: 10px;
 }
 
-.left {
+.timeleft {
+    opacity: 0.6;
+    font-size: 13px;
+}
+
+.nextEpisode {
     color: rgb(255, 167, 38);
     font-size: 13px;
 }

@@ -6,3 +6,13 @@ export const getUsername = (id) => {
     })
     return name;
 }
+
+export const getTimeLeft = (duration) => {
+    let hr = Math.floor(duration / 3600)
+    let min = Math.floor((duration % 3600) / 60)
+    if (hr > 0) {
+        return `${hr}h ${min}m`
+    } else {
+        return `${min}m`
+    }
+}
