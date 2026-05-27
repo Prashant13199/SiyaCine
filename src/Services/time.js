@@ -53,3 +53,39 @@ export const timeDifference = (current, previous) => {
         return "long time ago";
     }
 };
+
+export const getRelativeDateString = (inputDateString) => {
+    let parts;
+    if (inputDateString.includes('-')) {
+        const firstPart = inputDateString.split('-')[0];
+        if (firstPart.length === 4) {
+            // YYYY-MM-DD
+            parts = inputDateString.split('-');
+            parts = { year: parseInt(parts[0]), month: parseInt(parts[1]) - 1, day: parseInt(parts[2]) };
+        } else {
+            // DD-MM-YYYY
+            parts = inputDateString.split('-');
+            parts = { year: parseInt(parts[2]), month: parseInt(parts[1]) - 1, day: parseInt(parts[0]) };
+        }
+    } else {
+        return "Invalid date format";
+    }
+
+    // Create Date objects stripped of time (set to midnight)
+    const targetDate = new Date(parts.year, parts.month, parts.day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds and convert to days
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const diffInDays = Math.round((targetDate - today) / msPerDay);
+
+    // Return the appropriate relative string
+    if (diffInDays === 0) return "Today";
+    if (diffInDays === 1) return "Tomorrow";
+    if (diffInDays === -1) return "Yesterday";
+    if (diffInDays > 1) return `${diffInDays} days`;
+
+    // For past dates beyond yesterday
+    return `${Math.abs(diffInDays)} days ago`;
+};

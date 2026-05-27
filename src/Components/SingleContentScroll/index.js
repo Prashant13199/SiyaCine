@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@mui/material'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { getCurrentDate } from '../../Services/time';
+import { getCurrentDate, getRelativeDateString } from '../../Services/time';
 import { Modal } from 'react-bootstrap';
 import { IconButton } from '@mui/material';
 import { useTheme } from '@mui/material';
@@ -23,6 +23,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
   const [left, setLeft] = useState(0)
   const [upcoming, setUpcoming] = useState(false)
   const [show2, setShow2] = useState(false)
+  const [upcomingDate, setUpcomingDate] = useState('')
 
   useEffect(() => {
     if (recom) {
@@ -58,6 +59,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
         `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.REACT_APP_API_KEY}`
       );
       if (data?.next_episode_to_air?.air_date > getCurrentDate() && data?.next_episode_to_air?.episode_number == lastPlayed?.episode && data?.next_episode_to_air?.season_number == lastPlayed?.season) {
+        setUpcomingDate(data?.next_episode_to_air?.air_date)
         setUpcoming(true)
       }
     } catch (e) {
@@ -120,7 +122,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
               }
               {left > 0 ? <div className='timeleft'>{getTimeLeft(left)} Left</div>
                 : !upcoming && type === 'tv' && <div className='nextEpisode'>Next Episode</div>}
-              {upcoming ? <div className='timeleft'>Upcoming</div> : ""}
+              {upcoming ? <div className='timeleft'>Coming {getRelativeDateString(upcomingDate)}</div> : ""}
             </div>
           </>
         }
