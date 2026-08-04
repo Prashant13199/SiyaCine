@@ -53,12 +53,12 @@ export default function Search({ scrollTop }) {
     }
 
     const fetchRecentlySearched = () => {
-        database.ref(`/Searched`).orderByChild('timestamp').on('value', snapshot => {
+        database.ref(`/Searched`).limitToLast(12).orderByChild('timestamp').on('value', snapshot => {
             let arr = []
             snapshot.forEach((snap) => {
                 arr.push(snap.val())
             })
-            setRecentlySearched(arr.reverse().splice(0, 12))
+            setRecentlySearched(arr.reverse())
             setLoading(false)
         })
     }
