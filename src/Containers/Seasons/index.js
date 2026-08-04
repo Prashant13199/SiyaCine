@@ -160,6 +160,7 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
     const handleNext = () => {
         setEpisodeNumber(episodeNumber + 1)
         updateDB(episodeNumber + 1, seasonNumber, 0, 0)
+        setProgress(0);
         handleMarkComplete()
 
     }
