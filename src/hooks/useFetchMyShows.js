@@ -34,7 +34,7 @@ export default function useFetchMyShows() {
                                             database.ref(`/Users/${auth?.currentUser?.uid}/watching/${val.id}`).once('value', snapshot2 => {
                                                 if (!snapshot2.val()) {
                                                     database.ref(`/Users/${auth?.currentUser?.uid}/watching/${val.id}`).update({
-                                                        id: val.id, data: val, type: 'tv', timestamp: Date.now(), new: true, season: val2.season, episode: val2.episode
+                                                        id: val.id, data: val, type: 'tv', timestamp: Date.now(), new: true, season: val2.season ?? 1, episode: val2.episode ?? 1
                                                     }).then(() => {
                                                         database.ref(`/Users/${auth?.currentUser?.uid}/watched/${val.id}`).remove()
                                                     }).catch((e) => console.log(e))

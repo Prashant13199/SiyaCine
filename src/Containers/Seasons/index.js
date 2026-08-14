@@ -161,6 +161,7 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
         setEpisodeNumber(episodeNumber + 1)
         updateDB(episodeNumber + 1, seasonNumber, 0, 0)
         setProgress(0);
+        setDuration(0);
         handleMarkComplete()
 
     }
