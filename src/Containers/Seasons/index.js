@@ -48,7 +48,7 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
         const fetchProgress = (event) => {
             if (event.origin !== "https://vidcore.net" && server !== 1) return;
             const { data } = event?.data;
-            if (data?.currentTime && data?.duration) {
+            if (data?.currentTime && data?.duration && data?.episode == episodeNumber && data?.season == seasonNumber) {
                 setProgress(data?.currentTime)
                 setDuration(data?.duration)
                 if (data?.event === "pause") {
