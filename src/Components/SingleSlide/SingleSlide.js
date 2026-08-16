@@ -11,7 +11,7 @@ export default function SingleSlide({ data, index }) {
         if (data?.id) {
             axios.get(`https://api.themoviedb.org/3/movie/${data?.id}/images?api_key=${process.env.REACT_APP_API_KEY}&include_image_language=en`)
                 .then(response => {
-                    setTitle(window.innerWidth > 900 ? response.data?.backdrops[0]?.file_path : data.poster_path);
+                    setTitle(window.innerWidth > 660 ? response.data?.backdrops[0]?.file_path : data.poster_path);
                 })
                 .catch(error => {
                     console.error('Error:', error);

@@ -73,6 +73,7 @@ export default function SingleContentPage({ scrollTop }) {
   const [duration, setDuration] = useState(0)
   const [seasonNumber, setSeasonNumber] = useState(1)
   const [episodeNumber, setEpisodeNumber] = useState(1)
+  const [images, setImages] = useState([])
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -205,6 +206,7 @@ export default function SingleContentPage({ scrollTop }) {
       );
       setData(data);
       fetchCredit();
+      fetchImages();
       fetchVideo();
       fetchRecommendation();
       fetchSimilar();
@@ -215,6 +217,16 @@ export default function SingleContentPage({ scrollTop }) {
       console.log(e)
     }
   };
+
+  const fetchImages = async () => {
+    await axios.get(`https://api.themoviedb.org/3/${type}/${id}/images?api_key=${process.env.REACT_APP_API_KEY}&include_image_language=en`)
+      .then(response => {
+        setImages(response.data?.backdrops);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
 
   const fetchProvider = async () => {
     try {
@@ -669,6 +681,16 @@ export default function SingleContentPage({ scrollTop }) {
                 </div>
                 <div className='trending_scroll' >
                   <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
+                </div>
+              </>}
+              {images?.length !== 0 && <><br /><br />
+                <div className='trending_flex'>
+                  <div className='trending_title' >Images</div>
+                </div>
+                <div className='trending_scroll' >
+                  {images?.map((image, index) => {
+                    return <img key={index} className='single_content_backdrop_images' src={`https://image.tmdb.org/t/p/original/${image.file_path}`} />
+                  })}
                 </div>
               </>}
               {recommendations?.length !== 0 && <><br /><br />
