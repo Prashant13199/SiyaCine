@@ -54,11 +54,11 @@ export default function UserProfile({ scrollTop }) {
   }, [auth?.currentUser?.uid, uid])
 
   useEffect(() => {
-    database.ref(`/Connections/${connectID}`).once('value', snapshot => {
+    database.ref(`/Connections/${connectID}`).on('value', snapshot => {
       if (snapshot.key === [auth?.currentUser?.uid, uid].sort().join(':')) {
         setConnected(snapshot.val()?.connected == true ? true : false)
         setRequested(snapshot.val()?.requested == true ? true : false)
-        setInitiated(snapshot.val()?.initiated == true ? snapshot.val()?.initiated : '')
+        setInitiated(snapshot.val()?.initiated ? snapshot.val()?.initiated : '')
       }
     })
   }, [connectID, uid])
@@ -119,6 +119,8 @@ export default function UserProfile({ scrollTop }) {
         connection: true
       }).then(() => {
         console.log('Notification Sent')
+        setRequested(true)
+        setInitiated(auth?.currentUser?.uid)
       }).catch((e) => console.log(e))
     }).catch((e) => console.log(e))
   }
@@ -146,13 +148,20 @@ export default function UserProfile({ scrollTop }) {
           id: auth?.currentUser?.uid,
           text: `${currentUsername} accepted your connection request`,
         }).then(() => {
-          database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${uid}`).remove()
+          database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${uid}`).remove().then(() => {
+            setConnected(true)
+            setRequested(false)
+          })
             .catch((e) => console.log(e))
         }).catch((e) => console.log(e))
       }).catch((e) => console.log(e))
     } else {
       database.ref(`/Connections/${connectID}`).remove().then(() => {
-        database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).remove().catch((e) => console.log(e))
+        database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).remove()
+        .then(() => {
+          setRequested(false)
+        })
+        .catch((e) => console.log(e))
       }).catch((e) => {
         console.log(e)
       })
@@ -162,8 +171,9 @@ export default function UserProfile({ scrollTop }) {
   const removeRequested = () => {
     database.ref(`/Users/${auth?.currentUser?.uid}/notifications/${uid}`)
       .remove().then(() => {
-        database.ref(`Connections/${connectID}`).remove()
-          .catch((e) => console.log(e))
+        database.ref(`Connections/${connectID}`).remove().catch((e) => console.log(e)).then(() => {
+          setRequested(false)
+        })
       }).catch((e) => {
         console.log(e)
       })
@@ -195,8 +205,8 @@ export default function UserProfile({ scrollTop }) {
                 <div className='connect_btns'>
                   {requested ?
                     <>
-                      <Button className='connect_btn' onClick={handleRequest} variant='contained' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated ? 'Accept' : 'Requested'}</Button>
-                      {auth?.currentUser?.uid !== initiated && <Button className='connect_btn' style={{ marginLeft: '10px' }} onClick={removeRequested} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
+                      <Button className='connect_btn' onClick={handleRequest} variant='contained' color='warning' startIcon={<PersonAddAlt1Icon />}>{auth?.currentUser?.uid !== initiated.trim() ? 'Accept' : 'Requested'}</Button>
+                      {auth?.currentUser?.uid !== initiated.trim() && <Button className='connect_btn' style={{ marginLeft: '10px' }} onClick={removeRequested} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Decline</Button>}
                     </>
                     :
                     <> {connected ? <Button className='connect_btn' onClick={handleRemoveConnect} variant='contained' color='warning' startIcon={<PersonRemoveAlt1Icon />}>Connected</Button> :
