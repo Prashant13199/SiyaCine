@@ -4,23 +4,19 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useEffect, useState } from 'react';
 import { database } from '../../firebase';
 import { timeDifference } from '../../Services/time';
+import useFetchUserDetails from '../../hooks/useFetchUserDetails';
 
 export default function User({ user, index }) {
 
-  const [lastActive, setLastActive] = useState()
-
-  useEffect(() => {
-    database.ref(`/Users/${user?.uid}`).once('value', snapshot => {
-      setLastActive(snapshot.val().timestamp)
-    })
-  }, [user])
+  const lastActive = useFetchUserDetails(user?.uid, 'lastActive')
+  const username = useFetchUserDetails(user?.uid, 'username')
 
   return (
     <>
       <Grid xs={2} sm={4} md={4} key={user.uid}>
         <Link to={`/user/${user.uid}`} style={{ textDecoration: 'none' }}>
           <div className='single_user'>
-            <img src={user?.photo} className={"users_image"} />
+            <img src={user?.photo ?? `https://api.dicebear.com/9.x/dylan/svg?seed=${username}?size=96`} className={"users_image"} />
             <div className='user_username'>
               {user.username.split('.')[0]?.length < 4 ? user.username?.split('@')[0] : user.username?.split('.')[0]}
             </div>

@@ -87,7 +87,7 @@ export default function ShareUser({ user, index, setMessage, setSnackBar, id, da
                 handleShow()
             }}>
                 <div>
-                    <img src={user.photo} className="share_user_image" />
+                    <img src={user.photo ?? `https://api.dicebear.com/9.x/dylan/svg?seed=${user.username}?size=96`} className="share_user_image" />
                 </div>
                 <div className='share_user_username'>
                     {user.username.split('@')[0]}

@@ -205,7 +205,7 @@ export default function Profile({ scrollTop }) {
           <div className='profile_header' style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
             <div className='profile_backdrop'>
               <div className='pic_container'>
-                <img src={currentPhoto ? currentPhoto : 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
+                <img src={currentPhoto ?? 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
                 <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
               </div>
               <div className='profile_right'>

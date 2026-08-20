@@ -31,7 +31,6 @@ export default function UserProfile({ scrollTop }) {
   const [connections, setConnections] = useState([])
   const [backdrop, setBackdrop] = useState('')
   const [connectID, setConnectID] = useState('')
-  const [lastActive, setLastActive] = useState()
 
   const watchlist = useFetchDBData(uid, 'watchlist')
   const watched = useFetchDBData(uid, 'watched')
@@ -40,6 +39,7 @@ export default function UserProfile({ scrollTop }) {
   const cast = useFetchDBData(uid, 'cast')
   const username = useFetchUserDetails(uid, 'username')
   const photo = useFetchUserDetails(uid, 'photo')
+  const lastActive = useFetchUserDetails(uid, 'lastActive')
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
   const addBackdrop = () => {
@@ -70,7 +70,6 @@ export default function UserProfile({ scrollTop }) {
     setLoading(true)
     database.ref(`/Users/${uid}`).once('value', snapshot => {
       setPublicAcc(snapshot.val().public)
-      setLastActive(snapshot.val().timestamp)
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/admin`).once('value', snapshot => {
       setAdmin(snapshot.val())
@@ -161,10 +160,10 @@ export default function UserProfile({ scrollTop }) {
     } else {
       database.ref(`/Connections/${connectID}`).remove().then(() => {
         database.ref(`/Users/${uid}/notifications/${auth?.currentUser?.uid}`).remove()
-        .then(() => {
-          setRequested(false)
-        })
-        .catch((e) => console.log(e))
+          .then(() => {
+            setRequested(false)
+          })
+          .catch((e) => console.log(e))
       }).catch((e) => {
         console.log(e)
       })
