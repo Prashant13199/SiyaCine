@@ -655,10 +655,10 @@ export default function SingleContentPage({ scrollTop }) {
                 </div>
               </div>
             </div>
-            <br /><br />
+            <br />
             {type === 'tv' && <Seasons value={data} watching={watching} handleWatching={handleWatching2} seasonNumber={seasonNumber} setSeasonNumber={setSeasonNumber} episodeNumber={episodeNumber} setEpisodeNumber={setEpisodeNumber} />}
             <div className='singlecontent'>
-              {credit.cast && credit.cast.length !== 0 && <><br /><br />
+              {credit.cast && credit.cast.length !== 0 && <><br />
                 <div className='trending_flex'>
                   <div className='trending_title'>Cast</div>
                 </div>
@@ -675,7 +675,7 @@ export default function SingleContentPage({ scrollTop }) {
                     </Link>
                   })}
                 </div></>}
-              {video?.length !== 0 && <><br /><br />
+              {video?.length !== 0 && <><br />
                 <div className='trending_flex'>
                   <div className='trending_title' >Trailers & More</div>
                 </div>
@@ -683,7 +683,7 @@ export default function SingleContentPage({ scrollTop }) {
                   <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
                 </div>
               </>}
-              {images?.length !== 0 && <><br /><br />
+              {images?.length !== 0 && <><br />
                 <div className='trending_flex'>
                   <div className='trending_title' >Images</div>
                 </div>
@@ -693,7 +693,7 @@ export default function SingleContentPage({ scrollTop }) {
                   })}
                 </div>
               </>}
-              {recommendations?.length !== 0 && <><br /><br />
+              {recommendations?.length !== 0 && <><br />
                 <div className='trending_flex'>
                   <div className='trending_title' >Recommendations</div>
                 </div>
@@ -703,7 +703,7 @@ export default function SingleContentPage({ scrollTop }) {
                   })}
                 </div>
               </>}
-              {similar?.length !== 0 && <><br /><br />
+              {similar?.length !== 0 && <><br />
                 <div className='trending_flex'>
                   <div className='trending_title' >Similar</div>
                 </div>
@@ -713,7 +713,7 @@ export default function SingleContentPage({ scrollTop }) {
                   })}
                 </div>
               </>}
-              <br /><br />
+              <br />
               <div className='trending_flex'>
                 <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
                   <div >

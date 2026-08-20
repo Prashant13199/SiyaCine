@@ -222,7 +222,7 @@ export default function UserProfile({ scrollTop }) {
             </div>
           </div>
           {(connected || publicAcc || admin) && <>
-            {watching?.length !== 0 && <><br /><br />
+            {watching?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Watching Now<Count value={watching?.length} /></div>
               </div>
@@ -231,7 +231,7 @@ export default function UserProfile({ scrollTop }) {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} />
                 })}
               </div></>}
-            {watchlist?.slice(0, 10)?.length !== 0 && <><br /><br />
+            {watchlist?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
@@ -240,7 +240,7 @@ export default function UserProfile({ scrollTop }) {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}
-            {watched?.slice(0, 10)?.length !== 0 && <><br /><br />
+            {watched?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
@@ -249,7 +249,7 @@ export default function UserProfile({ scrollTop }) {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}
-            {favourite?.slice(0, 10)?.length !== 0 && <><br /><br />
+            {favourite?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
@@ -258,7 +258,7 @@ export default function UserProfile({ scrollTop }) {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}
-            {cast?.length !== 0 && <><br /><br />
+            {cast?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
               </div>
@@ -267,7 +267,7 @@ export default function UserProfile({ scrollTop }) {
                   return <Cast c={c} key={c?.id} />
                 })}
               </div></>}
-            {connections?.length !== 0 && <><br /><br />
+            {connections?.length !== 0 && <><br />
               <div className='trending_flex'>
                 <div className='trending_title' >Connections<Count value={connections?.length} /></div>
               </div>
@@ -277,7 +277,7 @@ export default function UserProfile({ scrollTop }) {
                 })}
               </div></>}
           </>}
-          {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && connections?.length == 0 && <center><br /><br />
+          {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && connections?.length == 0 && <center><br />
             <img src={empty} className='empty' alt="" />
             <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
         </div>

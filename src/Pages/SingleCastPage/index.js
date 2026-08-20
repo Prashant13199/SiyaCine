@@ -147,7 +147,7 @@ export default function SingleCastPage({ scrollTop }) {
             </div>
           </div>
 
-          {movie?.length !== 0 && <><br /><br />
+          {movie?.length !== 0 && <><br />
             <br />
             <div className='trending_flex'>
               <div className='trending_title' >Movie</div>
@@ -160,7 +160,7 @@ export default function SingleCastPage({ scrollTop }) {
             </div>
           </>}
 
-          {tv?.length !== 0 && <><br /><br />
+          {tv?.length !== 0 && <><br />
             <br />
             <div className='trending_flex'>
               <div className='trending_title' >TV</div>

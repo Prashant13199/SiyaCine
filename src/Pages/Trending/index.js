@@ -87,9 +87,9 @@ export default function Trending({ scrollTop }) {
 
         <Header />
 
-        {watching?.length !== 0 && auth?.currentUser?.uid && <><br /><br />
+        {watching?.length !== 0 && auth?.currentUser?.uid && <><br />
           <div className='trending_flex'>
-            <div className='trending_title' >Resume Watching</div>
+            <div className='trending_title' >Continue Watching</div>
           </div>
           <div className='trending_scroll' >
             {watching && watching.map((data, index) => {
@@ -97,7 +97,7 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {nowplaying?.length !== 0 && <><br /><br />
+        {nowplaying?.length !== 0 && <><br />
           <div className='trending_flex'>
             <div className='trending_title'>Playing in Theatres
               <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$`} className="viewall">
@@ -112,7 +112,7 @@ export default function Trending({ scrollTop }) {
           </div>
         </>}
 
-        {myShows?.length !== 0 && <><br /><br />
+        {myShows?.length !== 0 && <><br />
           <div className='trending_flex'>
             <div className='trending_title'>Upcoming Episodes</div>
           </div>
@@ -123,7 +123,7 @@ export default function Trending({ scrollTop }) {
           </div>
         </>}
 
-        {recommendation?.length !== 0 && <><br /><br />
+        {recommendation?.length !== 0 && <><br />
           <div className='trending_flex'>
             <img src={favourite[0]?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favourite[0]?.data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
             <div>
@@ -141,7 +141,7 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br /><br />
+        {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
           <div className='trending_flex'>
             <div className='trending_title'>Indian Origin <Switch data={indian} setData={setIndian} />
               <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$` : `/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
@@ -156,7 +156,7 @@ export default function Trending({ scrollTop }) {
           </div>
         </>}
 
-        {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br /><br />
+        {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
           <div className='trending_flex'>
             <div className='trending_title'>Trending <Switch data={trending} setData={setTrending} />
               <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$` : `/singlecategory/trending/tv/Trending TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
@@ -170,7 +170,7 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {recommendationCast?.length !== 0 && <><br /><br />
+        {recommendationCast?.length !== 0 && <><br />
           <div className='trending_flex'>
             <img src={favouriteCast[0]?.data?.profile_path ? `https://image.tmdb.org/t/p/w342/${favouriteCast[0]?.data?.profile_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
             <div>
@@ -186,7 +186,7 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br /><br />
+        {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
           <div className='trending_flex'>
             <div className='trending_title'>Top Rated <Switch data={topRated} setData={setTopRated} />
               <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$` : `/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
