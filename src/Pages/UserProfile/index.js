@@ -16,6 +16,7 @@ import useFetchUserDetails from '../../hooks/useFetchUserDetails'
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
 import ConnectionUser from '../../Components/ConnectionUser'
+import { timeDifference } from '../../Services/time'
 
 export default function UserProfile({ scrollTop }) {
 
@@ -30,6 +31,7 @@ export default function UserProfile({ scrollTop }) {
   const [connections, setConnections] = useState([])
   const [backdrop, setBackdrop] = useState('')
   const [connectID, setConnectID] = useState('')
+  const [lastActive, setLastActive] = useState()
 
   const watchlist = useFetchDBData(uid, 'watchlist')
   const watched = useFetchDBData(uid, 'watched')
@@ -68,6 +70,7 @@ export default function UserProfile({ scrollTop }) {
     setLoading(true)
     database.ref(`/Users/${uid}`).once('value', snapshot => {
       setPublicAcc(snapshot.val().public)
+      setLastActive(snapshot.val().timestamp)
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/admin`).once('value', snapshot => {
       setAdmin(snapshot.val())
@@ -199,6 +202,9 @@ export default function UserProfile({ scrollTop }) {
                   :
                   <h1 className='profile_username'>{username ? username : 'Loading username...'}</h1>
                 }
+                {(connected || publicAcc || admin) && <div className='user_last_active'>
+                  Last Active <b>{timeDifference(new Date(), new Date(lastActive))}</b>
+                </div>}
                 {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
                   <Premium premium={premium} />
                 </div>}

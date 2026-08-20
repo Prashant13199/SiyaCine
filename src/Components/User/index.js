@@ -10,7 +10,7 @@ export default function User({ user, index }) {
   const [lastActive, setLastActive] = useState()
 
   useEffect(() => {
-    database.ref(`/Users/${user?.uid}`).on('value', snapshot => {
+    database.ref(`/Users/${user?.uid}`).once('value', snapshot => {
       setLastActive(snapshot.val().timestamp)
     })
   }, [user])

@@ -49,7 +49,10 @@ export default function Profile({ scrollTop }) {
   const handleShow = () => setShow(true);
 
   useEffect(() => {
-    scrollTop()
+    scrollTop();
+    database.ref(`/Users/${auth?.currentUser?.uid}`).update({
+      timestamp: Date.now()
+    }).catch((e) => console.log("Error", e))
   }, [])
 
   const addBackdrop = () => {
@@ -59,6 +62,9 @@ export default function Profile({ scrollTop }) {
   useEffect(() => {
     addBackdrop()
     window.addEventListener('resize', addBackdrop)
+    return () => {
+      window.removeEventListener('resize', addBackdrop)
+    }
   }, [favourite])
 
   useEffect(() => {
@@ -68,9 +74,12 @@ export default function Profile({ scrollTop }) {
       snapshot?.forEach((snap) => {
         let uid = snap.key.replace(':', '').replace(auth?.currentUser?.uid, '')
         if (snap.key.includes(auth?.currentUser?.uid) && snap.val()?.connected) {
-          arr.push(uid)
+          database.ref(`/Users/${uid}`).once('value', snapshot => {
+            arr.push({ uid: uid, timestamp: snapshot.val().timestamp })
+          })
         }
       })
+      arr.sort((a, b) => b.timestamp - a.timestamp)
       setConnections(arr)
     })
 
@@ -276,7 +285,7 @@ export default function Profile({ scrollTop }) {
             </div>
             <div className='trending_scroll' >
               {connections?.map((user, index) => {
-                return <ConnectionUser key={user} user={user} index={index} />
+                return <ConnectionUser key={user.uid} user={user.uid} index={index} />
               })}
             </div></>}
           {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />

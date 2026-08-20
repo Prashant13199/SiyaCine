@@ -11,6 +11,8 @@ export default function useFetchUserDetails(uid, data) {
                 setContent(snapshot.val()?.photo)
             } else if (data === 'username') {
                 setContent(snapshot.val()?.username)
+            } else if (data === 'lastActive') {
+                setContent(snapshot.val()?.timestamp)
             }
         })
     }, [uid, data])

@@ -50,7 +50,7 @@ export const timeDifference = (current, previous) => {
         }
         return Math.round(elapsed / msPerMonth) + " months ago";
     } else {
-        return "long time ago";
+        return previous?.toLocaleDateString('en-GB');
     }
 };
 

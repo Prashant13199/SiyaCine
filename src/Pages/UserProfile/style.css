@@ -9,3 +9,9 @@
 .connect_btn {
     border-radius: 20px !important;
 }
+
+.user_last_active {
+    color: darkgray;
+    margin-bottom: 10px;
+    font-size: 14px;
+}

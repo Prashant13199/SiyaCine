@@ -8,6 +8,7 @@ import { timeDifference } from '../../Services/time';
 export default function Notification({ noti, handleClose }) {
 
     const photo = useFetchUserDetails(noti?.byuid, 'photo')
+    const username = useFetchUserDetails(noti?.byuid, 'username')
     const connectID = [auth?.currentUser?.uid, noti?.byuid].sort().join(':')
     const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
@@ -48,7 +49,7 @@ export default function Notification({ noti, handleClose }) {
         <>
             <div className='notification'>
                 <Link onClick={handleClose} to={`/user/${noti.byuid}`}>
-                    <img src={photo} className='notification_image' />
+                    <img src={photo ?? `https://api.dicebear.com/9.x/dylan/svg?seed=${username}?size=96`} className='notification_image' />
                 </Link>
                 <div className='notification_right'>
                     {noti.text} <span className='noti_time'>{timeDifference(new Date(), new Date(noti.timestamp))}</span>
