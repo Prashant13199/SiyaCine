@@ -187,7 +187,7 @@ export default function NavBarMain({ top, scrollTop }) {
           Search
         </NavLink>
         {auth?.currentUser?.uid && <NavLink className="navlink" exact={true} onClick={scrollTop} to='/profile' activeClassName="navlinkActive">
-          <img alt="" src={currentPhoto ? currentPhoto : `https://api.dicebear.com/8.x/fun-emoji/svg?seed=loading?size=96`} className={'navbar__img'} />
+          <img alt="" src={currentPhoto ?? `https://api.dicebear.com/8.x/fun-emoji/svg?seed=loading?size=96`} className={'navbar__img'} />
           You
         </NavLink>}
       </Navbar>
