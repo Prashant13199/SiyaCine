@@ -69,18 +69,23 @@ export default function Profile({ scrollTop }) {
 
   useEffect(() => {
 
-    database.ref(`/Connections`).on('value', snapshot => {
+    database.ref(`/Connections`).once('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
         let uid = snap.key.replace(':', '').replace(auth?.currentUser?.uid, '')
         if (snap.key.includes(auth?.currentUser?.uid) && snap.val()?.connected) {
           database.ref(`/Users/${uid}`).once('value', snapshot => {
-            arr.push({ uid: uid, timestamp: snapshot.val().timestamp })
+            const newItem = { uid: uid, timestamp: snapshot.val().timestamp };
+            const index = arr.findIndex((item) => item.timestamp < newItem.timestamp);
+            if (index === -1) {
+              arr.push(newItem);
+            } else {
+              arr.splice(index, 0, newItem);
+            }
           })
         }
       })
-      arr.sort((a, b) => b.timestamp - a.timestamp)
-      setConnections(arr)
+      setConnections(arr);
     })
 
     database.ref(`/Users/${auth?.currentUser?.uid}/public`).on('value', snapshot => {

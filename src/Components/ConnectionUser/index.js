@@ -12,7 +12,6 @@ export default function ConnectionUser({ user }) {
     const photo = useFetchUserDetails(user, 'photo')
     const lastActive = useFetchUserDetails(user, 'lastActive')
     const theme = useTheme()
-    console.log(lastActive)
 
     return (
         <Link key={user.uid} to={user === auth?.currentUser?.uid ? `/profile` : `/user/${user}`} style={{ textDecoration: 'none' }}>
