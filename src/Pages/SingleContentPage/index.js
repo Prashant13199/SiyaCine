@@ -645,14 +645,14 @@ export default function SingleContentPage({ scrollTop }) {
                     </div>
                   </div>
 
-                  {director?.length > 0 && <div className='overview' >
+                  <div className='overview' >
                     <h4>Director</h4>
                     <div className='directors'>
-                      {director?.map((cr, index) => {
+                      {director?.length > 0 ? director?.map((cr, index) => {
                         return <div key={cr?.id}>{cr?.name}{index < director?.length - 1 && <>,&nbsp;</>}</div>
-                      })}
+                      }) : "Not Available"}
                     </div>
-                  </div>}
+                  </div>
 
                   {data?.overview && <div className='overview'>
                     <h4>Overview</h4>
