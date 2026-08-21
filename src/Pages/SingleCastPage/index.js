@@ -11,6 +11,8 @@ import { useTheme } from '@mui/material';
 import { CircularProgress } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { useLayoutEffect } from 'react';
+import MovieIcon from '@mui/icons-material/Movie';
+import TvIcon from '@mui/icons-material/Tv';
 
 export default function SingleCastPage({ scrollTop }) {
 
@@ -148,9 +150,8 @@ export default function SingleCastPage({ scrollTop }) {
           </div>
 
           {movie?.length !== 0 && <><br />
-            <br />
             <div className='trending_flex'>
-              <div className='trending_title' >Movie</div>
+              <div className='trending_title' ><MovieIcon /> Movie</div>
             </div>
             <div style={{ marginTop: '10px' }}></div>
             <div className='trending_scroll' >
@@ -161,9 +162,8 @@ export default function SingleCastPage({ scrollTop }) {
           </>}
 
           {tv?.length !== 0 && <><br />
-            <br />
             <div className='trending_flex'>
-              <div className='trending_title' >TV</div>
+              <div className='trending_title' ><TvIcon /> TV</div>
             </div>
             <div style={{ marginTop: '10px' }}></div>
             <div className='trending_scroll' >

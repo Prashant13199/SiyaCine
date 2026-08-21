@@ -38,6 +38,12 @@ import useFetchUsers from '../../hooks/useFetchUsers';
 import ShareUser from '../../Components/ShareUser';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { useLayoutEffect } from 'react';
+import PersonIcon from '@mui/icons-material/Person';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import ImageIcon from '@mui/icons-material/Image';
+import RecommendIcon from '@mui/icons-material/Recommend';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import CompareIcon from '@mui/icons-material/Compare';
 
 export default function SingleContentPage({ scrollTop }) {
 
@@ -142,6 +148,7 @@ export default function SingleContentPage({ scrollTop }) {
     setLoading(true);
     fetchProvider();
     fetchDetails();
+    fetchCredit();
     addBackdrop();
   }, [id, type, auth?.currentUser?.uid])
 
@@ -205,7 +212,6 @@ export default function SingleContentPage({ scrollTop }) {
         `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setData(data);
-      fetchCredit();
       fetchImages();
       fetchVideo();
       fetchRecommendation();
@@ -658,9 +664,9 @@ export default function SingleContentPage({ scrollTop }) {
             <br />
             {type === 'tv' && <Seasons value={data} watching={watching} handleWatching={handleWatching2} seasonNumber={seasonNumber} setSeasonNumber={setSeasonNumber} episodeNumber={episodeNumber} setEpisodeNumber={setEpisodeNumber} />}
             <div className='singlecontent'>
-              {credit.cast && credit.cast.length !== 0 && <><br />
+              {credit.cast && credit.cast.length !== 0 && <>
                 <div className='trending_flex'>
-                  <div className='trending_title'>Cast</div>
+                  <div className='trending_title'><PersonIcon /> Cast</div>
                 </div>
                 <div className='cast'>
                   {credit && credit.cast.map((c) => {
@@ -677,7 +683,7 @@ export default function SingleContentPage({ scrollTop }) {
                 </div></>}
               {video?.length !== 0 && <><br />
                 <div className='trending_flex'>
-                  <div className='trending_title' >Trailers & More</div>
+                  <div className='trending_title' ><LocalMoviesIcon /> Trailers & More</div>
                 </div>
                 <div className='trending_scroll' >
                   <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
@@ -685,7 +691,7 @@ export default function SingleContentPage({ scrollTop }) {
               </>}
               {images?.length !== 0 && <><br />
                 <div className='trending_flex'>
-                  <div className='trending_title' >Images</div>
+                  <div className='trending_title' ><ImageIcon /> Images</div>
                 </div>
                 <div className='trending_scroll' >
                   {images?.map((image, index) => {
@@ -695,7 +701,7 @@ export default function SingleContentPage({ scrollTop }) {
               </>}
               {recommendations?.length !== 0 && <><br />
                 <div className='trending_flex'>
-                  <div className='trending_title' >Recommendations</div>
+                  <div className='trending_title' ><RecommendIcon /> Recommendations</div>
                 </div>
                 <div className='trending_scroll' >
                   {recommendations?.map((data) => {
@@ -705,7 +711,7 @@ export default function SingleContentPage({ scrollTop }) {
               </>}
               {similar?.length !== 0 && <><br />
                 <div className='trending_flex'>
-                  <div className='trending_title' >Similar</div>
+                  <div className='trending_title' ><CompareIcon /> Similar</div>
                 </div>
                 <div className='trending_scroll' >
                   {similar?.map((data) => {
@@ -717,7 +723,7 @@ export default function SingleContentPage({ scrollTop }) {
               <div className='trending_flex'>
                 <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
                   <div >
-                    Reviews
+                    <ReviewsIcon /> Reviews
                   </div>
                   {auth?.currentUser?.uid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
                     <AddCircleOutlineIcon fontSize='medium' />

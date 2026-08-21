@@ -12,9 +12,12 @@ import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
 import useFetchMyShows from '../../hooks/useFetchMyShows';
 import Switch from '../../Components/switch';
-import watchingIcon from '../../assets/watching.gif';
-import spotlightIcon from '../../assets/spotlight.gif';
-import upcomingIcon from '../../assets/upcoming.gif'
+import TheatersIcon from '@mui/icons-material/Theaters';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import UpcomingIcon from '@mui/icons-material/Upcoming';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import PublicIcon from '@mui/icons-material/Public';
 
 export default function Trending({ scrollTop }) {
 
@@ -92,7 +95,7 @@ export default function Trending({ scrollTop }) {
 
         {watching?.length !== 0 && auth?.currentUser?.uid && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><img className='trendingIcons' src={watchingIcon} />Continue Watching</div>
+            <div className='trending_title'><PlayArrowIcon /> Continue Watching</div>
           </div>
           <div className='trending_scroll' >
             {watching && watching.map((data, index) => {
@@ -102,7 +105,7 @@ export default function Trending({ scrollTop }) {
 
         {nowplaying?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><img className='trendingIcons' src={spotlightIcon} />Playing in Theatres
+            <div className='trending_title'><TheatersIcon /> Playing in Theatres
               <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$`} className="viewall">
                 see all<ChevronRightIcon />
               </Link>
@@ -117,7 +120,7 @@ export default function Trending({ scrollTop }) {
 
         {myShows?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><img className='trendingIcons' src={upcomingIcon} />Upcoming Episodes</div>
+            <div className='trending_title'><UpcomingIcon /> Upcoming Episodes</div>
           </div>
           <div className='trending_scroll'>
             {myShows?.map((data, index) => {
@@ -146,7 +149,7 @@ export default function Trending({ scrollTop }) {
 
         {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'>Indian Origin <Switch data={indian} setData={setIndian} />
+            <div className='trending_title'><PublicIcon /> Indian Origin <Switch data={indian} setData={setIndian} />
               <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$` : `/singlecategory/discover/tv/Indian Origin TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
           </div>
           <div className='trending_scroll' >
@@ -161,7 +164,7 @@ export default function Trending({ scrollTop }) {
 
         {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'>Trending <Switch data={trending} setData={setTrending} />
+            <div className='trending_title'><TrendingUpIcon /> Trending <Switch data={trending} setData={setTrending} />
               <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$` : `/singlecategory/trending/tv/Trending TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
           </div>
           <div className='trending_scroll' >
@@ -191,7 +194,7 @@ export default function Trending({ scrollTop }) {
 
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'>Top Rated <Switch data={topRated} setData={setTopRated} />
+            <div className='trending_title'><StarRateIcon /> Top Rated <Switch data={topRated} setData={setTopRated} />
               <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$` : `/singlecategory/top_rated/tv/Top Rated TV/$$`} className="viewall">see all<ChevronRightIcon /></Link></div>
           </div>
           <div className='trending_scroll'>

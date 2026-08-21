@@ -24,6 +24,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import ModeIcon from '@mui/icons-material/Mode';
 import { images } from '../../Services/images'
 import ConnectionUser from '../../Components/ConnectionUser';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PersonIcon from '@mui/icons-material/Person';
+import CoPresentIcon from '@mui/icons-material/CoPresent';
 
 export default function Profile({ scrollTop }) {
 
@@ -230,7 +237,7 @@ export default function Profile({ scrollTop }) {
           </div>
           {watching?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Resume Watching</div>
+              <div className='trending_title' ><PlayArrowIcon />Continue Watching</div>
             </div>
             <div className='trending_scroll' >
               {watching?.map((data, index) => {
@@ -239,7 +246,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {watchlist?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <div className='trending_title' ><FormatListBulletedIcon />Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
             <div className='trending_scroll' >
               {watchlist?.slice(0, 10)?.map((data, index) => {
@@ -248,7 +255,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {suggestions?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Suggestions<Count value={suggestions?.length} /></div>
+              <div className='trending_title' ><CoPresentIcon /> Suggestions<Count value={suggestions?.length} /></div>
             </div>
             <div className='trending_scroll' >
               {suggestions?.map((data, index) => {
@@ -259,7 +266,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {watched?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
             <div className='trending_scroll' >
               {watched?.slice(0, 10)?.map((data, index) => {
@@ -268,7 +275,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {favourite?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+              <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
             </div>
             <div className='trending_scroll' >
               {favourite?.slice(0, 10)?.map((data, index) => {
@@ -277,7 +284,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {cast?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Favourite Cast<Count value={cast?.length} /></div>
+              <div className='trending_title' ><PersonIcon /> Favourite Cast<Count value={cast?.length} /></div>
             </div>
             <div className='trending_scroll' >
               {cast?.map((c) => {
@@ -286,7 +293,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {connections?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Connections<Count value={connections?.length} /></div>
+              <div className='trending_title' ><AccountBoxIcon /> Connections<Count value={connections?.length} /></div>
             </div>
             <div className='trending_scroll' >
               {connections?.map((user, index) => {

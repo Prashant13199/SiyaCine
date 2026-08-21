@@ -97,12 +97,6 @@
     border-color: black !important;
 }
 
-.trendingIcons {
-    width: 45px;
-    height: auto;
-    margin-right: 5px;
-}
-
 @media only screen and (max-width: 660px) {
     .trending_img {
         margin-right: 10px;
@@ -113,10 +107,6 @@
 
     .trending_title {
         font-size: 18px;
-    }
-
-    .trendingIcons {
-        width: 35px;
     }
 
     .trending_title_subtitle {

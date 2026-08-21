@@ -9,7 +9,7 @@ export default function Header() {
 
   const [emblaRef] = useEmblaCarousel({}, [ClassNames()])
 
-  const nowPlaying = useFetchContent('upcoming', 'movie')
+  const nowPlaying = useFetchContent('now_playing', 'movie')
 
   return (
     <div className="embla">
