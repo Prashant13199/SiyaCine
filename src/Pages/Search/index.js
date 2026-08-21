@@ -30,7 +30,7 @@ export default function Search({ scrollTop }) {
     const [pageM, setPageM] = useState(page ? page : 1)
     const [searchedUsers, setSearchedUsers] = useState([])
     const [recentlySearched, setRecentlySearched] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     function useQuery() {
         const { search } = useLocation();
@@ -53,13 +53,12 @@ export default function Search({ scrollTop }) {
     }
 
     const fetchRecentlySearched = () => {
-        database.ref(`/Searched`).limitToLast(12).orderByChild('timestamp').on('value', snapshot => {
+        database.ref(`/Searched`).limitToLast(24).orderByChild('timestamp').on('value', snapshot => {
             let arr = []
             snapshot.forEach((snap) => {
                 arr.push(snap.val())
             })
             setRecentlySearched(arr.reverse())
-            setLoading(false)
         })
     }
 
@@ -135,7 +134,7 @@ export default function Search({ scrollTop }) {
                         </IconButton>}
                 </Paper>
                 <br />
-                {!search && recentlySearched?.length > 0 && <h3>Recently searched</h3>}
+                {!search && recentlySearched?.length > 0 && <h3>Trending search</h3>}
                 {!loading ? <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {pageM == 1 && searchedUsers?.length > 0 &&
                         <>

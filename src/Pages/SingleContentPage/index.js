@@ -487,9 +487,10 @@ export default function SingleContentPage({ scrollTop }) {
               color='warning'
               value={review}
               onChange={(e) => setReview(e.target.value)}
+              placeholder='Start typing here...'
             />
           </div>
-          <Button fullWidth color='warning' variant="contained" onClick={() => handleAddReview()}>Review</Button>
+          <Button fullWidth color='warning' variant="contained" onClick={() => handleAddReview()}>Submit</Button>
         </Modal.Body>
       </Modal>
       <Modal show={show4} onHide={handleClose4} fullscreen>

@@ -113,7 +113,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
             <div className='lastPlayDetails'>
               {type === 'tv' && (
                 <div className='userlastplayed'>
-                  S{lastPlayed?.season}E{lastPlayed?.episode}
+                  S{lastPlayed?.season} E{lastPlayed?.episode}
                 </div>
               )}
               {left > 0 ? <div className='timeleft'>{getTimeLeft(left)} Left</div>
