@@ -239,7 +239,7 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {watchlist?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><FormatListBulletedIcon /> Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><FormatListBulletedIcon /> Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
               <div className='trending_scroll' >
                 {watchlist?.map((data, index) => {
@@ -248,7 +248,7 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {watched?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
               <div className='trending_scroll' >
                 {watched?.slice(0, 20)?.map((data, index) => {
@@ -257,7 +257,7 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {favourite?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
               <div className='trending_scroll' >
                 {favourite?.map((data, index) => {

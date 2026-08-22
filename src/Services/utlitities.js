@@ -16,3 +16,10 @@ export const getTimeLeft = (duration) => {
         return `${min}m`
     }
 }
+
+export const capitalizeWords = (str) => {
+    return str
+        .split(' ') // Split string into an array of words
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter
+        .join(' '); // Join array elements back into a string
+}

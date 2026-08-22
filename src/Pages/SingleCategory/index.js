@@ -22,7 +22,7 @@ export default function SingleCategory({ scrollTop }) {
   const [page, setPage] = useState(pageM ? pageM : 1);
   const [content, setContent] = useState([]);
   const [numOfPages, setNumOfPages] = useState();
-  const { category, type, name, uid } = useParams()
+  const { category, type, name, uid, id } = useParams()
   const [loading, setLoading] = useState(true)
   const [selectedGenres, setSelectedGenres] = useState(values ? JSON.parse(values) : []);
   const genreforURL = useGenre(selectedGenres);
@@ -34,7 +34,7 @@ export default function SingleCategory({ scrollTop }) {
 
   const setURL = () => {
     if (selectedGenres.length > 0 || page > 1) {
-      history.push(`/singlecategory/${category}/${type}/${name}/${uid}?pageM=${page}&values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}`)
+      history.push(`/singlecategory/${category}/${type}/${name}/${uid}/${id}?pageM=${page}&values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}`)
     }
   }
 
@@ -50,6 +50,8 @@ export default function SingleCategory({ scrollTop }) {
       fetch();
     } else if (category === 'discover') {
       fetchDiscover()
+    } else if (category === 'provider') {
+      fetchProvider()
     } else if (category === 'watchlist' || category === 'watched' || category === 'favourites') {
       fetchData(category)
       setTv(true)
@@ -120,6 +122,20 @@ export default function SingleCategory({ scrollTop }) {
     }
   }
 
+  const fetchProvider = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/discover/${type}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_watch_providers=${id}&watch_region=IN&with_genres=${genreforURL}`
+      );
+      setContent(data.results);
+      setNumOfPages(data.total_pages);
+      setLoading(false)
+    }
+    catch (e) {
+      console.log(e)
+    }
+  };
+
   const fetchData = async (categoryName) => {
     try {
       database.ref(`/Users/${uid}/${categoryName}`).orderByChild('timestamp').on('value', snapshot => {
@@ -143,7 +159,7 @@ export default function SingleCategory({ scrollTop }) {
         <title>SiyaCine{name ? ` - ${name}` : ''}</title>
       </Helmet>
       {!loading ? <div className='singlecategory'>
-        {category === 'discover' && <Genres
+        {category === 'discover' || category === "provider" && <Genres
           type={type}
           selectedGenres={selectedGenres}
           setSelectedGenres={setSelectedGenres}

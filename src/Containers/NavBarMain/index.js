@@ -17,6 +17,7 @@ import Notification from '../../Components/Notification/Notification';
 import HomeIcon from '@mui/icons-material/Home';
 import MovieIcon from '@mui/icons-material/Movie';
 import TvIcon from '@mui/icons-material/Tv';
+import { capitalizeWords } from '../../Services/utlitities';
 
 export default function NavBarMain({ top, scrollTop }) {
 
@@ -77,7 +78,7 @@ export default function NavBarMain({ top, scrollTop }) {
     } else if (location.pathname?.includes('/Upcoming')) {
       setRouteName('Upcoming')
     } else if (location.pathname?.includes('/now_playing')) {
-      setRouteName('Now Playing')
+      setRouteName(location.pathname.split('/')[4])
     } else if (location.pathname?.includes('/trending/movie')) {
       setRouteName('Trending Movies')
     } else if (location.pathname?.includes('/trending/tv')) {
@@ -102,6 +103,8 @@ export default function NavBarMain({ top, scrollTop }) {
       setRouteName('Indian TV')
     } else if (location.pathname?.includes('/airing_today')) {
       setRouteName('Airing Today')
+    } else if (location.pathname?.includes('/provider')) {
+      setRouteName(capitalizeWords(location.pathname.split('/')[4]))
     } else if (location.pathname?.includes('/movie')) {
       setRouteName('Discover Movie')
     } else if (location.pathname?.includes('/tv')) {

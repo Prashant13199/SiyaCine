@@ -100,7 +100,7 @@ function App() {
             <Route path="/search">
               <Search scrollTop={scrollTop} />
             </Route>
-            <Route path="/singlecategory/:category/:type/:name/:uid">
+            <Route path="/singlecategory/:category/:type/:name/:uid/:id">
               <SingleCategory scrollTop={scrollTop} />
             </Route>
             <Route path="/singlecast/:id/:name">
