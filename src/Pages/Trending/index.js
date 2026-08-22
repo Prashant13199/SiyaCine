@@ -20,10 +20,9 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import PublicIcon from '@mui/icons-material/Public';
 import { IconButton } from '@mui/material';
 import Providers from '../../Components/Providers/Providers';
-import TvIcon from '@mui/icons-material/Tv';
-import MovieIcon from '@mui/icons-material/Movie';
 import Live from '../../Containers/Live/Live';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 export default function Trending({ scrollTop }) {
 
@@ -225,7 +224,7 @@ export default function Trending({ scrollTop }) {
 
         {(providersMovie?.length !== 0 || providersTV?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'>{providerType === "movie" ? <MovieIcon /> : <TvIcon />} Browse By Platform <Switch data={providerType} setData={setProviderType} /></div>
+            <div className='trending_title'><TravelExploreIcon /> Browse By Platform <Switch data={providerType} setData={setProviderType} /></div>
           </div>
           <div className='trending_scroll' >
             {providerType === "movie" && providersMovie?.map((data) => {
