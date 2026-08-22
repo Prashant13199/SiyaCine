@@ -22,6 +22,8 @@ import { IconButton } from '@mui/material';
 import Providers from '../../Components/Providers/Providers';
 import TvIcon from '@mui/icons-material/Tv';
 import MovieIcon from '@mui/icons-material/Movie';
+import Live from '../../Containers/Live/Live';
+import LiveTvIcon from '@mui/icons-material/LiveTv';
 
 export default function Trending({ scrollTop }) {
 
@@ -226,6 +228,16 @@ export default function Trending({ scrollTop }) {
             })}
           </div>
         </>}
+
+        <>
+          <br />
+          <div className='trending_flex'>
+            <div className='trending_title'><LiveTvIcon /> Live TV</div>
+          </div>
+          <div className='trending_scroll'>
+            <Live />
+          </div>
+        </>
 
         <Footer />
 

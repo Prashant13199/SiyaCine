@@ -1,0 +1,22 @@
+.livetv_image {
+    width: 160px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: transform .3s ease;
+}
+
+.livetv_image:hover {
+    transform: scale(0.95);
+    transition: transform .3s ease;
+}
+
+@media only screen and (max-width: 660px) {
+    .livetv_image {
+        width: 120px;
+        height: 80px;
+    }
+}
