@@ -1,6 +1,6 @@
 .livetv_image {
     width: 250px;
-    height: 150px;
+    height: auto;
     object-fit: contain;
     border-radius: 10px;
     margin-top: 5px;
@@ -16,7 +16,6 @@
 
 @media only screen and (max-width: 660px) {
     .livetv_image {
-        width: 150px;
-        height: 100px;
+        width: 200px;
     }
 }
