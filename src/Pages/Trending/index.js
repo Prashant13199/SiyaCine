@@ -127,6 +127,14 @@ export default function Trending({ scrollTop }) {
           </div>
         </>}
 
+        <>
+          <br />
+          <div className='trending_flex'>
+            <div className='trending_title'><LiveTvIcon /> Live TV</div>
+          </div>
+          <Live />
+        </>
+
         {myShows?.length !== 0 && <><br />
           <div className='trending_flex'>
             <div className='trending_title'><UpcomingIcon /> Upcoming Episodes</div>
@@ -228,16 +236,6 @@ export default function Trending({ scrollTop }) {
             })}
           </div>
         </>}
-
-        <>
-          <br />
-          <div className='trending_flex'>
-            <div className='trending_title'><LiveTvIcon /> Live TV</div>
-          </div>
-          <div className='trending_scroll'>
-            <Live />
-          </div>
-        </>
 
         <Footer />
 
