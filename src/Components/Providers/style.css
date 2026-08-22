@@ -1,6 +1,7 @@
 .provider {
     width: 100px;
     height: auto;
+    margin-top: 5px;
     margin-right: 20px;
     border-radius: 10px;
     object-fit: contain;
