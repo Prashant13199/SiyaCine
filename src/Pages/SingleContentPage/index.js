@@ -95,7 +95,7 @@ export default function SingleContentPage({ scrollTop }) {
   }
 
   const updateProgress = (progress, duration, update) => {
-    if (progress && duration) {
+    if (progress && duration && ((duration - progress) > 150)) {
       database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).update({
         currentTime: progress,
         timestamp: Date.now(),
@@ -104,6 +104,8 @@ export default function SingleContentPage({ scrollTop }) {
       }).then(() => {
         update && setCurrentTime(progress)
       }).catch((e) => console.log(e))
+    } else {
+      handleWatched()
     }
   }
 
