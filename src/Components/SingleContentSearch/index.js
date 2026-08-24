@@ -1,12 +1,21 @@
 import './style.css'
 import { useHistory } from 'react-router-dom'
 import Grid from '@mui/material/Unstable_Grid2';
-import { Tooltip } from '@mui/material';
+import { Tooltip, Zoom } from '@mui/material';
 import { database } from '../../firebase';
+import { useEffect, useState } from 'react';
 
-export default function SingleContent({ data, setURL }) {
+export default function SingleContent({ data, setURL, index }) {
 
     const history = useHistory()
+
+    const [checked, setChecked] = useState(false)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setChecked(true)
+        }, index * 150)
+    }, [index])
 
     const handleStoreSearched = () => {
         database.ref(`/Searched/${data?.id}`).update({
@@ -15,26 +24,28 @@ export default function SingleContent({ data, setURL }) {
     }
 
     return (
-        <Tooltip placement='top' title={data?.title || data?.name}>
-            <Grid xs={2} sm={4} md={4} key={data.id}>
-                <div className='postersearch'>
-                    <img
-                        loading='lazy'
-                        onError={({ currentTarget }) => {
-                            currentTarget.onerror = null;
-                            currentTarget.src = "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg";
-                        }}
-                        src={data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"}
-                        alt={data?.title || data?.name}
-                        className="search_img"
-                        onClick={() => {
-                            setURL && setURL()
-                            handleStoreSearched()
-                            history.push(`/singlecontent/${data.id}/${data.media_type}`)
-                        }}
-                    />
-                </div>
-            </Grid>
-        </Tooltip>
+        <Zoom in={checked} timeout={1000}>
+            <Tooltip placement='top' title={data?.title || data?.name}>
+                <Grid xs={2} sm={4} md={4} key={data.id}>
+                    <div className='postersearch'>
+                        <img
+                            loading='lazy'
+                            onError={({ currentTarget }) => {
+                                currentTarget.onerror = null;
+                                currentTarget.src = "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg";
+                            }}
+                            src={data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"}
+                            alt={data?.title || data?.name}
+                            className="search_img"
+                            onClick={() => {
+                                setURL && setURL()
+                                handleStoreSearched()
+                                history.push(`/singlecontent/${data.id}/${data.media_type}`)
+                            }}
+                        />
+                    </div>
+                </Grid>
+            </Tooltip>
+        </Zoom>
     )
 }

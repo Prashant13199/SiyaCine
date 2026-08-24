@@ -41,6 +41,12 @@
     flex: 0 0 var(--slide-size);
     min-width: 0;
     padding: 0 0.5rem;
+    transition: transform .3s !important;
+}
+
+.embla__slide:hover {
+    transition: transform .3s !important;
+    transform: scale(0.98) !important;
 }
 
 @media only screen and (max-width: 660px) {

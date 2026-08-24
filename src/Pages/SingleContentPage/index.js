@@ -4,7 +4,7 @@ import './style.css';
 import axios from "axios";
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import Button from '@mui/material/Button';
-import { CircularProgress, IconButton, TextField } from '@mui/material';
+import { CircularProgress, Grow, IconButton, TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -150,6 +150,11 @@ export default function SingleContentPage({ scrollTop }) {
     fetchDetails();
     fetchCredit();
     addBackdrop();
+    fetchImages();
+    fetchVideo();
+    fetchRecommendation();
+    fetchSimilar();
+    fetchReviews();
   }, [id, type, auth?.currentUser?.uid])
 
   useEffect(() => {
@@ -212,11 +217,6 @@ export default function SingleContentPage({ scrollTop }) {
         `https://api.themoviedb.org/3/${type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setData(data);
-      fetchImages();
-      fetchVideo();
-      fetchRecommendation();
-      fetchSimilar();
-      fetchReviews();
       setLoading(false);
     }
     catch (e) {
@@ -549,122 +549,124 @@ export default function SingleContentPage({ scrollTop }) {
       {!loading ?
         <>
           <div className='singlecontentPage'>
-            <div className='singlecontent_responsive' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
-              <div className={window?.innerWidth > 900 && 'profile_backdrop'}>
-                <div className={'pic_container'}>
-                  <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='singlecontentposter' />
-                  <div className='play_buttons'>
-                    {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) && type === 'movie' &&
-                      <Button
-                        startIcon={<PlayArrowIcon />}
-                        className='play_button'
-                        onClick={handleShow4}
-                        variant='contained'
-                        size='large'
-                      >
-                        {watching ? `Resume ${currentTimeFormat}` : 'Play now'}
-                      </Button>}
-                  </div>
-                </div>
-                <div className='details'>
-                  <div className='mobile_center'>
-                    <h1>{data.name || data.title || data.original_name}</h1>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                      {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{timeConvert(data?.runtime)}</>}
-                    </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', margin: '15px 0px' }}>
-                      {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
-                    </div>
-                    {data.vote_average !== 0 && <div className='overview'>
-                      <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average * 10) / 10}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
-                    </div>}
-                    {data.tagline && (
-                      <div className="tagline"><i>{data.tagline}</i></div>
-                    )}
-                    {data.number_of_seasons && <div className='overview'>
-                      {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
-                    </div>}
-
-                    <div className='actions'>
-                      {auth?.currentUser?.uid && <>
-                        <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
-                          <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
-                              {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
-                            </IconButton>
-                            <div className='iconText'>Like</div>
-                          </div>
-                        </Tooltip>
-
-                        <Tooltip title={watchlist ? "Remove from Watchlist" : 'Add to Watchlist'}>
-                          <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatchlist()}>
-                              {watchlist ? <DoneIcon color="warning" /> : <AddIcon />}
-                            </IconButton>
-                            <div className='iconText'>Watchlist</div>
-                          </div>
-                        </Tooltip>
-                        <Tooltip title={watching ? "Remove from Watching" : "Add to Watching"}>
-                          <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatching()}>
-                              {watching ? <PlayCircleFilledWhiteIcon color="warning" /> : <PlayCircleOutlineIcon />}
-                            </IconButton>
-                            <div className='iconText'>Watching</div>
-                          </div>
-                        </Tooltip>
-                        <Tooltip title={watched ? "Remove from Watched" : 'Add to Watched'}>
-                          <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatched()}>
-                              {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
-                            </IconButton>
-                            <div className='iconText'>Watched</div>
-                          </div>
-                        </Tooltip>
-                        {type === 'tv' && <Tooltip title={tracking ? "Remove from tracking" : "Track show"}>
-                          <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleTracking()}>
-                              {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
-                            </IconButton>
-                            <div className='iconText'>Tracking</div>
-                          </div>
-                        </Tooltip>}
-                        <Tooltip title="Share">
-                          <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleShow2()}>
-                              <ShareOutlinedIcon />
-                            </IconButton>
-                            <div className='iconText'>Share</div>
-                          </div>
-                        </Tooltip>
-                        {watchprovider?.path && <Tooltip title={watchprovider.name}>
-                          <div className='iconBox'>
-                            <IconButton target='_blank' href={watchprovider.link} style={{ backgroundColor: theme.palette.background.default }}>
-                              <img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />
-                            </IconButton>
-                            <div className='iconText'>Watch on</div>
-                          </div>
-                        </Tooltip>}
-                      </>}
+            <Grow in={true} timeout={1000}>
+              <div className='singlecontent_responsive' style={{ backgroundImage: backdrop && `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
+                <div className={window?.innerWidth > 900 ? 'profile_backdrop' : ''}>
+                  <div className={'pic_container'}>
+                    <img alt="" src={data.poster_path ? `https://image.tmdb.org/t/p/w342/${data.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='singlecontentposter' />
+                    <div className='play_buttons'>
+                      {premium && (data?.status === 'Released' || data?.first_air_date < getCurrentDate()) && type === 'movie' &&
+                        <Button
+                          startIcon={<PlayArrowIcon />}
+                          className='play_button'
+                          onClick={handleShow4}
+                          variant='contained'
+                          size='large'
+                        >
+                          {watching ? `Resume ${currentTimeFormat}` : 'Play now'}
+                        </Button>}
                     </div>
                   </div>
+                  <div className='details'>
+                    <div className='mobile_center'>
+                      <h1>{data.name || data.title || data.original_name}</h1>
+                      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                        {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{timeConvert(data?.runtime)}</>}
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', margin: '15px 0px' }}>
+                        {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
+                      </div>
+                      {data.vote_average !== 0 && <div className='overview'>
+                        <StarIcon style={{ color: "#FFD700" }} /> {Math.round(data.vote_average * 10) / 10}<span style={{ fontSize: 'small', opacity: 0.6 }}>/10</span>
+                      </div>}
+                      {data.tagline && (
+                        <div className="tagline"><i>{data.tagline}</i></div>
+                      )}
+                      {data.number_of_seasons && <div className='overview'>
+                        {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
+                      </div>}
 
-                  {type === "movie" && <div className='overview' >
-                    <h4>Director</h4>
-                    <div className='directors'>
-                      {director?.length > 0 ? director?.map((cr, index) => {
-                        return <div key={cr?.id}>{cr?.name}{index < director?.length - 1 && <>,&nbsp;</>}</div>
-                      }) : "Not Available"}
+                      <div className='actions'>
+                        {auth?.currentUser?.uid && <>
+                          <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
+                            <div className='iconBox'>
+                              <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
+                                {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
+                              </IconButton>
+                              <div className='iconText'>Like</div>
+                            </div>
+                          </Tooltip>
+
+                          <Tooltip title={watchlist ? "Remove from Watchlist" : 'Add to Watchlist'}>
+                            <div className='iconBox'>
+                              <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatchlist()}>
+                                {watchlist ? <DoneIcon color="warning" /> : <AddIcon />}
+                              </IconButton>
+                              <div className='iconText'>Watchlist</div>
+                            </div>
+                          </Tooltip>
+                          <Tooltip title={watching ? "Remove from Watching" : "Add to Watching"}>
+                            <div className='iconBox'>
+                              <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatching()}>
+                                {watching ? <PlayCircleFilledWhiteIcon color="warning" /> : <PlayCircleOutlineIcon />}
+                              </IconButton>
+                              <div className='iconText'>Watching</div>
+                            </div>
+                          </Tooltip>
+                          <Tooltip title={watched ? "Remove from Watched" : 'Add to Watched'}>
+                            <div className='iconBox'>
+                              <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatched()}>
+                                {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
+                              </IconButton>
+                              <div className='iconText'>Watched</div>
+                            </div>
+                          </Tooltip>
+                          {type === 'tv' && <Tooltip title={tracking ? "Remove from tracking" : "Track show"}>
+                            <div className='iconBox'>
+                              <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleTracking()}>
+                                {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
+                              </IconButton>
+                              <div className='iconText'>Tracking</div>
+                            </div>
+                          </Tooltip>}
+                          <Tooltip title="Share">
+                            <div className='iconBox'>
+                              <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleShow2()}>
+                                <ShareOutlinedIcon />
+                              </IconButton>
+                              <div className='iconText'>Share</div>
+                            </div>
+                          </Tooltip>
+                          {watchprovider?.path && <Tooltip title={watchprovider.name}>
+                            <div className='iconBox'>
+                              <IconButton target='_blank' href={watchprovider.link} style={{ backgroundColor: theme.palette.background.default }}>
+                                <img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />
+                              </IconButton>
+                              <div className='iconText'>Watch on</div>
+                            </div>
+                          </Tooltip>}
+                        </>}
+                      </div>
                     </div>
-                  </div>}
 
-                  {data?.overview && <div className='overview'>
-                    <h4>Overview</h4>
-                    {data.overview?.length > 300 && !readMore ? data.overview.substring(0, 300).concat('...') : data.overview}
-                    <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 300 && (!readMore ? 'read more' : 'less')}</span>
-                  </div>}
+                    {type === "movie" && <div className='overview' >
+                      <h4>Director</h4>
+                      <div className='directors'>
+                        {director?.length > 0 ? director?.map((cr, index) => {
+                          return <div key={cr?.id}>{cr?.name}{index < director?.length - 1 && <>,&nbsp;</>}</div>
+                        }) : "Not Available"}
+                      </div>
+                    </div>}
+
+                    {data?.overview && <div className='overview'>
+                      <h4>Overview</h4>
+                      {data.overview?.length > 300 && !readMore ? data.overview.substring(0, 300).concat('...') : data.overview}
+                      <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 300 && (!readMore ? 'read more' : 'less')}</span>
+                    </div>}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Grow>
             <br />
             {type === 'tv' && <Seasons value={data} watching={watching} handleWatching={handleWatching2} seasonNumber={seasonNumber} setSeasonNumber={setSeasonNumber} episodeNumber={episodeNumber} setEpisodeNumber={setEpisodeNumber} />}
             <div className='singlecontent'>

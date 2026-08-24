@@ -1,0 +1,34 @@
+.player {
+    position: fixed;
+    z-index: 9999;
+    background: rgba(119, 72, 1, 0.9);
+    border-radius: 10px;
+    top: 0%;
+    left: 0%;
+}
+
+.miniPlayerContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.mini_player {
+    cursor: pointer;
+    position: fixed;
+    bottom: 75px;
+    z-index: 3;
+    background: rgba(119, 72, 1, 0.9);
+    padding: 5px;
+    height: 30px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.waveIcon {
+    height: 20px;
+    width: auto;
+}

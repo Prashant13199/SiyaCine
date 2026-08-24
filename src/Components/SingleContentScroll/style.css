@@ -2,12 +2,12 @@
     position: relative;
     margin-top: 5px;
     margin-right: 10px;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease !important;
 }
 
 .single_content_scroll:hover {
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
+    transform: scale(0.95) !important;
+    transition: transform 0.3s ease !important;
 }
 
 .poster_scroll {

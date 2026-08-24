@@ -22,6 +22,7 @@
 .content {
     margin-top: 70px;
     margin-bottom: 100px;
+    position: relative;
 }
 
 .modal-content {
@@ -30,8 +31,24 @@
 }
 
 .iwSUvz {
-    height: 250px !important;
+    height: 200px !important;
     width: auto !important;
+    animation: animateZoom 2s ease-in-out infinite !important;
+    transition: all .3s;
+}
+
+@keyframes animateZoom {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.75);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 @media screen and (max-width: 660px) {
@@ -41,6 +58,6 @@
     }
 
     .iwSUvz {
-        height: 200px !important;
+        height: 150px !important;
     }
 }
