@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { auth, database } from '../../firebase'
 import './style.css'
 import { useParams } from 'react-router-dom'
@@ -37,6 +37,7 @@ export default function UserProfile({ scrollTop }) {
   const [connections, setConnections] = useState([])
   const [backdrop, setBackdrop] = useState('')
   const [connectID, setConnectID] = useState('')
+  const [dbGenre, setDbGenre] = useState([]);
 
   const watchlist = useFetchDBData(uid, 'watchlist')
   const watched = useFetchDBData(uid, 'watched')
@@ -71,13 +72,15 @@ export default function UserProfile({ scrollTop }) {
     })
   }, [connectID, uid])
 
+  useLayoutEffect(() => {
+    scrollTop();
+  }, [uid])
+
   useEffect(() => {
-    setTimeout(() => {
-      scrollTop();
-    }, 0)
     setLoading(true)
     database.ref(`/Users/${uid}`).once('value', snapshot => {
       setPublicAcc(snapshot.val().public)
+      setDbGenre(snapshot.val().genres)
     })
     database.ref(`/Users/${auth?.currentUser?.uid}/admin`).once('value', snapshot => {
       setAdmin(snapshot.val())
@@ -212,6 +215,9 @@ export default function UserProfile({ scrollTop }) {
                 {(connected || publicAcc || admin) && <div className='user_last_active'>
                   Last Active <b>{timeDifference(new Date(), new Date(lastActive))}</b>
                 </div>}
+                <div className='profile_genres'>
+                  {dbGenre?.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
+                </div>
                 {admin && <div onClick={() => { handlePremium() }} className={admin && 'handlepremium'}>
                   <Premium premium={premium} />
                 </div>}
@@ -232,16 +238,16 @@ export default function UserProfile({ scrollTop }) {
           {(connected || publicAcc || admin) && <>
             {watching?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><PlayArrowIcon /> Watching Now<Count value={watching?.length} /></div>
+                <div className='trending_title' ><PlayArrowIcon /> Watching Now<Count value={watching?.length} /><Link to={`/singlecategory/watching/Trending/${username?.replace(/\d+$/, "")}'s Watching/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
               <div className='trending_scroll' >
-                {watching?.map((data, index) => {
+                {watching?.slice(0, 10)?.map((data, index) => {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} />
                 })}
               </div></>}
             {watchlist?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><FormatListBulletedIcon /> Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><FormatListBulletedIcon /> Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/${username?.replace(/\d+$/, "")}'s Watchlist/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
               <div className='trending_scroll' >
                 {watchlist?.map((data, index) => {
@@ -250,7 +256,7 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {watched?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/Watched/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/${username?.replace(/\d+$/, "")}'s Watched/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
               <div className='trending_scroll' >
                 {watched?.slice(0, 20)?.map((data, index) => {
@@ -259,7 +265,7 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {favourite?.slice(0, 10)?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/Favourites/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/${username?.replace(/\d+$/, "")}'s Favourites/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
               </div>
               <div className='trending_scroll' >
                 {favourite?.map((data, index) => {

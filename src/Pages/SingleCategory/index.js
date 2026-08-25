@@ -52,7 +52,7 @@ export default function SingleCategory({ scrollTop }) {
       fetchDiscover()
     } else if (category === 'provider') {
       fetchProvider()
-    } else if (category === 'watchlist' || category === 'watched' || category === 'favourites') {
+    } else if (category === 'watchlist' || category === 'watched' || category === 'favourites' || category === 'watching') {
       fetchData(category)
       setTv(true)
       setDatabaseData(true)

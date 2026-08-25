@@ -23,6 +23,7 @@ import Providers from '../../Components/Providers/Providers';
 import Live from '../../Containers/Live/Live';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import NextPlanIcon from '@mui/icons-material/NextPlan';
 
 export default function Trending({ scrollTop }) {
 
@@ -32,6 +33,7 @@ export default function Trending({ scrollTop }) {
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
   const favouriteCast = useFetchDBData(auth?.currentUser?.uid, 'cast')
+  const dbGenres = useFetchDBData(auth?.currentUser?.uid, 'genres')
 
   const nowplaying = useFetchContent('now_playing', 'movie')
   const topratedmovie = useFetchContent('top_rated', 'movie')
@@ -42,6 +44,7 @@ export default function Trending({ scrollTop }) {
   const indianTv = useFetchContent('discover', 'tv')
   const providersMovie = useFetchContent('providers', 'movie')
   const providersTV = useFetchContent('providers', 'tv')
+  const genres = useFetchContent('genres', 'movie')
   const myShows = useFetchMyShows()
 
   const [trending, setTrending] = useState('movie')
@@ -57,10 +60,6 @@ export default function Trending({ scrollTop }) {
     fetchRecommendation();
     fetchRecommendationCast();
   }, [favourite])
-
-  useEffect(() => {
-
-  }, [])
 
   const fetchRecommendation = async () => {
     try {
@@ -103,10 +102,10 @@ export default function Trending({ scrollTop }) {
 
         {watching?.length !== 0 && auth?.currentUser?.uid && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><PlayArrowIcon /> Continue Watching</div>
+            <div className='trending_title'><PlayArrowIcon /> Continue Watching<Link to={`/singlecategory/watching/Trending/Watching/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           </div>
           <div className='trending_scroll' >
-            {watching && watching.map((data, index) => {
+            {watching?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} userid={auth?.currentUser?.uid} />
             })}
           </div></>}
@@ -174,6 +173,21 @@ export default function Trending({ scrollTop }) {
             })}
             {indian === "tv" && indianTv?.slice(0, 10)?.map((data, index) => {
               return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="tv" />
+            })}
+          </div>
+        </>}
+
+        {genres?.length !== 0 && <><br />
+          <div className='trending_flex'>
+            <div className='trending_title'><NextPlanIcon /> Your Next Watch
+              <Link to={`/movies?values=${JSON.stringify(dbGenres).replaceAll('&', ':')}&pageM=${1}`} className="viewall">
+                <IconButton><ChevronRightIcon /></IconButton>
+              </Link>
+            </div>
+          </div>
+          <div className='trending_scroll' >
+            {genres?.slice(0, 10)?.map((data, index) => {
+              return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="movie" />
             })}
           </div>
         </>}

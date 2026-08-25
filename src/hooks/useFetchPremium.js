@@ -6,6 +6,7 @@ export default function useFetchPremium(uid) {
     const [premium, setPremium] = useState(false)
 
     useEffect(() => {
+        setPremium(false)
         database.ref(`/Users/${uid}/premium`).on('value', snapshot => {
             setPremium(snapshot.val())
         })

@@ -79,7 +79,6 @@ export default function SingleContentPage({ scrollTop }) {
   const [duration, setDuration] = useState(0)
   const [seasonNumber, setSeasonNumber] = useState(1)
   const [episodeNumber, setEpisodeNumber] = useState(1)
-  const [images, setImages] = useState([])
 
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
@@ -150,7 +149,6 @@ export default function SingleContentPage({ scrollTop }) {
     fetchDetails();
     fetchCredit();
     addBackdrop();
-    fetchImages();
     fetchVideo();
     fetchRecommendation();
     fetchSimilar();
@@ -223,16 +221,6 @@ export default function SingleContentPage({ scrollTop }) {
       console.log(e)
     }
   };
-
-  const fetchImages = async () => {
-    await axios.get(`https://api.themoviedb.org/3/${type}/${id}/images?api_key=${process.env.REACT_APP_API_KEY}&include_image_language=en`)
-      .then(response => {
-        setImages(response.data?.backdrops);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }
 
   const fetchProvider = async () => {
     try {
@@ -449,7 +437,7 @@ export default function SingleContentPage({ scrollTop }) {
         <title>SiyaCine{data?.name ? ` - ${data?.name}` : '' || data?.title ? ` - ${data?.title}` : '' || data?.original_name ? ` - ${data?.original_name}` : ''}</title>
       </Helmet>
       <Modal size='md' show={show2} onHide={handleClose2} centered>
-        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+        <Modal.Body style={{ backgroundColor: theme.palette.action.disabledBackground }}>
           <div className='modal_header'>
             <h2>Suggest To</h2>
             <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
@@ -474,7 +462,7 @@ export default function SingleContentPage({ scrollTop }) {
         </Modal.Body>
       </Modal>
       <Modal show={show3} onHide={handleClose3} centered>
-        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+        <Modal.Body style={{ backgroundColor: theme.palette.action.disabledBackground }}>
           <IconButton onClick={() => handleClose3()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <div style={{ margin: '10px 0px' }}>
             <TextField
@@ -494,10 +482,10 @@ export default function SingleContentPage({ scrollTop }) {
         </Modal.Body>
       </Modal>
       <Modal show={show4} onHide={handleClose4} fullscreen>
-        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+        <Modal.Body style={{ backgroundColor: theme.palette.action.disabledBackground }}>
           <div className='player_header'>
             <div className='flex'>
-              <IconButton tyle={{ backgroundColor: theme.palette.background.default }} onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
+              <IconButton tyle={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
               <div>{data?.name || data?.title || data?.original_name}</div>
             </div>
             <Dropdown>
@@ -508,10 +496,10 @@ export default function SingleContentPage({ scrollTop }) {
                 {server === 4 && 'Server 4'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>Server 1</Dropdown.Item>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>Server 2</Dropdown.Item>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Server 3</Dropdown.Item>
-                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 4 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(4)}>Server 4</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>Server 1</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>Server 2</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Server 3</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 4 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(4)}>Server 4</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -589,7 +577,7 @@ export default function SingleContentPage({ scrollTop }) {
                       {auth?.currentUser?.uid && <>
                         <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
                           <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
+                            <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleFavourite()}>
                               {favourite ? <FavoriteIcon color="error" /> : <FavoriteOutlined />}
                             </IconButton>
                             <div className='iconText'>Like</div>
@@ -598,7 +586,7 @@ export default function SingleContentPage({ scrollTop }) {
 
                         <Tooltip title={watchlist ? "Remove from Watchlist" : 'Add to Watchlist'}>
                           <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatchlist()}>
+                            <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleWatchlist()}>
                               {watchlist ? <DoneIcon color="warning" /> : <AddIcon />}
                             </IconButton>
                             <div className='iconText'>Watchlist</div>
@@ -606,7 +594,7 @@ export default function SingleContentPage({ scrollTop }) {
                         </Tooltip>
                         <Tooltip title={watching ? "Remove from Watching" : "Add to Watching"}>
                           <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatching()}>
+                            <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleWatching()}>
                               {watching ? <PlayCircleFilledWhiteIcon color="warning" /> : <PlayCircleOutlineIcon />}
                             </IconButton>
                             <div className='iconText'>Watching</div>
@@ -614,7 +602,7 @@ export default function SingleContentPage({ scrollTop }) {
                         </Tooltip>
                         <Tooltip title={watched ? "Remove from Watched" : 'Add to Watched'}>
                           <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleWatched()}>
+                            <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleWatched()}>
                               {watched ? <DoneAllIcon color="warning" /> : <DoneAllIcon />}
                             </IconButton>
                             <div className='iconText'>Watched</div>
@@ -622,7 +610,7 @@ export default function SingleContentPage({ scrollTop }) {
                         </Tooltip>
                         {type === 'tv' && <Tooltip title={tracking ? "Remove from tracking" : "Track show"}>
                           <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleTracking()}>
+                            <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleTracking()}>
                               {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
                             </IconButton>
                             <div className='iconText'>Tracking</div>
@@ -630,7 +618,7 @@ export default function SingleContentPage({ scrollTop }) {
                         </Tooltip>}
                         <Tooltip title="Share">
                           <div className='iconBox'>
-                            <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleShow2()}>
+                            <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleShow2()}>
                               <ShareOutlinedIcon />
                             </IconButton>
                             <div className='iconText'>Share</div>
@@ -638,7 +626,7 @@ export default function SingleContentPage({ scrollTop }) {
                         </Tooltip>
                         {watchprovider?.path && <Tooltip title={watchprovider.name}>
                           <div className='iconBox'>
-                            <IconButton target='_blank' href={watchprovider.link} style={{ backgroundColor: theme.palette.background.default }}>
+                            <IconButton target='_blank' href={watchprovider.link} style={{ backgroundColor: theme.palette.action.disabledBackground }}>
                               <img alt="" src={`https://image.tmdb.org/t/p/w342/${watchprovider.path}`} height={'22px'} width={'22px'} style={{ borderRadius: '4px' }} />
                             </IconButton>
                             <div className='iconText'>Watch on</div>
@@ -691,16 +679,6 @@ export default function SingleContentPage({ scrollTop }) {
                 </div>
                 <div className='trending_scroll' >
                   <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
-                </div>
-              </>}
-              {images?.length !== 0 && <><br />
-                <div className='trending_flex'>
-                  <div className='trending_title' ><ImageIcon /> Images</div>
-                </div>
-                <div className='trending_scroll' >
-                  {images?.map((image, index) => {
-                    return <img key={index} className='single_content_backdrop_images' src={`https://image.tmdb.org/t/p/original/${image.file_path}`} />
-                  })}
                 </div>
               </>}
               {recommendations?.length !== 0 && <><br />

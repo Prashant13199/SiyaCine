@@ -20,7 +20,7 @@ export default function Genres({
   }, []);
 
   const handleAdd = (genre) => {
-    setSelectedGenres([...selectedGenres, genre]);
+    selectedGenres?.length > 0 ? setSelectedGenres([...selectedGenres, genre]) : setSelectedGenres([genre]);
     setPage(1);
   };
 
@@ -43,9 +43,9 @@ export default function Genres({
 
   return (
     <div className='genres_list'>
-      {genres?.map((genre) => (
+      {genres?.length > 0 && genres?.map((genre) => (
         <React.Fragment key={genre.id}>
-          {selectedGenres.map((gen) => gen.id).includes(genre.id) ? <Chip
+          {selectedGenres?.length > 0 && selectedGenres.map((gen) => gen.id).includes(genre.id) ? <Chip
             style={{ margin: 2, padding: 4 }}
             label={genre.name.replace(':', '&')}
             key={genre.id}

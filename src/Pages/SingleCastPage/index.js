@@ -121,7 +121,7 @@ export default function SingleCastPage({ scrollTop }) {
                   <div className='actions'>
                     {auth?.currentUser?.uid && <div>
                       <Tooltip title="Favourite">
-                        <IconButton style={{ backgroundColor: theme.palette.background.default }} onClick={() => handleFavourite()}>
+                        <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleFavourite()}>
                           {favourite ? <FavoriteIcon style={{ color: 'red' }} /> : <FavoriteIcon style={{ color: 'white' }} />}
                         </IconButton>
                       </Tooltip>

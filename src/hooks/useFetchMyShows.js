@@ -13,6 +13,7 @@ export default function useFetchMyShows() {
     }, [auth?.currentUser?.uid, tracking])
 
     const fetchData = async () => {
+        setMyShows([])
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/tv/on_the_air?api_key=${process.env.REACT_APP_API_KEY}`

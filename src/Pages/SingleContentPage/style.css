@@ -210,14 +210,6 @@
     margin-top: 5px;
 }
 
-.single_content_backdrop_images {
-    height: 200px;
-    width: auto;
-    object-fit: contain;
-    margin-right: 10px;
-    border-radius: 10px;
-}
-
 @media only screen and (max-width: 660px) {
     .cast {
         padding: 0 5px;

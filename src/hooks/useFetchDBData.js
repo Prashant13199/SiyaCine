@@ -6,15 +6,22 @@ export default function useFetchDBData(uid, data) {
     const [content, setContent] = useState([])
 
     useEffect(() => {
-        database.ref(`/Users/${uid}/${data}`).orderByChild('timestamp').once('value', snapshot => {
-            let arr = []
-            snapshot?.forEach((snap) => {
-                if (snap.key !== "series" && snap.val()?.id && snap.val()?.data) {
-                    arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, season: snap.val()?.season, episode: snap.val()?.episode })
-                }
+        setContent([])
+        if (data === "genres") {
+            database.ref(`/Users/${uid}/${data}`).once('value', snapshot => {
+                setContent(snapshot.val())
             })
-            setContent(arr.reverse())
-        })
+        } else {
+            database.ref(`/Users/${uid}/${data}`).orderByChild('timestamp').once('value', snapshot => {
+                let arr = []
+                snapshot?.forEach((snap) => {
+                    if (snap.key !== "series" && snap.val()?.id && snap.val()?.data) {
+                        arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type, season: snap.val()?.season, episode: snap.val()?.episode })
+                    }
+                })
+                setContent(arr.reverse())
+            })
+        }
     }, [uid, data])
 
     return content;

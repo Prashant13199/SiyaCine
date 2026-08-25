@@ -7,8 +7,7 @@ import { useHistory } from 'react-router-dom';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import empty from '../../assets/empty.png'
 import Cast from '../../Components/Cast';
-import { useTheme } from '@mui/material';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Button, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useFetchUserDetails from '../../hooks/useFetchUserDetails'
@@ -24,13 +23,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import ModeIcon from '@mui/icons-material/Mode';
 import { images } from '../../Services/images'
 import ConnectionUser from '../../Components/ConnectionUser';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PersonIcon from '@mui/icons-material/Person';
 import CoPresentIcon from '@mui/icons-material/CoPresent';
+import ErrorIcon from '@mui/icons-material/Error';
+import Genres from '../../Components/Genres';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function Profile({ scrollTop }) {
 
@@ -39,13 +41,17 @@ export default function Profile({ scrollTop }) {
   const [loading, setLoading] = useState(true)
   const [publicAcc, setPublicAcc] = useState(true)
   const [show, setShow] = useState(false);
+  const [showLogout, setShowLogout] = useState(false);
+  const [showGenre, setShowGenre] = useState(false);
   const [connections, setConnections] = useState([])
   const [suggestions, setSuggestions] = useState([])
   const [backdrop, setBackdrop] = useState('')
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [dbGenre, setDbGenre] = useState([]);
 
   const currentPhoto = useFetchUserDetails(auth?.currentUser?.uid, 'photo')
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
-  const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const watchlist = useFetchDBData(auth?.currentUser?.uid, 'watchlist')
   const watched = useFetchDBData(auth?.currentUser?.uid, 'watched')
   const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
@@ -54,6 +60,15 @@ export default function Profile({ scrollTop }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleCloseLogout = () => setShowLogout(false);
+  const handleShowLogout = () => setShowLogout(true);
+
+  const handleCloseGenre = () => setShowGenre(false);
+  const handleShowGenre = () => {
+    setShowGenre(true);
+    setSelectedGenres(dbGenre)
+  }
 
   useEffect(() => {
     scrollTop();
@@ -98,6 +113,9 @@ export default function Profile({ scrollTop }) {
     database.ref(`/Users/${auth?.currentUser?.uid}/public`).on('value', snapshot => {
       setPublicAcc(snapshot.val())
     })
+    database.ref(`/Users/${auth?.currentUser?.uid}/genres`).on('value', snapshot => {
+      setDbGenre(snapshot.val())
+    })
     database.ref(`/Users/${auth?.currentUser?.uid}/suggestions`).orderByChild('timestamp').on('value', snapshot => {
       let arr = []
       snapshot?.forEach((snap) => {
@@ -141,13 +159,40 @@ export default function Profile({ scrollTop }) {
     })
   }
 
+  const handleUpdateGenre = () => {
+    database.ref(`Users/${auth?.currentUser?.uid}`).update({
+      genres: selectedGenres
+    }).then(() => {
+      console.log("Genres updated")
+      setDbGenre(selectedGenres)
+      handleCloseGenre()
+    }).catch((e) => {
+      console.log(e)
+    })
+  }
+
   return (
     <>
       <Helmet>
         <title>SiyaCine{currentUsername ? ` - ${currentUsername}` : ''}</title>
       </Helmet>
-      <Modal size='md' show={show} onHide={handleClose} centered>
+      <Modal size='md' show={showLogout} onHide={handleCloseLogout} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+          <div className='logout_container'>
+            <div className='logout_body'>
+              <ErrorIcon className='logout_icon' color="warning" />
+              Are you sure to logout?
+            </div>
+            <div className='logout_buttons'>
+              <Button className='connect_btn logout_btn' variant='contained' color='error' onClick={() => signOut()}>Yes</Button>
+              <Button className='connect_btn logout_btn' variant='contained' color='info' onClick={() => handleCloseLogout()}>No</Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal size='md' show={show} onHide={handleClose} centered>
+        <Modal.Body style={{ backgroundColor: theme.palette.action.disabledBackground }}>
           <div className='modal_header'>
             <h2>Choose a different avatar</h2>
             <IconButton onClick={() => handleClose()}><CloseIcon style={{ color: 'red' }} /></IconButton>
@@ -207,6 +252,27 @@ export default function Profile({ scrollTop }) {
           </div>
         </Modal.Body>
       </Modal>
+
+      <Modal size='md' show={showGenre} onHide={handleCloseGenre} centered>
+        <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
+          <div className='modal_header'>
+            <h2>Update your genre</h2>
+            <IconButton onClick={() => handleCloseGenre()}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          </div>
+          <div className='genre_body'>
+            <Genres
+              type={"movie"}
+              selectedGenres={selectedGenres}
+              setSelectedGenres={setSelectedGenres}
+              genres={genres}
+              setGenres={setGenres}
+              setPage={() => { }}
+            />
+            <Button variant='outlined' color='warning' onClick={handleUpdateGenre}>Update</Button>
+          </div>
+        </Modal.Body>
+      </Modal>
+
       {!loading ?
         <div className='profile'>
           <div className='profile_header' style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop})` }}>
@@ -219,15 +285,18 @@ export default function Profile({ scrollTop }) {
                 <Tooltip title={auth?.currentUser?.uid} placement='top'>
                   <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
                 </Tooltip>
+                <div className='profile_genres'>
+                  {dbGenre?.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })} <div onClick={handleShowGenre} className='genrelist pointer'>{dbGenre?.length > 0 ? <><EditIcon fontSize='small' />Update Genre</> : <><AddIcon fontSize='small' /> Add Genre</>}</div>
+                </div>
                 <div className='profile_actions'>
                   <Premium premium={premium} />
                   <Tooltip title={publicAcc ? "Switch to Private" : 'Switch to Public'}>
-                    <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => handlePublic()}>
+                    <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground, marginLeft: '10px' }} onClick={() => handlePublic()}>
                       {publicAcc ? <LockOpenIcon /> : <LockIcon color="warning" />}
                     </IconButton>
                   </Tooltip>
                   <Tooltip title={'Logout'}>
-                    <IconButton style={{ backgroundColor: theme.palette.background.default, marginLeft: '10px' }} onClick={() => signOut()}>
+                    <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground, marginLeft: '10px' }} onClick={() => handleShowLogout()}>
                       <LogoutIcon />
                     </IconButton>
                   </Tooltip>
@@ -235,15 +304,6 @@ export default function Profile({ scrollTop }) {
               </div>
             </div>
           </div>
-          {watching?.length !== 0 && <><br />
-            <div className='trending_flex'>
-              <div className='trending_title' ><PlayArrowIcon />Continue Watching</div>
-            </div>
-            <div className='trending_scroll' >
-              {watching?.map((data, index) => {
-                return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data?.type} userid={auth?.currentUser?.uid} />
-              })}
-            </div></>}
           {watchlist?.length !== 0 && <><br />
             <div className='trending_flex'>
               <div className='trending_title' ><FormatListBulletedIcon />Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
@@ -300,7 +360,7 @@ export default function Profile({ scrollTop }) {
                 return <ConnectionUser key={user.uid} user={user.uid} index={index} />
               })}
             </div></>}
-          {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && watching?.length === 0 && <center><br />
+          {favourite?.length === 0 && cast?.length === 0 && watchlist?.length === 0 && <center><br />
             <img src={empty} className='empty' alt="" />
             <h6 style={{ color: 'gray' }}>Nothing to show here</h6></center>}
         </div>

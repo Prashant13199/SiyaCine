@@ -16,7 +16,7 @@ export default function ConnectionUser({ user }) {
     return (
         <Link key={user.uid} to={user === auth?.currentUser?.uid ? `/profile` : `/user/${user}`} style={{ textDecoration: 'none' }}>
             <div key={user.uid} className='cast_single'>
-                <img alt="" src={photo ?? `https://api.dicebear.com/9.x/dylan/svg?seed=loading?size=96`} className='user_image' />
+                <img alt="" src={photo ?? `https://api.dicebear.com/9.x/dylan/svg?seed=fun?size=96`} className='user_image' />
                 <div style={{ marginTop: '5px' }}>
                     {username && <div style={{ color: theme.palette.warning.main }}>{username?.replace(/\d+$/, "")}</div>}
                     {lastActive && <div className='user_last_active'>{timeDifference(new Date(), new Date(lastActive))}</div>}

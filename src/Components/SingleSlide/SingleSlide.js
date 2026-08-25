@@ -20,14 +20,12 @@ export default function SingleSlide({ data, index }) {
     }, [index, data?.id])
 
     return title && (
-        <div className="embla__slide" key={index}>
-            <Link to={`/singlecontent/${data?.id}/movie`} style={{ textDecoration: 'none' }}>
-                <img
-                    className="embla__slide__img"
-                    src={`https://image.tmdb.org/t/p/original/${title}`}
-                    alt="Your alt text"
-                />
-            </Link>
-        </div>
+        <Link to={`/singlecontent/${data?.id}/movie`} style={{ textDecoration: 'none' }}>
+            <img
+                className="embla__slide__img"
+                src={`https://image.tmdb.org/t/p/original/${title}`}
+                alt="Your alt text"
+            />
+        </Link>
     )
 }

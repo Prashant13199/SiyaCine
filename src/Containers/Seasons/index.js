@@ -234,7 +234,7 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
                 {watching &&
                     <Button disabled={content[dbEpisode - 1]?.air_date > getCurrentDate()} variant='outlined' className='seriesResumeBtn' color='warning' onClick={() => {
                         handleShow4(dbEpisode, dbSeason)
-                    }}>Resume S{dbSeason}E{dbEpisode} {currentTime !== 0 && getTimeLeft(duration - currentTime) + " left"}
+                    }}>Resume S{dbSeason} E{dbEpisode} {currentTime !== 0 && getTimeLeft(duration - currentTime) + " left"}
                     </Button>}
             </div>
             {!loading ?

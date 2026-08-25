@@ -55,6 +55,6 @@
     }
 
     .embla {
-        --slide-height: 30rem;
+        --slide-size: 80%;
     }
 }

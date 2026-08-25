@@ -24,7 +24,6 @@ import Player from './Containers/Player/Player';
 function App() {
 
   const [loading, setLoading] = useState(true)
-  const theme = useTheme()
   const [top, setTop] = useState(true)
   let user = localStorage.getItem('uid')
 

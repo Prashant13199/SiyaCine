@@ -92,11 +92,13 @@ export default function NavBarMain({ top, scrollTop }) {
     } else if (location.pathname?.includes('/popular/tv')) {
       setRouteName('Popular TV')
     } else if (location.pathname?.includes('/watchlist')) {
-      setRouteName('Watchlist')
+      setRouteName(location.pathname.split('/')[4])
+    } else if (location.pathname?.includes('/watching')) {
+      setRouteName(location.pathname.split('/')[4])
     } else if (location.pathname?.includes('/watched')) {
-      setRouteName('Watched')
+      setRouteName(location.pathname.split('/')[4])
     } else if (location.pathname?.includes('/favourites')) {
-      setRouteName('Favourites')
+      setRouteName(location.pathname.split('/')[4])
     } else if (location.pathname?.includes('/discover/movie')) {
       setRouteName('Indian Movies')
     } else if (location.pathname?.includes('/discover/tv')) {
