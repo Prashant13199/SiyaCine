@@ -286,7 +286,7 @@ export default function Profile({ scrollTop }) {
                   <h1>{currentUsername ? currentUsername : 'Loading...'}</h1>
                 </Tooltip>
                 <div className='profile_genres'>
-                  {dbGenre?.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })} <div onClick={handleShowGenre} className='genrelist pointer'>{dbGenre?.length > 0 ? <><EditIcon fontSize='small' />Update Genre</> : <><AddIcon fontSize='small' /> Add Genre</>}</div>
+                  {dbGenre?.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })} <div onClick={handleShowGenre} className='genrelist pointer'>{dbGenre?.length > 0 ? <EditIcon fontSize='small' /> : <><AddIcon fontSize='small' /> Add Genre</>}</div>
                 </div>
                 <div className='profile_actions'>
                   <Premium premium={premium} />

@@ -238,7 +238,9 @@ export default function UserProfile({ scrollTop }) {
           {(connected || publicAcc || admin) && <>
             {watching?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><PlayArrowIcon /> Watching Now<Count value={watching?.length} /><Link to={`/singlecategory/watching/Trending/${username?.replace(/\d+$/, "")}'s Watching/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><PlayArrowIcon /> Watching Now<Count value={watching?.length} />
+                  {watching?.length > 10 && <Link to={`/singlecategory/watching/Trending/${username?.replace(/\d+$/, "")}'s Watching/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                </div>
               </div>
               <div className='trending_scroll' >
                 {watching?.slice(0, 10)?.map((data, index) => {

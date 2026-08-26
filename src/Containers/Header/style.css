@@ -15,7 +15,7 @@
     margin: auto;
     --slide-height: 35rem;
     --slide-spacing: 1rem;
-    --slide-size: 65%;
+    --slide-size: 70%;
 }
 
 .embla__viewport {
@@ -55,6 +55,6 @@
     }
 
     .embla {
-        --slide-size: 80%;
+        --slide-size: 85%;
     }
 }

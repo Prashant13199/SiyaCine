@@ -102,7 +102,9 @@ export default function Trending({ scrollTop }) {
 
         {watching?.length !== 0 && auth?.currentUser?.uid && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><PlayArrowIcon /> Continue Watching<Link to={`/singlecategory/watching/Trending/Watching/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+            <div className='trending_title'><PlayArrowIcon /> Continue Watching
+              {watching?.length > 10 && <Link to={`/singlecategory/watching/Trending/Watching/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+            </div>
           </div>
           <div className='trending_scroll' >
             {watching?.slice(0, 10)?.map((data, index) => {

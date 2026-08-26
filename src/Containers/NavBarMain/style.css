@@ -39,7 +39,7 @@
 .navbar_icon {
     cursor: pointer;
     height: auto;
-    width: 100px;
+    width: 120px;
 }
 
 .navlink {
@@ -132,10 +132,6 @@
     .navbar__img {
         height: 20px;
         width: 20px;
-    }
-
-    .navbar_icon {
-        width: 90px;
     }
 
     .nav_icon {
