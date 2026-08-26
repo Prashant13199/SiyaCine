@@ -225,6 +225,17 @@ export default function Profile({ scrollTop }) {
                     )
                   })}
                 </div>
+                <h4 className='picture_title'>Dicebear v2</h4>
+                <div className='picture_container'>
+                  {data?.dicebearv2?.map((img, index) => {
+                    return (
+                      <div key={index}>
+                        <img onClick={() => handleChangePicture(img)} className='picture_single' src={img} />
+                        {img === currentPhoto && <div className='current'>Current</div>}
+                      </div>
+                    )
+                  })}
+                </div>
                 <h4 className='picture_title'>Boy</h4>
                 <div className='picture_container'>
                   {data?.boy?.map((img, index) => {

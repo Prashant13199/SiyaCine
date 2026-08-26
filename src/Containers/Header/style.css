@@ -40,7 +40,7 @@
 .embla__slide {
     flex: 0 0 var(--slide-size);
     min-width: 0;
-    padding: 0 0.5rem;
+    padding: 0 0.25rem;
     transition: transform .3s !important;
 }
 

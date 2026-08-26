@@ -14,12 +14,3 @@
     width: 100%;
     cursor: pointer;
 }
-
-.searchtv {
-    background-color: rgb(0, 0, 0);
-    padding: 0px 4px;
-    border-radius: 4px;
-    position: absolute;
-    right: 5px;
-    top: 5px;
-}
