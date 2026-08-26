@@ -174,7 +174,7 @@ export default function Profile({ scrollTop }) {
   return (
     <>
       <Helmet>
-        <title>SiyaCine{currentUsername ? ` - ${currentUsername}` : ''}</title>
+        <title>SiyaCine{currentUsername ?? ` - ${currentUsername}`}</title>
       </Helmet>
       <Modal size='md' show={showLogout} onHide={handleCloseLogout} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>
@@ -185,7 +185,7 @@ export default function Profile({ scrollTop }) {
             </div>
             <div className='logout_buttons'>
               <Button className='connect_btn logout_btn' variant='contained' color='error' onClick={() => signOut()}>Yes</Button>
-              <Button className='connect_btn logout_btn' variant='contained' color='info' onClick={() => handleCloseLogout()}>No</Button>
+              <Button className='connect_btn logout_btn' variant='outlined' color='warning' onClick={() => handleCloseLogout()}>No</Button>
             </div>
           </div>
         </Modal.Body>
@@ -279,7 +279,7 @@ export default function Profile({ scrollTop }) {
             <div className='profile_backdrop'>
               <div className='pic_container'>
                 <img src={currentPhoto ?? 'https://api.dicebear.com/8.x/fun-emoji/svg?seed=fun?size=96'} className='profile_image hovereffect' />
-                <IconButton onClick={handleShow} className='edit_icon'><ModeIcon /></IconButton>
+                <IconButton onClick={handleShow} className='edit_icon'><ModeIcon color="warning" /></IconButton>
               </div>
               <div className='profile_right'>
                 <Tooltip title={auth?.currentUser?.uid} placement='top'>
