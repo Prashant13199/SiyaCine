@@ -40,7 +40,6 @@ import TimelineIcon from '@mui/icons-material/Timeline';
 import { useLayoutEffect } from 'react';
 import PersonIcon from '@mui/icons-material/Person';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import ImageIcon from '@mui/icons-material/Image';
 import RecommendIcon from '@mui/icons-material/Recommend';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import CompareIcon from '@mui/icons-material/Compare';
@@ -66,7 +65,6 @@ export default function SingleContentPage({ scrollTop }) {
   const [message, setMessage] = useState('')
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
-  const [readMore, setReadMore] = useState(false)
   const theme = useTheme()
   const [snackBar, setSnackBar] = useState(false)
   const [review, setReview] = useState('')
@@ -647,8 +645,9 @@ export default function SingleContentPage({ scrollTop }) {
 
                   {data?.overview && <div className='overview'>
                     <h4>Overview</h4>
-                    {data.overview?.length > 300 && !readMore ? data.overview.substring(0, 300).concat('...') : data.overview}
-                    <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.overview && data.overview?.length > 300 && (!readMore ? 'read more' : 'less')}</span>
+                    <div className='overviewHeight'>
+                      {data.overview}
+                    </div>
                   </div>}
                 </div>
               </div>
