@@ -247,30 +247,36 @@ export default function UserProfile({ scrollTop }) {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} userid={uid} />
                 })}
               </div></>}
-            {watchlist?.slice(0, 10)?.length !== 0 && <><br />
+            {watchlist?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><FormatListBulletedIcon /> Watchlist<Count value={watchlist?.length} /><Link to={`/singlecategory/watchlist/Trending/${username?.replace(/\d+$/, "")}'s Watchlist/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><FormatListBulletedIcon /> Watchlist<Count value={watchlist?.length} />
+                  {watchlist?.length > 10 && <Link to={`/singlecategory/watchlist/Trending/${username?.replace(/\d+$/, "")}'s Watchlist/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                </div>
               </div>
               <div className='trending_scroll' >
-                {watchlist?.map((data, index) => {
+                {watchlist?.slice(0, 10)?.map((data, index) => {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}
-            {watched?.slice(0, 10)?.length !== 0 && <><br />
+            {watched?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} /><Link to={`/singlecategory/watched/Trending/${username?.replace(/\d+$/, "")}'s Watched/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} />
+                  {watched?.length > 10 && <Link to={`/singlecategory/watched/Trending/${username?.replace(/\d+$/, "")}'s Watched/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                </div>
               </div>
               <div className='trending_scroll' >
-                {watched?.slice(0, 20)?.map((data, index) => {
+                {watched?.slice(0, 10)?.map((data, index) => {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}
-            {favourite?.slice(0, 10)?.length !== 0 && <><br />
+            {favourite?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} /><Link to={`/singlecategory/favourites/Trending/${username?.replace(/\d+$/, "")}'s Favourites/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+                <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} />
+                  {favourite?.length > 10 && <Link to={`/singlecategory/favourites/Trending/${username?.replace(/\d+$/, "")}'s Favourites/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                </div>
               </div>
               <div className='trending_scroll' >
-                {favourite?.map((data, index) => {
+                {favourite?.slice(0, 10)?.map((data, index) => {
                   return <SingleContentScroll index={index} data={data.data} id={data.id} key={data.id} type={data.type} />
                 })}
               </div></>}

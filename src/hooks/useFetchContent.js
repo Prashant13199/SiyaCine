@@ -30,7 +30,6 @@ export default function useFetchContent(value, type) {
     }, [genres])
 
     const fetchGenres = async () => {
-        setContent([])
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&with_genres=${genreforURL}`
@@ -44,7 +43,6 @@ export default function useFetchContent(value, type) {
     }
 
     const fetchData = async () => {
-        setContent([])
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/${type}/${value}?api_key=${process.env.REACT_APP_API_KEY}`
@@ -57,7 +55,6 @@ export default function useFetchContent(value, type) {
         }
     };
     const fetchDataTrending = async () => {
-        setContent([])
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/${value}/${type}/day?api_key=${process.env.REACT_APP_API_KEY}`
@@ -71,7 +68,6 @@ export default function useFetchContent(value, type) {
     };
 
     const fetchDataIndian = async () => {
-        setContent([])
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/${value}/${type}?api_key=${process.env.REACT_APP_API_KEY}&with_origin_country=IN`
@@ -85,7 +81,6 @@ export default function useFetchContent(value, type) {
     };
 
     const fetchProviders = async () => {
-        setContent([])
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3//watch/${value}/${type}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&watch_region=IN`

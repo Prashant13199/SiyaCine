@@ -6,7 +6,6 @@ export default function useFetchDBData(uid, data) {
     const [content, setContent] = useState([])
 
     useEffect(() => {
-        setContent([])
         if (data === "genres") {
             database.ref(`/Users/${uid}/${data}`).once('value', snapshot => {
                 setContent(snapshot.val())
