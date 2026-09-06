@@ -142,8 +142,9 @@ export default function SingleCastPage({ scrollTop }) {
                 </div>}
                 {data.biography && <div className='overview animateBelow'>
                   <h4>Biography</h4>
-                  {data.biography?.length > 200 && !readMore ? data.biography.substring(0, 200).concat('...') : data.biography}
-                  <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={() => setReadMore(!readMore)}>{data.biography && data.biography?.length > 200 && (!readMore ? 'read more' : 'less')}</span>
+                  <div className='overviewHeight'>
+                    {data.biography}
+                  </div>
                 </div>}
               </div>
             </div>

@@ -50,7 +50,7 @@ export default function UserProfile({ scrollTop }) {
   const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
   const addBackdrop = () => {
-    setBackdrop(window.innerWidth > 900 ? favourite[0]?.data?.backdrop_path : '')
+    setBackdrop(window.innerWidth > 900 ? favourite[0]?.data?.backdrop_path ? favourite[0]?.data?.backdrop_path : favourite[1]?.data?.backdrop_path : '')
   }
 
   useEffect(() => {

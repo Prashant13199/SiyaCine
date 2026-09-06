@@ -134,7 +134,7 @@ export default function Search({ scrollTop }) {
                         </IconButton>}
                 </Paper>
                 <br />
-                {!search && recentlySearched?.length > 0 && <h3>Trending search</h3>}
+                {!search && recentlySearched?.length > 0 && <h5>Trending search</h5>}
                 {!loading ? <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
                     {pageM == 1 && searchedUsers?.length > 0 &&
                         <>
