@@ -2,6 +2,13 @@
     padding: 0 40px;
 }
 
+.sortByContainer {
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
 @media only screen and (max-width: 660px) {
     .movies {
         padding: 0;

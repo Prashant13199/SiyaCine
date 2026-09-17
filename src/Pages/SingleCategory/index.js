@@ -5,7 +5,7 @@ import './style.css';
 import CustomPagination from '../../Components/Pagination/CustomPagination';
 import { useParams } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { database } from '../../firebase';
 import useGenre from '../../hooks/useGenre';
 import Genres from '../../Components/Genres';
@@ -31,6 +31,7 @@ export default function SingleCategory({ scrollTop }) {
   const [paginatedData, setPaginatedData] = useState([])
   const [perPage, setPerPage] = useState(24)
   const [databaseData, setDatabaseData] = useState(false)
+  const [sortBy, setSortby] = useState("all")
 
   const setURL = () => {
     if (selectedGenres.length > 0 || page > 1) {
@@ -63,7 +64,11 @@ export default function SingleCategory({ scrollTop }) {
       setPaginatedData([])
     }
     scrollTop()
-  }, [page, genreforURL]);
+  }, [page, genreforURL, sortBy]);
+
+  useEffect(() => {
+    setPage(1)
+  }, [sortBy])
 
   useEffect(() => {
     handlePagination()
@@ -141,7 +146,11 @@ export default function SingleCategory({ scrollTop }) {
       database.ref(`/Users/${uid}/${categoryName}`).orderByChild('timestamp').on('value', snapshot => {
         let arr = []
         snapshot?.forEach((snap) => {
-          arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+          if (sortBy === "all") {
+            arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+          } else {
+            snap.val().type === sortBy && arr.push({ id: snap.val().id, data: snap.val().data, type: snap.val().type })
+          }
         })
         setContent(arr.reverse())
         setNumOfPages(Math.ceil(arr?.length / perPage));
@@ -167,6 +176,21 @@ export default function SingleCategory({ scrollTop }) {
           setGenres={setGenres}
           setPage={setPage}
         />}
+        {databaseData && <div className='sortByContainer'>
+          <FormControl variant="standard" color="warning" sx={{ m: 1, minWidth: 80 }} size="small">
+            <InputLabel id="demo-simple-select-label">Filter</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={sortBy}
+              onChange={(e) => setSortby(e.target.value)}
+            >
+              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"movie"}>Movie</MenuItem>
+              <MenuItem value={"tv"}>TV</MenuItem>
+            </Select>
+          </FormControl>
+        </div>}
         <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 6, sm: 12, md: 24 }}>
           {databaseData ?
             <>
