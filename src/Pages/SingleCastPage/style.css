@@ -7,6 +7,12 @@
     border-radius: 20px;
 }
 
+.sortByContainerCast {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
 .readmore {
     font-size: 12px;
     margin-left: 5px;

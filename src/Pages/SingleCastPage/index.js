@@ -8,7 +8,7 @@ import { auth, database } from '../../firebase'
 import Tooltip from '@mui/material/Tooltip';
 import SingleContentScroll from '../../Components/SingleContentScroll';
 import { useTheme } from '@mui/material';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { useLayoutEffect } from 'react';
 import MovieIcon from '@mui/icons-material/Movie';
@@ -21,10 +21,11 @@ export default function SingleCastPage({ scrollTop }) {
   const [favourite, setFavourite] = useState(false)
   const [movie, setMovie] = useState([])
   const [tv, setTv] = useState([])
-  const [readMore, setReadMore] = useState(false)
   const theme = useTheme()
   const [loading, setLoading] = useState(true)
   const [backdrop, setBackdrop] = useState('')
+  const [sortBy, setSortby] = useState('popularity')
+  const [sortByTv, setSortbyTv] = useState('popularity')
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).on('value', snapshot => {
@@ -32,7 +33,31 @@ export default function SingleCastPage({ scrollTop }) {
         setFavourite(true)
       }
     })
-  }, [])
+  }, [auth?.currentUser?.uid])
+
+  useEffect(() => {
+    let sortedArr = [...movie];
+    if (sortBy === "popularity") {
+      sortedArr.sort((a, b) => b.popularity - a.popularity);
+    } else if (sortBy === "rating") {
+      sortedArr.sort((a, b) => b.vote_average - a.vote_average);
+    } else {
+      sortedArr.sort((a, b) => b.release_date.localeCompare(a.release_date));
+    }
+    setMovie(sortedArr)
+  }, [sortBy, movie])
+
+  useEffect(() => {
+    let sortedArr = [...tv];
+    if (sortByTv === "popularity") {
+      sortedArr.sort((a, b) => b.popularity - a.popularity);
+    } else if (sortByTv === "rating") {
+      sortedArr.sort((a, b) => b.vote_average - a.vote_average);
+    } else {
+      sortedArr.sort((a, b) => b.first_air_date.localeCompare(a.first_air_date));
+    }
+    setTv(sortedArr)
+  }, [sortByTv, tv])
 
   useLayoutEffect(() => {
     scrollTop()
@@ -81,13 +106,12 @@ export default function SingleCastPage({ scrollTop }) {
         `https://api.themoviedb.org/3/person/${id}/tv_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
       );
       setTv(data.cast);
+      console.log(data.cast)
     }
     catch (e) {
       console.log(e)
     }
   };
-
-
 
   const handleFavourite = () => {
     if (!favourite) {
@@ -152,11 +176,27 @@ export default function SingleCastPage({ scrollTop }) {
           {movie?.length !== 0 && <><br />
             <div className='trending_flex'>
               <div className='trending_title' ><MovieIcon /> Movie</div>
+              <div className='sortByContainerCast'>
+                <FormControl variant="standard" color="warning" sx={{ m: 1, minWidth: 80 }} size="small">
+                  <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={sortBy}
+                    onChange={(e) => setSortby(e.target.value)}
+                  >
+                    <MenuItem value={"popularity"}>Popularity</MenuItem>
+                    <MenuItem value={"date"}>Release Date</MenuItem>
+                    <MenuItem value={"rating"}>Rating</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
             </div>
+
             <div style={{ marginTop: '10px' }}></div>
             <div className='trending_scroll' >
-              {movie?.map((data) => {
-                return <SingleContentScroll data={data} id={data.id} key={data.id} type="movie" />
+              {movie?.map((data, index) => {
+                return <SingleContentScroll data={data} id={data.id} key={index} type="movie" />
               })}
             </div>
           </>}
@@ -164,11 +204,26 @@ export default function SingleCastPage({ scrollTop }) {
           {tv?.length !== 0 && <><br />
             <div className='trending_flex'>
               <div className='trending_title' ><TvIcon /> TV</div>
+              <div className='sortByContainerCast'>
+                <FormControl variant="standard" color="warning" sx={{ m: 1, minWidth: 80 }} size="small">
+                  <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={sortByTv}
+                    onChange={(e) => setSortbyTv(e.target.value)}
+                  >
+                    <MenuItem value={"popularity"}>Popularity</MenuItem>
+                    <MenuItem value={"date"}>Release Date</MenuItem>
+                    <MenuItem value={"rating"}>Rating</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
             </div>
             <div style={{ marginTop: '10px' }}></div>
             <div className='trending_scroll' >
-              {tv?.map((data) => {
-                return <SingleContentScroll data={data} id={data.id} key={data.id} type="tv" />
+              {tv?.map((data, index) => {
+                return <SingleContentScroll data={data} id={data.id} key={index} type="tv" />
               })}
             </div>
           </>}
