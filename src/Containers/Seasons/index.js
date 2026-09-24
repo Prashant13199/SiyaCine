@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import './style.css';
 import axios from 'axios';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -83,7 +83,7 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
         }
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         database.ref(`/Users/${auth?.currentUser?.uid}/watching/${value?.id}`).once('value', snapshot => {
             if (snapshot.val()?.season && snapshot.val()?.episode) {
                 setSeasonNumber(snapshot.val()?.season)
