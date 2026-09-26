@@ -184,8 +184,8 @@ export default function Profile({ scrollTop }) {
               Are you sure to logout?
             </div>
             <div className='logout_buttons'>
-              <Button className='connect_btn logout_btn' variant='contained' color='error' onClick={() => signOut()}>Yes</Button>
-              <Button className='connect_btn logout_btn' variant='outlined' color='warning' onClick={() => handleCloseLogout()}>No</Button>
+              <Button className='connect_btn logout_btn' variant='contained' color='primary' onClick={() => handleCloseLogout()}>No</Button>
+              <Button className='connect_btn logout_btn' variant='contained' color='warning' onClick={() => signOut()}>Yes</Button>
             </div>
           </div>
         </Modal.Body>

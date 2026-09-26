@@ -120,10 +120,11 @@
 .logout_buttons {
     display: flex;
     justify-content: space-around;
+    margin-bottom: 20px;
 }
 
 .logout_btn {
-    width: 150px;
+    width: 40%;
 }
 
 .logout_icon {
