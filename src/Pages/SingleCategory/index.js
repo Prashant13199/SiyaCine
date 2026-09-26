@@ -67,7 +67,7 @@ export default function SingleCategory({ scrollTop }) {
   }, [page, genreforURL, sortBy]);
 
   useEffect(() => {
-    setPage(1)
+    !values && setPage(1)
   }, [sortBy])
 
   useEffect(() => {
@@ -165,7 +165,7 @@ export default function SingleCategory({ scrollTop }) {
   return (
     <>
       <Helmet>
-        <title>SiyaCine{name ? ` - ${name}` : ''}</title>
+        <title>Siyacine{name ? ` - ${name}` : ''}</title>
       </Helmet>
       {!loading ? <div className='singlecategory'>
         {category === 'discover' || category === "provider" && <Genres

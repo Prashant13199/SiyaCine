@@ -93,7 +93,7 @@ export default function Trending({ scrollTop }) {
     <>
 
       <Helmet>
-        <title>SiyaCine</title>
+        <title>Siyacine</title>
       </Helmet>
 
       <div className='trending'>

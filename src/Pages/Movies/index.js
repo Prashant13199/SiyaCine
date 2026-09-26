@@ -67,13 +67,13 @@ export default function Movies({ scrollTop }) {
   }, [genreforURL, page, sortBy]);
 
   useEffect(() => {
-    setPage(1)
+    !values && setPage(1)
   }, [sortBy])
 
   return (
     <>
       <Helmet>
-        <title>SiyaCine - Discover Movies</title>
+        <title>Siyacine - Discover Movies</title>
       </Helmet>
       <div className='movies'>
         <Genres

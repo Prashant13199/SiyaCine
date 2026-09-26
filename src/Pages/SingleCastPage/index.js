@@ -130,7 +130,7 @@ export default function SingleCastPage({ scrollTop }) {
   return (
     <>
       <Helmet>
-        <title>SiyaCine - Cast{data?.name ? ` - ${data?.name}` : ''}</title>
+        <title>Siyacine - Cast{data?.name ? ` - ${data?.name}` : ''}</title>
       </Helmet>
       {!loading ?
         <div className='singlecastpage'>

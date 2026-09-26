@@ -195,7 +195,7 @@ export default function UserProfile({ scrollTop }) {
   return (
     <>
       <Helmet>
-        <title>SiyaCine{username ? ` - ${username}` : ''}</title>
+        <title>Siyacine{username ? ` - ${username}` : ''}</title>
       </Helmet>
       {!loading ?
 

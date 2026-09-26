@@ -432,7 +432,7 @@ export default function SingleContentPage({ scrollTop }) {
   return (
     <>
       <Helmet>
-        <title>SiyaCine{data?.name ? ` - ${data?.name}` : '' || data?.title ? ` - ${data?.title}` : '' || data?.original_name ? ` - ${data?.original_name}` : ''}</title>
+        <title>Siyacine{data?.name ? ` - ${data?.name}` : '' || data?.title ? ` - ${data?.title}` : '' || data?.original_name ? ` - ${data?.original_name}` : ''}</title>
       </Helmet>
       <Modal size='md' show={show2} onHide={handleClose2} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.action.disabledBackground }}>

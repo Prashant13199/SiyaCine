@@ -110,7 +110,7 @@ export default function Search({ scrollTop }) {
     return (
         <>
             <Helmet>
-                <title>SiyaCine - Search</title>
+                <title>Siyacine - Search</title>
             </Helmet>
             <div className="search">
                 <Paper component="form" className='search_container'>

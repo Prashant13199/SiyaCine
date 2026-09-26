@@ -174,7 +174,7 @@ export default function Profile({ scrollTop }) {
   return (
     <>
       <Helmet>
-        <title>SiyaCine{currentUsername ?? ` - ${currentUsername}`}</title>
+        <title>Siyacine{currentUsername ? ` - ${currentUsername}` : ''}</title>
       </Helmet>
       <Modal size='md' show={showLogout} onHide={handleCloseLogout} centered>
         <Modal.Body style={{ backgroundColor: theme.palette.background.default }}>

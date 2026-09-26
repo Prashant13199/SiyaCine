@@ -67,14 +67,14 @@ export default function TV({ scrollTop }) {
   }, [values])
 
   useEffect(() => {
-    setPage(1)
+    !values && setPage(1)
   }, [sortBy])
 
   return (
     <>
 
       <Helmet>
-        <title>SiyaCine - Discover TV Shows</title>
+        <title>Siyacine - Discover TV Shows</title>
       </Helmet>
 
       <div className='movies'>
