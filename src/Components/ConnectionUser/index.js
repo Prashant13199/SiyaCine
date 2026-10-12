@@ -18,7 +18,7 @@ export default function ConnectionUser({ user }) {
             <div key={user.uid} className='cast_single'>
                 <img alt="" src={photo ?? `https://api.dicebear.com/9.x/dylan/svg?seed=fun?size=96`} className='user_image' />
                 <div style={{ marginTop: '5px' }}>
-                    {username && <div style={{ color: theme.palette.warning.main }}>{username?.replace(/\d+$/, "")}</div>}
+                    {username && <div style={{ color: theme.palette.warning.main }}>{username?.replace(/\d+$/, "")?.split(".")[0]}</div>}
                     {lastActive && <div className='user_last_active'>{timeDifference(new Date(), new Date(lastActive))}</div>}
                 </div>
             </div>
