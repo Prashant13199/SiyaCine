@@ -114,7 +114,7 @@ export default function Trending({ scrollTop }) {
 
         {nowplaying?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><TheatersIcon /> Playing in Theatres
+            <div className='trending_title'><TheatersIcon /> New Releases
               <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$/@@`} className="viewall">
                 <IconButton><ChevronRightIcon /></IconButton>
               </Link>
@@ -130,14 +130,14 @@ export default function Trending({ scrollTop }) {
         <>
           <br />
           <div className='trending_flex'>
-            <div className='trending_title'><LiveTvIcon /> Live TV</div>
+            <div className='trending_title'><LiveTvIcon /> IP TV</div>
           </div>
           <Live />
         </>
 
         {myShows?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><UpcomingIcon /> Upcoming Episodes</div>
+            <div className='trending_title'><UpcomingIcon /> Coming This Week</div>
           </div>
           <div className='trending_scroll'>
             {myShows?.map((data, index) => {
@@ -196,7 +196,7 @@ export default function Trending({ scrollTop }) {
 
         {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><TrendingUpIcon /> Trending <Switch data={trending} setData={setTrending} />
+            <div className='trending_title'><TrendingUpIcon /> Top 10 <Switch data={trending} setData={setTrending} />
               <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$/@@` : `/singlecategory/trending/tv/Trending TV/$$/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           </div>
           <div className='trending_scroll' >

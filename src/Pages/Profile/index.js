@@ -317,7 +317,7 @@ export default function Profile({ scrollTop }) {
           </div>
           {watchlist?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><FormatListBulletedIcon />Watchlist<Count value={watchlist?.length} />
+              <div className='trending_title' ><FormatListBulletedIcon /> My List<Count value={watchlist?.length} />
                 {watchlist?.length > 10 && <Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
               </div>
             </div>
@@ -339,7 +339,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {watched?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} />
+              <div className='trending_title' ><TaskAltIcon /> Watch it Again<Count value={watched?.length} />
                 {watched?.length > 10 && <Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
               </div>
             </div>
@@ -350,7 +350,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {favourite?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} />
+              <div className='trending_title' ><FavoriteIcon /> Shows & Movies You have Liked<Count value={favourite?.length} />
                 {favourite?.length > 10 && <Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
               </div>
             </div>

@@ -8,7 +8,7 @@ import Autoplay from 'embla-carousel-autoplay';
 export default function Header() {
 
   const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 5000 }), ClassNames()
+    Autoplay({ delay: 8000 }), ClassNames()
   ])
 
   const nowPlaying = useFetchContent('upcoming', 'movie')
