@@ -95,6 +95,30 @@
     border-color: black !important;
 }
 
+.language {
+    border: .5px solid rgb(255, 167, 38);
+    height: 50px;
+    width: 140px;
+    display: grid;
+    place-items: center;
+    color: rgb(255, 167, 38);
+    cursor: pointer;
+    transition: all .3s;
+    font-size: 25px;
+    font-variant: small-caps;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.link {
+    text-decoration: none !important;
+}
+
+.language:hover {
+    transform: scale(0.95);
+    transition: all .3s;
+}
+
 @media only screen and (max-width: 660px) {
     .trending_img {
         margin-right: 10px;
@@ -112,7 +136,7 @@
     }
 
     .trending_flex {
-        margin-left: 5px;
+        margin: 0 5px;
         display: flex;
         align-items: center;
     }
@@ -123,5 +147,12 @@
 
     .trending_scroll {
         padding: 0 5px;
+    }
+
+    .language {
+        height: 40px;
+        width: 120px;
+        font-size: 20px;
+        margin-bottom: 5px;
     }
 }

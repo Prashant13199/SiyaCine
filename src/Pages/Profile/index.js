@@ -318,7 +318,7 @@ export default function Profile({ scrollTop }) {
           {watchlist?.length !== 0 && <><br />
             <div className='trending_flex'>
               <div className='trending_title' ><FormatListBulletedIcon /> My List<Count value={watchlist?.length} />
-                {watchlist?.length > 10 && <Link to={`/singlecategory/watchlist/Trending/Watchlist/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                {watchlist?.length > 10 && <Link to={`/singlecategory/watchlist/Trending/My List/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
               </div>
             </div>
             <div className='trending_scroll' >
@@ -340,7 +340,7 @@ export default function Profile({ scrollTop }) {
           {watched?.length !== 0 && <><br />
             <div className='trending_flex'>
               <div className='trending_title' ><TaskAltIcon /> Watch it Again<Count value={watched?.length} />
-                {watched?.length > 10 && <Link to={`/singlecategory/watched/Trending/Watched/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                {watched?.length > 10 && <Link to={`/singlecategory/watched/Trending/Watch it Again/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
               </div>
             </div>
             <div className='trending_scroll' >
@@ -351,7 +351,7 @@ export default function Profile({ scrollTop }) {
           {favourite?.length !== 0 && <><br />
             <div className='trending_flex'>
               <div className='trending_title' ><FavoriteIcon /> Shows & Movies You have Liked<Count value={favourite?.length} />
-                {favourite?.length > 10 && <Link to={`/singlecategory/favourites/Trending/Favourites/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                {favourite?.length > 10 && <Link to={`/singlecategory/favourites/Trending/Shows & Movies You have Liked/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
               </div>
             </div>
             <div className='trending_scroll' >

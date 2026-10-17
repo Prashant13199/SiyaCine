@@ -51,6 +51,8 @@ export default function SingleCategory({ scrollTop }) {
       fetch();
     } else if (category === 'discover') {
       fetchDiscover()
+    } else if (category === 'language') {
+      fetchLanguage()
     } else if (category === 'provider') {
       fetchProvider()
     } else if (category === 'watchlist' || category === 'watched' || category === 'favourites' || category === 'watching') {
@@ -141,6 +143,20 @@ export default function SingleCategory({ scrollTop }) {
     }
   };
 
+  const fetchLanguage = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://api.themoviedb.org/3/discover/${type}?api_key=${process.env.REACT_APP_API_KEY}&page=${page}&with_original_language=${id}&watch_region=IN&with_genres=${genreforURL}`
+      );
+      setContent(data.results);
+      setNumOfPages(data.total_pages);
+      setLoading(false)
+    }
+    catch (e) {
+      console.log(e)
+    }
+  };
+
   const fetchData = async (categoryName) => {
     try {
       database.ref(`/Users/${uid}/${categoryName}`).orderByChild('timestamp').on('value', snapshot => {
@@ -168,7 +184,7 @@ export default function SingleCategory({ scrollTop }) {
         <title>Siyacine{name ? ` - ${name}` : ''}</title>
       </Helmet>
       {!loading ? <div className='singlecategory'>
-        {category === 'discover' || category === "provider" && <Genres
+        {category === 'discover' || category === "provider" || category === "language" && <Genres
           type={type}
           selectedGenres={selectedGenres}
           setSelectedGenres={setSelectedGenres}

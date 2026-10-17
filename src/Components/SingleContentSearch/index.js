@@ -30,7 +30,7 @@ export default function SingleContent({ data, setURL, index }) {
                         onClick={() => {
                             setURL && setURL()
                             handleStoreSearched()
-                            history.push(`/singlecontent/${data.id}/${data.media_type}`)
+                            history.push(`/singlecontent/${data.id}/${data.media_type}/${data?.title || data?.name}`)
                         }}
                     />
                 </div>

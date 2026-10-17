@@ -69,10 +69,8 @@ export default function NavBarMain({ top, scrollTop }) {
       setRouteName('You')
     } else if (location.pathname?.includes('/user')) {
       getUsername(location.pathname.split('/')[2])
-    } else if (location.pathname?.includes('/singlecontent') && location.pathname?.includes('/tv')) {
-      setRouteName('TV')
-    } else if (location.pathname?.includes('/singlecontent') && location.pathname?.includes('/movie')) {
-      setRouteName('Movie')
+    } else if (location.pathname?.includes('/singlecontent')) {
+      setRouteName(location.pathname.split('/')[4])
     } else if (location.pathname?.includes('/singlecast')) {
       setRouteName(location.pathname.split('/')[3])
     } else if (location.pathname?.includes('/Upcoming')) {
@@ -107,6 +105,8 @@ export default function NavBarMain({ top, scrollTop }) {
       setRouteName('Airing Today')
     } else if (location.pathname?.includes('/provider')) {
       setRouteName(capitalizeWords(location.pathname.split('/')[4]))
+    } else if (location.pathname?.includes('/language')) {
+      setRouteName(location.pathname.split('/')[4])
     } else if (location.pathname?.includes('/movie')) {
       setRouteName('Discover Movie')
     } else if (location.pathname?.includes('/tv')) {

@@ -94,7 +94,7 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
             src={data?.poster_path ? `https://image.tmdb.org/t/p/w342/${data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"}
             alt={data?.title || data?.name}
             className={trending ? "poster_scroll_trending" : "poster_scroll"}
-            onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)}
+            onClick={() => history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}/${data?.title || data?.name}`)}
           />
         </div>
         {by && <div>

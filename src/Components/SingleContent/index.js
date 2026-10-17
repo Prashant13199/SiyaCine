@@ -16,7 +16,7 @@ export default function SingleContent({ data, type, setURL, index }) {
           className="search_img"
           onClick={() => {
             setURL && setURL()
-            history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}`)
+            history.push(`/singlecontent/${data.id}/${type ? type : data.media_type}/${data?.title || data?.name}`)
           }}
         />
       </div>

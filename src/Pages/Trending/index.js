@@ -24,6 +24,7 @@ import Live from '../../Containers/Live/Live';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import NextPlanIcon from '@mui/icons-material/NextPlan';
+import TranslateIcon from '@mui/icons-material/Translate';
 
 export default function Trending({ scrollTop }) {
 
@@ -51,6 +52,7 @@ export default function Trending({ scrollTop }) {
   const [indian, setIndian] = useState('movie')
   const [topRated, setTopRated] = useState('movie')
   const [providerType, setProviderType] = useState('movie')
+  const [languageType, setLanguageType] = useState('movie')
 
   useEffect(() => {
     scrollTop()
@@ -115,7 +117,7 @@ export default function Trending({ scrollTop }) {
         {nowplaying?.length !== 0 && <><br />
           <div className='trending_flex'>
             <div className='trending_title'><TheatersIcon /> New Releases
-              <Link to={`/singlecategory/now_playing/movie/Now Playing in Theatres/$$/@@`} className="viewall">
+              <Link to={`/singlecategory/now_playing/movie/New Releases/$$/@@`} className="viewall">
                 <IconButton><ChevronRightIcon /></IconButton>
               </Link>
             </div>
@@ -223,6 +225,27 @@ export default function Trending({ scrollTop }) {
               return <SingleContentScroll index={index} data={data} id={data.id} key={index} type={data?.media_type} recom={true} showtv={true} />
             })}
           </div></>}
+
+        <>
+          <br />
+          <div className='trending_flex'>
+            <div className='trending_title'><TranslateIcon /> Explore By Language <Switch data={languageType} setData={setLanguageType} /></div>
+          </div>
+          <div className='trending_scroll' >
+            <Link className="link" to={`/singlecategory/language/${languageType}/English ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/en`}>
+              <div className='language'>English</div>
+            </Link>
+            <Link className="link" to={`/singlecategory/language/${languageType}/Hindi ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/hi`}>
+              <div className='language'>Hindi</div>
+            </Link>
+            <Link className="link" to={`/singlecategory/language/${languageType}/Marathi ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/mr`}>
+              <div className='language'>Marathi</div>
+            </Link>
+            <Link className="link" to={`/singlecategory/language/${languageType}/Korean ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/ko`}>
+              <div className='language'>Korean</div>
+            </Link>
+          </div>
+        </>
 
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
           <div className='trending_flex'>

@@ -37,10 +37,3 @@
 .content-button.active-button {
     color: black;
 }
-
-@media only screen and (max-width: 660px) {
-    .content-button {
-        font-size: 12px;
-        min-width: 60px;
-    }
-}
