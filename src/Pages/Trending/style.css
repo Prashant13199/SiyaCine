@@ -36,7 +36,7 @@
 }
 
 .trending_flex {
-    margin-left: 40px;
+    margin: 0 40px;
     display: flex;
     align-items: center;
 }
