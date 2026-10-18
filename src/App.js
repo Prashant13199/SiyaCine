@@ -12,11 +12,10 @@ import Profile from './Pages/Profile';
 import UserProfile from './Pages/UserProfile';
 import LoadingScreen from 'react-loading-screen';
 import { useEffect, useState } from 'react';
-import logo from '../src/assets/logo.png'
+import logo from '../src/assets/loading_logo.gif'
 import SingleCategory from './Pages/SingleCategory';
 import SingleCastPage from './Pages/SingleCastPage';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useTheme } from '@mui/material';
 import { auth, database } from './firebase';
 import PlayerProvider from './Services/PlayerContext';
 import Player from './Containers/Player/Player';
