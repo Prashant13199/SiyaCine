@@ -69,6 +69,16 @@ export const images = (username) => [
             `${process.env.PUBLIC_URL}/8.jpeg`,
             `${process.env.PUBLIC_URL}/32.jpeg`,
             `${process.env.PUBLIC_URL}/34.jpeg`,
+        ],
+        cartoon: [
+            'https://m.gettywallpapers.com/wp-content/uploads/2023/07/Shinchan-Pfp.jpg',
+            'https://m.gettywallpapers.com/wp-content/uploads/2023/07/Shinchan-Pfp-for-instagram.jpg',
+            'https://m.gettywallpapers.com/wp-content/uploads/2023/07/Shinchan-Pfp-for-twitter.jpg',
+            'https://m.gettywallpapers.com/wp-content/uploads/2023/07/Shinchan-Pfp-for-YouTube.jpg',
+            'https://m.gettywallpapers.com/wp-content/uploads/2023/07/Shinchan-Pofile-Picture-HD.jpg',
+            'https://m.gettywallpapers.com/wp-content/uploads/2023/07/Shinchan-Profile-Photo.jpg',
+            'https://i.pinimg.com/736x/5f/9d/fe/5f9dfee7a8978e2943f8a0483cd9afb2.jpg',
+            'https://m.gettywallpapers.com/wp-content/uploads/2023/07/Doraemon-Dp.jpg'
         ]
     }
 ]
