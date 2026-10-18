@@ -70,7 +70,7 @@ export default function NavBarMain({ top, scrollTop }) {
     } else if (location.pathname?.includes('/user')) {
       getUsername(location.pathname.split('/')[2])
     } else if (location.pathname?.includes('/singlecontent')) {
-      setRouteName(location.pathname.split('/')[4])
+      setRouteName(location.pathname.split('/')[4].split(":")[0])
     } else if (location.pathname?.includes('/singlecast')) {
       setRouteName(location.pathname.split('/')[3])
     } else if (location.pathname?.includes('/Upcoming')) {
@@ -144,7 +144,7 @@ export default function NavBarMain({ top, scrollTop }) {
       <Navbar className={top < 50 ? 'navbar_main' : 'navbar_main navbar_main_back'} variant={theme.palette.mode} fixed='top'>
         <Navbar.Brand className="navlink">
           {location.pathname === '/' ? <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
-            : <NavbarBrand><h2>{routeName}</h2></NavbarBrand>}
+            : <NavbarBrand><h2 className='navbartitle'>{routeName}</h2></NavbarBrand>}
         </Navbar.Brand>
         <Nav className="me-auto"></Nav>
         {auth?.currentUser?.uid ?
