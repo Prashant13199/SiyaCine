@@ -10,7 +10,7 @@
     display: flex;
     align-items: center;
     font-weight: bold;
-    gap: 5px;
+    gap: 2px;
 }
 
 .trending_title_small {
@@ -50,11 +50,6 @@
     color: white;
     display: flex;
     align-items: center;
-}
-
-.viewall:hover {
-    opacity: 1;
-    color: white !important;
 }
 
 .link_to {

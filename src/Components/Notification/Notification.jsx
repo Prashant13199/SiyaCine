@@ -12,6 +12,8 @@ export default function Notification({ noti, handleClose }) {
     const connectID = [auth?.currentUser?.uid, noti?.byuid].sort().join(':')
     const currentUsername = useFetchUserDetails(auth?.currentUser?.uid, 'username')
 
+    console.log(noti)
+
     const [show, setShow] = useState(false);
 
     const removeNotification = () => {
@@ -59,7 +61,7 @@ export default function Notification({ noti, handleClose }) {
                         <div onClick={removeNotification} className='notification_delete'>{noti?.connection ? 'decline' : 'clear'}</div>
                     </div>
                 </div>
-                {noti?.poster && <Link onClick={handleClose} to={`/singlecontent/${noti.id}/${noti.type}`}>
+                {noti?.poster && <Link onClick={handleClose} to={`/singlecontent/${noti.id}/${noti.type}/${noti?.name}`}>
                     <img src={`https://image.tmdb.org/t/p/w342/${noti.poster}`} className='notification_poster' />
                 </Link>}
             </div>

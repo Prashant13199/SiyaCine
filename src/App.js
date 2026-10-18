@@ -84,7 +84,7 @@ function App() {
               <Route path="/" exact>
                 <Trending scrollTop={scrollTop} />
               </Route>
-              <Route path="/singlecontent/:id/:type" >
+              <Route path="/singlecontent/:id/:type/:name" >
                 <SingleContentPage scrollTop={scrollTop} />
               </Route>
               <Route path="/user/:uid">

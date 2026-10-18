@@ -449,7 +449,7 @@ export default function SingleContentPage({ scrollTop }) {
           </div>
           <RWebShare
             data={{
-              url: `https://siyacine.netlify.app/singlecontent/${id}/${type}`,
+              url: `https://siyacine.netlify.app/singlecontent/${id}/${type}/${data?.name || data?.title}`,
               title: `${data.name || data.title || data.original_name}`,
               text: `Siyacine: ${data.name || data.title || data.original_name}`,
             }}

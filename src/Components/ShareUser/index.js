@@ -51,7 +51,8 @@ export default function ShareUser({ user, index, setMessage, setSnackBar, id, da
                 text: `${currentUsername} suggested you to watch ${data.name || data.title || data.original_name}`,
                 type: type,
                 poster: data.poster_path,
-                comment: comment
+                comment: comment,
+                name: data.name || data.title || data.original_name
             })
             setComment('')
             handleClose2()

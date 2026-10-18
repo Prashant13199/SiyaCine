@@ -153,7 +153,7 @@ export default function Trending({ scrollTop }) {
             <img src={favourite[0]?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favourite[0]?.data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
             <div>
               <div className='trending_title_small'>Because You Watched</div>
-              <Link to={`/singlecontent/${favourite[0]?.data.id}/${favourite[0]?.type}`} style={{ textDecoration: 'none' }}>
+              <Link to={`/singlecontent/${favourite[0]?.data.id}/${favourite[0]?.type}/${favourite[0]?.data?.name || favourite[0]?.data?.title}`} style={{ textDecoration: 'none' }}>
                 <div className='trending_title_subtitle'>
                   {favourite[0]?.data?.name || favourite[0]?.data?.title || favourite[0]?.data?.original_name}
                 </div>

@@ -20,7 +20,7 @@ export default function SingleSlide({ data, index }) {
     }, [index, data?.id])
 
     return image && (
-        <Link to={`/singlecontent/${data?.id}/movie`} style={{ textDecoration: 'none' }}>
+        <Link to={`/singlecontent/${data?.id}/movie/${data?.name || data?.title}`} style={{ textDecoration: 'none' }}>
             <img
                 className="embla__slide__img"
                 src={`https://image.tmdb.org/t/p/original/${image}`}
