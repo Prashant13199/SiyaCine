@@ -125,6 +125,13 @@
     color: red;
 }
 
+.navbar_flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
 @media screen and (max-width: 660px) {
 
     .navbar_main {

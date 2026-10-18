@@ -70,7 +70,7 @@ export default function NavBarMain({ top, scrollTop }) {
     } else if (location.pathname?.includes('/user')) {
       getUsername(location.pathname.split('/')[2])
     } else if (location.pathname?.includes('/singlecontent')) {
-      setRouteName(location.pathname.split('/')[4].split(":")[0])
+      setRouteName(location.pathname.split('/')[4])
     } else if (location.pathname?.includes('/singlecast')) {
       setRouteName(location.pathname.split('/')[3])
     } else if (location.pathname?.includes('/Upcoming')) {
@@ -142,30 +142,31 @@ export default function NavBarMain({ top, scrollTop }) {
         </Modal.Body>
       </Modal>
       <Navbar className={top < 50 ? 'navbar_main' : 'navbar_main navbar_main_back'} variant={theme.palette.mode} fixed='top'>
-        <Navbar.Brand className="navlink">
-          {location.pathname === '/' ? <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
-            : <NavbarBrand><h2 className='navbartitle'>{routeName}</h2></NavbarBrand>}
-        </Navbar.Brand>
-        <Nav className="me-auto"></Nav>
-        {auth?.currentUser?.uid ?
-          <>
-            {notifications?.length !== 0 && <Nav>
-              <NavLink onClick={() => {
-                if (notifications?.length) {
-                  handleShow2()
-                }
-              }} to='#' exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, marginRight: '10px' }} activeStyle={{ opacity: 1, color: show2 ? theme.palette.warning.main : theme.palette.text.primary }}>
-                <Badge badgeContent={notifications?.length} color="warning">
-                  <NotificationsIcon />
-                </Badge>
-              </NavLink>
-            </Nav>}
-          </>
-          :
-          <Nav>
-            <Button variant='contained' size='small' color="warning" style={{ marginLeft: '5px' }} onClick={handleShow}>Login</Button>
-          </Nav>
-        }
+        <div className='navbar_flex'>
+          <div>
+            {location.pathname === '/' ? <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
+              : <h3 className='navbartitle'>{routeName}</h3>}
+          </div>
+          {auth?.currentUser?.uid ?
+            <>
+              {notifications?.length !== 0 && <Nav>
+                <NavLink onClick={() => {
+                  if (notifications?.length) {
+                    handleShow2()
+                  }
+                }} to='#' exact={true} style={{ textDecoration: 'none', color: theme.palette.text.primary, marginRight: '10px' }} activeStyle={{ opacity: 1, color: show2 ? theme.palette.warning.main : theme.palette.text.primary }}>
+                  <Badge badgeContent={notifications?.length} color="warning">
+                    <NotificationsIcon />
+                  </Badge>
+                </NavLink>
+              </Nav>}
+            </>
+            :
+            <Nav>
+              <Button variant='contained' size='small' color="warning" style={{ marginLeft: '5px' }} onClick={handleShow}>Login</Button>
+            </Nav>
+          }
+        </div>
       </Navbar>
       <Navbar className='navbar_back' fixed='bottom'>
         <div className={`${location.pathname === '/' && 'slider slide-to-home' ||
