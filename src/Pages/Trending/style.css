@@ -111,11 +111,12 @@
 
 .languageImage {
     height: 100px;
-    width: 200px;
+    width: 220px;
     border-radius: 10px;
     cursor: pointer;
     transition: all .3s;
     margin-right: 5px;
+    object-fit: cover;
 }
 
 .languageImage:hover {
