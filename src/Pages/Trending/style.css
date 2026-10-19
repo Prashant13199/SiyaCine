@@ -105,6 +105,24 @@
     margin-right: 10px;
 }
 
+.english {
+    background-color: rgb(177, 122, 55);
+}
+
+.languageImage {
+    height: 100px;
+    width: 200px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all .3s;
+    margin-right: 5px;
+}
+
+.languageImage:hover {
+    transition: all .3s;
+    transform: scale(0.95);
+}
+
 .link {
     text-decoration: none !important;
 }
@@ -149,5 +167,10 @@
         width: 120px;
         font-size: 20px;
         margin-bottom: 5px;
+    }
+
+    .languageImage {
+        height: 80px;
+        width: 160px;
     }
 }

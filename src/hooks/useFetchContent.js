@@ -14,8 +14,6 @@ export default function useFetchContent(value, type) {
     useEffect(() => {
         if (value === 'trending') {
             fetchDataTrending()
-        } else if (value === 'discover') {
-            fetchDataIndian()
         } else if (value === 'providers') {
             fetchProviders()
         } else {
@@ -58,19 +56,6 @@ export default function useFetchContent(value, type) {
         try {
             const { data } = await axios.get(
                 `https://api.themoviedb.org/3/${value}/${type}/day?api_key=${process.env.REACT_APP_API_KEY}`
-            );
-
-            setContent(data?.results);
-        }
-        catch (e) {
-            console.log(e)
-        }
-    };
-
-    const fetchDataIndian = async () => {
-        try {
-            const { data } = await axios.get(
-                `https://api.themoviedb.org/3/${value}/${type}?api_key=${process.env.REACT_APP_API_KEY}&with_origin_country=IN`
             );
 
             setContent(data?.results);

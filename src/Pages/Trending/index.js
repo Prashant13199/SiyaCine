@@ -17,7 +17,6 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import UpcomingIcon from '@mui/icons-material/Upcoming';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import StarRateIcon from '@mui/icons-material/StarRate';
-import PublicIcon from '@mui/icons-material/Public';
 import { IconButton } from '@mui/material';
 import Providers from '../../Components/Providers/Providers';
 import Live from '../../Containers/Live/Live';
@@ -41,15 +40,12 @@ export default function Trending({ scrollTop }) {
   const topratedtv = useFetchContent('top_rated', 'tv')
   const trendingMovie = useFetchContent('trending', 'movie')
   const trendingTv = useFetchContent('trending', 'tv')
-  const indianMovie = useFetchContent('discover', 'movie')
-  const indianTv = useFetchContent('discover', 'tv')
   const providersMovie = useFetchContent('providers', 'movie')
   const providersTV = useFetchContent('providers', 'tv')
   const genres = useFetchContent('genres', 'movie')
   const myShows = useFetchMyShows()
 
   const [trending, setTrending] = useState('movie')
-  const [indian, setIndian] = useState('movie')
   const [topRated, setTopRated] = useState('movie')
   const [providerType, setProviderType] = useState('movie')
   const [languageType, setLanguageType] = useState('movie')
@@ -166,20 +162,26 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {(indianMovie?.length !== 0 || indianTv?.length !== 0) && <><br />
+        <>
+          <br />
           <div className='trending_flex'>
-            <div className='trending_title'><PublicIcon /> Indian Origin <Switch data={indian} setData={setIndian} />
-              <Link to={indian === 'movie' ? `/singlecategory/discover/movie/Indian Origin Movie/$$/@@` : `/singlecategory/discover/tv/Indian Origin TV/$$/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
+            <div className='trending_title'><TranslateIcon /> Explore By Language <Switch data={languageType} setData={setLanguageType} /></div>
           </div>
           <div className='trending_scroll' >
-            {indian === "movie" && indianMovie?.slice(0, 10)?.map((data, index) => {
-              return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="movie" />
-            })}
-            {indian === "tv" && indianTv?.slice(0, 10)?.map((data, index) => {
-              return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="tv" />
-            })}
+            <Link className="link" to={`/singlecategory/language/${languageType}/English ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/en`}>
+              <img className='languageImage' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-pBL41g7c9xL-W79fReGo1wsGtVQmvP8XNrTuBF1IR3avQclBwnVLZ7tW&s=10" />
+            </Link>
+            <Link className="link" to={`/singlecategory/language/${languageType}/Hindi ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/hi`}>
+              <img className='languageImage' src="https://img.jagranjosh.com/images/2022/September/1492022/compress_hindi_diwas_2022.jpg" />
+            </Link>
+            <Link className="link" to={`/singlecategory/language/${languageType}/Marathi ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/mr`}>
+              <img className='languageImage' src="https://akm-img-a-in.tosshub.com/indiatoday/images/story/202606/marathi-language-294517122-16x9_0.jpeg?VersionId=YsQAZmS.sphTKfI7HsbjA156yndqxc5z&size=690:388" />
+            </Link>
+            <Link className="link" to={`/singlecategory/language/${languageType}/Korean ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/ko`}>
+              <img className='languageImage' src="https://www.shutterstock.com/image-vector/south-korea-word-outline-icon-260nw-2571146977.jpg" />
+            </Link>
           </div>
-        </>}
+        </>
 
         {genres?.length !== 0 && <><br />
           <div className='trending_flex'>
@@ -225,27 +227,6 @@ export default function Trending({ scrollTop }) {
               return <SingleContentScroll index={index} data={data} id={data.id} key={index} type={data?.media_type} recom={true} showtv={true} />
             })}
           </div></>}
-
-        <>
-          <br />
-          <div className='trending_flex'>
-            <div className='trending_title'><TranslateIcon /> Explore By Language <Switch data={languageType} setData={setLanguageType} /></div>
-          </div>
-          <div className='trending_scroll' >
-            <Link className="link" to={`/singlecategory/language/${languageType}/English ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/en`}>
-              <div className='language'>English</div>
-            </Link>
-            <Link className="link" to={`/singlecategory/language/${languageType}/Hindi ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/hi`}>
-              <div className='language'>Hindi</div>
-            </Link>
-            <Link className="link" to={`/singlecategory/language/${languageType}/Marathi ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/mr`}>
-              <div className='language'>Marathi</div>
-            </Link>
-            <Link className="link" to={`/singlecategory/language/${languageType}/Korean ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/ko`}>
-              <div className='language'>Korean</div>
-            </Link>
-          </div>
-        </>
 
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
           <div className='trending_flex'>
