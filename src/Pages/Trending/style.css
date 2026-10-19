@@ -17,7 +17,7 @@
     display: flex;
     align-items: center;
     color: lightgray;
-    font-weight: bolder;
+    font-weight: bold;
 }
 
 .trending_title_subtitle {
@@ -25,7 +25,6 @@
     display: flex;
     align-items: center;
     color: rgb(255, 167, 38);
-    font-weight: bold;
 }
 
 .trending_img {
