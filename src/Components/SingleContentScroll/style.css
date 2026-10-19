@@ -92,7 +92,7 @@
     font-size: 120px;
     color: orange;
     margin-right: -5px;
-    margin-top: 270px;
+    margin-top: 260px;
     margin-bottom: -80px;
     font-weight: bold;
     z-index: 2;
@@ -136,6 +136,6 @@
     }
 
     .trending_count {
-        margin-top: 225px;
+        margin-top: 220px;
     }
 }

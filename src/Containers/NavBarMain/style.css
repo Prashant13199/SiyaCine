@@ -45,7 +45,6 @@
 }
 
 .navlink {
-    font-weight: bold;
     display: grid;
     place-items: center;
     width: 100px;
@@ -62,6 +61,7 @@
     width: 100px;
     border-radius: 30px;
     color: black;
+    font-weight: bold;
 }
 
 .slider {

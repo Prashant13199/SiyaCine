@@ -144,7 +144,8 @@ export default function NavBarMain({ top, scrollTop }) {
       <Navbar className={top < 50 ? 'navbar_main' : 'navbar_main navbar_main_back'} variant={theme.palette.mode} fixed='top'>
         <div className='navbar_flex'>
           <div>
-            {location.pathname === '/' ? <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
+            {location.pathname === '/' ?
+              <img className='navbar_icon' style={{ backdropFilter: 'unset' }} src={logo} alt="logo" />
               : <h3 className='navbartitle'>{routeName}</h3>}
           </div>
           {auth?.currentUser?.uid ?

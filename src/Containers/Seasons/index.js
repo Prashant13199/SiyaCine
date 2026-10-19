@@ -155,6 +155,7 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
         let start = (perPage * (page - 1))
         let end = (start + perPage)
         setPaginatedData(content?.slice(start, end))
+        document.getElementById("episode_list")?.scrollTo({ behavior: "smooth", left: 0, top: 0 })
     }
 
     const handleNext = () => {

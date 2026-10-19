@@ -17,12 +17,6 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonRemoveAlt1Icon from '@mui/icons-material/PersonRemoveAlt1';
 import ConnectionUser from '../../Components/ConnectionUser'
 import { timeDifference } from '../../Services/time';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import PersonIcon from '@mui/icons-material/Person';
 
 export default function UserProfile({ scrollTop }) {
 
@@ -238,8 +232,13 @@ export default function UserProfile({ scrollTop }) {
           {(connected || publicAcc || admin) && <>
             {watching?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><PlayArrowIcon /> Watching Now<Count value={watching?.length} />
-                  {watching?.length > 10 && <Link to={`/singlecategory/watching/Trending/${username?.replace(/\d+$/, "")}'s Watching/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                <div className='trending_title' >Watching Now
+                  {watching?.length > 10 &&
+                    <>
+                      <Count value={watching?.length} />
+                      <Link to={`/singlecategory/watching/Trending/${username?.replace(/\d+$/, "")}'s Watching/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>
+                    </>
+                  }
                 </div>
               </div>
               <div className='trending_scroll' >
@@ -249,8 +248,13 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {watchlist?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><FormatListBulletedIcon /> Watchlist<Count value={watchlist?.length} />
-                  {watchlist?.length > 10 && <Link to={`/singlecategory/watchlist/Trending/${username?.replace(/\d+$/, "")}'s Watchlist/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                <div className='trending_title' >Watchlist
+                  {watchlist?.length > 10 &&
+                    <>
+                      <Count value={watchlist?.length} />
+                      <Link to={`/singlecategory/watchlist/Trending/${username?.replace(/\d+$/, "")}'s Watchlist/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>
+                    </>
+                  }
                 </div>
               </div>
               <div className='trending_scroll' >
@@ -260,8 +264,13 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {watched?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><TaskAltIcon /> Watched<Count value={watched?.length} />
-                  {watched?.length > 10 && <Link to={`/singlecategory/watched/Trending/${username?.replace(/\d+$/, "")}'s Watched/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                <div className='trending_title' >Watched
+                  {watched?.length > 10 &&
+                    <>
+                      <Count value={watched?.length} />
+                      <Link to={`/singlecategory/watched/Trending/${username?.replace(/\d+$/, "")}'s Watched/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>
+                    </>
+                  }
                 </div>
               </div>
               <div className='trending_scroll' >
@@ -271,8 +280,13 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {favourite?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><FavoriteIcon /> Favourites<Count value={favourite?.length} />
-                  {favourite?.length > 10 && <Link to={`/singlecategory/favourites/Trending/${username?.replace(/\d+$/, "")}'s Favourites/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+                <div className='trending_title' >Favourites
+                  {favourite?.length > 10 &&
+                    <>
+                      <Count value={favourite?.length} />
+                      <Link to={`/singlecategory/favourites/Trending/${username?.replace(/\d+$/, "")}'s Favourites/${uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>
+                    </>
+                  }
                 </div>
               </div>
               <div className='trending_scroll' >
@@ -282,7 +296,7 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {cast?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><PersonIcon /> Favourite Cast<Count value={cast?.length} /></div>
+                <div className='trending_title' >Favourite Cast{cast?.length > 10 && <Count value={cast?.length} />}</div>
               </div>
               <div className='trending_scroll' >
                 {cast?.map((c) => {
@@ -291,7 +305,7 @@ export default function UserProfile({ scrollTop }) {
               </div></>}
             {connections?.length !== 0 && <><br />
               <div className='trending_flex'>
-                <div className='trending_title' ><AccountBoxIcon /> Connections<Count value={connections?.length} /></div>
+                <div className='trending_title' >Connections{connections?.length > 10 && <Count value={connections?.length} />}</div>
               </div>
               <div className='trending_scroll' >
                 {connections?.map((user, index) => {

@@ -23,12 +23,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import ModeIcon from '@mui/icons-material/Mode';
 import { images } from '../../Services/images'
 import ConnectionUser from '../../Components/ConnectionUser';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import PersonIcon from '@mui/icons-material/Person';
-import CoPresentIcon from '@mui/icons-material/CoPresent';
 import ErrorIcon from '@mui/icons-material/Error';
 import Genres from '../../Components/Genres';
 import AddIcon from '@mui/icons-material/Add';
@@ -328,8 +322,13 @@ export default function Profile({ scrollTop }) {
           </div>
           {watchlist?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><FormatListBulletedIcon /> My List<Count value={watchlist?.length} />
-                {watchlist?.length > 10 && <Link to={`/singlecategory/watchlist/Trending/My List/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+              <div className='trending_title' >My List
+                {watchlist?.length > 10 &&
+                  <>
+                    <Count value={watchlist?.length} />
+                    <Link to={`/singlecategory/watchlist/Trending/My List/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>
+                  </>
+                }
               </div>
             </div>
             <div className='trending_scroll' >
@@ -339,7 +338,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {suggestions?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><CoPresentIcon /> Suggestions<Count value={suggestions?.length} /></div>
+              <div className='trending_title' >Suggestions{suggestions?.length > 10 && <Count value={suggestions?.length} />}</div>
             </div>
             <div className='trending_scroll' >
               {suggestions?.map((data, index) => {
@@ -350,8 +349,13 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {watched?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><TaskAltIcon /> Watch it Again<Count value={watched?.length} />
-                {watched?.length > 10 && <Link to={`/singlecategory/watched/Trending/Watch it Again/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+              <div className='trending_title' >Watch it Again
+                {watched?.length > 10 &&
+                  <>
+                    <Count value={watched?.length} />
+                    <Link to={`/singlecategory/watched/Trending/Watch it Again/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>
+                  </>
+                }
               </div>
             </div>
             <div className='trending_scroll' >
@@ -361,8 +365,13 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {favourite?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><FavoriteIcon /> Shows & Movies You have Liked<Count value={favourite?.length} />
-                {favourite?.length > 10 && <Link to={`/singlecategory/favourites/Trending/Shows & Movies You have Liked/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
+              <div className='trending_title' >Shows & Movies You have Liked
+                {favourite?.length > 10 &&
+                  <>
+                    <Count value={favourite?.length} />
+                    <Link to={`/singlecategory/favourites/Trending/Shows & Movies You have Liked/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>
+                  </>
+                }
               </div>
             </div>
             <div className='trending_scroll' >
@@ -372,7 +381,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {cast?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><PersonIcon /> Favourite Cast<Count value={cast?.length} /></div>
+              <div className='trending_title' >Favourite Cast{cast?.length > 10 && <Count value={cast?.length} />}</div>
             </div>
             <div className='trending_scroll' >
               {cast?.map((c) => {
@@ -381,7 +390,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {connections?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' ><AccountBoxIcon /> Connections<Count value={connections?.length} /></div>
+              <div className='trending_title' >Connections{connections?.length > 10 && <Count value={connections?.length} />}</div>
             </div>
             <div className='trending_scroll' >
               {connections?.map((user, index) => {

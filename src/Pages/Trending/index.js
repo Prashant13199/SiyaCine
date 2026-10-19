@@ -12,27 +12,16 @@ import { Helmet } from 'react-helmet';
 import useFetchDBData from '../../hooks/useFetchDBData';
 import useFetchMyShows from '../../hooks/useFetchMyShows';
 import Switch from '../../Components/switch';
-import TheatersIcon from '@mui/icons-material/Theaters';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import UpcomingIcon from '@mui/icons-material/Upcoming';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import StarRateIcon from '@mui/icons-material/StarRate';
 import { IconButton } from '@mui/material';
 import Providers from '../../Components/Providers/Providers';
 import Live from '../../Containers/Live/Live';
-import LiveTvIcon from '@mui/icons-material/LiveTv';
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import NextPlanIcon from '@mui/icons-material/NextPlan';
-import TranslateIcon from '@mui/icons-material/Translate';
 
 export default function Trending({ scrollTop }) {
 
   const [recommendation, setRecommendation] = useState([])
-  const [recommendationCast, setRecommendationCast] = useState([])
 
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
   const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
-  const favouriteCast = useFetchDBData(auth?.currentUser?.uid, 'cast')
   const dbGenres = useFetchDBData(auth?.currentUser?.uid, 'genres')
 
   const nowplaying = useFetchContent('now_playing', 'movie')
@@ -49,37 +38,33 @@ export default function Trending({ scrollTop }) {
   const [topRated, setTopRated] = useState('movie')
   const [providerType, setProviderType] = useState('movie')
   const [languageType, setLanguageType] = useState('movie')
+  const [number, setNumber] = useState(0)
 
   useEffect(() => {
     scrollTop()
   }, []);
 
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  useEffect(() => {
+    setNumber(getRandomInt(0, favourite?.length))
+  }, [favourite])
+
   useEffect(() => {
     fetchRecommendation();
-    fetchRecommendationCast();
-  }, [favourite])
+  }, [number])
 
   const fetchRecommendation = async () => {
     try {
-      if (favourite[0]?.type) {
+      if (favourite[number]?.type) {
         const { data } = await axios.get(
-          `https://api.themoviedb.org/3/${favourite[0]?.type}/${favourite[0]?.id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false`
+          `https://api.themoviedb.org/3/${favourite[number]?.type}/${favourite[number]?.id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false`
         );
         setRecommendation(data.results.splice(0, 10));
-      }
-    }
-    catch (e) {
-      console.log(e)
-    }
-  };
-
-  const fetchRecommendationCast = async () => {
-    try {
-      if (favourite[0]?.type) {
-        const { data } = await axios.get(
-          `https://api.themoviedb.org/3/person/${favouriteCast[0]?.id}/combined_credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
-        );
-        setRecommendationCast(data.cast.splice(0, 10));
       }
     }
     catch (e) {
@@ -100,7 +85,7 @@ export default function Trending({ scrollTop }) {
 
         {watching?.length !== 0 && auth?.currentUser?.uid && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><PlayArrowIcon /> Continue Watching
+            <div className='trending_title'>Continue Watching
               {watching?.length > 10 && <Link to={`/singlecategory/watching/Trending/Watching/${auth?.currentUser?.uid}/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link>}
             </div>
           </div>
@@ -112,7 +97,7 @@ export default function Trending({ scrollTop }) {
 
         {nowplaying?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><TheatersIcon /> New Releases
+            <div className='trending_title'>New Releases
               <Link to={`/singlecategory/now_playing/movie/New Releases/$$/@@`} className="viewall">
                 <IconButton><ChevronRightIcon /></IconButton>
               </Link>
@@ -128,14 +113,14 @@ export default function Trending({ scrollTop }) {
         <>
           <br />
           <div className='trending_flex'>
-            <div className='trending_title'><LiveTvIcon /> IP TV</div>
+            <div className='trending_title'>IP TV</div>
           </div>
           <Live />
         </>
 
         {myShows?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><UpcomingIcon /> Coming This Week</div>
+            <div className='trending_title'>Coming This Week</div>
           </div>
           <div className='trending_scroll'>
             {myShows?.map((data, index) => {
@@ -146,12 +131,12 @@ export default function Trending({ scrollTop }) {
 
         {recommendation?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <img src={favourite[0]?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favourite[0]?.data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
+            <img src={favourite[0]?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favourite[number]?.data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
             <div>
-              <div className='trending_title_small'>Because You Watched</div>
-              <Link to={`/singlecontent/${favourite[0]?.data.id}/${favourite[0]?.type}/${favourite[0]?.data?.name || favourite[0]?.data?.title}`} style={{ textDecoration: 'none' }}>
+              <div className='trending_title_small'>Because You Liked</div>
+              <Link to={`/singlecontent/${favourite[number]?.data.id}/${favourite[number]?.type}/${favourite[number]?.data?.name || favourite[number]?.data?.title}`} style={{ textDecoration: 'none' }}>
                 <div className='trending_title_subtitle'>
-                  {favourite[0]?.data?.name || favourite[0]?.data?.title || favourite[0]?.data?.original_name}
+                  {favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}
                 </div>
               </Link>
             </div>
@@ -165,7 +150,7 @@ export default function Trending({ scrollTop }) {
         <>
           <br />
           <div className='trending_flex'>
-            <div className='trending_title'><TranslateIcon /> Explore By Language <Switch data={languageType} setData={setLanguageType} /></div>
+            <div className='trending_title'>Explore By Language <Switch data={languageType} setData={setLanguageType} /></div>
           </div>
           <div className='trending_scroll' >
             <Link className="link" to={`/singlecategory/language/${languageType}/English ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/en`}>
@@ -185,7 +170,7 @@ export default function Trending({ scrollTop }) {
 
         {genres?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><NextPlanIcon /> Your Next Watch
+            <div className='trending_title'>Your Next Watch
               <Link to={`/movies?values=${JSON.stringify(dbGenres).replaceAll('&', ':')}&pageM=${1}`} className="viewall">
                 <IconButton><ChevronRightIcon /></IconButton>
               </Link>
@@ -200,7 +185,7 @@ export default function Trending({ scrollTop }) {
 
         {(trendingMovie?.length !== 0 || trendingTv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><TrendingUpIcon /> Top 10 <Switch data={trending} setData={setTrending} />
+            <div className='trending_title'>Top 10 <Switch data={trending} setData={setTrending} />
               <Link to={trending === "movie" ? `/singlecategory/trending/movie/Trending Movie/$$/@@` : `/singlecategory/trending/tv/Trending TV/$$/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           </div>
           <div className='trending_scroll' >
@@ -212,25 +197,9 @@ export default function Trending({ scrollTop }) {
             })}
           </div></>}
 
-        {recommendationCast?.length !== 0 && <><br />
-          <div className='trending_flex'>
-            <img src={favouriteCast[0]?.data?.profile_path ? `https://image.tmdb.org/t/p/w342/${favouriteCast[0]?.data?.profile_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
-            <div>
-              <div className='trending_title_small'>Because You Liked </div>
-              <Link to={`/singlecast/${favouriteCast[0]?.id}/${favouriteCast[0]?.data?.name}`} style={{ textDecoration: 'none' }}>
-                <div className='trending_title_subtitle'>{favouriteCast[0]?.data?.name}</div>
-              </Link>
-            </div>
-          </div>
-          <div className='trending_scroll'>
-            {recommendationCast?.map((data, index) => {
-              return <SingleContentScroll index={index} data={data} id={data.id} key={index} type={data?.media_type} recom={true} showtv={true} />
-            })}
-          </div></>}
-
         {(topratedmovie?.length !== 0 || topratedtv?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><StarRateIcon /> Top Rated <Switch data={topRated} setData={setTopRated} />
+            <div className='trending_title'>Top Rated <Switch data={topRated} setData={setTopRated} />
               <Link to={topRated === "movie" ? `/singlecategory/top_rated/movie/Top Rated Movie/$$/@@` : `/singlecategory/top_rated/tv/Top Rated TV/$$/@@`} className="viewall"><IconButton><ChevronRightIcon /></IconButton></Link></div>
           </div>
           <div className='trending_scroll'>
@@ -244,7 +213,7 @@ export default function Trending({ scrollTop }) {
 
         {(providersMovie?.length !== 0 || providersTV?.length !== 0) && <><br />
           <div className='trending_flex'>
-            <div className='trending_title'><TravelExploreIcon /> Browse By Platform <Switch data={providerType} setData={setProviderType} /></div>
+            <div className='trending_title'>Browse By Platform <Switch data={providerType} setData={setProviderType} /></div>
           </div>
           <div className='trending_scroll' >
             {providerType === "movie" && providersMovie?.map((data) => {

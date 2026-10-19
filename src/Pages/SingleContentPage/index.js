@@ -38,11 +38,6 @@ import useFetchUsers from '../../hooks/useFetchUsers';
 import ShareUser from '../../Components/ShareUser';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import { useLayoutEffect } from 'react';
-import PersonIcon from '@mui/icons-material/Person';
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import RecommendIcon from '@mui/icons-material/Recommend';
-import ReviewsIcon from '@mui/icons-material/Reviews';
-import CompareIcon from '@mui/icons-material/Compare';
 
 export default function SingleContentPage({ scrollTop }) {
 
@@ -654,7 +649,7 @@ export default function SingleContentPage({ scrollTop }) {
             <div className='singlecontent'>
               {credit.cast && credit.cast.length !== 0 && <>
                 <div className='trending_flex'>
-                  <div className='trending_title'><PersonIcon /> Cast</div>
+                  <div className='trending_title'>Cast</div>
                 </div>
                 <div className='cast'>
                   {credit && credit.cast.map((c) => {
@@ -671,7 +666,7 @@ export default function SingleContentPage({ scrollTop }) {
                 </div></>}
               {video?.length !== 0 && <><br />
                 <div className='trending_flex'>
-                  <div className='trending_title' ><LocalMoviesIcon /> Trailers & More</div>
+                  <div className='trending_title' >Trailers & More</div>
                 </div>
                 <div className='trending_scroll' >
                   <Trailers data={video} title={data?.name || data?.title || data?.original_name} />
@@ -679,7 +674,7 @@ export default function SingleContentPage({ scrollTop }) {
               </>}
               {recommendations?.length !== 0 && <><br />
                 <div className='trending_flex'>
-                  <div className='trending_title' ><RecommendIcon /> Recommendations</div>
+                  <div className='trending_title' >Recommendations</div>
                 </div>
                 <div className='trending_scroll' >
                   {recommendations?.map((data) => {
@@ -689,7 +684,7 @@ export default function SingleContentPage({ scrollTop }) {
               </>}
               {similar?.length !== 0 && <><br />
                 <div className='trending_flex'>
-                  <div className='trending_title' ><CompareIcon /> Similar</div>
+                  <div className='trending_title' >Similar</div>
                 </div>
                 <div className='trending_scroll' >
                   {similar?.map((data) => {
@@ -701,7 +696,7 @@ export default function SingleContentPage({ scrollTop }) {
               <div className='trending_flex'>
                 <div className='trending_title' style={{ display: 'flex', alignItems: 'center' }}>
                   <div >
-                    <ReviewsIcon /> Reviews
+                    Reviews
                   </div>
                   {auth?.currentUser?.uid && <div onClick={() => handleShow3()} className='addreview' style={{ color: theme.palette.warning.main }}>
                     <AddCircleOutlineIcon fontSize='medium' />
