@@ -438,7 +438,7 @@ export default function SingleContentPage({ scrollTop }) {
           <div style={{ height: '50vh', overflowY: 'auto' }}>
             {users?.map((user, index) => {
               return (
-                <ShareUser key={id} user={user} index={index} setMessage={setMessage} setSnackBar={setSnackBar} handleClose2={handleClose2} id={id} data={data} type={type} />
+                <ShareUser key={index} user={user} index={index} setMessage={setMessage} setSnackBar={setSnackBar} handleClose2={handleClose2} id={id} data={data} type={type} />
               )
             })}
           </div>
@@ -543,7 +543,7 @@ export default function SingleContentPage({ scrollTop }) {
                         variant='contained'
                         size='large'
                       >
-                        {watching ? `Resume ${currentTimeFormat}` : 'Play now'}
+                        {watching ? `Resume ${currentTimeFormat}` : watched ? 'Watch again' : 'Play now'}
                       </Button>}
                   </div>
                 </div>
@@ -553,6 +553,11 @@ export default function SingleContentPage({ scrollTop }) {
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                       {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{timeConvert(data?.runtime)}</>}
                     </div>
+                    {data && (
+                      <div className="overview">Spoken Languages:&nbsp;
+                        {data.spoken_languages?.map((lang, index) => <span key={index}>{index !== 0 && <>,</>} <i>{lang.english_name}</i></span>)}
+                      </div>
+                    )}
                     <div style={{ display: 'flex', flexWrap: 'wrap', margin: '15px 0px' }}>
                       {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
                     </div>
@@ -601,7 +606,7 @@ export default function SingleContentPage({ scrollTop }) {
                             <div className='iconText'>Watched</div>
                           </div>
                         </Tooltip>
-                        {type === 'tv' && <Tooltip title={tracking ? "Remove from tracking" : "Track show"}>
+                        {type === 'tv' && (tracking || data?.status !== "Ended") && <Tooltip title={tracking ? "Remove from tracking" : "Track show"}>
                           <div className='iconBox'>
                             <IconButton style={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleTracking()}>
                               {tracking ? <TimelineIcon color="warning" /> : <TimelineIcon />}
@@ -722,7 +727,6 @@ export default function SingleContentPage({ scrollTop }) {
                     <Review review={data.content} />
                   </div>
                 })}
-                {(reviews.length !== 0 || reviews2.length !== 0) && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>That's all</div>}
                 {reviews.length === 0 && reviews2.length === 0 && <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center', color: theme.palette.warning.main }}>No Reviews</div>}
               </div>
             </div>

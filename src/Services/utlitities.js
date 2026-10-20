@@ -23,3 +23,9 @@ export const capitalizeWords = (str) => {
         .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter
         .join(' '); // Join array elements back into a string
 }
+
+export function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

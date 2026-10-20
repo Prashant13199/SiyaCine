@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './style.css'
 import Header from '../../Containers/Header';
 import { Link } from 'react-router-dom';
@@ -15,62 +15,26 @@ import Switch from '../../Components/switch';
 import { IconButton } from '@mui/material';
 import Providers from '../../Components/Providers/Providers';
 import Live from '../../Containers/Live/Live';
+import { RecommendContext } from '../../Services/RecommendContext';
 
 export default function Trending({ scrollTop }) {
 
-  const [recommendation, setRecommendation] = useState([])
+  const { recommendation, favouriteData, nowplaying,
+    topratedmovie, topratedtv, trendingMovie,
+    trendingTv, providersMovie, providersTV, genres } = useContext(RecommendContext);
 
   const watching = useFetchDBData(auth?.currentUser?.uid, 'watching')
-  const favourite = useFetchDBData(auth?.currentUser?.uid, 'favourites')
   const dbGenres = useFetchDBData(auth?.currentUser?.uid, 'genres')
-
-  const nowplaying = useFetchContent('now_playing', 'movie')
-  const topratedmovie = useFetchContent('top_rated', 'movie')
-  const topratedtv = useFetchContent('top_rated', 'tv')
-  const trendingMovie = useFetchContent('trending', 'movie')
-  const trendingTv = useFetchContent('trending', 'tv')
-  const providersMovie = useFetchContent('providers', 'movie')
-  const providersTV = useFetchContent('providers', 'tv')
-  const genres = useFetchContent('genres', 'movie')
   const myShows = useFetchMyShows()
 
   const [trending, setTrending] = useState('movie')
   const [topRated, setTopRated] = useState('movie')
   const [providerType, setProviderType] = useState('movie')
   const [languageType, setLanguageType] = useState('movie')
-  const [number, setNumber] = useState(0)
 
   useEffect(() => {
     scrollTop()
   }, []);
-
-  function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  useEffect(() => {
-    setNumber(getRandomInt(0, favourite?.length))
-  }, [favourite])
-
-  useEffect(() => {
-    fetchRecommendation();
-  }, [number])
-
-  const fetchRecommendation = async () => {
-    try {
-      if (favourite[number]?.type) {
-        const { data } = await axios.get(
-          `https://api.themoviedb.org/3/${favourite[number]?.type}/${favourite[number]?.id}/recommendations?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&sort_by=popularity.desc&include_video=false`
-        );
-        setRecommendation(data.results.splice(0, 10));
-      }
-    }
-    catch (e) {
-      console.log(e)
-    }
-  };
 
   return (
     <>
@@ -131,12 +95,12 @@ export default function Trending({ scrollTop }) {
 
         {recommendation?.length !== 0 && <><br />
           <div className='trending_flex'>
-            <img src={favourite[0]?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favourite[number]?.data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
+            <img src={favouriteData?.data?.poster_path ? `https://image.tmdb.org/t/p/w342/${favouriteData?.data?.poster_path}` : "https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg"} className='trending_img' />
             <div>
               <div className='trending_title_small'>Because You Liked</div>
-              <Link to={`/singlecontent/${favourite[number]?.data.id}/${favourite[number]?.type}/${favourite[number]?.data?.name || favourite[number]?.data?.title}`} style={{ textDecoration: 'none' }}>
+              <Link to={`/singlecontent/${favouriteData?.data.id}/${favouriteData?.type}/${favouriteData?.data?.name || favouriteData?.data?.title}`} style={{ textDecoration: 'none' }}>
                 <div className='trending_title_subtitle'>
-                  {favourite[number]?.data?.name || favourite[number]?.data?.title || favourite[number]?.data?.original_name}
+                  {favouriteData?.data?.name || favouriteData?.data?.title || favouriteData?.data?.original_name}
                 </div>
               </Link>
             </div>
@@ -164,6 +128,12 @@ export default function Trending({ scrollTop }) {
             </Link>
             <Link className="link" to={`/singlecategory/language/${languageType}/Korean ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/ko`}>
               <img className='languageImage' src="https://www.shutterstock.com/image-vector/south-korea-word-outline-icon-260nw-2571146977.jpg" />
+            </Link>
+            <Link className="link" to={`/singlecategory/language/${languageType}/Telugu ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/te`}>
+              <img className='languageImage' src="https://upload.wikimedia.org/wikipedia/commons/f/f4/తెలుగు.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" />
+            </Link>
+            <Link className="link" to={`/singlecategory/language/${languageType}/Tamil ${languageType === "tv" ? "TV Shows" : "Movies"}/$$/ta`}>
+              <img className='languageImage' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6P8IkuwtH2G8AjnjLg3tXwc0pSZXbZZKsraz3TbQWcw&s=10" />
             </Link>
           </div>
         </>

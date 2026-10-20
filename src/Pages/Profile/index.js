@@ -338,7 +338,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {suggestions?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Suggestions{suggestions?.length > 10 && <Count value={suggestions?.length} />}</div>
+              <div className='trending_title' >Watch-Buddy Approved {suggestions?.length > 10 && <Count value={suggestions?.length} />}</div>
             </div>
             <div className='trending_scroll' >
               {suggestions?.map((data, index) => {
@@ -390,7 +390,7 @@ export default function Profile({ scrollTop }) {
             </div></>}
           {connections?.length !== 0 && <><br />
             <div className='trending_flex'>
-              <div className='trending_title' >Connections{connections?.length > 10 && <Count value={connections?.length} />}</div>
+              <div className='trending_title' >Watch Buddies{connections?.length > 10 && <Count value={connections?.length} />}</div>
             </div>
             <div className='trending_scroll' >
               {connections?.map((user, index) => {

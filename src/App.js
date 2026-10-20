@@ -19,6 +19,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { auth, database } from './firebase';
 import PlayerProvider from './Services/PlayerContext';
 import Player from './Containers/Player/Player';
+import RecommendProvider from './Services/RecommendContext';
 
 function App() {
 
@@ -74,42 +75,43 @@ function App() {
     >
       <BrowserRouter>
         <PlayerProvider>
-
-          <NavBarMain top={top} scrollTop={scrollTop} />
-          <div className='content'>
-            <Player />
-            <CssBaseline />
-            <Switch>
-              <Route path="/" exact>
-                <Trending scrollTop={scrollTop} />
-              </Route>
-              <Route path="/singlecontent/:id/:type/:name" >
-                <SingleContentPage scrollTop={scrollTop} />
-              </Route>
-              <Route path="/user/:uid">
-                <UserProfile scrollTop={scrollTop} />
-              </Route>
-              <Route path="/profile">
-                <Profile scrollTop={scrollTop} />
-              </Route>
-              <Route path="/movies">
-                <Movies scrollTop={scrollTop} />
-              </Route>
-              <Route path="/tv">
-                <TV scrollTop={scrollTop} />
-              </Route>
-              <Route path="/search">
-                <Search scrollTop={scrollTop} />
-              </Route>
-              <Route path="/singlecategory/:category/:type/:name/:uid/:id">
-                <SingleCategory scrollTop={scrollTop} />
-              </Route>
-              <Route path="/singlecast/:id/:name">
-                <SingleCastPage scrollTop={scrollTop} />
-              </Route>
-            </Switch>
-          </div>
-          <br />
+          <RecommendProvider>
+            <NavBarMain top={top} scrollTop={scrollTop} />
+            <div className='content'>
+              <Player />
+              <CssBaseline />
+              <Switch>
+                <Route path="/" exact>
+                  <Trending scrollTop={scrollTop} />
+                </Route>
+                <Route path="/singlecontent/:id/:type/:name" >
+                  <SingleContentPage scrollTop={scrollTop} />
+                </Route>
+                <Route path="/user/:uid">
+                  <UserProfile scrollTop={scrollTop} />
+                </Route>
+                <Route path="/profile">
+                  <Profile scrollTop={scrollTop} />
+                </Route>
+                <Route path="/movies">
+                  <Movies scrollTop={scrollTop} />
+                </Route>
+                <Route path="/tv">
+                  <TV scrollTop={scrollTop} />
+                </Route>
+                <Route path="/search">
+                  <Search scrollTop={scrollTop} />
+                </Route>
+                <Route path="/singlecategory/:category/:type/:name/:uid/:id">
+                  <SingleCategory scrollTop={scrollTop} />
+                </Route>
+                <Route path="/singlecast/:id/:name">
+                  <SingleCastPage scrollTop={scrollTop} />
+                </Route>
+              </Switch>
+            </div>
+            <br />
+          </RecommendProvider>
         </PlayerProvider>
       </BrowserRouter>
     </LoadingScreen >

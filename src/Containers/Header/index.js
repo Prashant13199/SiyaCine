@@ -1,30 +1,20 @@
 import './style.css';
-import useFetchContent from '../../hooks/useFetchContent';
-import useEmblaCarousel from 'embla-carousel-react'
-import ClassNames from 'embla-carousel-class-names'
 import SingleSlide from '../../Components/SingleSlide/SingleSlide';
-import Autoplay from 'embla-carousel-autoplay';
+import { RecommendContext } from '../../Services/RecommendContext';
+import { useContext } from 'react';
 
 export default function Header() {
 
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ delay: 8000 }), ClassNames()
-  ])
-
-  const nowPlaying = useFetchContent('upcoming', 'movie')
+  const { nowPlaying } = useContext(RecommendContext);
 
   return (
-    <div className="embla">
-      <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
-          {nowPlaying?.map((data, index) => (
-            <div className="embla__slide" key={index}>
-              <div className="embla__slide__number">
-                <SingleSlide key={data?.id} data={data} index={index} />
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="slider-container">
+      <div className="slider-track">
+        {nowPlaying?.map((data, index) => (
+          <div key={index}>
+            <SingleSlide key={data?.id} data={data} index={index} />
+          </div>
+        ))}
       </div>
     </div>
   )
