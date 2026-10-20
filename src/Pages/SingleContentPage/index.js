@@ -191,6 +191,8 @@ export default function SingleContentPage({ scrollTop }) {
         }
       } else {
         setWatching(false)
+        setSeasonNumber(1)
+        setEpisodeNumber(1)
       }
     })
     database.ref(`/Reviews/${id}`).orderByChild('timestamp').once('value', snapshot => {
@@ -553,11 +555,6 @@ export default function SingleContentPage({ scrollTop }) {
                     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                       {(data?.release_date || data?.first_air_date)}{data?.runtime > 0 && <>&nbsp;&#183;&nbsp;{timeConvert(data?.runtime)}</>}
                     </div>
-                    {data && (
-                      <div className="overview">Spoken Languages:&nbsp;
-                        {data.spoken_languages?.map((lang, index) => <span key={index}>{index !== 0 && <>,</>} <i>{lang.english_name}</i></span>)}
-                      </div>
-                    )}
                     <div style={{ display: 'flex', flexWrap: 'wrap', margin: '15px 0px' }}>
                       {data.genres && data.genres.map((g) => { return <div key={g.id} className='genrelist'>{g.name}</div> })}
                     </div>
@@ -570,7 +567,6 @@ export default function SingleContentPage({ scrollTop }) {
                     {data.number_of_seasons && <div className='overview'>
                       {data.number_of_seasons} Seasons&nbsp;&nbsp;&#183;&nbsp;&nbsp;{data.number_of_episodes} Episodes
                     </div>}
-
                     <div className='actions'>
                       {auth?.currentUser?.uid && <>
                         <Tooltip title={favourite ? "Remove from Favourite" : 'Add to Favourite'}>
@@ -633,16 +629,23 @@ export default function SingleContentPage({ scrollTop }) {
                       </>}
                     </div>
                   </div>
+                  <div className='info_flex'>
+                    {type === "movie" && <div className='overview' >
+                      <h4>Director</h4>
+                      <div className='directors'>
+                        {director?.length > 0 ? director?.map((cr, index) => {
+                          return <div key={cr?.id}>{cr?.name}{index < director?.length - 1 && <>,&nbsp;</>}</div>
+                        }) : "Not Available"}
+                      </div>
+                    </div>}
 
-                  {type === "movie" && <div className='overview' >
-                    <h4>Director</h4>
-                    <div className='directors'>
-                      {director?.length > 0 ? director?.map((cr, index) => {
-                        return <div key={cr?.id}>{cr?.name}{index < director?.length - 1 && <>,&nbsp;</>}</div>
-                      }) : "Not Available"}
-                    </div>
-                  </div>}
-
+                    {data.spoken_languages?.length > 0 && (
+                      <div className="overview">
+                        <h4>Languages</h4>
+                        {data.spoken_languages?.map((lang, index) => <span key={index}>{index !== 0 && <>,</>} {lang?.english_name}</span>)}
+                      </div>
+                    )}
+                  </div>
                   {data?.overview && <div className='overview'>
                     <h4>Overview</h4>
                     <div className='overviewHeight'>

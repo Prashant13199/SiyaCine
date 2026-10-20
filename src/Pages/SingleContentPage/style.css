@@ -19,7 +19,7 @@
 }
 
 .overview {
-    margin: 15px 0px;
+    margin: 5px 0px;
 }
 
 .tagline {
@@ -215,6 +215,12 @@
     overflow: scroll;
 }
 
+.info_flex {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 @media only screen and (max-width: 660px) {
     .cast {
         padding: 0 5px;
@@ -236,10 +242,6 @@
     .mobile_center {
         display: grid;
         place-items: center;
-    }
-
-    .overview {
-        margin: 5px 0px;
     }
 
     .tagline {
@@ -277,5 +279,10 @@
 
     .singlecontent {
         padding-top: 10px;
+    }
+
+    .info_flex {
+        display: grid;
+        gap: 0px;
     }
 }
