@@ -20,7 +20,9 @@ export default function ShareUser({ user, index, setMessage, setSnackBar, id, da
         setShow(false);
         setComment('');
     };
-    const handleShow = () => setShow(true);
+    const handleShow = () => {
+        setShow(true);
+    }
     const theme = useTheme()
 
     useEffect(() => {

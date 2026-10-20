@@ -57,6 +57,7 @@ export default function SingleContentPage({ scrollTop }) {
   const [reviews2, setReviews2] = useState([])
   const [server, setServer] = useState(1)
   const [show2, setShow2] = useState(false);
+  const [showReadMore, setShowReadMore] = useState(false);
   const [message, setMessage] = useState('')
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
@@ -73,6 +74,8 @@ export default function SingleContentPage({ scrollTop }) {
   const [seasonNumber, setSeasonNumber] = useState(1)
   const [episodeNumber, setEpisodeNumber] = useState(1)
 
+  const handleCloseReadMore = () => setShowReadMore(false);
+  const handleShowReadMore = () => setShowReadMore(true);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
   const handleClose3 = () => setShow3(false);
@@ -432,7 +435,7 @@ export default function SingleContentPage({ scrollTop }) {
         <title>Siyacine{data?.name ? ` - ${data?.name}` : '' || data?.title ? ` - ${data?.title}` : '' || data?.original_name ? ` - ${data?.original_name}` : ''}</title>
       </Helmet>
       <Modal size='md' show={show2} onHide={handleClose2} centered>
-        <Modal.Body style={{ backgroundColor: theme.palette.action.disabledBackground }}>
+        <Modal.Body>
           <div className='modal_header'>
             <h2>Suggest To</h2>
             <IconButton onClick={() => handleClose2()}><CloseIcon style={{ color: 'red' }} /></IconButton>
@@ -453,11 +456,10 @@ export default function SingleContentPage({ scrollTop }) {
           >
             <Button className='share_external_btn' fullWidth color='warning' variant="contained">Share externally</Button>
           </RWebShare>
-
         </Modal.Body>
       </Modal>
       <Modal show={show3} onHide={handleClose3} centered>
-        <Modal.Body style={{ backgroundColor: theme.palette.action.disabledBackground }}>
+        <Modal.Body>
           <IconButton onClick={() => handleClose3()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
           <div style={{ margin: '10px 0px' }}>
             <TextField
@@ -476,8 +478,17 @@ export default function SingleContentPage({ scrollTop }) {
           <Button fullWidth color='warning' variant="contained" onClick={() => handleAddReview()}>Submit</Button>
         </Modal.Body>
       </Modal>
+      <Modal size='lg' show={showReadMore} onHide={handleCloseReadMore} centered>
+        <Modal.Body>
+          <div className='modal_header'>
+            <h2>Overview</h2>
+            <IconButton onClick={() => handleCloseReadMore()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          </div>
+          {data?.overview}
+        </Modal.Body>
+      </Modal>
       <Modal show={show4} onHide={handleClose4} fullscreen>
-        <Modal.Body style={{ backgroundColor: theme.palette.action.disabledBackground }}>
+        <Modal.Body>
           <div className='player_header'>
             <div className='flex'>
               <IconButton tyle={{ backgroundColor: theme.palette.action.disabledBackground }} onClick={() => handleClose4()}><ArrowBackIcon className="back_icon" /></IconButton>
@@ -648,9 +659,9 @@ export default function SingleContentPage({ scrollTop }) {
                   </div>
                   {data?.overview && <div className='overview'>
                     <h4>Overview</h4>
-                    <div className='overviewHeight'>
-                      {data.overview}
-                    </div>
+                    {data.overview?.length > 100 ? <>
+                      {data.overview?.slice(0, 100).concat("...")} <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={handleShowReadMore}>read more</span>
+                    </> : data.overview}
                   </div>}
                 </div>
               </div>

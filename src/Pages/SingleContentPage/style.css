@@ -210,11 +210,6 @@
     margin-top: 5px;
 }
 
-.overviewHeight {
-    height: 75px;
-    overflow: scroll;
-}
-
 .info_flex {
     display: flex;
     align-items: center;

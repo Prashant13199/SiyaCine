@@ -104,24 +104,21 @@ export default function SingleContentScroll({ data, type, by, byuid, id, recom, 
           <Button startIcon={<DeleteIcon />} size='small' onClick={() => removeSuggestion()} className='button_suggestion' variant='contained'>remove</Button>
           {comment && <div onClick={() => setShow2(true)} className='suggestioncomment'>suggestion note</div>}
         </div>}
-        {
-          (userid && (lastPlayed || duration)) &&
-          <>
-            <div className='watchprogress'>
-              <div className='watchprogress2' style={{ width: duration ? `${duration}%` : '0%' }}></div>
-            </div>
-            <div className='lastPlayDetails'>
-              {type === 'tv' && (
-                <div className='userlastplayed'>
-                  S{lastPlayed?.season} E{lastPlayed?.episode}
-                </div>
-              )}
-              {left > 0 ? <div className='timeleft'>{getTimeLeft(left)} Left</div>
-                : !upcoming && type === 'tv' && <div className='nextEpisode'>Next Episode</div>}
-              {upcoming ? <div className='timeleft'>Coming {getRelativeDateString(upcomingDate)}</div> : ""}
-            </div>
-          </>
-        }
+        {userid && <>
+          {duration > 0 && <div className='watchprogress'>
+            <div className='watchprogress2' style={{ width: duration ? `${duration}%` : '0%' }}></div>
+          </div>}
+          {lastPlayed?.season && lastPlayed?.episode && <div className='lastPlayDetails'>
+            {type === 'tv' && (
+              <div className='userlastplayed'>
+                S{lastPlayed?.season} E{lastPlayed?.episode}
+              </div>
+            )}
+            {left > 0 ? <div className='timeleft'>{getTimeLeft(left)} Left</div>
+              : !upcoming && type === 'tv' && <div className='nextEpisode'>Next Episode</div>}
+            {upcoming ? <div className='timeleft'>Coming {getRelativeDateString(upcomingDate)}</div> : ""}
+          </div>}
+        </>}
       </div>
     </>
   )
