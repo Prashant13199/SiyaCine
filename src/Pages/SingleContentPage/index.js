@@ -512,7 +512,7 @@ export default function SingleContentPage({ scrollTop }) {
           {server === 1 && <iframe allow="encrypted-media" title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/movie/${id}?autoPlay=true&startAt=${currentTime}&theme=FFA726&sub=en`}></iframe>}
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.me/embed/movie/${id}`}></iframe>}
           {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
-          {server === 4 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://videm.xyz/embed/movie/${id}`}></iframe>}
+          {server === 4 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidlink.pro/movie/${id}`}></iframe>}
           <div className='player_bottom'>
             <div></div>
             <div></div>
