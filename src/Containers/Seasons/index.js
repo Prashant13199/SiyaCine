@@ -44,7 +44,6 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
 
     useEffect(() => {
         const fetchProgress = (event) => {
-            if (event.origin !== "https://vidcore.net" && server !== 1) return;
             const { data } = event?.data;
             if (data?.currentTime && data?.duration && data?.episode == episodeNumber && data?.season == seasonNumber) {
                 setProgress(data?.currentTime)
@@ -209,7 +208,7 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
                     {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/tv/${value?.id}/${seasonNumber}/${episodeNumber}?autoPlay=true&startAt=${currentTime}&autoNext=false&nextButton=false&theme=FFA726&sub=en&hideServer=true&chromecast=true&title=false`}></iframe>}
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.me/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
-                    {server === 4 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidlink.pro/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
+                    {server === 4 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidlink.pro/tv/${value?.id}/${seasonNumber}/${episodeNumber}?startAt=${currentTime}&player=jw&primaryColor=FFA726&iconColor=FFA726&nextbutton=false&title=false`}></iframe>}
                     <div className='player_bottom'>
                         <Button color='warning' onClick={handlePrev} disabled={episodeNumber === 1}>Prev</Button>
                         <Button color='warning' id="next-button" onClick={handleNext} disabled={episodeNumber === content?.length}>Next</Button>
