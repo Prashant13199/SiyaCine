@@ -84,6 +84,7 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
                 setEpisodeNumber(snapshot.val()?.episode)
                 setDbSeason(snapshot.val()?.season)
                 setDbEpisode(snapshot.val()?.episode)
+                setServer(snapshot.val()?.server ?? 1)
                 if (snapshot.val()?.currentTime && snapshot.val()?.duration) {
                     setCurrentTime(snapshot.val()?.currentTime)
                     setDuration(snapshot.val()?.duration)
@@ -125,7 +126,8 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
             episode: episode,
             timestamp: Date.now(),
             currentTime: progress,
-            duration: duration
+            duration: duration,
+            server: server
         }).catch((e) => console.log(e))
     }
 
@@ -196,19 +198,22 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
                                 {server === 2 && 'Server 2'}
                                 {server === 3 && 'Server 3'}
                                 {server === 4 && 'Server 4'}
+                                {server === 5 && 'Server 5'}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>Server 1</Dropdown.Item>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>Server 2</Dropdown.Item>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Server 3</Dropdown.Item>
                                 <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 4 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(4)}>Server 4</Dropdown.Item>
+                                <Dropdown.Item style={{ backgroundColor: theme.palette.background.default }} className={server === 5 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(5)}>Server 5</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
                     {server === 1 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.net/tv/${value?.id}/${seasonNumber}/${episodeNumber}?autoPlay=true&startAt=${currentTime}&autoNext=false&nextButton=false&theme=FFA726&sub=en&hideServer=true&chromecast=true&title=false`}></iframe>}
                     {server === 2 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidsrc.me/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     {server === 3 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://www.2embed.cc/embedtv/${value?.id}&s=${seasonNumber}&e=${episodeNumber}`}></iframe>}
-                    {server === 4 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidlink.pro/tv/${value?.id}/${seasonNumber}/${episodeNumber}?startAt=${currentTime}&player=jw&primaryColor=FFA726&iconColor=FFA726&nextbutton=false&title=false`}></iframe>}
+                    {server === 4 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidlink.pro/tv/${value?.id}/${seasonNumber}/${episodeNumber}?startAt=${currentTime}&player=jw&primaryColor=FFA726&nextbutton=false&title=false`}></iframe>}
+                    {server === 5 && <iframe title={value.name || value.title || value.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.org/embed/tv/${value?.id}/${seasonNumber}/${episodeNumber}`}></iframe>}
                     <div className='player_bottom'>
                         <Button color='warning' onClick={handlePrev} disabled={episodeNumber === 1}>Prev</Button>
                         <Button color='warning' id="next-button" onClick={handleNext} disabled={episodeNumber === content?.length}>Next</Button>

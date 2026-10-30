@@ -95,7 +95,8 @@ export default function SingleContentPage({ scrollTop }) {
         currentTime: progress,
         timestamp: Date.now(),
         id: id,
-        duration: duration
+        duration: duration,
+        server: server
       }).then(() => {
         update && setCurrentTime(progress)
       }).catch((e) => console.log(e))
@@ -186,6 +187,7 @@ export default function SingleContentPage({ scrollTop }) {
           setDuration(snapshot.val()?.duration)
           setCurrentTime(snapshot.val()?.currentTime)
           setCurrentTimeFormat(`${getTimeLeft(snapshot.val()?.duration - snapshot.val()?.currentTime)} Left`)
+          setServer(snapshot.val()?.server ?? 1)
         }
         if (snapshot.val()?.season && snapshot.val()?.episode) {
           setSeasonNumber(snapshot.val()?.season)
@@ -499,12 +501,14 @@ export default function SingleContentPage({ scrollTop }) {
                 {server === 2 && 'Server 2'}
                 {server === 3 && 'Server 3'}
                 {server === 4 && 'Server 4'}
+                {server === 5 && 'Server 5'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 1 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(1)}>Server 1</Dropdown.Item>
                 <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 2 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(2)}>Server 2</Dropdown.Item>
                 <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 3 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(3)}>Server 3</Dropdown.Item>
                 <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 4 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(4)}>Server 4</Dropdown.Item>
+                <Dropdown.Item style={{ backgroundColor: theme.palette.action.disabledBackground }} className={server === 4 ? 'server_btn_selected' : 'server_btn'} onClick={() => setServer(5)}>Server 5</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -512,6 +516,7 @@ export default function SingleContentPage({ scrollTop }) {
           {server === 2 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidsrc.me/embed/movie/${id}`}></iframe>}
           {server === 3 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://www.2embed.cc/embed/${id}`}></iframe>}
           {server === 4 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen scrolling="no" style={{ width: "100%", height: window.innerHeight - 85 }} src={`https://vidlink.pro/movie/${id}??player=jw&primaryColor=FFA726&iconColor=FFA726&title=false`}></iframe>}
+          {server === 5 && <iframe title={data?.name || data?.title || data?.original_name} allowFullScreen style={{ width: "100%", height: window.innerHeight - 125 }} scrolling="no" src={`https://vidcore.org/embed/movie/${id}`}></iframe>}
           <div className='player_bottom'>
             <div></div>
             <div></div>
