@@ -379,6 +379,7 @@ export default function SingleContentPage({ scrollTop }) {
     } else {
       database.ref(`/Users/${auth?.currentUser?.uid}/watching/${id}`).remove().then(() => {
         setWatching(false)
+        setCurrentTime(0)
       }).catch((e) => console.log(e))
     }
   }
@@ -559,6 +560,9 @@ export default function SingleContentPage({ scrollTop }) {
                         onClick={handleShow4}
                         variant='contained'
                         size='large'
+                        style={{
+                          background: `linear-gradient(to right, rgb(255, 188, 89) ${(currentTime / duration) * 100}%, transparent ${(currentTime / duration) * 100}%)`
+                        }}
                       >
                         {watching ? `Resume ${currentTimeFormat}` : watched ? 'Watch again' : 'Play now'}
                       </Button>}

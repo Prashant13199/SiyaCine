@@ -235,9 +235,13 @@ export default function Seasons({ value, watching, handleWatching, seasonNumber,
                     })}
                 </DropdownButton>
                 {watching &&
-                    <Button disabled={content[dbEpisode - 1]?.air_date > getCurrentDate()} variant='outlined' className='seriesResumeBtn' color='warning' onClick={() => {
-                        handleShow4(dbEpisode, dbSeason)
-                    }}>Resume S{dbSeason} E{dbEpisode} {currentTime !== 0 && getTimeLeft(duration - currentTime) + " left"}
+                    <Button
+                        style={{
+                            background: `linear-gradient(to right, rgb(67, 40, 0) ${(currentTime / duration) * 100}%, transparent ${(currentTime / duration) * 100}%)`
+                        }}
+                        disabled={content[dbEpisode - 1]?.air_date > getCurrentDate()} variant='outlined' className='seriesResumeBtn' color='warning' onClick={() => {
+                            handleShow4(dbEpisode, dbSeason)
+                        }}>Resume S{dbSeason} E{dbEpisode} {currentTime !== 0 && getTimeLeft(duration - currentTime) + " left"}
                     </Button>}
             </div>
             {!loading ?
