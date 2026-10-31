@@ -148,7 +148,7 @@ export default function Trending({ scrollTop }) {
           </div>
           <div className='trending_scroll' >
             {genres?.slice(0, 10)?.map((data, index) => {
-              return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="movie" />
+              return <SingleContentScroll index={index} data={data} id={data.id} key={data?.id} type="movie" recom={true} />
             })}
           </div>
         </>}

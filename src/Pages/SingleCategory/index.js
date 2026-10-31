@@ -16,6 +16,7 @@ export default function SingleCategory({ scrollTop }) {
 
   let data = useQuery();
   const values = data.get('values')
+  const sort = data.get('sort_by')
   const pageM = data.get('pageM')
   const history = useHistory()
 
@@ -31,11 +32,11 @@ export default function SingleCategory({ scrollTop }) {
   const [paginatedData, setPaginatedData] = useState([])
   const [perPage, setPerPage] = useState(24)
   const [databaseData, setDatabaseData] = useState(false)
-  const [sortBy, setSortby] = useState("all")
+  const [sortBy, setSortby] = useState(sort ? sort : "all")
 
   const setURL = () => {
-    if (selectedGenres.length > 0 || page > 1) {
-      history.push(`/singlecategory/${category}/${type}/${name}/${uid}/${id}?pageM=${page}&values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}`)
+    if (selectedGenres.length > 0 || page > 1 || sortBy) {
+      history.push(`/singlecategory/${category}/${type}/${name}/${uid}/${id}?pageM=${page}&sort_by=${sortBy}&values=${JSON.stringify(selectedGenres).replaceAll('&', ':')}`)
     }
   }
 

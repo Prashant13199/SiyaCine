@@ -11,6 +11,8 @@ import { useTheme } from '@mui/material';
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { useLayoutEffect } from 'react';
+import { Modal } from 'react-bootstrap';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function SingleCastPage({ scrollTop }) {
 
@@ -24,6 +26,10 @@ export default function SingleCastPage({ scrollTop }) {
   const [backdrop, setBackdrop] = useState('')
   const [sortBy, setSortby] = useState('popularity')
   const [sortByTv, setSortbyTv] = useState('popularity')
+  const [showReadMore, setShowReadMore] = useState(false);
+
+  const handleCloseReadMore = () => setShowReadMore(false);
+  const handleShowReadMore = () => setShowReadMore(true);
 
   useEffect(() => {
     database.ref(`/Users/${auth?.currentUser?.uid}/cast/${id}`).on('value', snapshot => {
@@ -127,6 +133,15 @@ export default function SingleCastPage({ scrollTop }) {
 
   return (
     <>
+      <Modal size='lg' show={showReadMore} onHide={handleCloseReadMore} centered>
+        <Modal.Body>
+          <div className='modal_header'>
+            <h2>Biography</h2>
+            <IconButton onClick={() => handleCloseReadMore()} style={{ position: 'absolute', top: 0, right: 0 }}><CloseIcon style={{ color: 'red' }} /></IconButton>
+          </div>
+          {data?.biography}
+        </Modal.Body>
+      </Modal>
       <Helmet>
         <title>Siyacine - Cast{data?.name ? ` - ${data?.name}` : ''}</title>
       </Helmet>
@@ -164,9 +179,9 @@ export default function SingleCastPage({ scrollTop }) {
                 </div>}
                 {data.biography && <div className='overview animateBelow'>
                   <h4>Biography</h4>
-                  <div className='overviewHeight'>
-                    {data.biography}
-                  </div>
+                  {data.biography?.length > 100 ? <>
+                    {data.biography?.slice(0, 100).concat("...")} <span className='readmore' style={{ color: theme.palette.warning.main }} onClick={handleShowReadMore}>read more</span>
+                  </> : data.biography}
                 </div>}
               </div>
             </div>
@@ -226,7 +241,7 @@ export default function SingleCastPage({ scrollTop }) {
             </div>
           </>}
 
-        </div>
+        </div >
         : <div className="loading">
           <CircularProgress color='warning' />
         </div>
